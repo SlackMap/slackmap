@@ -4,9 +4,10 @@ Welcome to SlackMap project, this monorepo contains backend and frontend code. A
 
 We use [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
 
-## Nrwl Extensions for Angular (Nx)
+<a href="https://slackmap.com" target="_blank"><img src="https://slackmap.com/assets/logo.svg"></a>
 
-<a href="https://nrwl.io/nx"><img src="https://preview.ibb.co/mW6sdw/nx_logo.png"></a>
+
+## Nrwl Extensions for Angular (Nx)
 
 Nx is an open source toolkit for enterprise Angular applications.
 
