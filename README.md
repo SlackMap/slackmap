@@ -1,6 +1,8 @@
 # Slackmap
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
+Welcome to SlackMap project, this monorepo contains backend and frontend code. Angular + NestJS + OrientDB.
+
+We use [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
 
 ## Nrwl Extensions for Angular (Nx)
 
