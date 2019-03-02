@@ -1,5 +1,5 @@
 {
-  "npmScope": "@slackmap",
+  "npmScope": "slackmap",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",
@@ -9,7 +9,7 @@
   },
   "projects": {
     "api": {
-      "tags": []
+      "tags": ["api"]
     }
   }
 }
