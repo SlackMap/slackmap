@@ -10,6 +10,12 @@
   "projects": {
     "api": {
       "tags": ["api"]
+    },
+    "api-orient": {
+      "tags": ["api"]
+    },
+    "core": {
+      "tags": ["api", "ui"]
     }
   }
 }
