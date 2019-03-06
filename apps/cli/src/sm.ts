@@ -1,8 +1,14 @@
-import * as program from "commander";
+#!/usr/bin/env node
 
+const program = require('commander');
 const chalk = require('chalk');
 const clear = require('clear');
 const figlet = require('figlet');
+
+import { rename } from "fs";
+
+console.log('r', rename);
+
 
 clear();
 console.log('')
