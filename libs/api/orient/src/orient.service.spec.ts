@@ -78,7 +78,7 @@ describe('OrientService', () => {
   //   expect(res).toBeTruthy();
   // });
 
-  it('should close the connection', async () => {
+  it.skip('should close the connection', async () => {
 
     const m: TestingModule = await Test.createTestingModule({
       providers: [OrientService, OrientConfig]
