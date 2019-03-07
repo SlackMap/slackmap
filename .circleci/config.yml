@@ -39,6 +39,8 @@ jobs:
       # - run: npm run build
       # - run: npm run deploy
   deploy-prod:
+    machine:
+      enabled: true
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -51,6 +53,8 @@ jobs:
           command: |
             ssh $SSH_USER@$SSH_HOST "ls -la"
   deploy-test:
+    machine:
+      enabled: true
     steps:
       - add_ssh_keys:
           fingerprints:
