@@ -47,11 +47,13 @@ jobs:
             - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
       - run:
           name: Create Release
-          command: npx release-it
+          command: npm run release
       - run:
           name: Deploy
-          command: |
-            ssh $SSH_USER@$SSH_HOST "ls -la"
+          command: npx sm deploy --env=prod
+      - run:
+          name: Push release
+          command: git push --follow-tags origin master
   deploy-test:
     machine:
       enabled: true
@@ -60,12 +62,11 @@ jobs:
           fingerprints:
             - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
       - run:
-          name: Create Dev Release
-          command: npx release-it
+          name: Create Release
+          command: npm run release -- --prerelease dev
       - run:
           name: Deploy
-          command: |
-            ssh $SSH_USER@$SSH_HOST "ls -la"
+          command: npx sm deploy --env=test
 workflows:
   version: 2
   build-and-deploy:
