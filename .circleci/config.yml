@@ -38,9 +38,7 @@ jobs:
       # - run: npm run test
       # - run: npm run build
       # - run: npm run deploy
-  deploy:
-    machine:
-      enabled: true
+  deploy-prod:
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -52,14 +50,32 @@ jobs:
           name: Deploy
           command: |
             ssh $SSH_USER@$SSH_HOST "ls -la"
+  deploy-test:
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
+      - run:
+          name: Create Dev Release
+          command: npx release-it
+      - run:
+          name: Deploy
+          command: |
+            ssh $SSH_USER@$SSH_HOST "ls -la"
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
-      - deploy:
+      - deploy-prod:
           requires:
             - build
           filters:
             branches:
               only: master
+      - deploy-test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: development
