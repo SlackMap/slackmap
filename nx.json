@@ -9,13 +9,26 @@
   },
   "projects": {
     "api": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "api-orient": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "core": {
-      "tags": ["api", "ui"]
+      "tags": [
+        "api",
+        "ui"
+      ]
+    },
+    "cli": {
+      "tags": [
+        "api",
+        "cli"
+      ]
     }
   }
 }
