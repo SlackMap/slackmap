@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --no-progress --prod",
+    "build": "ng build --prod",
     "test": "ng test",
     "deploy:test": "shipit test deploy",
     "version:test": "standard-version --prerelease BUILD.$TRAVIS_BUILD_NUMBER --skip.tag=true --skip.commit=true",
