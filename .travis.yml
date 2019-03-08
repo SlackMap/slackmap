@@ -5,16 +5,18 @@ script:
   - npm run build api
   - ls -la ./dist/apps/api
 deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ls -la
   # test
   - provider: script
-    script:
-      - ls -la
-      - npm run version:test
+    skip_cleanup: true
+    script: npm run version:test
     on:
       branch: development
   # prod
   - provider: script
-    script:
-      - npm run version:prod
+    skip_cleanup: true
+    script: npm run version:prod
     on:
       branch: master
