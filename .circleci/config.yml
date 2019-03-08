@@ -63,13 +63,10 @@ jobs:
             - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
       - run:
           name: Create Release
-          command: npx standard-version --prerelease dev
+          command: npx standard-version --dry-run --prerelease BUILD.$CIRCLE_BUILD_NUM --skip.tag=true --skip.commit=true
       - run:
           name: Deploy
           command: npx shipit test deploy
-      - run:
-          name: Push release to repo
-          command: git push --follow-tags origin development
 workflows:
   version: 2
   build-and-deploy:
