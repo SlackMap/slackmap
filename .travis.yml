@@ -1,13 +1,12 @@
 language: node_js
 node_js:
   - 8
-script: npm run travis
-build:
+script:
+  - npm run build api
+  - ls -la
+after_success :
   provider: script
-  script: npm run build api
-deploy-test:
-  provider: script
-  skip_cleanup: true
   script: npm run version:test
   on:
     branch: development
+after_script: npm run travis
