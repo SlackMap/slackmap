@@ -3,7 +3,7 @@ node_js:
   - 8
 cache: npm
 script:
-  - ls -la
+  - echo 'BUILD HERE !!!'
 addons:
   ssh_known_hosts: "slackmap.com"
 before_deploy:
