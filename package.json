@@ -10,6 +10,8 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "deploy:test": "shipit test deploy",
+    "version:test": "standard-version --dry-run --prerelease BUILD.$CIRCLE_BUILD_NUM --skip.tag=true --skip.commit=true",
     "lint": "./node_modules/.bin/nx lint && ng lint",
     "e2e": "ng e2e",
     "sm": "ts-node --project=apps/cli/tsconfig.json ./apps/cli/src/sm",

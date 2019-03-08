@@ -60,12 +60,13 @@ jobs:
           fingerprints:
             - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
       - run: ssh-keyscan slackmap.com >> ~/.ssh/known_hosts
+      - run: ls -la
       - run:
           name: Create Release
-          command: npx standard-version --dry-run --prerelease BUILD.$CIRCLE_BUILD_NUM --skip.tag=true --skip.commit=true
+          command: npm run version:test
       - run:
           name: Deploy
-          command: npx shipit test deploy
+          command: npm run deploy:test
 workflows:
   version: 2
   build-and-deploy:

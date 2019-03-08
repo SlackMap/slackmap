@@ -2,6 +2,10 @@ const sh = require('shelljs');
 const host = process.env.SSH_HOST;
 const user = process.env.SSH_USER;
 
+console.log('CWD', process.cwd());
+
+
+
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit);
   require('./tools/scripts/shipit-update').default(shipit);
@@ -48,7 +52,7 @@ shipit.blTask('package.json', async function () {
  * run npm ci
  */
 shipit.blTask('npm:install', async function () {
-  await shipit.remote(`cd ${shipit.releasePath} && npm ci --only=production`);
+  await shipit.remote(`cd ${shipit.releasePath} && npm install --production`);
 });
 
 /**
