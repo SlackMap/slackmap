@@ -20,23 +20,23 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "package-lock.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
           name: Instal dependencies
-          command: npm ci
+          command: npm install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
 
       # # run!
       # - run: npm run lint
       # - run: npm run test
-      # - run: npm run build
+      - run: npm run build api --prod
       # - run: npm run deploy
   deploy-prod:
     machine:
@@ -47,12 +47,12 @@ jobs:
             - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
       - run:
           name: Create Release
-          command: npm run release
+          command: npx standard-version
       - run:
           name: Deploy
-          command: npx sm deploy --env=prod
+          command: npx shipit prod deploy
       - run:
-          name: Push release
+          name: Push release to repo
           command: git push --follow-tags origin master
   deploy-test:
     machine:
@@ -63,10 +63,13 @@ jobs:
             - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
       - run:
           name: Create Release
-          command: npm run release -- --prerelease dev
+          command: npx standard-version --prerelease dev
       - run:
           name: Deploy
-          command: npx sm deploy --env=test
+          command: npx shipit test deploy
+      - run:
+          name: Push release to repo
+          command: git push --follow-tags origin development
 workflows:
   version: 2
   build-and-deploy:
