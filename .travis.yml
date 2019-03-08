@@ -7,7 +7,9 @@ script:
 deploy:
   # test
   - provider: script
-    script: npm run version:test
+    script:
+      - ls -la
+      - npm run version:test
     on:
       branch: development
   # prod
