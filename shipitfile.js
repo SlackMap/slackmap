@@ -29,11 +29,11 @@ shipit.task('deploy', [
   'deploy:fetch',
   'package.json',
   'deploy:update',
-  // 'npm:ci',
+  'npm:install',
   'deploy:publish',
   'deploy:clean',
   'deploy:finish',
-  // 'pm2:reload',
+  'pm2:reload',
 ]);
 
 /**
@@ -47,7 +47,7 @@ shipit.blTask('package.json', async function () {
 /**
  * run npm ci
  */
-shipit.blTask('npm:ci', async function () {
+shipit.blTask('npm:install', async function () {
   await shipit.remote(`cd ${shipit.releasePath} && npm ci --only=production`);
 });
 
