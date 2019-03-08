@@ -38,7 +38,7 @@ jobs:
           command: git push --follow-tags origin master
   build-test:
     docker:
-      - image: circleci/node:10.15
+      - image: circleci/node:8-browsers
     working_directory: ~/repo
     steps:
       - checkout
