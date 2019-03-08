@@ -27,7 +27,7 @@ async function downloadAction(version) {
       name: 'version',
       default: '3.0.10',
       message: 'What version to dwonload?',
-      validate: (val, inputs) => !!val
+      validate: (val, inputs2) => !!val
     }, {
       type: 'confirm',
       name: 'tp3',
