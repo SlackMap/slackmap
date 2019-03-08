@@ -1,9 +1,11 @@
 language: node_js
 node_js:
   - 8
+cache: npm
 script:
   # - npm run build api
-  - ls -la ./dist/apps/api
+  # - ls -la ./dist/apps/api
+  - ls -la
 deploy:
   - provider: script
     skip_cleanup: true
