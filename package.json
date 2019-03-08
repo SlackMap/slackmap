@@ -9,6 +9,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "travis": "ls -la",
     "build:prod": "ng build --no-progress",
     "test": "ng test",
     "deploy:test": "shipit test deploy",
