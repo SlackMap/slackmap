@@ -28,7 +28,6 @@ shipit.initConfig({
 
 shipit.task('deploy', [
   'deploy:init',
-  'deploy:fetch',
   'copy:assets',
   'deploy:update',
   'npm:install',
@@ -42,12 +41,18 @@ shipit.task('deploy', [
  * copy package.json
  */
 shipit.blTask('copy:assets', async function () {
-  sh.ls(BASE_DIR);
-  console.log('LS CWD', sh.ls(BASE_DIR));
-  console.log('LS .', sh.ls('.'));
 
+  // configure workspace, required when you skip deploy:fetch task
+  shipit.workspace = shipit.config.workspace;
+  console.log('Workspace path:', shipit.workspace);
+
+  console.log('Copy:', 'package.json');
   sh.cp('-f', resolve(BASE_DIR, 'package.json'), resolve(BASE_DIR, 'dist/package.json'))
+
+  console.log('Copy:', 'package-lock.json');
   sh.cp('-f', resolve(BASE_DIR, 'package-lock.json'), resolve(BASE_DIR, 'dist/package-lock.json'))
+
+  console.log('Copy:', 'CHANGELOG.md');
   sh.cp('-f', resolve(BASE_DIR, 'CHANGELOG.md'), resolve(BASE_DIR, 'dist/CHANGELOG.md'))
 });
 
