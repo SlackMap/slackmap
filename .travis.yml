@@ -5,7 +5,7 @@ cache: npm
 script:
   - ls -la
 addons:
-  ssh_known_hosts: "<deploy-host>"
+  ssh_known_hosts: "slackmap.com"
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_430392f7e341_key -iv $encrypted_430392f7e341_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
   - eval "$(ssh-agent -s)"
