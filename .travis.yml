@@ -2,16 +2,18 @@ language: node_js
 node_js:
   - 8
 script:
-  - npm run build api
+  # - npm run build api
   - ls -la ./dist/apps/api
 deploy:
   - provider: script
     skip_cleanup: true
     script: ls -la
+    on:
+      all_branches: true
   # test
   - provider: script
     skip_cleanup: true
-    script: npm run version:test
+    script: ./tools/deploy-test.sh
     on:
       branch: development
   # prod
