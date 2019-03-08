@@ -9,8 +9,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "release": "standard-version",
-    "deploy:test": "shipit test smdeploy",
     "test": "ng test",
     "lint": "./node_modules/.bin/nx lint && ng lint",
     "e2e": "ng e2e",
