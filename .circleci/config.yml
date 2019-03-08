@@ -55,7 +55,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       # - run: npm run lint
       # - run: npm run test
-      - run: npm run build -- api --prod
+      - run: npm run build:prod -- api
+      - run: ls -la ./dist
       - add_ssh_keys:
           fingerprints:
             - "da:0d:82:c6:42:da:02:7c:eb:66:fa:30:47:51:64:70"
