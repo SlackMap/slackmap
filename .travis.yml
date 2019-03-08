@@ -2,3 +2,12 @@ language: node_js
 node_js:
   - 8
 script: npm run travis
+build:
+  provider: script
+  script: npm run build api
+deploy-test:
+  provider: script
+  skip_cleanup: true
+  script: npm run version:test
+  on:
+    branch: development
