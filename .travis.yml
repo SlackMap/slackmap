@@ -3,10 +3,14 @@ node_js:
   - 8
 script:
   - npm run build api
-  - ls -la
+  - ls -la ./dist/apps/api
 after_success :
-  provider: script
-  script: npm run version:test
+  - npm run version:test
+  - echo 'on dev only'
   on:
     branch: development
-after_script: npm run travis
+after_script:
+  - npm run travis
+  - echo 'on master only'
+  on:
+    branch: master
