@@ -11,13 +11,14 @@ before_deploy:
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/deploy_rsa
   - ssh-add /tmp/deploy_rsa
-  - ssh $SSH_USER@$SSH_HOST "ls -la"
-  - npm run version:test
-  - npm run deploy:test
+  - chmod +x ./tools/deploy-test.sh
+  # - ssh $SSH_USER@$SSH_HOST "ls -la"
+  # - npm run version:test
+  # - npm run deploy:test
 deploy:
   - provider: script
     skip_cleanup: true
-    script: "./tools/deploy-test.sh"
+    script: ./tools/deploy-test.sh
     on:
       branch: development
   - provider: script
