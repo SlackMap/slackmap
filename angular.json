@@ -132,26 +132,18 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@nrwl/builders:node-build",
+          "builder": "@nrwl/builders:run-commands",
           "options": {
-            "outputPath": "dist/apps/cli",
-            "main": "apps/cli/src/main.ts",
-            "tsConfig": "apps/cli/tsconfig.app.json",
-            "assets": [
-              "apps/cli/src/assets"
-            ]
+            "commands": [{
+              "command": "npx tsc --project apps/cli/tsconfig.app.json"
+            }]
           },
           "configurations": {
             "production": {
               "optimization": true,
               "extractLicenses": true,
               "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/cli/src/environments/environment.ts",
-                  "with": "apps/cli/src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [],
               "externalDependencies": "none"
             }
           }
