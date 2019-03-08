@@ -3,6 +3,8 @@ const host = process.env.SSH_HOST;
 const user = process.env.SSH_USER;
 const {resolve} = require('path');
 
+const BASE_DIR = process.cwd();
+
 
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit);
@@ -10,7 +12,7 @@ module.exports = function (shipit) {
 
 shipit.initConfig({
   default: {
-    workspace: './dist',
+    workspace: resolve(BASE_DIR, 'dist'),
     keepReleases: 3,
     deleteOnRollback: true
   },
@@ -40,13 +42,13 @@ shipit.task('deploy', [
  * copy package.json
  */
 shipit.blTask('copy:assets', async function () {
-  sh.ls(process.cwd());
-  console.log('LS CWD', sh.ls(process.cwd()));
+  sh.ls(BASE_DIR);
+  console.log('LS CWD', sh.ls(BASE_DIR));
   console.log('LS .', sh.ls('.'));
 
-  sh.cp('-f', resolve(process.cwd(), 'package.json'), resolve(process.cwd(), 'dist/package.json'))
-  sh.cp('-f', resolve(process.cwd(), 'package-lock.json'), resolve(process.cwd(), 'dist/package-lock.json'))
-  sh.cp('-f', resolve(process.cwd(), 'CHANGELOG.md'), resolve(process.cwd(), 'dist/CHANGELOG.md'))
+  sh.cp('-f', resolve(BASE_DIR, 'package.json'), resolve(BASE_DIR, 'dist/package.json'))
+  sh.cp('-f', resolve(BASE_DIR, 'package-lock.json'), resolve(BASE_DIR, 'dist/package-lock.json'))
+  sh.cp('-f', resolve(BASE_DIR, 'CHANGELOG.md'), resolve(BASE_DIR, 'dist/CHANGELOG.md'))
 });
 
 /**
