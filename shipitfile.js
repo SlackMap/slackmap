@@ -24,7 +24,7 @@ module.exports = function (shipit) {
   /**
    * run npm install after uploading files
    */
-  shipit.on('updated', shipit.start('npm:install'));
+  shipit.on('updated', () => shipit.start('npm:install'));
 
   shipit.blTask('npm:install', async function() {
     console.time('npm:install')
@@ -35,7 +35,7 @@ module.exports = function (shipit) {
   /**
    * reload pm2 processes after successful deployment
    */
-  shipit.on('deployed', shipit.start('pm2:reload'));
+  shipit.on('deployed', () => shipit.start('pm2:reload'));
 
   shipit.blTask('pm2:reload', async function () {
     await shipit.remote(`pm2 startOrGracefulReload ${this.config.deployTo}/pm2.json`);
