@@ -23,6 +23,6 @@ deploy:
       branch: development
   - provider: script
     skip_cleanup: true
-    script: npm run version:prod
+    script: bash ./tools/scripts/deploy-prod.sh
     on:
       branch: master

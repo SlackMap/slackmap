@@ -1,73 +1,44 @@
-const sh = require('shelljs');
-const host = process.env.SSH_HOST;
-const user = process.env.SSH_USER;
-const {resolve} = require('path');
-
-const BASE_DIR = process.cwd();
-
-
 module.exports = function (shipit) {
-  require('shipit-deploy')(shipit);
-  require('./tools/scripts/shipit-update').default(shipit);
 
-shipit.initConfig({
-  default: {
-    workspace: resolve(BASE_DIR, 'dist'),
-    keepReleases: 3,
-    deleteOnRollback: true
-  },
-  test: {
-    deployTo: `/home/${user}/test`,
-    servers: `${user}@${host}`
-  },
-  prod: {
-    deployTo: `/home/${user}/prod`,
-    servers: [{host,user}]
-  }
-});
+  require('./tools/shipit-deploy')(shipit);
 
-shipit.task('deploy', [
-  'deploy:init',
-  'copy:assets',
-  'deploy:update',
-  'npm:install',
-  'deploy:publish',
-  'deploy:clean',
-  'deploy:finish',
-  'pm2:reload',
-]);
+  const host = process.env.SSH_HOST;
+  const user = process.env.SSH_USER;
 
-/**
- * copy package.json
- */
-shipit.blTask('copy:assets', async function () {
+  shipit.initConfig({
+    default: {
+      workspace: './dist',
+      keepReleases: 5,
+      deleteOnRollback: false
+    },
+    test: {
+      deployTo: `/home/${user}/test`,
+      servers: `${user}@${host}`
+    },
+    prod: {
+      deployTo: `/home/${user}/prod`,
+      servers: {host,user}
+    }
+  });
 
-  // configure workspace, required when you skip deploy:fetch task
-  shipit.workspace = shipit.config.workspace;
-  console.log('Workspace path:', shipit.workspace);
+  /**
+   * run npm install after uploading files
+   */
+  shipit.on('updated', shipit.start('npm:install'));
 
-  console.log('Copy:', 'package.json');
-  sh.cp('-f', resolve(BASE_DIR, 'package.json'), resolve(BASE_DIR, 'dist/package.json'))
+  shipit.blTask('npm:install', async function() {
+    console.time('npm:install')
+    await shipit.remote(`cd ${shipit.releasePath} && npm install --production`);
+    console.timeEnd('npm:install')
+  })
 
-  console.log('Copy:', 'package-lock.json');
-  sh.cp('-f', resolve(BASE_DIR, 'package-lock.json'), resolve(BASE_DIR, 'dist/package-lock.json'))
+  /**
+   * reload pm2 processes after successful deployment
+   */
+  shipit.on('deployed', shipit.start('pm2:reload'));
 
-  console.log('Copy:', 'CHANGELOG.md');
-  sh.cp('-f', resolve(BASE_DIR, 'CHANGELOG.md'), resolve(BASE_DIR, 'dist/CHANGELOG.md'))
-});
-
-/**
- * run npm ci
- */
-shipit.blTask('npm:install', async function () {
-  await shipit.remote(`cd ${shipit.releasePath} && npm install --production`);
-});
-
-/**
- * reload pm2 processes
- */
-shipit.blTask('pm2:reload', async function () {
-  await shipit.remote(`pm2 startOrGracefulReload ${this.config.deployTo}/pm2.json`);
-});
+  shipit.blTask('pm2:reload', async function () {
+    await shipit.remote(`pm2 startOrGracefulReload ${this.config.deployTo}/pm2.json`);
+  });
 
 };

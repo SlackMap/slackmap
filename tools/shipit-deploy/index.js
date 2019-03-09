@@ -1,4 +1,10 @@
-// const host = process.env.SSH_HOST;
+module.exports = require('./tasks/deploy')
+
+/**
+ * PROGRAMATIC USE ATTEMPT
+ */
+
+ // const host = process.env.SSH_HOST;
 // const user = process.env.SSH_USER;
 // const Shipit = require('shipit-cli');
 

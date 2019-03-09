@@ -35,8 +35,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  * - Remote copy project.
  * - Remove workspace.
  */
-const updateTask = shipit => {
-  _shipitUtils.default.registerTask(shipit, 'deploy:update',
+const updateTask = (shipit, options) => {
+  if(!options) {
+    options = {};
+  }
+  const name = options.name || 'deploy';
+  
+  _shipitUtils.default.registerTask(shipit, name+':update',
   /*#__PURE__*/
   _asyncToGenerator(function* () {
     (0, _extendShipit.default)(shipit);
