@@ -34,7 +34,8 @@
     "serve:ssr": "node dist/apps/web-server/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "build:client-and-server-bundles": "ng build web --prod && ng run web:server:production",
-    "bd:test": "npm run build api && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit test deploy"
+    "bd:test": "npm run build api && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit test deploy",
+    "bd:prod": "npm run build api && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit prod deploy"
   },
   "private": true,
   "dependencies": {
@@ -47,7 +48,9 @@
     "@angular/platform-browser": "^7.2.7",
     "@angular/platform-browser-dynamic": "^7.2.7",
     "@angular/platform-server": "^7.2.7",
+    "@angular/pwa": "^0.12.4",
     "@angular/router": "^7.2.7",
+    "@angular/service-worker": "^7.2.7",
     "@nestjs/common": "5.5.0",
     "@nestjs/core": "5.5.0",
     "@ngrx/effects": "^7.3.0",
