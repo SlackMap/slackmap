@@ -6,7 +6,7 @@ script:
   - npm run lint
   - npm run test
   - npm run build api
-  - npm run build cli
+  - npm run build:ssr
 addons:
   ssh_known_hosts: "slackmap.com"
 before_deploy:

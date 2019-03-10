@@ -29,7 +29,11 @@
     "update:check": "ng update",
     "workspace-schematic": "./node_modules/.bin/nx workspace-schematic",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
-    "help": "./node_modules/.bin/nx help"
+    "help": "./node_modules/.bin/nx help",
+    "compile:server": "webpack --config webpack.server.config.js --progress --colors",
+    "serve:ssr": "node dist/apps/web-server/server",
+    "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
+    "build:client-and-server-bundles": "ng build web --prod && ng run web:server:production"
   },
   "private": true,
   "dependencies": {
@@ -38,20 +42,25 @@
     "@angular/compiler": "^7.2.7",
     "@angular/core": "^7.2.7",
     "@angular/forms": "^7.2.7",
+    "@angular/http": "^7.2.7",
     "@angular/platform-browser": "^7.2.7",
     "@angular/platform-browser-dynamic": "^7.2.7",
+    "@angular/platform-server": "^7.2.7",
     "@angular/router": "^7.2.7",
     "@nestjs/common": "5.5.0",
     "@nestjs/core": "5.5.0",
     "@ngrx/effects": "^7.3.0",
     "@ngrx/router-store": "^7.3.0",
     "@ngrx/store": "^7.3.0",
+    "@nguniversal/express-engine": "0.0.0",
+    "@nguniversal/module-map-ngfactory-loader": "0.0.0",
     "@nrwl/nx": "7.6.2",
     "chalk": "^2.4.2",
     "clear": "^0.1.0",
     "commander": "^2.19.0",
     "core-js": "^2.6.5",
     "dotenv": "6.2.0",
+    "express": "^4.15.2",
     "figlet": "^1.2.1",
     "inquirer": "^6.2.2",
     "ora": "^3.2.0",
@@ -93,8 +102,10 @@
     "shipit-cli": "^4.2.0",
     "shipit-deploy": "^4.1.4",
     "standard-version": "^5.0.1",
+    "ts-loader": "^5.2.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.2.2",
+    "webpack-cli": "^3.1.0"
   }
 }
