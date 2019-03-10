@@ -202,6 +202,7 @@
               "apps/web/src/manifest.json"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "apps/web/src/styles.scss"
             ],
             "scripts": [],
