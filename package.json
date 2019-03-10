@@ -33,7 +33,8 @@
     "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/apps/web-server/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
-    "build:client-and-server-bundles": "ng build web --prod && ng run web:server:production"
+    "build:client-and-server-bundles": "ng build web --prod && ng run web:server:production",
+    "bd:test": "npm run build api && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit test deploy"
   },
   "private": true,
   "dependencies": {
@@ -68,6 +69,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.4.0",
     "shelljs": "^0.8.3",
+    "tslib": "^1.9.3",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
