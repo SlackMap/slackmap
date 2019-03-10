@@ -26,3 +26,5 @@ deploy:
     script: bash ./tools/scripts/deploy-prod.sh
     on:
       branch: master
+notifications:
+  email: false
