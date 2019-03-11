@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UpdateModule } from './update';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,7 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    UpdateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

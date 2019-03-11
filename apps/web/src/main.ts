@@ -12,5 +12,11 @@ if (environment.production) {
 document.addEventListener('DOMContentLoaded', () => {
      platformBrowserDynamic()
   .bootstrapModule(AppModule)
+  // there is bug in ServiceWorkerModule.register() so we have to register it manually
+  .then(() => {
+    if ('serviceWorker' in navigator && environment.production) {
+      navigator.serviceWorker.register('/ngsw-worker.js');
+    }
+  })
   .catch(err => console.error(err));
-   });
+});
