@@ -30,8 +30,6 @@ module.exports = function (shipit) {
   shipit.on('updated', () => shipit.start('npm:install'));
 
   shipit.blTask('npm:install', async function() {
-    console.log('BEFORE NPM INSTALL')
-    await shipit.remote(`ls -la ${shipit.releasePath}`);
     await shipit.remote(`cd ${shipit.releasePath} && npm install --production`);
   })
 
