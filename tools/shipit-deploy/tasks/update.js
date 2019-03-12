@@ -40,7 +40,7 @@ const updateTask = (shipit, options) => {
     options = {};
   }
   const name = options.name || 'deploy';
-  
+
   _shipitUtils.default.registerTask(shipit, name+':update',
   /*#__PURE__*/
   _asyncToGenerator(function* () {
@@ -107,7 +107,7 @@ const updateTask = (shipit, options) => {
         const uploadDirPath = _posix.default.resolve(rsyncFrom, shipit.config.dirToCopy || '');
 
         shipit.log('Copy project to remote servers.');
-        yield shipit.remoteCopy(`${uploadDirPath}/`, shipit.releasePath, options);
+        yield shipit.copyToRemote(`${uploadDirPath}/`, shipit.releasePath, options);
         shipit.log(_chalk.default.green('Finished copy.'));
       });
       return _remoteCopy.apply(this, arguments);

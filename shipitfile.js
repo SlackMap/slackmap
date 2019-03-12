@@ -9,7 +9,10 @@ module.exports = function (shipit) {
     default: {
       workspace: './dist',
       keepReleases: 5,
-      deleteOnRollback: false
+      deleteOnRollback: true,
+      copy: '-rf',
+      rsync: '--del',
+      ignores: ['node_modules']
     },
     test: {
       deployTo: `/home/${user}/test`,
@@ -27,9 +30,9 @@ module.exports = function (shipit) {
   shipit.on('updated', () => shipit.start('npm:install'));
 
   shipit.blTask('npm:install', async function() {
-    console.time('npm:install')
+    console.log('BEFORE NPM INSTALL')
+    await shipit.remote(`ls -la ${shipit.releasePath}`);
     await shipit.remote(`cd ${shipit.releasePath} && npm install --production`);
-    console.timeEnd('npm:install')
   })
 
   /**
@@ -40,5 +43,12 @@ module.exports = function (shipit) {
   shipit.blTask('pm2:reload', async function () {
     await shipit.remote(`pm2 startOrGracefulReload ${this.config.deployTo}/pm2.json`);
   });
+
+  // currentPath: '/home/[user]/test/current',
+  // releasesPath: '/home/[user]/test/releases',
+  // workspace: './dist',
+  // previousRelease: '20190310213226',
+  // releaseDirname: '20190312085435',
+  // releasePath: '/home/[user]/test/releases/20190312085435'
 
 };

@@ -14,7 +14,7 @@ module.exports = function(shipit, options) {
   /**
    * Orchestrate our own deploy task
    */
-  shipit.task(name, [
+  shipit.blTask(name, [
     'deploy:init',
     `${name}:fetch`,
     `${name}:update`,
