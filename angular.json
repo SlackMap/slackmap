@@ -339,6 +339,68 @@
           "styleext": "scss"
         }
       }
+    },
+    "ui-x": {
+      "root": "libs/ui/x",
+      "sourceRoot": "libs/ui/x/src",
+      "projectType": "library",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/x/tsconfig.lib.json",
+              "libs/ui/x/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/ui/x/src/test.ts",
+            "tsConfig": "libs/ui/x/tsconfig.spec.json",
+            "karmaConfig": "libs/ui/x/karma.conf.js"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "ui-common": {
+      "root": "libs/ui/common",
+      "sourceRoot": "libs/ui/common/src",
+      "projectType": "library",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/common/tsconfig.lib.json",
+              "libs/ui/common/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/ui/common/src/test.ts",
+            "tsConfig": "libs/ui/common/tsconfig.spec.json",
+            "karmaConfig": "libs/ui/common/karma.conf.js"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {

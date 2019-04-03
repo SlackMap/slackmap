@@ -16,7 +16,9 @@
       "orientjs": ["@types/orientjs.d.ts"],
       "@slackmap/api/orient": ["libs/api/orient/src/index.ts"],
       "@slackmap/core": ["libs/core/src/index.ts"],
-      "@slackmap/ui/shared/update": ["libs/ui/shared/update/src/index.ts"]
+      "@slackmap/ui/shared/update": ["libs/ui/shared/update/src/index.ts"],
+      "@slackmap/ui/x": ["libs/ui/x/src/index.ts"],
+      "@slackmap/ui/common": ["libs/ui/common/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

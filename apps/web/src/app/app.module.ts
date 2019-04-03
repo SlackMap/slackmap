@@ -7,6 +7,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UpdateModule } from '@slackmap/ui/shared/update';
+import { UiCommonModule } from '@slackmap/ui/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +20,8 @@ import { UpdateModule } from '@slackmap/ui/shared/update';
     }),
     BrowserAnimationsModule,
     UpdateModule.forRoot({enabled: environment.production}),
+    UiCommonModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
