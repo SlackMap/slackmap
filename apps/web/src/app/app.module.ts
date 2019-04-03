@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UpdateModule } from '@slackmap/ui/update';
+import { UpdateModule } from '@slackmap/ui/shared/update';
 
 @NgModule({
   declarations: [AppComponent],

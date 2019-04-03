@@ -26,7 +26,7 @@
     "web-e2e": {
       "tags": []
     },
-    "ui-update": {
+    "ui-shared-update": {
       "tags": ["ui"]
     }
   }

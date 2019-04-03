@@ -309,28 +309,28 @@
         }
       }
     },
-    "ui-update": {
-      "root": "libs/ui/update",
-      "sourceRoot": "libs/ui/update/src",
+    "ui-shared-update": {
+      "root": "libs/ui/shared/update",
+      "sourceRoot": "libs/ui/shared/update/src",
       "projectType": "library",
-      "prefix": "slackmap",
+      "prefix": "sm",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/ui/update/tsconfig.lib.json",
-              "libs/ui/update/tsconfig.spec.json"
+              "libs/ui/shared/update/tsconfig.lib.json",
+              "libs/ui/shared/update/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
-          "builder": "@nrwl/builders:jest",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "jestConfig": "libs/ui/update/jest.config.js",
-            "tsConfig": "libs/ui/update/tsconfig.spec.json",
-            "setupFile": "libs/ui/update/src/test-setup.ts"
+            "main": "libs/ui/shared/update/src/test.ts",
+            "tsConfig": "libs/ui/shared/update/tsconfig.spec.json",
+            "karmaConfig": "libs/ui/shared/update/karma.conf.js"
           }
         }
       },
