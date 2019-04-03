@@ -5,8 +5,8 @@ import { PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { UpdateAvailableEvent } from '@angular/service-worker/src/low_level';
-import { environment } from '../../environments/environment';
 import { UpdateDialogComponent } from './update-dialog/update-dialog.component';
+import { UpdateConfig } from './update-config';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +15,14 @@ export class UpdateService {
   constructor(
     private dialog: MatDialog,
     private swUpdate: SwUpdate,
+    private config: UpdateConfig,
     @Inject(PLATFORM_ID) platformId: Object,
   ) {
-    console.log('SW CONST', environment);
-    if (environment.production && isPlatformBrowser(platformId)) {
+    if(!this.config.enabled) {
+      return;
+    }
+    console.log('SW CONSTRUCTOR');
+    if (isPlatformBrowser(platformId)) {
       console.log('SW INIT');
       swUpdate.available.subscribe((event: UpdateAvailableEvent) => {
         console.log('update available', event);

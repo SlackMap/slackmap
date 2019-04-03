@@ -25,6 +25,9 @@
     },
     "web-e2e": {
       "tags": []
+    },
+    "ui-update": {
+      "tags": ["ui"]
     }
   }
 }

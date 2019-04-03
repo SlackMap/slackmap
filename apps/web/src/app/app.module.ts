@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UpdateModule } from './update';
+import { UpdateModule } from '@slackmap/ui/update';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +17,7 @@ import { UpdateModule } from './update';
       enabled: environment.production,
     }),
     BrowserAnimationsModule,
-    UpdateModule,
+    UpdateModule.forRoot({enabled: environment.production}),
   ],
   providers: [],
   bootstrap: [AppComponent],

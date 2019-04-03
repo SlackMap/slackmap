@@ -308,6 +308,37 @@
           }
         }
       }
+    },
+    "ui-update": {
+      "root": "libs/ui/update",
+      "sourceRoot": "libs/ui/update/src",
+      "projectType": "library",
+      "prefix": "slackmap",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/update/tsconfig.lib.json",
+              "libs/ui/update/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui/update/jest.config.js",
+            "tsConfig": "libs/ui/update/tsconfig.spec.json",
+            "setupFile": "libs/ui/update/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {
