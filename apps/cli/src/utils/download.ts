@@ -15,7 +15,6 @@
 //       };
 //   };
 
-
 //   console.log('before');
 
 //   var request = http.get(fileUrl).on('response', function(res) {

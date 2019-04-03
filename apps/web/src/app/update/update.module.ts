@@ -5,15 +5,10 @@ import { UpdateDialogComponent } from './update-dialog/update-dialog.component';
 import { MatDialogModule } from '@angular/material';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatDialogModule
-  ],
+  imports: [CommonModule, MatDialogModule],
   declarations: [UpdateDialogComponent],
-  entryComponents: [UpdateDialogComponent]
+  entryComponents: [UpdateDialogComponent],
 })
 export class UpdateModule {
-  constructor(service: UpdateService) {
-
-  }
- }
+  constructor(service: UpdateService) {}
+}

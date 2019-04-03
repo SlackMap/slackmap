@@ -2,13 +2,16 @@
 <mat-dialog-content class="mat-typography">
   <h3>Update now ??</h3>
   <p>
-    Your version <b>{{data.current?.appData?.version || 0}}</b> available <b>{{data.available?.appData?.version || 0}}</b>
+    Your version <b>{{ data.current?.appData?.version || 0 }}</b> available
+    <b>{{ data.available?.appData?.version || 0 }}</b>
   </p>
   <p *ngIf="data.current?.appData?.changelog">
-    Changes: {{data.current?.appData?.changelog}}
+    Changes: {{ data.current?.appData?.changelog }}
   </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Not now, later</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install & Reload</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+    Install & Reload
+  </button>
 </mat-dialog-actions>

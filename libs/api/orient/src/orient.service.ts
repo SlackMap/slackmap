@@ -4,12 +4,10 @@ import { OrientDBClient, ODatabaseSessionPool, ODatabase } from 'orientjs';
 
 @Injectable()
 export class OrientService implements OnModuleDestroy {
-
   private _client: Promise<OrientDBClient>;
   private _pool: Promise<ODatabaseSessionPool>;
 
   constructor(private config: OrientConfig) {}
-
 
   onModuleDestroy() {
     console.log(`Destroy Orient connection...`);
@@ -36,7 +34,7 @@ export class OrientService implements OnModuleDestroy {
     }
     this._client = OrientDBClient.connect({
       host: this.config.ORIENT_HOST,
-      port: this.config.ORIENT_PORT
+      port: this.config.ORIENT_PORT,
     });
     return this._client;
   }
@@ -53,7 +51,7 @@ export class OrientService implements OnModuleDestroy {
         username: this.config.ORIENT_DB_USERNAME,
         password: this.config.ORIENT_DB_PASSWORD,
         name: this.config.ORIENT_DB_NAME,
-        pool: { max: 10 }
+        pool: { max: 10 },
       });
     });
     return this._pool;

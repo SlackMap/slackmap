@@ -35,7 +35,9 @@ export class Orient implements OnModuleDestroy {
   }
   query<T>(query: string, options?: any): Promise<T[]> {
     console.log('QUERY', query, options);
-    return this.db().then<T[]>(db => db.command(query, options)).all();
+    return this.db()
+      .then<T[]>(db => db.command(query, options))
+      .all();
   }
 
   /**
@@ -47,13 +49,13 @@ export class Orient implements OnModuleDestroy {
     }
     this._client = OrientDBClient.connect({
       host: this.config.host,
-      port: this.config.port
+      port: this.config.port,
     }).then(client => {
       this._pool = client.sessions({
         username: this.config.username,
         password: this.config.password,
         name: this.config.db.name,
-        pool: { max: 10 }
+        pool: { max: 10 },
       });
     });
     return this._client;
@@ -72,18 +74,17 @@ export class Orient implements OnModuleDestroy {
     const self = this;
     this._db = OrientDBClient.connect({
       host: this.config.host,
-      port: this.config.port
+      port: this.config.port,
     }).then(client => {
       console.log('CLIENT', client.session);
       return client.session({
         username: this.config.username,
         password: this.config.password,
-        name: this.config.db.name
+        name: this.config.db.name,
       });
     });
 
     // this._db = new Promise((resolve, reject) => {
-
 
     //   const db = new ODatabase({
     //     host: this.config.host,
@@ -134,7 +135,9 @@ export class Orient implements OnModuleDestroy {
      * @returns {Observable|*}
      */
     function createStream(testInterval?: boolean) {
-      const observable: Observable<ODatabase> = Observable.create(function (observer) {
+      const observable: Observable<ODatabase> = Observable.create(function(
+        observer,
+      ) {
         debugOrient('DB SUBSCRIBE');
 
         const db = new ODatabase({
@@ -142,17 +145,16 @@ export class Orient implements OnModuleDestroy {
           port: config.port,
           username: config.username,
           password: config.password,
-          name: config.db.name
+          name: config.db.name,
         });
-        db.on('endQuery', function (obj) {
+        db.on('endQuery', function(obj) {
           if (obj.err && obj.err.code === 'ECONNREFUSED') {
             debugOrient('DB QUERY ERROR', obj.err.code);
             observer.error(obj.err);
           }
         });
-        db
-          .open()
-          .then(function () {
+        db.open()
+          .then(function() {
             // helper for generation of timestamps for use in writing to db
             db.now = () => {
               return new Date().toJSON();
@@ -186,8 +188,7 @@ export class Orient implements OnModuleDestroy {
      */
     function test(db, interval) {
       setTimeout(() => {
-        db
-          .select('name')
+        db.select('name')
           .from('OUser')
           .one()
           .then(
@@ -198,7 +199,7 @@ export class Orient implements OnModuleDestroy {
             err => {
               debugOrient('QUERY RESULT ERROR', err.message);
               // test(db);
-            }
+            },
           );
       }, interval);
     }
@@ -206,7 +207,7 @@ export class Orient implements OnModuleDestroy {
     /**
      * return shared hot stream or if passed true new cold stream
      */
-    return function (cold, testInterval) {
+    return function(cold, testInterval) {
       if (cold) {
         return createStream(testInterval);
       } else if (hot$) {

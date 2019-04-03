@@ -8,7 +8,7 @@ describe('OrientService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [OrientService, OrientConfig]
+      providers: [OrientService, OrientConfig],
     }).compile();
     service = module.get<OrientService>(OrientService);
   });
@@ -79,9 +79,8 @@ describe('OrientService', () => {
   // });
 
   it.skip('should close the connection', async () => {
-
     const m: TestingModule = await Test.createTestingModule({
-      providers: [OrientService, OrientConfig]
+      providers: [OrientService, OrientConfig],
     }).compile();
     const s: OrientService = module.get<OrientService>(OrientService);
 

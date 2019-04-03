@@ -13,11 +13,13 @@ import { UpdateModule } from './update';
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
     BrowserAnimationsModule,
-    UpdateModule
+    UpdateModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import * as program from "commander";
+import * as program from 'commander';
 
 const inquirer = require('inquirer');
 const spawn = require('child_process').spawn;
@@ -31,8 +31,8 @@ async function action(version) {
           default: versions[0],
           message: 'What version to run',
           choices: versions,
-          validate: val => !!val
-        }
+          validate: val => !!val,
+        },
       ])
       .then(inputs => inputs.version);
   }
@@ -40,7 +40,7 @@ async function action(version) {
   console.log(
     chalk.green('?'),
     'running orientdb server',
-    chalk.blue(serverFile)
+    chalk.blue(serverFile),
   );
 
   // TODO run pm2 package with the serwer

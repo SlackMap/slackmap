@@ -1,4 +1,4 @@
-import * as program from "commander";
+import * as program from 'commander';
 
 program
   .command('download', 'download new version of orientdb')
