@@ -392,6 +392,10 @@
       "framework": "angular",
       "prefix": "sm"
     },
+    "@nrwl/schematics:ngrx": {
+      "root": false,
+      "facade": true
+    },
     "@nrwl/schematics:node-application": {
       "unitTestRunner": "jest",
       "framework": "nestjs"

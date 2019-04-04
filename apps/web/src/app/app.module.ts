@@ -10,6 +10,12 @@ import { UpdateModule } from '@slackmap/ui-common';
 import { UiCommonModule } from '@slackmap/ui-common';
 import { UiCoreModule } from '@slackmap/ui-core';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { storeFreeze } from 'ngrx-store-freeze';
+import { NxModule } from '@nrwl/nx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,10 +26,18 @@ import { HttpClientModule } from '@angular/common/http';
       enabled: environment.production,
     }),
     BrowserAnimationsModule,
-    UpdateModule.forRoot({enabled: environment.production}),
+    UpdateModule.forRoot({ enabled: environment.production }),
     UiCommonModule,
     HttpClientModule,
-    UiCoreModule
+    UiCoreModule,
+    NxModule.forRoot(),
+    StoreModule.forRoot(
+      {},
+      { metaReducers: !environment.production ? [storeFreeze] : [] },
+    ),
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
