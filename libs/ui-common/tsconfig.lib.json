@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../../../dist/out-tsc/libs/ui/shared/update",
+    "outDir": "../../dist/out-tsc/libs/ui-common",
     "target": "es2015",
     "module": "es2015",
     "moduleResolution": "node",

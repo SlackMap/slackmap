@@ -308,6 +308,68 @@
           }
         }
       }
+    },
+    "ui-common": {
+      "root": "libs/ui-common",
+      "sourceRoot": "libs/ui-common/src",
+      "projectType": "library",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-common/tsconfig.lib.json",
+              "libs/ui-common/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-common/jest.config.js",
+            "tsConfig": "libs/ui-common/tsconfig.spec.json",
+            "setupFile": "libs/ui-common/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "ui-core": {
+      "root": "libs/ui-core",
+      "sourceRoot": "libs/ui-core/src",
+      "projectType": "library",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-core/tsconfig.lib.json",
+              "libs/ui-core/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-core/jest.config.js",
+            "tsConfig": "libs/ui-core/tsconfig.spec.json",
+            "setupFile": "libs/ui-core/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {
@@ -327,7 +389,8 @@
     "@nrwl/schematics:library": {
       "style": "scss",
       "unitTestRunner": "jest",
-      "framework": "angular"
+      "framework": "angular",
+      "prefix": "sm"
     },
     "@nrwl/schematics:node-application": {
       "unitTestRunner": "jest",

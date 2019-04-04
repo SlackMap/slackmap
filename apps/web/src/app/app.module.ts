@@ -6,8 +6,9 @@ import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UpdateModule } from '@slackmap/ui/shared/update';
-import { UiCommonModule } from '@slackmap/ui/common';
+import { UpdateModule } from '@slackmap/ui-common';
+import { UiCommonModule } from '@slackmap/ui-common';
+import { UiCoreModule } from '@slackmap/ui-core';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     UpdateModule.forRoot({enabled: environment.production}),
     UiCommonModule,
-    HttpClientModule
+    HttpClientModule,
+    UiCoreModule
   ],
   providers: [],
   bootstrap: [AppComponent],
