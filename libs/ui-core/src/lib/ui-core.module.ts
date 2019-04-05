@@ -9,6 +9,8 @@ import {
 } from './state/user/user.reducer';
 import { UserEffects } from './state/user/user.effects';
 import { UserFacade } from './state/user/user.facade';
+import * as fromMap from './state/map/map.reducer';
+import { MapEffects } from './state/map/map.effects';
 
 @NgModule({
   imports: [
@@ -16,7 +18,8 @@ import { UserFacade } from './state/user/user.facade';
     StoreModule.forFeature(USER_FEATURE_KEY, userReducer, {
       initialState: userInitialState,
     }),
-    EffectsModule.forFeature([UserEffects]),
+    EffectsModule.forFeature([UserEffects, MapEffects]),
+    StoreModule.forFeature(fromMap.MAP_FEATURE_KEY, fromMap.reducer),
   ],
   providers: [UserFacade],
 })
