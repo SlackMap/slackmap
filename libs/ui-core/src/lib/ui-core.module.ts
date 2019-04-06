@@ -11,6 +11,8 @@ import { UserEffects } from './state/user/user.effects';
 import { UserFacade } from './state/user/user.facade';
 import * as fromMap from './state/map/map.reducer';
 import { MapEffects } from './state/map/map.effects';
+import * as fromSpots from './state/spots/spots.reducer';
+import { SpotsEffects } from './state/spots/spots.effects';
 
 @NgModule({
   imports: [
@@ -18,8 +20,9 @@ import { MapEffects } from './state/map/map.effects';
     StoreModule.forFeature(USER_FEATURE_KEY, userReducer, {
       initialState: userInitialState,
     }),
-    EffectsModule.forFeature([UserEffects, MapEffects]),
+    EffectsModule.forFeature([UserEffects, MapEffects, SpotsEffects]),
     StoreModule.forFeature(fromMap.MAP_FEATURE_KEY, fromMap.reducer),
+    StoreModule.forFeature(fromSpots.SPOT_FEATURE_KEY, fromSpots.reducer),
   ],
   providers: [UserFacade],
 })

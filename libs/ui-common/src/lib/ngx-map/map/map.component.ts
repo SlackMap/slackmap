@@ -5,7 +5,7 @@ import {LazyLoad} from '@slackmap/ui-core';
 import {merge, fromEvent, ReplaySubject, Observable, Subject} from 'rxjs';
 import {debounceTime, startWith, map, takeUntil} from 'rxjs/operators';
 import {ItemUtils, SUBTYPES, ItemType} from '@slackmap/core';
-import {MapViewChangeData, MAP_ZOOM_THRESHOLD} from '@app/models';
+import {MapViewChangeData, MAP_ZOOM_THRESHOLD} from '@slackmap/core/api';
 import * as geohash from 'ngeohash';
 
 @Component({

@@ -1,7 +1,7 @@
 import {LayerType} from '@slackmap/core';
 
 /**
- * success response from cashe or request
+ * success response from cache or request
  */
 export enum ResponseSource {
   STORAGE = 'storage',

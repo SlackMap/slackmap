@@ -2,11 +2,11 @@ import {Injectable} from '@angular/core';
 import {CacheService} from './cache.service';
 import {catchError, tap, share, startWith, merge, map, shareReplay, switchMap} from 'rxjs/operators';
 import {Observable, of, empty, Subject, merge as mergeObservables} from 'rxjs';
-import * as spotsActions from '@app/store/spots/spots.actions';
 import {LayerType, ItemType, ClusterSubtype} from '@slackmap/core';
 import supercluster from 'supercluster';
-import {GeojsonBbox, ResponseSource, SlackmapService, ClusterModel, ClustersGetResponseDto} from '@slackmap/core/api';
-import {clusters as fixtures} from '@app/map/clusters';
+import {GeojsonBbox, ResponseSource, ClusterModel, ClustersGetResponseDto, LoadHashResponse} from '@slackmap/core/api';
+import { ApiService } from './api.service';
+// import {clusters as fixtures} from '@app/map/clusters';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ import {clusters as fixtures} from '@app/map/clusters';
 export class SpotsService {
 
   constructor(
-    private api: SlackmapService,
+    private api: ApiService,
     private cache: CacheService
   ) {}
   hashes: {[s: string]: any} = {};
@@ -31,12 +31,15 @@ export class SpotsService {
      * fetch clusters from serer, use cache
      */
     switchMap((code) => {
-      const request = this.api.clustersGet('-180,-90,180,90', 16);
+      const request = this.api.clustersGet({
+        bbox: '-180,-90,180,90',
+        zoom: 16
+      });
       const key = 'clusters/clusters';
       const ttl = 60 * 60 * 1;
       return this.cache.loadRequestOrCache<ClustersGetResponseDto>(key, request).pipe(
         map(res => res.clusters),
-        map(res => fixtures.clusters),
+        // map(res => fixtures.clusters),
         catchError(err => empty())
       );
     }),
@@ -93,40 +96,40 @@ export class SpotsService {
     shareReplay()
   );
 
-  loadSpotsByHash(layer: LayerType, hash: string): Observable<any> {
+  loadSpotsByHash(layer: LayerType, hash: string): Observable<LoadHashResponse> {
     if (this.hashes[hash]) {
       return this.hashes[hash];
     }
 
-    const request$ = this.api.clustersSpotsGet(hash).pipe(
+    const request$ = this.api.clustersSpotsGet({hash}).pipe(
 
       map((data) => {
         // save resonse to cache
-        this.cache.set(name, new spotsActions.HashRequestSuccessAction({
+        this.cache.set(name, {
           layer,
           hash,
           source: ResponseSource.STORAGE,
           timestamp: Date.now(),
           data
-        }));
+        });
         // return event instance
-        return new spotsActions.HashRequestSuccessAction({
+        return {
           layer,
           hash,
           source: ResponseSource.SERVER,
           timestamp: Date.now(),
           data
-        });
+        };
       }),
       catchError((error) => {
         console.log('ERR', error);
-        return of(new spotsActions.HashRequestErrorAction({
+        return of({
           layer,
           hash,
           source: ResponseSource.SERVER,
           timestamp: Date.now(),
           error
-        }));
+        });
       })
     );
     const key = `spots/${layer}/${hash}`;
@@ -135,11 +138,11 @@ export class SpotsService {
       // cache$,
       request$
     ).pipe(
-      startWith(new spotsActions.HashLoadingAction({
+      startWith({
         layer,
         hash,
         loading: true
-      })),
+      }),
       tap(null, null, () => {
         delete this.hashes[hash];
       }),
@@ -154,7 +157,7 @@ export class SpotsService {
    * @param bbox GeojsonBbox
    * @param zoom
    */
-  getClusters(layer: LayerType, bbox: GeojsonBbox, zoom: number) {
+  getClusters(layer: LayerType, bbox: GeojsonBbox, zoom: number): Observable<LoadHashResponse> {
     return this.supercluster$.pipe(
       map((scluster) => {
         const clusters = scluster.getClusters(bbox, zoom).map(cluster => {
@@ -175,7 +178,7 @@ export class SpotsService {
           return c;
         });
 
-        return new spotsActions.HashRequestSuccessAction({
+        return {
           layer,
           hash: 'clusters',
           source: ResponseSource.STORAGE,
@@ -183,7 +186,7 @@ export class SpotsService {
           data: {
             spots: clusters
           }
-        });
+        };
       }),
       catchError(err => {
         console.log('getClusters() ERROR', err);

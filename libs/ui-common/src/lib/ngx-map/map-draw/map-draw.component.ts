@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input, NgZone, OnDestroy} from '@angular/core';
 import {MapComponent} from '../map/map.component';
-import {LazyLoad} from '@app/services/lazy-load';
-import {ShapeData} from '@app/models';
+import {LazyLoad} from '@slackmap/ui-core';
+import {ShapeData} from '@slackmap/core/api';
 import {SpotCategory} from '@slackmap/core';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';

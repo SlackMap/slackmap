@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, from, merge} from 'rxjs';
+import {Observable, from, merge, EMPTY} from 'rxjs';
 import {tap, catchError} from 'rxjs/operators';
 import {Storage} from '@ionic/storage';
 
@@ -23,7 +23,7 @@ export class CacheService {
   }
 
   set<T>(name: string, value: any): Observable<T> {
-    return from(Observable.create());
+    return EMPTY;
   }
 
   /**

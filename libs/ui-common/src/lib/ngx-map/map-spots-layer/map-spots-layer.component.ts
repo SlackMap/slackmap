@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, OnDestroy, NgZone, OnChanges, SimpleChange} from '@angular/core';
 import {MapComponent} from '../map/map.component';
-import {clusters} from '@app/map/clusters';
-import {LazyLoad} from '@app/services/lazy-load';
+// import {clusters} from '@app/map/clusters';
+import {LazyLoad} from '@slackmap/ui-core';
 import {Subject, ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
