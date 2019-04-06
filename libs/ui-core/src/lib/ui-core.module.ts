@@ -4,7 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {
   USER_FEATURE_KEY,
-  initialState as userInitialState,
+  userInitialState as userInitialState,
   userReducer,
 } from './state/user/user.reducer';
 import { UserEffects } from './state/user/user.effects';

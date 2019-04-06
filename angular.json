@@ -190,11 +190,34 @@
               "apps/web/src/sw.js",
               "apps/web/src/favicon.ico",
               "apps/web/src/assets",
-              "apps/web/src/manifest.json"
+              "apps/web/src/manifest.json",
+              "apps/web/src/robots.txt",
+              {
+                "glob": "**/*",
+                "input": "./libs/ui-common/assets/",
+                "output": "./assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist",
+                "output": "assets/leaflet"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet-draw/dist",
+                "output": "assets/leaflet-draw"
+              }
+
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "apps/web/src/styles.scss"
+              "apps/web/src/styles.scss",
+              {
+                "input": "node_modules/leaflet/dist/leaflet.css"
+              },
+              {
+                "input": "node_modules/leaflet-draw/dist/leaflet.draw.css"
+              }
             ],
             "scripts": [],
             "es5BrowserSupport": true

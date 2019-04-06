@@ -16,7 +16,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { NxModule } from '@nrwl/nx';
-
+import { NgxMapModule } from "@slackmap/ui-common";
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -38,6 +38,7 @@ import { NxModule } from '@nrwl/nx';
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule,
+    NgxMapModule
   ],
   providers: [],
   bootstrap: [AppComponent],

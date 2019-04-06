@@ -12,7 +12,7 @@ import { UserFacade } from './user.facade';
 
 import { userQuery } from './user.selectors';
 import { LoadUser, UserLoaded } from './user.actions';
-import { UserState, Entity, initialState, userReducer } from './user.reducer';
+import { UserState, Entity, userInitialState, userReducer } from './user.reducer';
 
 interface TestSchema {
   user: UserState;
@@ -34,7 +34,7 @@ describe('UserFacade', () => {
     beforeEach(() => {
       @NgModule({
         imports: [
-          StoreModule.forFeature('user', userReducer, { initialState }),
+          StoreModule.forFeature('user', userReducer, { initialState: userInitialState }),
           EffectsModule.forFeature([UserEffects]),
         ],
         providers: [UserFacade],

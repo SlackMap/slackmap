@@ -11,11 +11,11 @@ export interface MapState {
   loaded: any[]
 }
 
-export const initialState: MapState = {
+export const mapInitialState: MapState = {
   loaded: []
 };
 
-export function reducer(state = initialState, action: MapActions): MapState {
+export function reducer(state = mapInitialState, action: MapActions): MapState {
   switch (action.type) {
 
     case MapActionTypes.LoadMaps: {

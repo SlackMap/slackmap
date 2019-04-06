@@ -24,13 +24,13 @@ export interface UserPartialState {
   readonly [USER_FEATURE_KEY]: UserState;
 }
 
-export const initialState: UserState = {
+export const userInitialState: UserState = {
   list: [],
   loaded: false,
 };
 
 export function userReducer(
-  state: UserState = initialState,
+  state: UserState = userInitialState,
   action: UserAction,
 ): UserState {
   switch (action.type) {

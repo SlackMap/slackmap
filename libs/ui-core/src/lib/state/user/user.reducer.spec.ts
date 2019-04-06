@@ -1,5 +1,5 @@
 import { UserLoaded } from './user.actions';
-import { UserState, Entity, initialState, userReducer } from './user.reducer';
+import { UserState, Entity, userInitialState, userReducer } from './user.reducer';
 
 describe('User Reducer', () => {
   const getUserId = it => it['id'];
@@ -16,7 +16,7 @@ describe('User Reducer', () => {
     it('should return set the list of known User', () => {
       const users = [createUser('PRODUCT-AAA'), createUser('PRODUCT-zzz')];
       const action = new UserLoaded(users);
-      const result: UserState = userReducer(initialState, action);
+      const result: UserState = userReducer(userInitialState, action);
       const selId: string = getUserId(result.list[1]);
 
       expect(result.loaded).toBe(true);
@@ -28,9 +28,9 @@ describe('User Reducer', () => {
   describe('unknown action', () => {
     it('should return the initial state', () => {
       const action = {} as any;
-      const result = userReducer(initialState, action);
+      const result = userReducer(userInitialState, action);
 
-      expect(result).toBe(initialState);
+      expect(result).toBe(userInitialState);
     });
   });
 });
