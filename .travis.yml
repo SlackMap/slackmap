@@ -5,6 +5,7 @@ cache: npm
 branches:
   except:
     - /^v[0-9]/
+    - /^feature*/
 script:
   - npm run lint
   - npm run test
