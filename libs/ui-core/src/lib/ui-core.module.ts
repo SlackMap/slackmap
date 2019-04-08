@@ -13,6 +13,8 @@ import * as fromMap from './state/map/map.reducer';
 import { MapEffects } from './state/map/map.effects';
 import * as fromSpots from './state/spots/spots.reducer';
 import { SpotsEffects } from './state/spots/spots.effects';
+import { HomeModule } from './pages/home';
+import { MapModule } from './pages/map';
 
 @NgModule({
   imports: [
@@ -23,7 +25,10 @@ import { SpotsEffects } from './state/spots/spots.effects';
     EffectsModule.forFeature([UserEffects, MapEffects, SpotsEffects]),
     StoreModule.forFeature(fromMap.MAP_FEATURE_KEY, fromMap.reducer),
     StoreModule.forFeature(fromSpots.SPOT_FEATURE_KEY, fromSpots.reducer),
+    MapModule,
+    HomeModule,
   ],
   providers: [UserFacade],
+  exports: [],
 })
 export class UiCoreModule {}

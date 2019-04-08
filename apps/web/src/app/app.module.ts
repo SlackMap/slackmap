@@ -21,7 +21,14 @@ import { NgxMapModule } from "@slackmap/ui-common";
   declarations: [AppComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
+    RouterModule.forRoot([
+      // { path: '', redirectTo: 'home', pathMatch: 'full' },
+      // { path: 'home', loadChildren: '@slackmap/ui-core/pages/home#HomeModule' },
+      // { path: 'map', redirectTo: 'x', pathMatch: 'full' },
+      // { path: 'map/', redirectTo: 'x', pathMatch: 'full' },
+      // { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
+      // { path: 'x', loadChildren: '@slackmap/ui-core/pages/map#MapModule' },
+    ], { initialNavigation: 'enabled' }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

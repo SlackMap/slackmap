@@ -14,7 +14,6 @@
     "baseUrl": ".",
     "paths": {
       "orientjs": ["@types/orientjs.d.ts"],
-      "L": ["@types/leaflet.d.ts"],
       "@slackmap/api/orient": ["libs/api/orient/src/index.ts"],
       "@slackmap/core": ["libs/core/src/index.ts"],
       "@slackmap/core/api": ["libs/core/src/lib/api/index.ts"],
