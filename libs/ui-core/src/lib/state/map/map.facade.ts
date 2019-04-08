@@ -21,6 +21,9 @@ export class MapFacade {
   viewChange(data) {
     this.store.dispatch(new actions.MapViewChangeAction(data));
   }
+  itemClick(data) {
+    this.store.dispatch(new actions.MapItemClickAction(data));
+  }
 
   layerFiltersChange(data) {
     this.store.dispatch(new actions.MapLayerFiltersChangeAction(data));

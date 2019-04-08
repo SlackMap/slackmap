@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, mergeAll, filter, takeUntil } from 'rxjs/operators';
-import { SpotActionTypes, SpotActions, HashLoadAction, HashClearAction } from './spot.actions';
+import { SpotActionTypes, SpotActions, HashLoadAction, HashClearAction, HashRequestSuccessAction } from './spot.actions';
 import { SpotsService } from 'libs/ui-core/src/lib/services';
 
 
@@ -16,6 +16,7 @@ export class SpotsEffects {
     ofType(SpotActionTypes.HASH_LOAD),
     map((action: HashLoadAction) => {
       return this.spotsService.loadSpotsByHash(action.payload.layer, action.payload.hash).pipe(
+        map(data => new HashRequestSuccessAction(data)),
         takeUntil(this.actions$.pipe(
           ofType(SpotActionTypes.HASH_CLEAR),
           filter((clear: HashClearAction) => {

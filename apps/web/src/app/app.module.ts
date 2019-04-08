@@ -47,15 +47,16 @@ import { IonicStorageModule } from '@ionic/storage';
   providers: [
     {
       provide: API_HOST,
-      useValue: 'https://test-api.slackmap.com'
+      useValue: 'https://test-api.slackmap.com/api/v2'
     },
     {
       provide: ItemUtils,
-      useFactory: () => {
+      useFactory: (host) => {
         const utils = new ItemUtils();
-        utils.setHost('https://test.slackmap.com'); // TODO set it from environements
+        utils.setHost(host); // TODO set it from environements
         return utils;
-      }
+      },
+      deps: [API_HOST]
     }
   ],
   bootstrap: [AppComponent],

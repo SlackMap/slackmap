@@ -1,7 +1,6 @@
-import {Component, OnInit, NgZone, OnDestroy, DoCheck} from '@angular/core';
-import {merge, fromEvent, Observable, Subject} from 'rxjs';
-import {debounceTime, startWith, map, share, distinctUntilChanged, filter, tap, shareReplay, takeUntil} from 'rxjs/operators';
-import {MapViewChangeData, MAP_ZOOM_THRESHOLD} from '@slackmap/core/api';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 import {LayerType} from '@slackmap/core';
 import {Title} from '@angular/platform-browser';
 import { MapFacade } from '../../../state/map';
@@ -50,11 +49,11 @@ export class MapPageComponent implements OnInit, OnDestroy {
   }
 
   onViewChange(data) {
-      // this.store.dispatch(new mapActions.MapViewChangeAction(data));
+    this.mapFacade.viewChange(data);
   }
 
   onItemClick(data) {
-    // this.store.dispatch(new mapActions.MapItemClickAction(data));
+    this.mapFacade.itemClick(data);
   }
 
   /**

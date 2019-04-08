@@ -6,7 +6,7 @@ import {LayerType, ItemType, ClusterSubtype} from '@slackmap/core';
 import supercluster from 'supercluster';
 import {GeojsonBbox, ResponseSource, ClusterModel, ClustersGetResponseDto, LoadHashResponse} from '@slackmap/core/api';
 import { ApiService } from './api.service';
-// import {clusters as fixtures} from '@app/map/clusters';
+import {clusters as fixtures} from './clusters';
 
 @Injectable({
   providedIn: 'root'
@@ -37,11 +37,13 @@ export class SpotsService {
       });
       const key = 'clusters/clusters';
       const ttl = 60 * 60 * 1;
-      return this.cache.loadRequestOrCache<ClustersGetResponseDto>(key, request).pipe(
-        map(res => res.clusters),
-        // map(res => fixtures.clusters),
-        catchError(err => empty())
-      );
+      return of(fixtures.clusters);
+      // return this.cache.loadRequestOrCache<ClustersGetResponseDto>(key, request).pipe(
+      //   map(res => res.clusters),
+      //   // map(res => fixtures.clusters),
+      //   // catchError(err => empty())
+      //   catchError(err => of(fixtures.clusters))
+      // );
     }),
     /**
      * create supercluster instance
@@ -82,7 +84,7 @@ export class SpotsService {
           return acc;
         }
       };
-      const cluster = supercluster(options);
+      const cluster = new supercluster(options);
       cluster.load(features);
       return cluster;
     }),
@@ -101,7 +103,7 @@ export class SpotsService {
       return this.hashes[hash];
     }
 
-    const request$ = this.api.clustersSpotsGet({hash}).pipe(
+    const request$ = this.api.clustersSpotsGet({geohash: hash}).pipe(
 
       map((data) => {
         // save resonse to cache

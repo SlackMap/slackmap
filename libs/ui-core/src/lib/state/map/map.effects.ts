@@ -73,8 +73,13 @@ export class MapEffects {
   clusters$ = this.actions$.pipe(
     ofType(mapActions.MapActionTypes.MAP_VIEW_CHANGE),
     switchMap((action: mapActions.MapViewChangeAction) => {
+
       if (action.payload.zoom < MAP_ZOOM_THRESHOLD) {
-        return <any>this.spotsService.getClusters(LayerType.SLACKLINE, action.payload.bbox, action.payload.zoom);
+        return this.spotsService.getClusters(LayerType.SLACKLINE, action.payload.bbox, action.payload.zoom).pipe(
+          map(data => {
+            return new spotsActions.HashRequestSuccessAction(data);
+          })
+        );
       } else {
         return <any>of(new spotsActions.HashClearAction({
           layer: LayerType.SLACKLINE,

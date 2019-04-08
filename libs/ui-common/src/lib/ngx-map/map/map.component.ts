@@ -39,7 +39,8 @@ export class MapComponent implements OnInit, OnDestroy {
         '/assets/leaflet/leaflet.js',
         '/assets/leaflet/leaflet-customs.js',
         '/assets/leaflet/map.tile.layer.js',
-        '/assets/leaflet/satellite.google.tile.layer.js'
+        '/assets/leaflet/satellite.google.tile.layer.js',
+        '/assets/leaflet/leaflet.restoreview.js'
       ]);
       L.slackmap.itemUtils = this.itemUtils;
       L.slackmap.SUBTYPES = SUBTYPES;
@@ -47,8 +48,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
       const _map = L.map(this.mapContainer.nativeElement);
       this.map = _map;
-      _map.setView([27.916159899896595, -15.604705810546875], 10);
-      _map.setView([0, 0], 1);
+      if (!_map.restoreView()) {
+        // _map.setView([27.916159899896595, -15.604705810546875], 10);
+        _map.setView([0, 0], 1);
+    }
       const mapTileLayer = L.slackmap.mapTileLayer().addTo(_map);
       const satelliteTileLayer = L.slackmap.satelliteGoogleTileLayer();
 

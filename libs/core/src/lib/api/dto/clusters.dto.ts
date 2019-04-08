@@ -9,7 +9,7 @@ export class ClustersGetResponseDto {
 }
 
 export class ClustersSpotsGetRequestDto {
-  hash: string;
+  geohash: string;
 }
 
 export class ClustersSpotsGetResponseDto {
