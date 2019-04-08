@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, OnDestroy, NgZone, OnChanges, SimpleChange} from '@angular/core';
 import {MapComponent} from '../map/map.component';
 // import {clusters} from '@app/map/clusters';
-import {LazyLoad} from '@slackmap/ui-core';
+import {LazyLoader} from '../../lazy-loader';
 import {Subject, ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
@@ -24,7 +24,7 @@ export class MapSpotsLayerComponent implements OnInit, OnDestroy, OnChanges {
       takeUntil(this.destroy$)
     ).subscribe(map => {
       this.zone.runOutsideAngular(async () => {
-        await LazyLoad.js([
+        await LazyLoader.js([
           '/assets/leaflet/markers/area.marker.js',
           '/assets/leaflet/markers/cluster-counts.marker.js',
           '/assets/leaflet/markers/line.marker.js',

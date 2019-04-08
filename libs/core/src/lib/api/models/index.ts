@@ -1,10 +1,9 @@
 export * from './facebook';
-export * from './geo';
+export * from './geojson';
 export * from './cluster-counts-model';
 export * from './cluster.model';
 export * from './config.model';
 export * from './consts';
-export * from './geojson';
 export * from './location-path.model';
 export * from './location.model';
 export * from './map-vew-change-data.model';
@@ -13,3 +12,4 @@ export * from './shape.model';
 export * from './spots.models';
 export * from './user.model';
 export * from './viewport.model';
+export * from './item.model';

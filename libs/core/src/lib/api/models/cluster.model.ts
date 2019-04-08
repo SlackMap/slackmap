@@ -1,12 +1,12 @@
 import { ClusterCountsModel } from './cluster-counts-model';
-import { GeoCoordinates } from './geo';
+import { Position } from './geojson';
 
 
 export interface ClusterModel {
     rid: string;
     type: number;
     subtype: number;
-    coordinates: GeoCoordinates;
+    coordinates: Position;
     expansion_zoom: number;
     spot_count: number;
     cluster_id: number;

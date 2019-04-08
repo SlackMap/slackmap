@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClustersGetRequestDto, ClustersGetResponseDto, ClustersSpotsGetRequestDto, ClustersSpotsGetResponseDto } from '@slackmap/core/api';
 
-const API_HOST = new InjectionToken('api-host');
+export const API_HOST = new InjectionToken('api-host');
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {

@@ -36,7 +36,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 @static
 */
 
-export const LazyLoad = (function () {
+export const LazyLoader = (function () {
   // -- Private Variables ------------------------------------------------------
 
   // User agent and feature test information.

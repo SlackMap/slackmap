@@ -1,4 +1,4 @@
-import { reducer, initialState } from './spots.reducer';
+import { reducer, initialState } from './spot.reducer';
 
 describe('Spots Reducer', () => {
   describe('an unknown action', () => {

@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter, Input, NgZone, OnDestroy} from '@angular/core';
 import {MapComponent} from '../map/map.component';
-import {LazyLoad} from '@slackmap/ui-core';
+import {LazyLoader} from '../../lazy-loader';
 import {ShapeData} from '@slackmap/core/api';
 import {SpotCategory} from '@slackmap/core';
 import {takeUntil} from 'rxjs/operators';
@@ -27,7 +27,7 @@ export class MapDrawComponent implements OnInit, OnDestroy {
     ).subscribe(map => {
 
       this.zone.runOutsideAngular(async () => {
-        await LazyLoad.js([
+        await LazyLoader.js([
           '/assets/leaflet-draw/leaflet.draw.js',
           '/assets/leaflet/leaflet-draw-customs.js',
           '/assets/leaflet/draw-handler.js',

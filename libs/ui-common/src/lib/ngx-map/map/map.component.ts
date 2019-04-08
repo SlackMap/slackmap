@@ -1,7 +1,7 @@
 import {Component, OnInit, ElementRef, ViewChild, NgZone, OnDestroy, Output, EventEmitter} from '@angular/core';
 import {PLATFORM_ID, APP_ID, Inject} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {LazyLoad} from '@slackmap/ui-core';
+import {LazyLoader} from '../../lazy-loader';
 import {merge, fromEvent, ReplaySubject, Observable, Subject} from 'rxjs';
 import {debounceTime, startWith, map, takeUntil} from 'rxjs/operators';
 import {ItemUtils, SUBTYPES, ItemType} from '@slackmap/core';
@@ -35,7 +35,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.zone.runOutsideAngular(async () => {
 
-      await LazyLoad.js([
+      await LazyLoader.js([
         '/assets/leaflet/leaflet.js',
         '/assets/leaflet/leaflet-customs.js',
         '/assets/leaflet/map.tile.layer.js',

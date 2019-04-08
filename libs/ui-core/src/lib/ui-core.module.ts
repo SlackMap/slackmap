@@ -11,13 +11,16 @@ import { UserEffects } from './state/user/user.effects';
 import { UserFacade } from './state/user/user.facade';
 import * as fromMap from './state/map/map.reducer';
 import { MapEffects } from './state/map/map.effects';
-import * as fromSpots from './state/spots/spots.reducer';
-import { SpotsEffects } from './state/spots/spots.effects';
+import * as fromSpots from './state/spot/spot.reducer';
+import { SpotsEffects } from './state/spot/spot.effects';
 import { HomeModule } from './pages/home';
 import { MapModule } from './pages/map';
+import { MapFacade } from './state/map';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
+    FlexLayoutModule,
     CommonModule,
     StoreModule.forFeature(USER_FEATURE_KEY, userReducer, {
       initialState: userInitialState,
@@ -28,7 +31,7 @@ import { MapModule } from './pages/map';
     MapModule,
     HomeModule,
   ],
-  providers: [UserFacade],
+  providers: [UserFacade, MapFacade],
   exports: [],
 })
 export class UiCoreModule {}

@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
-import { SpotsEffects } from './spots.effects';
+import { SpotsEffects } from './spot.effects';
 
 describe('SpotsEffects', () => {
   let actions$: Observable<any>;

@@ -26,12 +26,6 @@
     "web-e2e": {
       "tags": []
     },
-    "ui-shared-update": {
-      "tags": ["ui"]
-    },
-    "ui-x": {
-      "tags": ["ui"]
-    },
     "ui-common": {
       "tags": ["ui"]
     },

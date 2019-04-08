@@ -8,7 +8,7 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UpdateModule } from '@slackmap/ui-common';
 import { UiCommonModule } from '@slackmap/ui-common';
-import { UiCoreModule } from '@slackmap/ui-core';
+import { UiCoreModule, API_HOST} from '@slackmap/ui-core';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,18 +17,14 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { NxModule } from '@nrwl/nx';
 import { NgxMapModule } from "@slackmap/ui-common";
+import { ItemUtils } from '@slackmap/core';
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    RouterModule.forRoot([
-      // { path: '', redirectTo: 'home', pathMatch: 'full' },
-      // { path: 'home', loadChildren: '@slackmap/ui-core/pages/home#HomeModule' },
-      // { path: 'map', redirectTo: 'x', pathMatch: 'full' },
-      // { path: 'map/', redirectTo: 'x', pathMatch: 'full' },
-      // { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
-      // { path: 'x', loadChildren: '@slackmap/ui-core/pages/map#MapModule' },
-    ], { initialNavigation: 'enabled' }),
+    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -38,6 +34,7 @@ import { NgxMapModule } from "@slackmap/ui-common";
     HttpClientModule,
     UiCoreModule,
     NxModule.forRoot(),
+    IonicStorageModule.forRoot(),
     StoreModule.forRoot(
       {},
       { metaReducers: !environment.production ? [storeFreeze] : [] },
@@ -47,7 +44,20 @@ import { NgxMapModule } from "@slackmap/ui-common";
     StoreRouterConnectingModule,
     NgxMapModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: API_HOST,
+      useValue: 'https://test-api.slackmap.com'
+    },
+    {
+      provide: ItemUtils,
+      useFactory: () => {
+        const utils = new ItemUtils();
+        utils.setHost('https://test.slackmap.com'); // TODO set it from environements
+        return utils;
+      }
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -2,7 +2,7 @@ import {Action} from '@ngrx/store';
 import {LayerType} from '@slackmap/core';
 import {LoadHashResponse} from '@slackmap/core/api';
 
-export enum SpotsActionTypes {
+export enum SpotActionTypes {
   HASH_LOAD = '[Spots] Hash Load',
   HASH_LOADING = '[Spots] Hash Loading',
   HASH_STORAGE_SUCCESS = '[Spots] Hash Storage Success',
@@ -17,7 +17,7 @@ export enum SpotsActionTypes {
  * not used for now
  */
 export class HashLoadAction implements Action {
-  readonly type = SpotsActionTypes.HASH_LOAD;
+  readonly type = SpotActionTypes.HASH_LOAD;
   constructor(public payload?: {hash: string, layer: LayerType}) {}
 }
 
@@ -25,7 +25,7 @@ export class HashLoadAction implements Action {
  * fired to indicate that loading has started
  */
 export class HashLoadingAction implements Action {
-  readonly type = SpotsActionTypes.HASH_LOADING;
+  readonly type = SpotActionTypes.HASH_LOADING;
   constructor(public payload:  {hash: string, layer: LayerType, loading: boolean}) {}
 }
 
@@ -33,7 +33,7 @@ export class HashLoadingAction implements Action {
  * fired to indicate that loading has started
  */
 export class HashClearAction implements Action {
-  readonly type = SpotsActionTypes.HASH_CLEAR;
+  readonly type = SpotActionTypes.HASH_CLEAR;
   constructor(public payload:  {hash: string, layer: LayerType}) {}
 }
 
@@ -41,7 +41,7 @@ export class HashClearAction implements Action {
  * fired by the case if it has the cached value
  */
 export class HashStorageSuccessAction implements Action {
-  readonly type = SpotsActionTypes.HASH_STORAGE_SUCCESS;
+  readonly type = SpotActionTypes.HASH_STORAGE_SUCCESS;
   constructor(public payload: LoadHashResponse) {}
 }
 
@@ -49,7 +49,7 @@ export class HashStorageSuccessAction implements Action {
  * request loaded successfully
  */
 export class HashRequestSuccessAction implements Action {
-  readonly type = SpotsActionTypes.HASH_REQUEST_SUCCESS;
+  readonly type = SpotActionTypes.HASH_REQUEST_SUCCESS;
   constructor(public payload: LoadHashResponse) {}
 }
 
@@ -57,11 +57,11 @@ export class HashRequestSuccessAction implements Action {
  * request load error
  */
 export class HashRequestErrorAction implements Action {
-  readonly type = SpotsActionTypes.HASH_REQUEST_ERROR;
+  readonly type = SpotActionTypes.HASH_REQUEST_ERROR;
   constructor(public payload: LoadHashResponse) {}
 }
 
-export type SpotsActions =
+export type SpotActions =
   HashLoadAction |
   HashLoadingAction |
   HashClearAction |
