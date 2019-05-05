@@ -1,7 +1,7 @@
 
 import { SpotActions, SpotActionTypes } from './spot.actions';
 import { LayerType } from '@slackmap/core';
-import { LoadHashResponse } from '@slackmap/core/api';
+import { LoadHashResponse } from '@slackmap/core';
 
 export const SPOT_FEATURE_KEY = 'spot';
 

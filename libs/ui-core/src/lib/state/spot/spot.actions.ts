@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
 import {LayerType} from '@slackmap/core';
-import {LoadHashResponse} from '@slackmap/core/api';
+import {LoadHashResponse} from '@slackmap/core';
 
 export enum SpotActionTypes {
   HASH_LOAD = '[Spots] Hash Load',

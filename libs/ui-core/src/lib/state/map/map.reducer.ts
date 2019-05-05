@@ -1,6 +1,6 @@
 import { MapActions, MapActionTypes } from './map.actions';
 import { LayerType } from '@slackmap/core';
-import { MapViewChangeData } from '@slackmap/core/api';
+import { MapViewChangeData } from '@slackmap/core';
 
 export const MAP_FEATURE_KEY = 'map';
 

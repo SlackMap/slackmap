@@ -31,6 +31,9 @@
     },
     "ui-core": {
       "tags": ["ui"]
+    },
+    "api-core": {
+      "tags": ["api"]
     }
   }
 }

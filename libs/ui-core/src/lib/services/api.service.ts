@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { ClustersGetRequestDto, ClustersGetResponseDto, ClustersSpotsGetRequestDto, ClustersSpotsGetResponseDto } from '@slackmap/core/api';
+import { SpotClustersGetRequestDto, SpotClustersGetResponseDto, SpotSpotsGetRequestDto, SpotSpotsGetResponseDto } from '@slackmap/core';
 
 export const API_HOST = new InjectionToken('api-host');
 
@@ -17,8 +17,8 @@ export class ApiService {
   /**
    * query clusters by bbox
    */
-  public clustersGet(params: ClustersGetRequestDto): Observable<ClustersGetResponseDto> {
-    return this.httpClient.get<ClustersGetResponseDto>(
+  public clustersGet(params: SpotClustersGetRequestDto): Observable<SpotClustersGetResponseDto> {
+    return this.httpClient.get<SpotClustersGetResponseDto>(
       `${this.basePath}/clusters`,
       {
         params: <any>params,
@@ -29,8 +29,8 @@ export class ApiService {
   /**
    * query clusters by bbox
    */
-  public clustersSpotsGet(params: ClustersSpotsGetRequestDto): Observable<ClustersSpotsGetResponseDto> {
-    return this.httpClient.get<ClustersSpotsGetResponseDto>(
+  public clustersSpotsGet(params: SpotSpotsGetRequestDto): Observable<SpotSpotsGetResponseDto> {
+    return this.httpClient.get<SpotSpotsGetResponseDto>(
       `${this.basePath}/clusters/spots`,
       {
         params: <any>params,

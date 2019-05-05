@@ -1,4 +1,4 @@
-import { ClusterModel } from '@slackmap/core/api';
+import { ClusterModel } from '@slackmap/core';
 
 export const clusters: {clusters: any[]} = {
   clusters: [

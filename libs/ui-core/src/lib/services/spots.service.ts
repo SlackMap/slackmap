@@ -4,7 +4,7 @@ import {catchError, tap, share, startWith, merge, map, shareReplay, switchMap} f
 import {Observable, of, empty, Subject, merge as mergeObservables} from 'rxjs';
 import {LayerType, ItemType, ClusterSubtype} from '@slackmap/core';
 import supercluster from 'supercluster';
-import {GeojsonBbox, ResponseSource, ClusterModel, ClustersGetResponseDto, LoadHashResponse} from '@slackmap/core/api';
+import {GeojsonBbox, ResponseSource, ClusterModel, SpotClustersGetResponseDto, LoadHashResponse} from '@slackmap/core';
 import { ApiService } from './api.service';
 import {clusters as fixtures} from './clusters';
 

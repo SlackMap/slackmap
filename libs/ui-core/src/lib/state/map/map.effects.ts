@@ -5,8 +5,8 @@ import { EMPTY, of, from } from 'rxjs';
 import * as mapActions from './map.actions';
 import * as spotsActions from '../spot/spot.actions';
 import { SpotsService } from '../../services';
-import { MAP_ZOOM_THRESHOLD } from '@slackmap/core/api';
-import { arrayDiff, ArrayDiff } from '@slackmap/ui-common';
+import { MAP_ZOOM_THRESHOLD } from '@slackmap/core';
+import { arrayDiff, ArrayDiff } from '@slackmap/ui/common';
 import { LayerType } from '@slackmap/core';
 
 

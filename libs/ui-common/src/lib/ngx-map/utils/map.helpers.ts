@@ -1,5 +1,5 @@
 import {ItemRids, ItemType} from '@slackmap/core';
-import {GeojsonBbox} from '@slackmap/core/api';
+import {GeojsonBbox} from '@slackmap/core';
 
 /**
  * converts array of latlng's to string
