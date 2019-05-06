@@ -1,4 +1,4 @@
-import * as program from 'commander';
+import program from 'commander';
 
 const inquirer = require('inquirer');
 const sh = require('shelljs');

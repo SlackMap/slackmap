@@ -1,6 +1,6 @@
 const { red } = require('chalk');
 
-module.exports.throwError = function(message) {
+export function throwError(message) {
   console.log(red('------'));
   console.error(red('ERROR:'), message);
   console.log(red('------'));
