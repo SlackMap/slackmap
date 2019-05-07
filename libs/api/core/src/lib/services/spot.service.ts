@@ -27,7 +27,8 @@ export class SpotService {
   ];
 
   async findByBBox(bbox): Promise<Array<SpotEntity>> {
-    const entities = await this.db.query<Array<SpotEntity>>(
+    const db = await this.db.acquire();
+    const entities = await db.query<SpotEntity>(
       'SELECT ' +
       this.selectQuery.join(', ') +
       ' FROM Spot WHERE ' +
@@ -47,7 +48,7 @@ export class SpotService {
           // lon3: parseFloat(center[0])
         }
       }
-    );
+    ).all();
     // [
     //     15.281982421875,    // _southWest.lng
     //     49.95121990866204,  //_southWest.lat

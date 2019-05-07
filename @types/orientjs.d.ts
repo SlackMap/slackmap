@@ -57,28 +57,37 @@ declare module 'orientjs' {
 
     constructor(client: OrientDBClient, config: ODatabaseSessionPoolConfig)
 
-    acquire: () => Promise<ODatabase>;
+    acquire: () => Promise<Session>;
     close(): Promise<void>;
 
     // createError(err): errors.DatabaseError
     // createPool(config, params): ODatabasePoolFactory;
   }
 
-  export interface ODatabase {
+  export interface Session {
+    query<T>(query: string, options?: QueryOptions): ResultStream<T>;
+    command<T>(command: string, options?: QueryOptions): ResultStream<T>;
+    batch<T>(command: string, options?: QueryOptions): ResultStream<T>;
+    liveQuery(command: string, options?: QueryOptions): LiveQueryHandler;
+    begin(): void;
+    runInTransaction(commandsFactory: (tx) => void): Promise<{result: any,tx: any}>;
     close(): Promise<void>;
-    exec(query: string, options: QueryOptions): Statement;
-    query(command: string, options: QueryOptions): Statement;
-    command(command: string, options: QueryOptions): Statement;
-    liveQuery(command: string, options: QueryOptions): Promise<LiveQuery>;
-    //   insert: () => OrientQuery;
-    //   close: () => any;
+  }
+
+  export interface ResultStream<T> {
+    all: () => Promise<[T]>;
+    one: () => Promise<T>;
+    on: (event: string, callback: (data: T) => void) => ResultStream<T>;
+    set: (params: any) => ResultStream<T>;
+    into: (name: string) => ResultStream<T>;
   }
 
   export interface QueryOptions {
-    params: any
+    params?: any;
+    pageSize?: number;
   }
 
-  export class LiveQuery extends EventEmitter {
+  export class LiveQueryHandler extends EventEmitter {
     unsubscribe(): Promise<void>
   }
 
@@ -88,14 +97,6 @@ declare module 'orientjs' {
     DELETE = "live-delete",
     END = "live-end"
   }
-
-  export interface Statement {
-    all: () => Promise<any>;
-    one: () => Promise<any>;
-    set: (params: any) => Statement;
-    into: (name: string) => Statement;
-  }
-
 
   // OrientDB.RecordID = OrientDB.RecordId = OrientDB.RID = require('./recordid');
   // OrientDB.RIDBag = OrientDB.Bag = require('./bag');

@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
-import * as supercluster from 'supercluster';
+import Supercluster from 'supercluster';
 import { ClusterSubtype, ItemRidPrefix, ItemType, SpotSubtype } from '@slackmap/core';
 import { SpotEntity, ClusterEntity, ClusterCountsEntity } from '../entities';
 import { OrientService } from "@slackmap/api/orient";
+import { ClusterOptions } from './cluster-options';
 
 export interface Feature {
   name: string;
@@ -16,20 +17,16 @@ export interface Feature {
 }
 
 @Injectable()
-export class ClusterOptions {
-  radius = 60;
-  maxZoom = 16;
-  log = false;
-}
-
-@Injectable()
 export class ClusterService {
   public spots: Array<Feature>; // loades spots from db
   public index: any; // supercluster instance
   public options: any; // options for supercluster
   public loading: Promise<any>; // promise if right now the cluster is in progres of loading spots
 
-  constructor(private db: OrientService, @Inject(ClusterOptions) options: Partial<ClusterOptions> = {}) {
+  constructor(
+    @Inject(ClusterOptions) options: Partial<ClusterOptions> = {},
+    private db: OrientService
+  ) {
     this.options = Object.assign(
       {
         radius: 60,
@@ -147,9 +144,10 @@ export class ClusterService {
    * @returns {Promise<void>}
    */
   private async loadSpots() {
-    const entities = await this.db.query<Promise<Array<SpotEntity>>>(`SELECT rid, lat, lon, subtype FROM Spot`);
+    const db = await this.db.acquire();
+    const entities = await db.query<SpotEntity>(`SELECT rid, lat, lon, subtype FROM Spot`).all();
 
-    this.spots = entities.map<Feature>((spot: any) => {
+    this.spots = entities.map<Feature>((spot) => {
       return {
         name: 'Feature',
         properties: {
@@ -162,7 +160,9 @@ export class ClusterService {
         }
       };
     });
-    const cluster = supercluster(this.options);
+    console.log('SPOTS', this.spots);
+    console.log('OPTIONS', this.options);
+    const cluster = new Supercluster(this.options);
     cluster.load(this.spots);
     this.index = cluster;
     this.loading = null;

@@ -1,4 +1,4 @@
-import { GeoCoordinates, GeoShape } from '@slackmap/core';
+import { Position, Geometry } from '@slackmap/core';
 import { LocationPathEntity } from '../location-path.entity';
 
 /**
@@ -7,8 +7,8 @@ import { LocationPathEntity } from '../location-path.entity';
  */
 export interface PoiInterface {
   location_path?: LocationPathEntity;
-  coordinates?: GeoCoordinates;
-  shape?: GeoShape;
+  coordinates?: Position;
+  shape?: Geometry;
   lat?: number;
   lon?: number;
 }
