@@ -20,7 +20,7 @@ module.exports = function (shipit) {
     },
     prod: {
       deployTo: `/home/${user}/prod`,
-      servers: {host,user}
+      servers: `${user}@${host}`
     }
   });
 

@@ -8,3 +8,4 @@ require('ts-node').register({
   project
 });
 require('./sm.ts');
+  

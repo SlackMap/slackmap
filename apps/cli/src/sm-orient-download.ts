@@ -1,4 +1,4 @@
-import { readJSON, pathExists } from "fs-extra";
+import { readJSON, pathExists, writeJSON } from "fs-extra";
 import program from 'commander';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
@@ -104,19 +104,23 @@ async function action(version: string, options: {tp3: boolean}) {
 
   console.log(chalk.green('?'), chalk.green('DONE !!!'));
 
-  // return;
-  // // download spatial plugin
-  // // in version 3.x we probably don't need this
-  // await shipit.local(`wget "--output-document=${releaseDir}/lib/${spatialName}" "http://central.maven.org/maven2/com/orientechnologies/orientdb-spatial/${spatialVersion}/${spatialName}"`);
+  const databasesDir = `${releaseDir}/databases`;
+  const configFile = `${releaseDir}/config/orientdb-server-config.xml`;
+  const sourceDatabasesDir = `${dir}/databases`;
+  const sourceConfigFile = `${dir}/orientdb-server-config.xml`;
 
-  // // remove databases & config.xml
-  // await shipit.local(`rm -Rf "${releaseDir}/databases"`);
-  // await shipit.local(`rm -Rf "${releaseDir}/config/orientdb-server-config.xml"`);
+  // remove databases & config.xml
+  console.log(chalk.green('?'), 'remove databases dir', chalk.green(databasesDir));
+  await sh.rm('-rf', databasesDir);
+  console.log(chalk.green('?'), 'remove config file', chalk.green(configFile));
+  await sh.rm('-rf', configFile);
 
-  // // symlink databases & config.xml
-  // await shipit.local(`ln -s "${dir}/databases" "${releaseDir}/databases"`);
-  // await shipit.local(`ln -s "${baseDir}/config/orientdb-server-config.xml" "${releaseDir}/config/orientdb-server-config.xml"`);
+  // symlink databases & config.xml
+  console.log(chalk.green('?'), 'symlink databases dir', sourceDatabasesDir, ' to ', chalk.green(databasesDir));
+  await sh.ln(`-s`, sourceDatabasesDir, databasesDir);
+  console.log(chalk.green('?'), 'symlink config file', sourceConfigFile, ' to ', chalk.green(configFile));
+  await sh.ln(`-s`, sourceConfigFile, configFile);
 
-  // // place package.json with version
-  // await fs.writeJson(releaseDir + '/package.json', { version: version })
+  // place package.json with version
+  await writeJSON(releaseDir + '/package.json', { version: version })
 }

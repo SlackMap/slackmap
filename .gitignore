@@ -1,8 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-/apps/db/releases/orientdb*
-/apps/db/current
-/apps/db/logs
+apps/db/current
 
 # compiled output
 /dist
