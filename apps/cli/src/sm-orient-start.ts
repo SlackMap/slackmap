@@ -1,47 +1,26 @@
-import * as program from 'commander';
+import program from 'commander';
+import { getEnv, Env } from './utils/get-env';
+import { exec } from "shelljs";
 
-const inquirer = require('inquirer');
 const spawn = require('child_process').spawn;
 const sh = require('shelljs');
 const path = require('path');
 const chalk = require('chalk');
-const { askForEnv } = require('./utils/ask-for-env');
-const { listDirs } = require('./utils/list-dirs');
 
-console.log('start');
 program
-  .arguments('[version]')
-  .action(action)
-  .parse(process.argv);
+  .command('orient:start')
+  .action(action);
 
-/**
- *
- * @param {string} version
- */
-async function action(version) {
-  const { BASE_DIR } = await askForEnv('dev');
-  const releasesDir = path.resolve(BASE_DIR, 'infra/db/releases');
-  const versions = listDirs(releasesDir);
-  if (!version) {
-    version = await inquirer
-      .prompt([
-        {
-          type: 'list',
-          name: 'version',
-          default: versions[0],
-          message: 'What version to run',
-          choices: versions,
-          validate: val => !!val,
-        },
-      ])
-      .then(inputs => inputs.version);
-  }
-  const serverFile = path.join(releasesDir, version, 'bin', 'server.sh');
+async function action() {
+  const { dbDir } = await getEnv(Env.DEV);
+  const pm2Script = path.resolve(dbDir, 'pm2.json');
+
   console.log(
     chalk.green('?'),
-    'running orientdb server',
-    chalk.blue(serverFile),
+    'starting orientdb server',
+    chalk.blue(pm2Script),
   );
+  exec(`cd ${dbDir} && pm2 start ${pm2Script}`);
 
   // TODO run pm2 package with the serwer
 

@@ -10,6 +10,7 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
+    "db": "ORIENTDB_ROOT_PASSWORD=root bash ./apps/db/current/bin/server.sh",
     "pwa": "http-server -p 4200 -c-1 dist/apps/web",
     "lint": "./node_modules/.bin/nx lint && ng lint",
     "e2e": "ng e2e",

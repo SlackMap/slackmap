@@ -11,8 +11,9 @@ export enum Env {
 }
 
 export interface EnvResponse {
-  ENV: Env;
-  BASE_DIR: string;
+  env: Env;
+  baseDir: string;
+  dbDir: string
 }
 
 export async function getEnv(env?: Env): Promise<EnvResponse> {
@@ -34,27 +35,34 @@ export async function getEnv(env?: Env): Promise<EnvResponse> {
   }
 
   // figure out the base_dir
-  let BASE_DIR;
+  let baseDir, dbDir;
   if (env === Env.DEV) {
-    BASE_DIR = resolve(__dirname, '../../../../');
+    baseDir = resolve(__dirname, '../../../../');
+    dbDir = resolve(baseDir, 'apps/db');
+    if (!await pathExists(dbDir)) {
+      throwError(
+        `dbDir: "${dbDir}" does not exist`,
+      );
+    }
   } else {
-    BASE_DIR = process.env[`SM_${env.toUpperCase()}_DIR`];
+    baseDir = process.env[`SM_${env.toUpperCase()}_DIR`];
   }
-  if (!BASE_DIR) {
+  if (!baseDir) {
     throwError(
       `process.env.SM_${env.toUpperCase()}_DIR - this env variable has to be defined`,
     );
   }
-  if (!await pathExists(BASE_DIR)) {
+  if (!await pathExists(baseDir)) {
     throwError(
-      `BASE_DIR: "${BASE_DIR}" does not exist`,
+      `baseDir: "${baseDir}" does not exist`,
     );
   }
 
-  console.log(chalk.green('?'), message, chalk.blue(env), 'on', BASE_DIR);
+  console.log(chalk.green('?'), message, chalk.green(env), 'on baseDir', chalk.green(baseDir));
 
   return {
-    ENV: env,
-    BASE_DIR,
+    env: env,
+    baseDir: baseDir,
+    dbDir
   };
 };

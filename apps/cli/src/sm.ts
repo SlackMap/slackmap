@@ -8,12 +8,16 @@ const figlet = require('figlet');
 
 clear();
 import "./sm-orient";
+import './sm-orient-download'
+import './sm-orient-switch'
+import './sm-orient-start'
+
 
 console.log('');
 console.log(chalk.yellow(figlet.textSync('SlackMap', { horizontalLayout: 'full' })));
 program
   .version('0.0.1', '-v, --version')
-  .description('Mange the infrastructure of SlackMap... ')
+  .description('Mange SlackMap infrastructure. ')
 
 program.parse(process.argv);
 

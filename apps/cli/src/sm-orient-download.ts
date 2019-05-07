@@ -14,11 +14,12 @@ const { getEnv } = require('./utils/get-env');
 program
   .command('orient:download [version]')
   .option('-t, --tp3', 'Download TinkerPop 3 version')
+  .description('Download new OrientDB version')
   .action(action)
 
 async function action(version: string, options: {tp3: boolean}) {
-  const { ENV, BASE_DIR } = await getEnv(Env.DEV);
-  const dir = path.resolve(BASE_DIR, 'apps/db');
+  const { ENV, baseDir } = await getEnv(Env.DEV);
+  const dir = path.resolve(baseDir, 'apps/db');
   const releasesDir = `${dir}/releases`;
 
   const downloaded = listDirs(releasesDir).map(v => {

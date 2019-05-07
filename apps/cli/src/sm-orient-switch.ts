@@ -1,34 +1,34 @@
 import program from 'commander';
+import { Env, getEnv } from './utils/get-env';
 
 const inquirer = require('inquirer');
 const sh = require('shelljs');
 const path = require('path');
 const chalk = require('chalk');
-const { askForEnv } = require('./utils/ask-for-env');
 const { listDirs } = require('./utils/list-dirs');
 
 program
-  .arguments('[version]')
-  .action(downloadAction)
-  .parse(process.argv);
+  .command('orient:switch [version]')
+  .description('Switch the current OrientDB version')
+  .action(action);
 
-async function downloadAction() {
-  const { BASE_DIR } = await askForEnv('dev');
-  const releasesDir = path.resolve(BASE_DIR, 'infra/db/releases');
-  const currentDir = path.resolve(BASE_DIR, 'infra/db/current');
+async function action() {
+  const { dbDir } = await getEnv(Env.DEV);
+  const releasesDir = path.resolve(dbDir, 'releases');
+  const currentDir = path.resolve(dbDir, 'current');
   const versions = listDirs(releasesDir);
 
   const currentVersion = await sh
     .exec('readlink -f ' + currentDir, { silent: true })
     .stdout.toString()
     .split('/')
-    .reverse()[0];
+    .reverse()[0].trim();
 
-  console.log(
-    chalk.green('?'),
-    'current version is:',
-    chalk.blue(currentVersion.trim()),
-  );
+    if(currentVersion === 'current') {
+      console.log(chalk.green('?'), chalk.yellow('No current version set, do it for the first time'));
+    } else {
+      console.log(chalk.green('?'),'current version is:', chalk.bgBlue(currentVersion));
+    }
 
   const version = await inquirer
     .prompt([
@@ -36,7 +36,7 @@ async function downloadAction() {
         type: 'list',
         name: 'version',
         default: versions[0],
-        message: 'Choose versio to swtich to',
+        message: 'Choose version to switch to',
         choices: versions,
         validate: val => !!val,
       },
@@ -51,5 +51,5 @@ async function downloadAction() {
   await sh.exec(`rm -Rf ${currentDir}`);
   await sh.exec(`ln -s ${target} ${currentDir}`);
 
-  console.log(chalk.green('?'), 'orientdb switched to', chalk.blue(version));
+  console.log(chalk.green('?'), 'orientdb switched to', chalk.yellow(version));
 }

@@ -2,6 +2,7 @@
 
 /apps/db/releases/orientdb*
 /apps/db/current
+/apps/db/logs
 
 # compiled output
 /dist
