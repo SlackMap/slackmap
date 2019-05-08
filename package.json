@@ -88,6 +88,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.1",
     "shelljs": "^0.8.3",
+    "source-map-support": "^0.5.12",
     "supercluster": "^6.0.1",
     "tslib": "^1.9.3",
     "zone.js": "^0.9.1"
