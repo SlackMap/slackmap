@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {DOCUMENT} from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -47,7 +47,26 @@ import { IonicStorageModule } from '@ionic/storage';
   providers: [
     {
       provide: API_HOST,
-      useValue: 'https://test-api.slackmap.com/api/v2'
+      useFactory: (document) => {
+        const host = document.location.hostname;
+        console.log('HOST', host);
+        switch (host) {
+          case 'slackmap.com':
+            return 'https://api.slackmap.com';
+            break;
+          case 'stage.slackmap.com':
+            return 'https://stage-api.slackmap.com';
+            break;
+          case 'test.slackmap.com':
+            return 'https://test-api.slackmap.com';
+            break;
+
+          default:
+          return 'http://localhost:3333';
+            break;
+        }
+      },
+      deps: [DOCUMENT]
     },
     {
       provide: ItemUtils,

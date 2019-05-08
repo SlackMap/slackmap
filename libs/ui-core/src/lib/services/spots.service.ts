@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {CacheService} from './cache.service';
 import {catchError, tap, share, startWith, merge, map, shareReplay, switchMap} from 'rxjs/operators';
-import {Observable, of, empty, Subject, merge as mergeObservables} from 'rxjs';
-import {LayerType, ItemType, ClusterSubtype} from '@slackmap/core';
+import {Observable, of, Subject, merge as mergeObservables, EMPTY} from 'rxjs';
+import {LayerType, ItemType, ClusterSubtype, SpotsPaths} from '@slackmap/core';
 import supercluster from 'supercluster';
 import {GeojsonBbox, ResponseSource, ClusterModel, SpotClustersGetResponseDto, LoadHashResponse} from '@slackmap/core';
 import { ApiService } from './api.service';
@@ -36,15 +36,15 @@ export class SpotsService {
         zoom: 16,
         layer: LayerType.SLACKLINE
       });
-      const key = 'clusters/clusters';
+      const key = SpotsPaths.CLUSTERS;
       const ttl = 60 * 60 * 1;
-      return of(fixtures.clusters);
-      // return this.cache.loadRequestOrCache<ClustersGetResponseDto>(key, request).pipe(
-      //   map(res => res.clusters),
-      //   // map(res => fixtures.clusters),
-      //   // catchError(err => empty())
-      //   catchError(err => of(fixtures.clusters))
-      // );
+      // return of(fixtures.clusters);
+      return this.cache.loadRequestOrCache<SpotClustersGetResponseDto>(key, request).pipe(
+        map(res => res.clusters),
+        // map(res => fixtures.clusters),
+        catchError(err => EMPTY)
+        // catchError(err => of(fixtures.clusters))
+      );
     }),
     /**
      * create supercluster instance
@@ -91,7 +91,7 @@ export class SpotsService {
     }),
     catchError(err => {
       console.log('supercluster$ ERROR', err);
-      return empty();
+      return EMPTY;
     }),
     /**
      * share the same instance to all subscribers
@@ -161,7 +161,7 @@ export class SpotsService {
    * @param zoom
    */
   getClusters(layer: LayerType, bbox: GeojsonBbox, zoom: number): Observable<LoadHashResponse> {
-    return this.supercluster$.pipe(
+    return <any> this.supercluster$.pipe(
       map((scluster) => {
         const clusters = scluster.getClusters(bbox, zoom).map(cluster => {
           if (cluster.properties.cluster) {
@@ -193,7 +193,7 @@ export class SpotsService {
       }),
       catchError(err => {
         console.log('getClusters() ERROR', err);
-        return empty();
+        return EMPTY;
       })
     );
   }

@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { SpotClustersGetRequestDto, SpotClustersGetResponseDto, SpotSpotsGetRequestDto, SpotSpotsGetResponseDto } from '@slackmap/core';
+import { SpotsPaths, SpotClustersGetRequestDto, SpotClustersGetResponseDto, SpotSpotsGetRequestDto, SpotSpotsGetResponseDto } from '@slackmap/core';
 
 export const API_HOST = new InjectionToken('api-host');
 
@@ -11,7 +11,7 @@ export class ApiService {
 
   constructor(
     protected httpClient: HttpClient,
-    @Inject(API_HOST) protected basePath = 'https://api.slackmap.com',
+    @Inject(API_HOST) protected basePath,
   ) {}
 
   /**
@@ -19,7 +19,7 @@ export class ApiService {
    */
   public clustersGet(params: SpotClustersGetRequestDto): Observable<SpotClustersGetResponseDto> {
     return this.httpClient.get<SpotClustersGetResponseDto>(
-      `${this.basePath}/clusters`,
+      `${this.basePath}/${SpotsPaths.CLUSTERS}`,
       {
         params: <any>params,
       },
@@ -31,7 +31,7 @@ export class ApiService {
    */
   public clustersSpotsGet(params: SpotSpotsGetRequestDto): Observable<SpotSpotsGetResponseDto> {
     return this.httpClient.get<SpotSpotsGetResponseDto>(
-      `${this.basePath}/clusters/spots`,
+      `${this.basePath}/${SpotsPaths.SPOTS}`,
       {
         params: <any>params,
       },

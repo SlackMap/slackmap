@@ -1,6 +1,6 @@
 import { Controller, Query, Get } from '@nestjs/common';
 import {
-  SpotPaths,
+  SpotsPaths,
   SpotClustersGetRequestDto,
   SpotClustersGetResponseDto,
   SpotSpotsGetRequestDto,
@@ -21,7 +21,7 @@ export class SpotController {
   /**
    * query cluster by bbox
    */
-  @Get(SpotPaths.CLUSTERS)
+  @Get(SpotsPaths.CLUSTERS)
   async clustersGet(
     @Query() request: SpotClustersGetRequestDto,
   ): Promise<SpotClustersGetResponseDto> {
@@ -39,13 +39,13 @@ export class SpotController {
     };
   }
 
-  // /**
-  //  * Get spots for map by geohash
-  //  */
-  // @Get(SpotPaths.SPOTS)
-  // async clustersSpotsGet(
-  //   @Query() request: SpotSpotsGetRequestDto,
-  // ): Promise<SpotSpotsGetResponseDto> {
-  //   return this.spotService.getByHash(request);
-  // }
+  /**
+   * Get spots for map by geohash
+   */
+  @Get(SpotsPaths.SPOTS)
+  async clustersSpotsGet(
+    @Query() request: SpotSpotsGetRequestDto,
+  ): Promise<SpotSpotsGetResponseDto> {
+    return this.spotService.getByHash(request);
+  }
 }

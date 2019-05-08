@@ -1,9 +1,9 @@
 import { ClusterModel } from '../models';
 import { LayerType } from '@slackmap/core';
 
-export enum SpotPaths {
-  CLUSTERS = 'spot/clusters',
-  SPOTS = 'spot/spots',
+export enum SpotsPaths {
+  CLUSTERS = 'spots/clusters',
+  SPOTS = 'spots/spots',
 }
 
 export class SpotClustersGetRequestDto {
