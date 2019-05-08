@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ControllersModule } from '@slackmap/api/core';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
-  imports: [ControllersModule]
+  imports: [],
+  controllers: [AppController],
+  providers: [AppService]
 })
 export class AppModule {}

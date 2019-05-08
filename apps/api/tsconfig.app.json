@@ -1,8 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "es2017",
-    "outDir": "../../dist/out-tsc/apps/api",
+    "outDir": "../../dist/out-tsc",
     "types": ["node"]
   },
   "exclude": ["**/*.spec.ts"],

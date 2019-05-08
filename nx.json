@@ -2,38 +2,27 @@
   "npmScope": "slackmap",
   "implicitDependencies": {
     "angular.json": "*",
-    "package.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.json": "*",
     "tslint.json": "*",
     "nx.json": "*"
   },
   "projects": {
-    "api": {
-      "tags": ["api"]
-    },
-    "api-orient": {
-      "tags": ["api"]
-    },
-    "core": {
-      "tags": ["api", "ui"]
-    },
-    "cli": {
-      "tags": ["api", "cli"]
-    },
     "web": {
       "tags": ["ui"]
     },
     "web-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["web"]
     },
-    "ui-common": {
-      "tags": ["ui"]
-    },
-    "ui-core": {
-      "tags": ["ui"]
-    },
-    "api-core": {
+    "api": {
       "tags": ["api"]
+    },
+    "core": {
+      "tags": ["api", "ui"]
     }
   }
 }
