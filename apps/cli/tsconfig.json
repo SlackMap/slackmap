@@ -1,14 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
     "target": "es2017",
-    "types": [
-      "node",
-      "jest"
-    ]
+    "module": "commonjs",
+    "types": ["node"],
+    "esModuleInterop": true,
   },
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }

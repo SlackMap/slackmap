@@ -6,6 +6,13 @@ We use [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](htt
 
 <a href="https://slackmap.com" target="_blank"><img src="https://slackmap.com/assets/logo.svg"></a>
 
+## SlackMap CLI
+
+Run development CLi
+
+```bash
+npm run sm
+```
 
 ## Nrwl Extensions for Angular (Nx)
 

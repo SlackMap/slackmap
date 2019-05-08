@@ -1,7 +1,9 @@
-import * as program from "commander";
+import program from 'commander';
+import chalk from 'chalk';
 
 program
-  .command('download', 'download new version of orientdb')
-  .command('switch', 'switch to other release')
-  .command('backup', 'manage orientdb backups')
-  .parse(process.argv);
+  .command('orient')
+  .description('Manual of how to setup OrientDB for the project development')
+  .action(function() {
+    program.help();
+  });

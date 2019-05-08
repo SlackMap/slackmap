@@ -25,6 +25,15 @@
     },
     "web-e2e": {
       "tags": []
+    },
+    "ui-common": {
+      "tags": ["ui"]
+    },
+    "ui-core": {
+      "tags": ["ui"]
+    },
+    "api-core": {
+      "tags": ["api"]
     }
   }
 }

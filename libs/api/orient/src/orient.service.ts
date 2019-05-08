@@ -1,15 +1,13 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { OrientConfig } from './orient.config';
-import { OrientDBClient, ODatabaseSessionPool, ODatabase } from 'orientjs';
+import { OrientDBClient, ODatabaseSessionPool, Session } from 'orientjs';
 
 @Injectable()
 export class OrientService implements OnModuleDestroy {
-
   private _client: Promise<OrientDBClient>;
   private _pool: Promise<ODatabaseSessionPool>;
 
   constructor(private config: OrientConfig) {}
-
 
   onModuleDestroy() {
     console.log(`Destroy Orient connection...`);
@@ -35,8 +33,8 @@ export class OrientService implements OnModuleDestroy {
       return this._client;
     }
     this._client = OrientDBClient.connect({
-      host: this.config.ORIENT_HOST,
-      port: this.config.ORIENT_PORT
+      host: this.config.ORIENTDB_HOST,
+      port: this.config.ORIENTDB_PORT,
     });
     return this._client;
   }
@@ -50,10 +48,10 @@ export class OrientService implements OnModuleDestroy {
     }
     this._pool = this.client().then(client => {
       return client.sessions({
-        username: this.config.ORIENT_DB_USERNAME,
-        password: this.config.ORIENT_DB_PASSWORD,
-        name: this.config.ORIENT_DB_NAME,
-        pool: { max: 10 }
+        username: this.config.ORIENTDB_DB_USERNAME,
+        password: this.config.ORIENTDB_DB_PASSWORD,
+        name: this.config.ORIENTDB_DB_NAME,
+        pool: { max: 10 },
       });
     });
     return this._pool;
@@ -62,7 +60,7 @@ export class OrientService implements OnModuleDestroy {
   /**
    * Get db instance to work on it
    */
-  async acquire(): Promise<ODatabase> {
+  async acquire(): Promise<Session> {
     const pool = await this.pool();
     return await pool.acquire();
   }

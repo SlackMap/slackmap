@@ -6,4 +6,4 @@ import { OrientConfig } from './orient.config';
   providers: [OrientService, OrientConfig],
   exports: [OrientService],
 })
-export class OrientModule { }
+export class OrientModule {}

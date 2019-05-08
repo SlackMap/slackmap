@@ -16,9 +16,7 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": [
-              "apps/api/src/assets"
-            ]
+            "assets": ["apps/api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -46,9 +44,7 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -73,9 +69,7 @@
               "libs/api/orient/tsconfig.lib.json",
               "libs/api/orient/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -105,9 +99,7 @@
               "libs/core/tsconfig.lib.json",
               "libs/core/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -163,9 +155,7 @@
               "apps/cli/tsconfig.app.json",
               "apps/cli/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -197,13 +187,36 @@
             "polyfills": "apps/web/src/polyfills.ts",
             "tsConfig": "apps/web/tsconfig.app.json",
             "assets": [
+              "apps/web/src/sw.js",
               "apps/web/src/favicon.ico",
               "apps/web/src/assets",
-              "apps/web/src/manifest.json"
+              "apps/web/src/manifest.json",
+              "apps/web/src/robots.txt",
+              {
+                "glob": "**/*",
+                "input": "./libs/ui-common/assets/",
+                "output": "./assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist",
+                "output": "assets/leaflet"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet-draw/dist",
+                "output": "assets/leaflet-draw"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "apps/web/src/styles.scss"
+              "apps/web/src/styles.scss",
+              {
+                "input": "node_modules/leaflet/dist/leaflet.css"
+              },
+              {
+                "input": "node_modules/leaflet-draw/dist/leaflet.draw.css"
+              }
             ],
             "scripts": [],
             "es5BrowserSupport": true
@@ -261,9 +274,7 @@
               "apps/web/tsconfig.app.json",
               "apps/web/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -315,10 +326,100 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/web-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
+        }
+      }
+    },
+    "ui-common": {
+      "root": "libs/ui-common",
+      "sourceRoot": "libs/ui-common/src",
+      "projectType": "library",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-common/tsconfig.lib.json",
+              "libs/ui-common/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-common/jest.config.js",
+            "tsConfig": "libs/ui-common/tsconfig.spec.json",
+            "setupFile": "libs/ui-common/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "ui-core": {
+      "root": "libs/ui-core",
+      "sourceRoot": "libs/ui-core/src",
+      "projectType": "library",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-core/tsconfig.lib.json",
+              "libs/ui-core/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-core/jest.config.js",
+            "tsConfig": "libs/ui-core/tsconfig.spec.json",
+            "setupFile": "libs/ui-core/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "api-core": {
+      "root": "libs/api/core",
+      "sourceRoot": "libs/api/core/src",
+      "projectType": "library",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api/core/tsconfig.lib.json",
+              "libs/api/core/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/api/core/jest.config.js",
+            "tsConfig": "libs/api/core/tsconfig.spec.json"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
         }
       }
     }
@@ -334,14 +435,21 @@
   "schematics": {
     "@nrwl/schematics:application": {
       "style": "scss",
-      "unitTestRunner": "karma",
-      "e2eTestRunner": "protractor"
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
     },
     "@nrwl/schematics:library": {
       "style": "scss",
-      "unitTestRunner": "karma"
+      "unitTestRunner": "jest",
+      "framework": "angular",
+      "prefix": "sm"
+    },
+    "@nrwl/schematics:ngrx": {
+      "root": false,
+      "facade": true
     },
     "@nrwl/schematics:node-application": {
+      "unitTestRunner": "jest",
       "framework": "nestjs"
     }
   }
