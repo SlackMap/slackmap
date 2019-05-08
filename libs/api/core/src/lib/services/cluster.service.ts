@@ -160,8 +160,6 @@ export class ClusterService {
         }
       };
     });
-    console.log('SPOTS', this.spots);
-    console.log('OPTIONS', this.options);
     const cluster = new Supercluster(this.options);
     cluster.load(this.spots);
     this.index = cluster;

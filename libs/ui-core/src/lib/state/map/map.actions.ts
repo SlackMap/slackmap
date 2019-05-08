@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
 import {ItemModel, MapViewChangeData} from '@slackmap/core';
 import {LayerType} from '@slackmap/core';
-import {ArrayDiff} from '@slackmap/ui/common';
+import {ArrayDiff} from '@slackmap/ui-common';
 
 export enum MapActionTypes {
   MAP_VIEW_CHANGE = '[Map] View Change',

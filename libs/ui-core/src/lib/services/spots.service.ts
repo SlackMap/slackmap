@@ -33,7 +33,8 @@ export class SpotsService {
     switchMap((code) => {
       const request = this.api.clustersGet({
         bbox: '-180,-90,180,90',
-        zoom: 16
+        zoom: 16,
+        layer: LayerType.SLACKLINE
       });
       const key = 'clusters/clusters';
       const ttl = 60 * 60 * 1;
@@ -103,7 +104,7 @@ export class SpotsService {
       return this.hashes[hash];
     }
 
-    const request$ = this.api.clustersSpotsGet({geohash: hash}).pipe(
+    const request$ = this.api.clustersSpotsGet({hash: hash, layer: LayerType.SLACKLINE}).pipe(
 
       map((data) => {
         // save resonse to cache

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MapPageComponent } from './map-page/map-page.component';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule, MatIconModule, MatButtonModule, MatSelectModule } from '@angular/material';
-import { NgxMapModule } from "@slackmap/ui/common";
+import { NgxMapModule } from "@slackmap/ui-common";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SpotFilterComponent } from './components/spot-filter/spot-filter.component';
 import { FormsModule } from '@angular/forms';

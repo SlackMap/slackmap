@@ -7,10 +7,11 @@ branches:
     - /^v[0-9]/
     - /^feature*/
 script:
-  - npm run lint
-  - npm run test
+  # - npm run lint
+  # - npm run test
   - npm run build api
   - npm run build:ssr
+  - npm run build cli
 addons:
   ssh_known_hosts: "slackmap.com"
 before_deploy:

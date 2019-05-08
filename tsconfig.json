@@ -15,8 +15,8 @@
     "paths": {
       "orientjs": ["@types/orientjs.d.ts"],
       "@slackmap/core": ["libs/core/src/index.ts"],
-      "@slackmap/ui/common": ["libs/ui-common/src/index.ts"],
-      "@slackmap/ui/core": ["libs/ui-core/src/index.ts"],
+      "@slackmap/ui-common": ["libs/ui-common/src/index.ts"],
+      "@slackmap/ui-core": ["libs/ui-core/src/index.ts"],
       "@slackmap/api/orient": ["libs/api/orient/src/index.ts"],
       "@slackmap/api/core": ["libs/api/core/src/index.ts"]
     }
