@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html ng-app="uhf" class="ng-scope">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Registration - UHF 2018</title>
+    <base href="/">
+
+    <meta property="og:site_name" content="slackmap.com">
+    <meta property="og:url" content="https://slackmap.com/event/e0uhf2017">
+    <meta property="og:title" content="Registration - UHF 2017">
+    <meta property="og:image" content="https://test.slackmap.com/assets/images/uhf2017-fb-share-reg.png">
+    <meta property="og:description" content="Urban Highline Festival">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
+    <link rel="stylesheet" href="/uhf/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/uhf/uhf.css">
+
+    <body>
+        <div class="event-state container " ng-controller="UhfCtrl">
+            <ng-include src="'/uhf/header.html'"></ng-include>
+            <div class="row3" ng-if="false">
+                <div class="alert alert-success alert-dismissable" role="alert">
+                    <b>CLOSED !!!</b>
+                    <p>
+                        Online Registration is closed, see you on the spot :)
+                    </p>
+                </div>
+            </div>
+            <div class="row3" ng-if="true">
+
+
+                <div class="alert alert-warning" role="alert" ng-if="!error && !user">
+                    <p>
+                        Loading...
+                    </p>
+                </div>
+
+                <div class="alert alert-danger" role="alert" ng-if="error">
+                    <h3>error</h3>
+                    <p>
+                        {{error}}
+                    </p>
+                    <p>
+                        <a href="/uhf/register.html" class="btn btn-block btn-default">get new hash</a>
+                    </p>
+                </div>
+                <ul class="nav nav-tabs nav-justified" ng-if="user">
+                    <li role="presentation" ng-class="{active:active === 'data'}"><a href="#" ng-click="$event.preventDefault();setTab('data')">{{tr('YOUR_DATA')}}</a></li>
+                    <li role="presentation" ng-class="{active:active === 'payment'}" ng-if="user.payment_id"><a  ng-click="$event.preventDefault();setTab('payment')">{{tr('PAYMENT_INFO')}}</a></li>
+                    <li role="presentation" ng-class="{active:active === 'cancel'}" ><a href="./#" ng-click="$event.preventDefault();setTab('cancel')">{{tr('CANCEL')}}</a></li>
+                </ul>
+                <div ng-if="active === 'cancel'">
+                    <div ng-bind-html="tr('CANCEL_DETAILS') | trust"></div>
+                    <br><br>
+                    <button class="btn btn-block btn-danger" ng-click="cancel()">{{tr('CANCEL')}}</button>
+                </div>
+
+                <div ng-if="active === 'payment'">
+                    <div ng-bind-html="tr('PAYMENT_DETAILS') | trust"></div>
+
+                    <div class="alert alert-danger" ng-if="isUnder18()" ng-bind-html="tr('UNDER18_INFO') | trust" ></div>
+                    <div class="alert alert-danger" ng-if="!user.payment_online && !user.payment_onsite_permit" ng-bind-html="tr('PAYMENT_WAITING') | trust"></div>
+                    <div class="alert alert-success" ng-if="user.payment_online && !user.payment_onsite_permit" ng-bind-html="tr('PAYMENT_RECEIVED') | trust"></div>
+                    <div class="alert alert-success" ng-if="user.payment_onsite_permit" ng-bind-html="tr('PAYMENT_ONSITE_PERMIT') | trust"></div>
+
+                </div>
+
+                <form class="form-horizontal" name="ctrl.$form" role="form" ng-submit="register()" autocomplete="off" ng-if="active === 'data'">
+                    <div class="alert alert-info" role="alert" ng-if="user.guest">
+                        <h3>Guest</h3>
+                        <p>
+                            You are registering as a Guest!
+                            <Br> So you will have to send more ino later (hostel check in/out, sponsorship info, workshops)
+                            <br>
+                            <Br> It's good to have you on the team ;)
+
+                        </p>
+                    </div>
+                    <div class="alert alert-info" role="alert" ng-if="user.volunteer">
+                        <h3>Volunteer</h3>
+                        <p>
+                            You are registering as a Volunteer!
+                            <br>
+                            <br> It's good to have you on the team ;)
+                        </p>
+                    </div>
+
+                    <h3>Language</h3>
+
+                    <div class="form-group">
+                        <!-- <label class="col-sm-2 control-label">Language</label> -->
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input required name="language" type="radio" value="en" ng-model="user.language">
+                                <img src="/uhf/GB.png" />
+                                English
+                            </label>
+                            <label class="radio-inline">
+                                <input required name="language" type="radio" value="pl" ng-model="user.language">
+                                <img src="/uhf/PL.png" />
+                                Polski
+                            </label>
+                        </div>
+                    </div>
+                    <h3>Ticket type</h3>
+                    <div class="form-group">
+                        <!-- <label class="col-sm-2 control-label">Language</label> -->
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input required name="ticket_type" type="radio" value="full" ng-model="user.ticket_type">
+                                All days (50EUR / 200PLN)
+                            </label>
+                            <br>
+                            <label class="radio-inline">
+                                <input required name="ticket_type" type="radio" value="weekend" ng-model="user.ticket_type">
+                                Weekend only, Saturday & Sunday (25EUR / 100PLN)
+                            </label>
+                        </div>
+                    </div>
+                    <h3>Contact information</h3>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">email</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.email" required readonly class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">mobile<br><i>(optional)</i></label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.mobile" class="form-control" />
+                            <p class="help-block" ng-bind-html="tr('MOBILE_HELP') | trust"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">social media<br><i>(optional)</i></label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.social_media_profile" class="form-control" />
+                            <p class="help-block" ng-bind-html="tr('SOCIAL_MEDIA_HELP') | trust"></p>
+                        </div>
+                    </div>
+
+                    <h3>Personal data</h3>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Gender</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input required name="gender" type="radio" value="m" ng-model="user.gender">Male</label>
+                            <label class="radio-inline">
+                                <input required name="gender" type="radio" value="f" ng-model="user.gender">Female</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">First name</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.firstname" required class="form-control" placeholder="{{texts.firstname.tooltip}}" tooltip="{{texts.firstname.tooltip}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Last name</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.lastname" required class="form-control" placeholder="{{texts.lastname.tooltip}}" tooltip="{{texts.lastname.tooltip}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Country</label>
+
+                        <div class="col-sm-6">
+                            <select name="country" required ng-model="user.country" class="form-control">
+                                <option value=""></option>
+                                <option ng-value="o.code" ng-repeat="o in countries track by $index">{{o.name}}</option>
+
+                            </select>
+                            <!-- <div ng-show="ctrl.$form.country.$invalid" class="alert alert-danger">Country is required</div> -->
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="col-sm-2 control-label">Street</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.street" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Postcode</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.postcode" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">City</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="user.city" required class="form-control">
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Birthday</label>
+
+                        <div class="col-sm-6">
+                            <input ui-mask="9999-99-99" type="text" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" required class="form-control" name="birthday" ng-model="user.birthday" />
+                            <p class="help-block">YYYY-MM-DD (year-month-day)</p>
+                            <div class="alert alert-danger" ng-if="isUnder18()" ng-bind-html="tr('UNDER18_INFO') | trust" ></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Document Type</label>
+
+                        <div class="col-sm-6 radios">
+                            <div class="radio pull-left">
+                                <label style="margin-right: 20px;">
+                                    <input required type="radio" name="document_type" value="id" ng-model="user.document_type">Identity card</label>
+                            </div>
+                            <div class="radio pull-left">
+                                <label style="margin-right: 20px;">
+                                    <input required type="radio" name="document_type" value="passport" ng-model="user.document_type">Passport</label>
+                            </div>
+                            <div class="radio pull-left">
+                                <label>
+                                    <input required type="radio" name="document_type" value="other" ng-model="user.document_type">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="user.document_type == 'other'">
+                        <label class="col-sm-2 control-label">Document Name</label>
+
+                        <div class="col-sm-6 radios">
+                            <input required type="text" name="document_name" ng-model="user.document_name" class="form-control doc-name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Document Number</label>
+
+                        <div class="col-sm-6 radios">
+                            <input required type="text" name="document_number" ng-model="user.document_number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+
+                    </div>
+
+                    <h3>T-shirt</h3>
+                    <p>Sorry, no more tshirts available :( <br>if you registered before 15th of July, tshirt will wait for you :)<br> Otherwise you are late :(</p>
+
+                    <!-- <div class="form-group">
+                        <label class="col-sm-2 control-label">gender</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input required name="tshirt_gender" type="radio" value="m" ng-model="user.tshirt_gender">Male</label>
+                            <label class="radio-inline">
+                                <input required name="tshirt_gender" type="radio" value="f" ng-model="user.tshirt_gender">Female</label>
+                        </div>
+                    </div>
+                    <div class="form-group tshirt-box">
+                        <label class="col-sm-2 control-label">type</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input required name="tshirt_type" type="radio" value="tshirt" ng-model="user.tshirt_type">t-shirt</label>
+                            <label class="radio-inline">
+                                <input required name="tshirt_type" type="radio" value="top" ng-model="user.tshirt_type">top</label>
+                            <p ng-if="user.tshirt_gender === 'f'">
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-women-slim.jpg" class="img-responsive" />
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-women-short.jpg" class="img-responsive" />
+                            </p>
+                            <p ng-if="user.tshirt_gender === 'm'">
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-men-slim.jpg" class="img-responsive" />
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-men-short.jpg" class="img-responsive" />
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">size</label>
+                        <div class="col-sm-10">
+                            <label ng-if="user.tshirt_gender == 'f'" class="radio-inline">
+                                <input name="tshirt_size" ng-required="user.tshirt_size" type="radio" value="xs" ng-model="user.tshirt_size">XS
+                            </label>
+                            <label class="radio-inline">
+                                <input required name="tshirt_size" type="radio" value="s" ng-model="user.tshirt_size">S</label>
+                            <label class="radio-inline">
+                                <input required name="tshirt_size" type="radio" value="m" ng-model="user.tshirt_size">M</label>
+                            <label class="radio-inline">
+                                <input required name="tshirt_size" type="radio" value="l" ng-model="user.tshirt_size">L</label>
+                            <label class="radio-inline">
+                                <input required name="tshirt_size" type="radio" value="xl" ng-model="user.tshirt_size">XL</label>
+                            <label ng-if="user.tshirt_gender == 'm'" class="radio-inline">
+                                <input required name="tshirt_size" type="radio" value="xxl" ng-model="user.tshirt_size">XXL</label>
+                            <p>
+                                <img ng-click="openBox($event)" src="/uhf/tshirt-sizes.png" class="img-responsive" />
+                            </p>
+                        </div>
+                    </div> -->
+
+                    <h3>Slackline Skills </h3>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                                <label class="radio">
+                                    <input type="radio" name="skills" value="none" ng-model="user.skills" required> no slackline skills
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="skills" value="slackline" ng-model="user.skills" required> I can walk slackline
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="skills" value="longline" ng-model="user.skills" required> I can walk longline
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="skills" value="want_highline" ng-model="user.skills" required> I want to learn highline
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="skills" value="highline" ng-model="user.skills" required> I can walk highline (doesn't matter if you sent one or not)
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="skills" value="rigger" ng-model="user.skills" required> I can rig highline
+                                </label>
+                        </div>
+                    </div>
+                    <h3>Extra notes</h3>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+
+                        <div class="col-sm-6">
+                            <textarea ng-model="user.notes" class="form-control"></textarea>
+                            <p  class="help-block">questions or suggestions</p>
+                        </div>
+                    </div>
+
+                    <h3>{{tr('AGREEMENTS')}}</h3>
+
+                    <div class="col-sm-offset-2 col-sm-10 radios">
+                        <div class="alert alert-default" ng-bind-html="tr('RODO') | trust"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input required name="agree_email" type="checkbox" ng-model="user.agree_email">
+                                    <span ng-bind-html="tr('AGREE_EMAIL') | trust"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input required name="agree_regulations" type="checkbox" ng-model="user.agree_regulations">
+                                    <span ng-bind-html="tr('AGREE_REGULATIONS') | trust"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input required name="agree_declaration" type="checkbox" ng-model="user.agree_declaration">
+                                    <span ng-bind-html="tr('AGREE_DECLARATION') | trust"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix buttons">
+                        <!--<div class="alert alert-success alert-dismissable" role="alert">-->
+                        <!--Pre-registration is closed, see you in Lublin !!!-->
+                        <!--</div>-->
+                        <div ng-if="saving" class="alert alert-warning alert-dismissable" role="alert">Saving...</div>
+                        <div ng-if="update_error" class="alert alert-danger alert-dismissable " role="alert">
+                            Sorry, some strange kind of error is destroying your plans :(
+                            <h3>{{update_error}}</h3>
+                        </div>
+                        <div ng-if="update_success" class="alert alert-success alert-dismissable " role="alert">
+                            <h3>Success!</h3>
+                            Your registration is done.<br>
+                            Now see the payments info here
+                            <button class="btn btn-default btn-block" ng-click="setTab('payment')">Payment info</button>
+
+                        </div>
+                        <div ng-if="submited && ctrl.$form.$invalid" class="alert alert-warning alert-dismissable" role="alert">
+                            <ul>
+                                <li ng-repeat="e in ctrl.$form.$error.required">{{e.$name}} is required</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-sm-6 col-sm-offset-2">
+                            <button ng-if="!user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Register for UHF 2018
+                            <button ng-if="user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Save changes
+                            </button>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br><br><br><br><br><br><br><br>
+                        <!--<div ng-click="register()" class="btn btn-success btn-block btn-lg" ng-disabled="saving">Register for UHF 2016</div>-->
+                    </div>
+
+                    <div ng-if="lightbox" class="lightbox" ng-click="boxClose()">
+                        <img ng-src="{{lightbox}}" class="img-responsive">
+                    </div>
+                    <br><br><br><br><br><br><br><br>
+                </form>
+                <!--<pre>{{ctrl.$form.$error|json}}</pre>-->
+                <!--<pre>{{ctrl.$form.$valid|json}}</pre>-->
+                <!-- <pre>{{user|json}}</pre> -->
+            </div>
+        </div>
+        <script src="/uhf/countries.js"></script>
+        <script src="/uhf/uhf-translation.js?v=1"></script>
+        <script src="/uhf/angular.min.js"></script>
+        <script>
+            angular.module('uhf', [])
+                .filter('trust', ['$sce', function ($sce) {
+                    return function (text) {
+                        return $sce.trustAsHtml(text);
+                    };
+                }])
+                .controller('UhfCtrl', function ($scope, $http) {
+                $scope.countries = countries;
+                $http.get('/api/v1/event-register/register', {params:{hash: param('hash')}}).then(function (res) {
+                    if (res.data.data) {
+                        $scope.user = res.data.data;
+                        if($scope.user.payment_id) {
+                            $scope.setTab('payment')
+                        } else {
+                            $scope.setTab('data')
+                        }
+                    } else {
+                        $scope.error = res.data.error;
+                    }
+                }, function (err) {
+
+                    console.error(err)
+                    $scope.error = err.message;
+                })
+
+                $scope.ctrl = {};
+                $scope.user = null;
+
+                $scope.setTab = function (tab) {
+                    $scope.active = tab;
+                }
+                $scope.openBox = function (e) {
+                    console.log('e', e)
+                    $scope.lightbox = e.target.src;
+                }
+                $scope.boxClose = function () {
+                    $scope.lightbox = null;
+                }
+                $scope.isUnder18 = function () {
+                    var user = $scope.user;
+                    if(!user || !user.birthday) return false;
+                    if(user.birthday.length < 10) return false;
+                    var today = new Date();
+                    var birthDate = new Date(user.birthday+'T13:18:23.330Z');
+                    var age = today.getFullYear() - birthDate.getFullYear();
+                    console.log('age', age)
+                    return age <= 18;
+                }
+                $scope.register = function () {
+                    $scope.submited = true;
+                    if (!$scope.ctrl.$form.$valid) {
+                        return;
+                    }
+
+                    if ($scope.saving) return;
+                    $scope.saving = true;
+                    $scope.update_success = null;
+                    $scope.update_error = null;
+                    $scope.ctrl.error = null;
+
+                    var url = '/api/v1/event-register/update';
+
+                    $http.post(url, $scope.user).then(function (data) {
+                        console.log('saved data', data)
+                        $scope.saving = false;
+                        $scope.user = data.data.data;
+                        $scope.update_success = true;
+                    }, function (data) {
+                        console.log('err', data)
+                        $scope.saving = false;
+                        $scope.update_error = data.data;
+                    });
+                };
+                $scope.cancel = function () {
+                    $scope.submited = true;
+
+                    if ($scope.saving) return;
+                    $scope.saving = true;
+                    $scope.update_success = null;
+                    $scope.update_error = null;
+                    $scope.ctrl.error = null;
+
+                    var url = '/api/v1/event-register/delete';
+
+                    $http.post(url, $scope.user).then(function (data) {
+                        window.location = '/uhf/register.html';
+                    }, function (data) {
+                        console.log('err', data)
+                        $scope.saving = false;
+                        $scope.update_error = data.data;
+                    });
+                };
+                $scope.tr = function (name) {
+                    return tr(name, $scope.user);
+                };
+            })
+
+            function param(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+        </script>
+    </body>
+
+</html>

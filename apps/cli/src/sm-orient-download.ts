@@ -106,14 +106,16 @@ async function action(version: string, options: {tp3: boolean}) {
 
   const databasesDir = `${releaseDir}/databases`;
   const configFile = `${releaseDir}/config/orientdb-server-config.xml`;
+  const configTplFile = `${releaseDir}/config/orientdb-server-config.xml.tpl`;
   const sourceDatabasesDir = `${dir}/databases`;
   const sourceConfigFile = `${dir}/orientdb-server-config.xml`;
 
   // remove databases & config.xml
   console.log(chalk.green('?'), 'remove databases dir', chalk.green(databasesDir));
   await sh.rm('-rf', databasesDir);
-  console.log(chalk.green('?'), 'remove config file', chalk.green(configFile));
-  await sh.rm('-rf', configFile);
+  console.log(chalk.green('?'), 'move config file', chalk.green(configFile));
+  await sh.mv(configFile, configTplFile);
+  // await sh.rm('-rf', configFile);
 
   // symlink databases & config.xml
   console.log(chalk.green('?'), 'symlink databases dir', sourceDatabasesDir, ' to ', chalk.green(databasesDir));

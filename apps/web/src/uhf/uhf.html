@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html ng-app="uhf" class="ng-scope">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Registration - UHF 2017</title>
+    <base href="/">
+
+    <meta property="og:site_name" content="slackmap.com">
+    <meta property="og:url" content="https://slackmap.com/event/e0uhf2017">
+    <meta property="og:title" content="Registration - UHF 2017">
+    <meta property="og:image" content="https://slackmap.com/assets/images/uhf2017-fb-share-reg.png">
+    <meta property="og:description" content="Urban Highline Festival">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        @media print {
+            .print {
+                display: none
+            }
+        }
+        .container {
+            max-width: 700px;
+        }
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,.7);
+            overflow: auto;
+        }
+
+        .lightbox img {
+            margin: auto;
+        }
+        .break-page {
+            /*page-break-before: always;*/
+        }
+    </style>
+<body>
+
+<div class="event-state container "  ng-controller="UhfCtrl">
+    <img class="img-responsive print" style="margin-bottom: 20px;" src="/assets/images/uhf2017.png"/>
+
+    <div class="alert alert-info print">
+        Make sure your data is correct.<br>
+        We will print the papers for you.<br>
+        <Br>
+        <b>If you are under 18, remember about enclosing parental consent too.</b><br>
+        Check out the regulations: <a href="http://urbanhighline.pl/uhf-2017/files/">http://urbanhighline.pl/uhf-2017/files/</a>
+
+    </div>
+
+    <div class="print"  ng-if="user">
+
+        <div ng-include="'./form-user.html'"></div>
+    </div>
+
+    <!--<div ng-repeat="row in rows track by $index">-->
+    <div ng-if="row && !user">
+
+        <input type="button" class="btn btn-success pull-right print"
+               ng-click="edit()"
+               value="Edit your data"/>
+
+        <!--<input type="button" class="btn btn-primary pull-right print"-->
+               <!--onClick="window.print()"-->
+               <!--value="Print This Page"/>-->
+
+        <div style="clear: both"></div>
+
+        <div ng-include="'./event-print-en.html'" ng-if="row.language == 'en'"></div>
+        <div ng-include="'./event-print-pl.html'" ng-if="row.language == 'pl'"></div>
+    </div>
+
+    <div ng-if="no_row" class="alert alert-danger ">
+        Sorry this link is wrong!
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script>
+    angular.module('uhf', []).controller('UhfCtrl', function ($scope, $http) {
+
+        $scope.hash = param('hash');
+
+
+        $scope.row = null
+        $scope.user = null
+        $http.get('/api/v1/event-register/hash?hash='+$scope.hash).then(function (data) {
+            $scope.row = data.data;
+            if(!data.data.country_name) {
+                $scope.edit();
+            }
+        }, function(err){
+            console.log('norow', err)
+            $scope.no_row = err;
+        })
+
+        $scope.edit = function() {
+            $scope.user = angular.copy($scope.row);
+        }
+
+        $scope.update = function () {
+
+            $scope.submited = true;
+//            if (!$scope.ctrl.$form.$valid) {
+//                return;
+//            }
+
+            if($scope.saving) return;
+            $scope.saving = true;
+            $scope.error = null;
+
+            var url = '/api/v1/event-register/hash';
+
+            $http.post(url, $scope.user).then(function (data) {
+                console.log('res data', data)
+                $scope.saving = false;
+                $scope.row = data.data;
+                $scope.user = null;
+            }, function (data) {
+                $scope.saving = false;
+                $scope.error = data.data.detail;
+            });
+        };
+    })
+
+    function param(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html ng-app="uhf" class="ng-scope">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Registration - UHF 2019</title>
+    <base href="/">
+
+    <meta property="og:site_name" content="slackmap.com">
+    <meta property="og:url" content="https://test.slackmap.com/uhf/register.html">
+    <meta property="og:title" content="Registration - UHF 2018">
+    <meta property="og:image" content="https://slackmap.com/assets/images/uhf2018-fb-share-reg.png">
+    <meta property="og:description" content="Urban Highline Festival">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/uhf/bootstrap.min.css" >
+    <link rel="stylesheet" href="/uhf/uhf.css">
+
+    <body>
+        <div class="event-state container " ng-controller="UhfCtrl">
+
+            <ng-include src="'/uhf/header.html'"></ng-include>
+
+            <div class="row3" ng-if="closed">
+                <div class="alert alert-success alert-dismissable" role="alert">
+                    <b>CLOSED !!!</b>
+                    <p>
+                        Online Registration is closed, see you on the spot :)
+                    </p>
+                </div>
+            </div>
+            <div class="row3" ng-if="!closed">
+
+                <div class="success-box" ng-if="regUser">
+                    <div class="alert alert-success alert-dismissable" role="alert" ng-bind-html="tr('START_SUCCESS') | trust">
+                    </div>
+
+                </div>
+
+                <div class="form-box" ng-if="!regUser">
+
+                    <div class="alert alert-info" role="alert" ng-if="user.guest">
+                        <h3>Guest</h3>
+                        <p>
+                            You are registering as a Guest!
+                            <Br> So you will have to send more info later (hostel check in/out, sponsorship info, workshops)
+                            <br>
+                            <Br> It's good to have you on the team ;)
+
+                        </p>
+                    </div>
+
+                    <div class="alert alert-info" role="alert" ng-if="user.volunteer">
+                        <h3>Volunteer</h3>
+                        <p>
+                            You are registering as a Volunteer!
+                            <br>
+                            <br> It's good to have you on the team ;)
+                        </p>
+                    </div>
+
+
+                    <form class="form-horizontal" name="ctrl.$form" role="form" ng-submit="register()" autocomplete="off">
+                        <div class="form-group">
+                            <!-- <label class="col-sm-2 control-label">{{tr('LANGUAGE')}}</label> -->
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input required name="language" type="radio" value="en" ng-model="user.language">
+                                    <img src="/uhf/GB.png" /> English
+                                </label>
+                                <label class="radio-inline">
+                                    <input required name="language" type="radio" value="pl" ng-model="user.language">
+                                    <img src="/uhf/PL.png" /> Polski
+                                </label>
+                            </div>
+                        </div>
+
+                        <p ng-bind-html="tr('PRICE_INFO') | trust"></p>
+
+                        <p ng-bind-html="tr('RODO') | trust"></p>
+
+                        <h2>
+                          {{tr('START_REG_INFO')}}
+                        </h2>
+                        <div class="form-group">
+                            <!-- <label class="col-sm-2 control-label">Email</label> -->
+
+                            <div class="col-sm-6">
+                                <input placeholder="Email" type="email" ng-model="user.email" name="email" required class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2- col-sm-10">
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input required name="agree_email" type="checkbox" ng-model="user.agree_email">
+                                        <span ng-bind-html="tr('AGREE_EMAIL') | trust"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input required name="agree_privacy" type="checkbox" ng-model="user.agree_privacy">
+                                        <span ng-bind-html="tr('AGREE_REGULATIONS') | trust"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                    <p>Questions or problems with registration, we will help: <a href="mailto:registration@urbanhighline.pl">registration@urbanhighline.pl</a></p>
+                            </div>
+                        </div> -->
+                        <div class="clearfix buttons">
+                            <div ng-if="saving" class="alert alert-success alert-dismissable" role="alert">Saving...</div>
+                            <div ng-if="ctrl.error" class="alert alert-danger alert-dismissable " role="alert">
+                                Sorry, some strange kind of error is destroying your plans :(
+                                <h3>{{ctrl.error}}</h3>
+                            </div>
+                            <div ng-if="submited && ctrl.$form.$invalid" class="alert alert-warning alert-dismissable" role="alert">
+                                <ul>
+                                    <li ng-repeat="e in ctrl.$form.$error.required">{{e.$name}} is required</li>
+                                </ul>
+                            </div>
+
+                            <!-- <div class="col-sm-6 col-sm-offset-2-"> -->
+
+                                <button type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">
+                                    {{tr('START_REGISTRATION')}}
+                                </button>
+                            <!-- </div> -->
+                        </div>
+                        <br>
+                        <p>
+                            {{tr('EDIT_INFO')}}
+                        </p>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2- col-sm-10">
+                                    <p>Questions or problems with registration, write us <a href="mailto:registration@urbanhighline.pl">registration@urbanhighline.pl</a></p>
+                            </div>
+                        </div>
+                        <div ng-if="lightbox" class="lightbox" ng-click="boxClose()">
+                            <img ng-src="{{lightbox}}" class="img-responsive">
+                        </div>
+                    </form>
+                    <!--<pre>{{ctrl.$form.$error|json}}</pre>-->
+                    <!--<pre>{{ctrl.$form.$valid|json}}</pre>-->
+                    <!--<pre>{{user|json}}</pre>-->
+                </div>
+            </div>
+        </div>
+        <script src="/uhf/uhf-translation.js?v=1"></script>
+        <script src="/uhf/angular.min.js"></script>
+        <script src="/uhf/register.js"></script>
+    </body>
+
+</html>

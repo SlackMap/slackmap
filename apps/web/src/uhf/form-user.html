@@ -1,0 +1,329 @@
+
+<form class="form-horizontal" name="ctrl.$form" role="form" ng-submit="update()" autocomplete="off">
+
+    <div ng-if="action=='user-form'">
+
+
+
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">TICKET</label>
+
+            <div class="col-sm-6">
+                <b>{{user.id}}</b> <i>{{user.created_at | date}}</i>
+            </div>
+        </div>
+
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">registered</label>
+
+            <div class="col-sm-6">
+                <input type="checkbox" ng-model="user.registered" style="display:inline-block; width: 20px;" name="registered" class="form-control" />
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <label style="display: inline-block; position:relative;top:-13px;">campsite only</label>
+                <input type="checkbox" ng-model="user.campsite" style="display:inline-block; width: 20px;" name="campsite" class="form-control" />
+            </div>
+            registered: Zaznacz jak osoba podpisała oświadczenie i się zarejestrowala w infopoint<br>
+            camsite only: zaznacz gdy osoba kupila bilet na pole za 40zł
+        </div>
+
+        <!--ONLINE -->
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">online payment</label>
+
+            <div class="col-sm-6" ng-if="user.$$online">
+                <input type="text" ng-model="user.online_payment" style="width: 100px;display:inline-block" name="online_payment" class="form-control" />
+                <!--<div class="col-sm-10">-->
+                    <label class="radio-inline"><input ng-required="user.online_pyament" name="online_currency" type="radio" value="PLN" ng-model="user.online_currency">PLN</label>
+                    <label class="radio-inline"><input ng-required="user.online_payment" name="online_currency" type="radio" value="EUR" ng-model="user.online_currency">EUR</label>
+                <!--</div>-->
+            </div>
+            <div class="col-sm-6"  ng-if="!user.$$online"  >
+                <b>{{user.online_payment}}</b>  {{user.online_currency}} <span ng-click="user.$$online = true">edit</span>
+            </div>
+            pieniądze wpłacone online
+        </div>
+
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">guest</label>
+
+            <div class="col-sm-6">
+                <input type="checkbox" ng-model="user.guest" style="display:inline-block; width: 20px;" name="registered" class="form-control" />
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <label style="display: inline-block; position:relative;top:-13px;">volunteer</label>
+                <input type="checkbox" ng-model="user.volunteer" style="display:inline-block; width: 20px;" name="registered" class="form-control" />
+
+            </div>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">payment</label>
+
+            <div class="col-sm-6">
+                <input type="text" ng-model="user.payment" style="width: 100px;display:inline-block" name="online_payment" class="form-control" />
+                <!--<div class="col-sm-10">-->
+                    <label class="radio-inline"><input ng-required="user.pyament" name="currency" type="radio" value="PLN" ng-model="user.currency">PLN</label>
+                    <label class="radio-inline"><input ng-required="user.payment" name="currency" type="radio" value="EUR" ng-model="user.currency">EUR</label>
+                <!--</div>-->
+            </div>
+            zapłacone gotówką
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">First name</label>
+
+            <div class="col-sm-6">
+                <input type="text" ng-model="user.firstname" required class="form-control"
+                       placeholder="{{texts.firstname.tooltip}}" tooltip="{{texts.firstname.tooltip}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Last name</label>
+
+            <div class="col-sm-6">
+                <input type="text" ng-model="user.lastname" required class="form-control"
+                       placeholder="{{texts.lastname.tooltip}}" tooltip="{{texts.lastname.tooltip}}">
+            </div>
+        </div>
+
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">email</label>
+
+            <div class="col-sm-6">
+                <input type="text" ng-model="user.email" required class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Gender</label>
+            <div class="col-sm-10">
+                <label class="radio-inline"><input required name="gender" type="radio" value="m"
+                                                   ng-model="user.gender">Male</label>
+                <label class="radio-inline"><input required name="gender" type="radio" value="f"
+                                                   ng-model="user.gender">Female</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Language</label>
+            <div class="col-sm-10">
+                <label class="radio-inline"><input required name="language" type="radio" value="en" ng-model="user.language">English</label>
+                <label class="radio-inline"><input required name="language" type="radio" value="pl" ng-model="user.language">Polski</label>
+            </div>
+        </div>
+
+        <!-- TSHIRT -->
+        <hr>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ONLINE T-shirt</label>
+            <div class="col-sm-10">
+                type: <b>{{user.tshirt_gender}}</b> size: <b>{{user.tshirt}}</b> <b class="btn btn-text" ng-click="user.tshirt_collected = user.tshirt;user.tshirt_collected_gender = user.tshirt_gender" >collect</b> <b class="btn btn-text" ng-click="user.tshirt_collected = '';user.tshirt_collected_gender = ''" >uncollect</b>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">colected</label>
+            <div class="col-sm-10">
+                <label class="radio-inline"><input  name="tshirt_collected_gender" type="radio" value="m"
+                                                   ng-model="user.tshirt_collected_gender">Male</label>
+                <label class="radio-inline"><input  name="tshirt_collected_gender" type="radio" value="f"
+                                                   ng-model="user.tshirt_collected_gender">Female</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+                <label ng-if="user.tshirt_collected_gender == 'f'" class="radio-inline">
+                    <input name="tshirt_collected" ng-required="user.tshirt_collected_gender" type="radio" value="xs" ng-model="user.tshirt_collected">XS
+                </label>
+                <label class="radio-inline"><input ng-required="user.tshirt_collected_gender" name="tshirt_collected" type="radio" value="s" ng-model="user.tshirt_collected">S</label>
+                <label class="radio-inline"><input ng-required="user.tshirt_collected_gender" name="tshirt_collected" type="radio" value="m" ng-model="user.tshirt_collected">M</label>
+                <label class="radio-inline"><input ng-required="user.tshirt_collected_gender" name="tshirt_collected" type="radio" value="l" ng-model="user.tshirt_collected">L</label>
+                <label class="radio-inline"><input ng-required="user.tshirt_collected_gender" name="tshirt_collected" type="radio" value="xl"
+                                                   ng-model="user.tshirt_collected">XL</label>
+                <label ng-if="user.tshirt_collected_gender == 'm'" class="radio-inline"><input ng-required="user.tshirt_collected_gender" name="tshirt_collected" type="radio"
+                                                                                     value="xxl" ng-model="user.tshirt_collected">XXL</label>
+            </div>
+        </div>
+
+        <!--<div class="form-group" >-->
+            <!--<label class="col-sm-2 control-label">t-shirt collected</label>-->
+
+            <!--<div class="col-sm-6">-->
+                <!--<input type="checkbox" ng-model="user.registered" style="display:inline-block; width: 20px;" name="registered" class="form-control" />-->
+            <!--</div>-->
+            <!--czy odebrał koszulke-->
+        <!--</div>-->
+
+        <hr>
+
+        <div class="form-group" >
+            <label class="col-sm-2 control-label">comments</label>
+
+            <div class="col-sm-6">
+                <textarea ng-model="user.comments"  name="comments" class="form-control"></textarea>
+            </div>
+            notatki własne
+        </div>
+
+
+        <div class="col-sm-6 col-sm-offset-2">
+            <button type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">
+                UPDATE
+            </button>
+            <button type="submit" class="btn btn-default btn-block btn-lg " ng-click="showList()">
+                cancel
+            </button>
+        </div>
+        <hr style="clear:both">
+    </div>
+
+
+
+    <!-- OLD FORM-->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">First name</label>
+
+        <div class="col-sm-6">
+            <input type="text" ng-model="user.firstname" ng-required="action!='user-form'" class="form-control"
+                   placeholder="{{texts.firstname.tooltip}}" tooltip="{{texts.firstname.tooltip}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Last name</label>
+
+        <div class="col-sm-6">
+            <input type="text" ng-model="user.lastname" ng-required="action!='user-form'" class="form-control"
+                   placeholder="{{texts.lastname.tooltip}}" tooltip="{{texts.lastname.tooltip}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Country</label>
+
+        <div class="col-sm-6">
+            <input type="text" ng-model="user.country_name" ng-required="action!='user-form'" class="form-control" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Street</label>
+
+        <div class="col-sm-6">
+            <input type="text" ng-model="user.street" ng-required="action!='user-form'" class="form-control" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Postcode</label>
+
+        <div class="col-sm-6">
+            <input type="text" ng-model="user.postcode" ng-required="action!='user-form'" class="form-control" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">City</label>
+
+        <div class="col-sm-6">
+            <input type="text" ng-model="user.city" ng-required="action!='user-form'" class="form-control" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Birthday</label>
+
+        <div class="col-sm-6">
+            <!--<p class="input-group">-->
+            <input ui-mask="9999-99-99" type="text" ng-required="action!='user-form'" class="form-control" name="birthday" ng-model="user.birthday"/>
+            <p>
+                YYYY-MM-DD (year-month-day)
+            </p>
+            <!--<span class="input-group-btn">-->
+            <!--<button type="button" class="btn btn-default" ng-click="user.opened = !user.opened"><i class="fa fa-calendar"></i></button>-->
+            <!--</span>-->
+            <!--</p>-->
+        </div>
+    </div>
+    <hr>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Document</label>
+
+        <div class="col-sm-6 radios">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Type</label>
+
+        <div class="col-sm-6 radios">
+            <div class="radio pull-left">
+                <label style="margin-right: 20px;"><input ng-required="action!='user-form'" type="radio" name="documentType" value="id" ng-model="user.documentType">Identity card</label>
+            </div>
+            <div class="radio pull-left">
+                <label style="margin-right: 20px;"><input ng-required="action!='user-form'" type="radio" name="documentType" value="passport" ng-model="user.documentType">Passport</label>
+            </div>
+            <div class="radio pull-left">
+                <label><input ng-required="action!='user-form'" type="radio" name="documentType" value="other" ng-model="user.documentType">Other</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" ng-if="user.documentType == 'other'">
+        <label class="col-sm-2 control-label">Name</label>
+
+        <div class="col-sm-6 radios">
+            <input ng-required="action!='user-form'" type="text" name="documentName" ng-model="user.documentName" class="form-control doc-name" placeholder="{{texts.documentName.tooltip}}" tooltip="{{texts.documentName.tooltip}}"
+            >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Number</label>
+
+        <div class="col-sm-6 radios">
+            <input ng-required="action!='user-form'" type="text" name="documentNumber" ng-model="user.documentNumber" class="form-control"  placeholder="{{texts.documentNumber.tooltip}}" tooltip="{{texts.documentNumber.tooltip}}">
+        </div>
+    </div>
+    <hr>
+    <!--<pre>{{user.country|json}}</pre>-->
+    <div class="form-group"  ng-if="action!='user-form'">
+        <label class="col-sm-2 control-label">Gender</label>
+        <div class="col-sm-10">
+            <label class="radio-inline"><input ng-required="action!='user-form'" name="gender" type="radio" value="m"
+                                               ng-model="user.gender">Male</label>
+            <label class="radio-inline"><input ng-required="action!='user-form'" name="gender" type="radio" value="f"
+                                               ng-model="user.gender">Female</label>
+        </div>
+    </div>
+    <div class="form-group" ng-if="action!='user-form'">
+        <label class="col-sm-2 control-label">Language</label>
+        <div class="col-sm-10">
+            <label class="radio-inline"><input ng-required="action!='user-form'" name="language" type="radio" value="en" ng-model="user.language">English</label>
+            <label class="radio-inline"><input ng-required="action!='user-form'" name="language" type="radio" value="pl" ng-model="user.language">Polski</label>
+        </div>
+    </div>
+
+    <div class="clearfix buttons">
+        <!--<div class="alert alert-success alert-dismissable" role="alert">-->
+        <!--Pre-registration is closed, see you in Lublin !!!-->
+        <!--</div>-->
+        <div ng-if="saving" class="alert alert-success alert-dismissable" role="alert">Saving...</div>
+        <div ng-if="ctrl.error" class="alert alert-danger alert-dismissable " role="alert">
+            Sorry, some strange kind of error is destroying your plans :(
+            <h3>{{ctrl.error}}</h3>
+        </div>
+        <div ng-if="submited && ctrl.$form.$invalid" class="alert alert-warning alert-dismissable"
+             role="alert">
+            <ul>
+                <li ng-repeat="e in ctrl.$form.$error" >{{e.$name}} is ng-required="action!='user-form'"</li>
+            </ul>
+        </div>
+
+        <div class="col-sm-6 col-sm-offset-2">
+            <button type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">
+                UPDATE
+            </button>
+        </div>
+        <br><br><br><br>
+        <!--<div ng-click="register()" class="btn btn-success btn-block btn-lg" ng-disabled="saving">Register for UHF 2016</div>-->
+    </div>
+
+</form>

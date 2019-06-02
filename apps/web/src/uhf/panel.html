@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html ng-app="uhf" class="ng-scope">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Registration - UHF 2017</title>
+    <base href="/">
+
+    <meta property="og:site_name" content="slackmap.com">
+    <meta property="og:url" content="https://slackmap.com/event/e0uhf2017">
+    <meta property="og:title" content="Registration - UHF 2017">
+    <meta property="og:image" content="https://slackmap.com/assets/images/uhf2017-fb-share-reg.png">
+    <meta property="og:description" content="Urban Highline Festival">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <style>
+        @media print {
+            .print {
+                display: none
+            }
+        }
+
+        .container {
+            max-width: 700px;
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, .7);
+            overflow: auto;
+        }
+
+        .lightbox img {
+            margin: auto;
+        }
+
+        .break .break-page2 {
+            page-break-before: always;
+        }
+
+        tr:hover {
+            background-color: lightgrey;
+        }
+        li a {
+            cursor: pointer
+        }
+        .nav {
+            margin-bottom: 5px;
+        }
+        .no-hover:hover {
+            background-color: transparent;
+        }
+    </style>
+
+<script src="/uhf/countries.js"></script>
+</head>
+    <body>
+
+        <div class="event-state " ng-controller="UhfCtrl" style="margin: 0 10px;">
+            <h1 class="print" ng-click="loadData()">UHF 2018
+                <small ng-if="saving">working</small>
+            </h1>
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="disabled"><a >UHF 2018</a></li>
+                <li role="presentation" ng-class="{active: tab==='all'}" ng-click="tab = 'all'"><a >All</a></li>
+                <li role="presentation" ng-class="{active: tab==='guests'}" ng-click="tab = 'guests'"><a >Guests</a></li>
+                <li role="presentation" ng-class="{active: tab==='riggers'}" ng-click="tab = 'riggers'"><a>Riggers</a></li>
+                <li role="presentation" ng-class="{active: tab==='volunteers'}" ng-click="tab = 'volunteers'"><a >Volonteers</a></li>
+                <li role="presentation" ng-class="{active: tab==='not-finished'}" ng-click="tab = 'not-finished'"><a >Not fishished</a></li>
+                <li role="presentation" ng-class="{active: tab==='camping'}" ng-click="tab = 'camping'"><a >Camping</a></li>
+                <li role="presentation" ng-class="{active: tab==='hostel'}" ng-click="tab = 'hostel'"><a >Hostel</a></li>
+                <li role="presentation" ng-class="{active: tab==='notes'}" ng-click="tab = 'notes'"><a >with notes</a></li>
+            </ul>
+
+            <!-- USER FORM -->
+            <!-- <div class="print" ng-if="action == 'user-form'">
+                <div ng-include="'./form-user.html'"></div>
+                <div class="btn btn-default btn-block" ng-click="showList()">cancel</div>
+            </div> -->
+
+            <div ng-show="action == 'list'">
+
+                <div style="margin-bottom: 10px;">
+
+                    <input class="form-control" type="text" ng-model="query" style="width: 300px; display: inline-block" />
+                    <div class="btn btn-default" ng-click="query = ''">
+                        clear
+                    </div>
+                    <div class="btn btn-text " ng-click="show_stats = !show_stats">
+                        stats
+                    </div>
+                    <!-- <div class="btn btn-text pull-right" ng-click="action = 'tags'">
+                        tags
+                    </div> -->
+                    <!-- <div class="btn btn-primary pull-right" ng-click="new()">
+                        NEW
+                    </div> -->
+                </div>
+                <p class="print" ng-if="show_stats">
+                    <b>online</b>
+                    <br> total:
+                    <b>{{stats.total}}</b>
+                    <br> payment_id:
+                    <b>{{stats.payment_id}}</b> ({{stats.no_payment_id}} not finished)
+                    <br> ticket full:
+                    <b>{{stats.ticket_full}}</b> weekend:
+                    <b>{{stats.ticket_weekend}}</b>
+                    <br> male:
+                    <b>{{stats.male}}</b>
+                    female:
+                    <b>{{stats.fmale}}</b>
+                    <br> os permit:
+                    <b>{{stats.payment_onsite_permit}}</b>
+                    <br>
+
+                    <b>onsite</b>
+                    <br> checkin:
+                    <b>{{stats.checkin}}</b>
+                    from online:
+                    <b>{{stats.checkin_from_online}}</b>
+                    from onsite:
+                    <b>{{stats.checkin_from_onsite}}</b>
+                    <br> male:
+                    <b>{{stats.checkin_male}}</b> female:
+                    <b>{{stats.checkin_fmale}}</b>
+                    <br> campsite:
+                    <b>{{stats.campsite}}</b>
+                    <br>
+
+                    <b>tshirts</b>
+                    <!-- <pre>{{stats.tshirts|json}}</pre> -->
+                    <br>
+                    <b ng-click="show_emails = !show_emails">emails</b>
+                    <span ng-show="show_emails" ng-repeat="row in rows | uhf:tab | filter:query | unique track by $index">
+                        {{row}}
+                    </span>
+                    <Br>
+                    <b ng-click="show_countries = !show_countries">countries</b>
+                    <span ng-show="show_countries" ng-repeat="row in stats.checkin_countries track by $index">
+                        <br>{{row.name}}
+                        <!-- ({{row.count}}) -->
+                    </span>
+                </p>
+                <table class="table">
+                    <thead>
+                        <tr style="font-weight: bold">
+                            <td></td>
+                            <td>ticket</td>
+                            <td>email</td>
+                            <td>first name</td>
+                            <td>last name</td>
+                            <td>country</td>
+                            <td>ticket type</td>
+                            <td>vol</td>
+                            <td>guest</td>
+                            <td>lang</td>
+                            <td>payment online</td>
+                            <td>onsite permit</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="row in rows | uhf:tab | filter:query track by $index">
+                        <tr ng-click="selectUser(row)">
+                            <td>{{$index+1}}</td>
+                            <td>{{row.id}}</td>
+                            <td>{{row.email}}</td>
+                            <td>{{row.firstname}}</td>
+                            <td>{{row.lastname}}</td>
+                            <td>{{row.country}} {{row.country_name}}</td>
+                            <td>{{row.ticket_type}} </td>
+                            <td>{{row.volunteer}}</td>
+                            <td>{{row.guest}}</td>
+                            <td>{{row.language}}</td>
+                            <td>{{row.payment_online}}</td>
+                            <td>{{row.payment_onsite_permit}}</td>
+                            <td>
+                                <a target="_blank" href="https://test.slackmap.com/uhf/edit.html?hash={{row.hash}}" class="btn btn-primary pull-left print">EDIT</a>
+                                <!-- <div class="btn btn-primary pull-left print" ng-click="edit(row)">EDIT</div> -->
+                                <!-- <div class="btn btn-default pull-right print" ng-click="show(row)">SHOW</div> -->
+                            </td>
+                        </tr>
+                        <tr class="no-hover" ng-if="user.id == row.id">
+                            <td colspan="13">
+                                <form  class="form-horizontal" >
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Payment ONLINE</label>
+
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="payment_online" ng-model="user.payment_online" style="width: 100px; float: left;" />
+                                                <div class="btn btn-text" ng-click="user.payment_online = ''">none</div>
+                                                <div class="btn btn-text" ng-click="user.payment_online = 'FREE'">FREE</div>
+                                                <div class="btn btn-text" ng-click="user.payment_online = '100PLN'">100PLN</div>
+                                                <div class="btn btn-text" ng-click="user.payment_online = '200PLN'">200PLN</div>
+                                                <div class="btn btn-text" ng-click="user.payment_online = '25EUR'">25EUR</div>
+                                                <div class="btn btn-text" ng-click="user.payment_online = '50EUR'">50EUR</div>
+                                        </div>
+                                        <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '')">none</div>
+                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, 'FREE')">FREE</div>
+                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '50EUR')">50EUR</div>
+                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '200PLN')">200PLN</div>
+                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '100PLN')">100PLN</div>
+                                                    <div class="btn btn-primary pull-left print" ng-click="onsitePermit(row)">OS Permit</div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Payment ONLINE</label>
+
+                                        <div class="col-sm-10">
+                                            <input readonly class="form-control" name="payment_online" ng-model="user.payment_online" style="width: 100px; float: left;" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Checkin at</label>
+
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="checkin_at" ng-model="user.checkin_at" style="width: 200px; float: left;" />
+                                                <div class="btn btn-success" ng-click="setCheckin(user)">today</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Payment ONSITE</label>
+
+                                        <div class="col-sm-10" >
+                                            <input ng-readonly="user.payment_online" class="form-control" name="payment_onsite" ng-model="user.payment_onsite" style="width: 100px; float: left;" />
+                                                <div class="btn btn-text" ng-click="user.payment_onsite = ''">none</div>
+                                                <div class="btn btn-text" ng-click="user.payment_onsite = 'FREE'">FREE</div>
+                                                <div class="btn btn-text" ng-click="user.payment_onsite = '100PLN'">100PLN</div>
+                                                <div class="btn btn-text" ng-click="user.payment_onsite = '200PLN'">200PLN</div>
+                                                <div class="btn btn-text" ng-click="user.payment_onsite = '25EUR'">25EUR</div>
+                                                <div class="btn btn-text" ng-click="user.payment_onsite = '50EUR'">50EUR</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Tshirt ONLINE</label>
+
+                                        <div class="col-sm-6" ng-if="user.tshirt_type">
+                                            gender: <b>{{user.tshirt_gender}}</b>
+                                            type: <b>{{user.tshirt_type}}</b>
+                                            size: <b>{{user.tshirt_size}}</b>
+                                        </div>
+                                        <div class="col-sm-6" ng-if="!user.tshirt_type">
+                                            NONE
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Tshirt COLLECTED</label>
+                                        <div class="col-sm-10">
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_gender" type="radio" value="m" ng-model="user.tshirt_collected_gender">Male</label>
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_gender" type="radio" value="f" ng-model="user.tshirt_collected_gender">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group tshirt-box">
+                                        <label class="col-sm-2 control-label">type</label>
+                                        <div class="col-sm-10">
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_type" type="radio" value="tshirt" ng-model="user.tshirt_collected_type">t-shirt</label>
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_type" type="radio" value="top" ng-model="user.tshirt_collected_type">top</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">size</label>
+                                        <div class="col-sm-10">
+                                            <label ng-if="user.tshirt_collected_gender == 'f'" class="radio-inline">
+                                                <input name="tshirt_collected_size" ng-required="user.tshirt_collected_size" type="radio" value="xs" ng-model="user.tshirt_collected_size">XS
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_size" type="radio" value="s" ng-model="user.tshirt_collected_size">S</label>
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_size" type="radio" value="m" ng-model="user.tshirt_collected_size">M</label>
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_size" type="radio" value="l" ng-model="user.tshirt_collected_size">L</label>
+                                            <label class="radio-inline">
+                                                <input  name="tshirt_collected_size" type="radio" value="xl" ng-model="user.tshirt_collected_size">XL</label>
+                                            <label ng-if="user.tshirt_collected_gender == 'm'" class="radio-inline">
+                                                <input  name="tshirt_collected_size" type="radio" value="xxl" ng-model="user.tshirt_collected_size">XXL</label>
+                                            <p>
+                                                <!-- <img ng-click="openBox($event)" src="/uhf/tshirt-sizes.png" class="img-responsive" /> -->
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="camping" type="checkbox" ng-model="user.camping">
+                                                    <span>CAMPING</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="guest" type="checkbox" ng-model="user.guest">
+                                                    <span>guest</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="rigger" type="checkbox" ng-model="user.rigger">
+                                                    <span>Rigger</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="vlunteer" type="checkbox" ng-model="user.vlunteer">
+                                                    <span>volunteer</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="payment_onsite_permit" type="checkbox" ng-model="user.payment_onsite_permit">
+                                                    <span>OS Permit</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <button class="btn btn-primary" ng-click="update(user)">SAVE</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div ng-if="no_row" class="alert alert-danger ">
+                Sorry this link is wrong!
+                <br>
+                <b>{{no_row}}</b>
+                <Br>
+                <div class="btn btn-primary" ng-click="login()">Login with Facebook</div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script>
+            window.fbAsyncInit = function () {
+                var id = (window.location.host.substring(0, 12) === 'slackmap.loc') ? 306418119377317 : 235127536543011;
+                console.log('id', id)
+                FB.init({
+                    appId: id, // loc
+                    // appId      : 235127536543011, // prod
+                    cookie: true,  // enable cookies to allow the server to access the session
+                    xfbml: false,  // parse social plugins on this page
+                    version: 'v2.5' // use version
+                });
+            };
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            angular.module('uhf', [])
+            .filter('unique', function() {
+                return function(rows) {
+
+                    let emails = {};
+                    rows.map( function(v) {
+                        emails[v.email] = 1;
+                    } );
+                    console.log(emails)
+                    return Object.keys(emails);
+                }
+            })
+            .filter('uhf', function() {
+                return function(rows, tab) {
+                    if(tab === 'all') {
+                        rows = rows
+                    }
+                    if(tab === 'guests') {
+                        rows = rows.filter(v=>v.guest)
+                    }
+                    if(tab === 'volunteers') {
+                        rows = rows.filter(v=>v.volunteer)
+                    }
+                    if(tab === 'riggers') {
+                        rows = rows.filter(v=>v.rigger)
+                    }
+                    if(tab === 'camping') {
+                        rows = rows.filter(v=>v.camping)
+                    }
+                    if(tab === 'not-finished') {
+                        rows = rows.filter(v=>!v.payment_id)
+                    }
+                    return rows;
+                }
+            })
+            .controller('UhfCtrl', function ($scope, $http, $q) {
+
+                $scope.action = 'list';
+
+                $scope.rows = []
+                $scope.user = null
+                $scope.tab = 'all'
+
+                $scope.loadData = function () {
+
+                    $scope.saving = true;
+                    $http.get('/api/v1/event-register/list').then(function (data) {
+                        $scope.saving = false;
+                        $scope.rows = data.data.map(row => {
+                            row.id = row['@rid'].substr(4);
+                            return row;
+                        });
+                        $scope.doStats()
+
+                    }, function (err) {
+                        $scope.saving = false;
+                        console.log('list load error', err)
+                        $scope.no_row = err.statusText;
+                    })
+                }
+                $scope.selectUser = function(user) {
+                    if($scope.user && $scope.user.id === user.id) {
+                        $scope.user = null;
+                    } else {
+                        $scope.user = angular.copy(user);
+                    }
+                }
+                $scope.setCheckin = function(user) {
+                    let d =  new Date();
+                    user.checkin_at = d.toISOString();
+                }
+                $scope.loadData();
+
+                $scope.login = function () {
+                    var options = { scope: 'email' };
+                    FB.login(function (response) {
+                        if (response.authResponse) {
+                            $http.post('/api/v1/auth/loginByFb', {
+                                signed_request: response.authResponse.signedRequest,
+                                access_token: response.authResponse.accessToken
+                            }).then(function (user) {
+
+                                $http.get('/api/v1/event-register/list').then(function (data) {
+                                    $scope.rows = data.data.map(row => {
+                                        row.id = row['@rid'].substr(4);
+                                        return row;
+                                    });
+                                    $scope.doStats()
+
+                                    $scope.no_row = null;
+                                }, function (err) {
+                                    console.error('list load error', err)
+                                    $scope.no_row = err.statusText;
+                                })
+                            }, function (err) {
+                                console.error('errr', err);
+                            });
+                        } else {
+                            console.error({
+                                detail: 'login aborted or not authorized',
+                                data: response
+                            });
+
+                        }
+                    }, options);
+                }
+
+                $scope.showDeclarations = function () {
+                    $scope.action = 'declaration';
+                    $scope.rows_print = $scope.rows.filter(row => row.country_name);
+                }
+
+                $scope.showList = function () {
+                    $scope.action = 'list';
+                }
+
+                $scope.edit = function (row) {
+                    $scope.action = 'user-form';
+                    $scope.user = angular.copy(row);
+                }
+
+                $scope.new = function (row) {
+                    $scope.action = 'user-form';
+                    $scope.user = {};
+                }
+
+                $scope.show = function (row) {
+                    $scope.action = 'declaration';
+                    $scope.rows_print = [angular.copy(row)];
+                }
+
+                $scope.doStats = function (row) {
+                    var rows = $scope.rows;
+
+                    const tshirts = {
+                        count: 0,
+                        m_count: 0,
+                        f_count: 0,
+                        m_top_count:0,
+                        f_top_count: 0,
+                        m_tshirt_collected_count: 0,
+                        f_tshirt_collected_count: 0,
+                        m: {
+                            top: {
+                                s: 0,
+                                m: 0,
+                                l: 0,
+                                xl: 0,
+                                xxl: 0
+                            },
+                            tshirt: {
+                                s: 0,
+                                m: 0,
+                                l: 0,
+                                xl: 0,
+                                xxl: 0
+                            },
+                        },
+                        f: {
+                            top: {
+                                xs: 0,
+                                s: 0,
+                                m: 0,
+                                l: 0,
+                                xl: 0
+                            },
+                            tshirt: {
+                                xs: 0,
+                                s: 0,
+                                m: 0,
+                                l: 0,
+                                xl: 0
+                            }
+                        }
+                    }
+                    let checkin_countries = rows
+                    // .filter(v => v.checkin_at)
+                    .reduce((acc, v)=>{
+                            if(!acc[v.country]) {
+                                acc[v.country] = {name: countries_hash[v.country], count: 0}
+                            }
+                            acc[v.country].count++
+                            return acc;
+                        }, {})
+                    rows.filter(v => v.tshirt_collected_gender && v.tshirt_collected_type && v.tshirt_collected_size).forEach((v)=>{
+                        tshirts[v.tshirt_collected_gender][v.tshirt_collected_type][v.tshirt_collected_size]++;
+
+                        tshirts['count']++;
+                        tshirts[v.tshirt_collected_gender+'_count']++;
+                        tshirts[v.tshirt_collected_gender+'_'+v.tshirt_collected_type+'_count']++;
+                    })
+                    $scope.stats = {
+
+                        total: $scope.rows.length,
+                        payment_id: $scope.rows.filter(v => v.payment_id).length,
+                        no_payment_id: $scope.rows.filter(v => !v.payment_id).length,
+                        ticket_full: rows.filter(v => v.ticket_type === 'full' || !v.ticket_type).length,
+                        ticket_weekend: rows.filter(v => v.ticket_type === 'weekend').length,
+                        male: rows.filter(v => v.gender === 'm').length,
+                        fmale: rows.filter(v => v.gender === 'f').length,
+                        payment_onsite_permit: rows.filter(v => v.payment_onsite_permit).length,
+
+                        campsite: rows.filter(v => v.campsite).length,
+                        tshirts,
+
+                        checkin: rows.filter(v => v.checkin_at).length,
+                        checkin_countries: Object.values(checkin_countries),
+                        checkin_from_online: rows.filter(v => !v.onsite && v.checkin_at).length,
+                        checkin_from_onsite: rows.filter(v => v.onsite && v.checkin_at).length,
+                        checkin_male: rows.filter(v => v.gender === 'm' && v.checkin_at).length,
+                        checkin_fmale: rows.filter(v => v.gender === 'f' && v.checkin_at).length,
+
+                    };
+                }
+                $scope.setData = function(data) {
+                    $scope.rows = data.data.map(row => {
+                        row.id = row['@rid'].substr(4);
+                        if($scope.user && $scope.user.id === row.id) {
+                            $scope.user = angular.copy(row);
+                        }
+                        return row;
+                    });
+                    $scope.doStats()
+                }
+                $scope.update = function () {
+
+                    if ($scope.saving) return;
+                    $scope.saving = true;
+                    $scope.error = null;
+
+                    var url = '/api/v1/event-register/list';
+
+                    $http.post(url, $scope.user).then(function (data) {
+                        console.log('res data', data)
+                        $scope.saving = false;
+                        $scope.setData(data)
+
+                        $scope.user = null;
+                    }, function (data) {
+                        $scope.saving = false;
+                        $scope.error = data.data.detail;
+                    });
+                };
+
+                $scope.onsitePermit = function (row) {
+
+                    if ($scope.onsite_permit_saving) return;
+                    $scope.onsite_permit_saving = true;
+                    $scope.error = null;
+
+                    var url = '/api/v1/event-register/onsite-permit';
+
+                    $http.post(url, row).then(function (data) {
+                        console.log('res data', data)
+                        $scope.onsite_permit_saving = false;
+                        $scope.rows = data.data.map(row => {
+                            row.id = row['@rid'].substr(4);
+                            return row;
+                        });
+                        $scope.doStats()
+                    }, function (data) {
+                        $scope.onsite_permit_saving = false;
+                        $scope.error = data.data.detail;
+                    });
+                };
+
+                $scope.onlinePayment = function (row, payment) {
+
+                    if ($scope.online_payment_saving) return;
+                    $scope.online_payment_saving = true;
+                    $scope.error = null;
+
+                    var url = '/api/v1/event-register/online-payment';
+
+                    $http.post(url, { item: row, payment }).then(function (data) {
+                        console.log('res data', data)
+                        $scope.online_payment_saving = false;
+                        $scope.rows = data.data.map(row => {
+                            row.id = row['@rid'].substr(4);
+                            return row;
+                        });
+                        $scope.doStats()
+                    }, function (data) {
+                        $scope.online_payment_saving = false;
+                        $scope.error = data.data.detail;
+                    });
+                };
+
+            })
+
+            function param(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+        </script>
+    </body>
+
+</html>

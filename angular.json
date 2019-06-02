@@ -190,6 +190,7 @@
               "apps/web/src/sw.js",
               "apps/web/src/favicon.ico",
               "apps/web/src/assets",
+              "apps/web/src/uhf",
               "apps/web/src/manifest.json",
               "apps/web/src/robots.txt",
               {

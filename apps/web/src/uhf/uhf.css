@@ -1,0 +1,48 @@
+.header {
+    padding-top: 15px;
+}
+.header-img {
+    background-image: url(/uhf/2018.jpg);
+    height: 119px;
+    background-size: cover;
+    background-position: bottom;
+}
+.header h2 {
+    text-align: center;
+}
+.container {
+    max-width: 700px;
+}
+
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .7);
+    overflow: auto;
+}
+
+.lightbox img {
+    margin: auto;
+}
+
+h3 {
+    border-top: 1px solid #d4d4d6;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 35px;
+    padding-top: 15px;
+    margin-bottom: 10px;
+}
+.nav-tabs a, .nav-tabs a:hover {
+    cursor: pointer;
+}
+.radio {
+    font-weight: normal;
+}
+.tshirt-box img {
+    height: 200px;
+    cursor: pointer;
+}

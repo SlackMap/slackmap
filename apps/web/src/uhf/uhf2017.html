@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html ng-app="uhf" class="ng-scope">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Registration - UHF 2017</title>
+    <base href="/">
+
+    <meta property="og:site_name" content="slackmap.com">
+    <meta property="og:url" content="https://slackmap.com/event/e0uhf2017">
+    <meta property="og:title" content="Registration - UHF 2017">
+    <meta property="og:image" content="https://slackmap.com/assets/images/uhf2017-fb-share-reg.png">
+    <meta property="og:description" content="Urban Highline Festival">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 700px;
+        }
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,.7);
+            overflow: auto;
+        }
+
+        .lightbox img {
+            margin: auto;
+        }
+    </style>
+<body>
+<div class="event-state container "  ng-controller="UhfCtrl">
+    <img class="img-responsive"
+         src="/assets/images/uhf2017.png"/>
+    <div class="row3">
+        <div class="alert alert-success alert-dismissable" role="alert">
+            <b>CLOSED !!!</b>
+            <p>
+                Onlin Registration is closed, see you on the spot :)
+            </p>
+        </div>
+    </div>
+    <div class="row3" ng-if="false">
+
+        <h2>UHF 2017 - registration - step 1</h2>
+
+        <p>
+            First step of registration will help you reserve the tshirt size.<br>
+            Later you will receive more info.<br><br>
+
+            <b>Pre Registration tickets</b>: 5EUR / 20PLN per day
+
+            <br><br>
+            <b>T-shirts available only with pre-registration for all 6 days (30EUR / 120PLN)</b>
+            <br><br>
+            You will receive ON-LINE payment details by email
+            <br><br>
+        </p>
+
+        <div class="success-box" ng-if="regUser">
+            <div class="alert alert-success alert-dismissable" role="alert">
+
+                <h2>Hi {{regUser.firstname}} {{regUser.lastname}}!</h2>
+                <h2>Registration completed!!!</h2>
+                <br>
+                <p>
+                    Check your email inbox for confirmation message<br>
+                    Thank you!
+                </p>
+                <br><br>
+            </div>
+
+        </div>
+
+        <div class="form-box" ng-if="!regUser">
+
+            <div class="alert alert-info" role="alert" ng-if="user.guest">
+                <h3>Guest</h3>
+                <p>
+                    You are registering as a Guest!<Br>
+                    So you will have to send more ino later (hostel check in/out, sponsorship info, workshops)<br>
+                    <Br>
+                    It's good to have you on the team ;)
+
+                </p>
+            </div>
+            <div class="alert alert-info" role="alert" ng-if="user.volunteer">
+                <h3>Volunteer</h3>
+                <p>
+                    You are registering as a Volunteer!<br><br>
+                    It's good to have you on the team ;)
+                </p>
+            </div>
+
+            <form class="form-horizontal" name="ctrl.$form" role="form" ng-submit="register()" autocomplete="off">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Email</label>
+
+                    <div class="col-sm-6">
+                        <input type="email" ng-model="user.email" name="email" required class="form-control"
+                               placeholder="{{texts.email.tooltip}}" tooltip="{{texts.email.tooltip}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Full name</label>
+
+                    <div class="col-sm-3">
+                        <input type="text" ng-model="user.firstname" required class="form-control"
+                               placeholder="{{texts.firstname.tooltip}}" tooltip="{{texts.firstname.tooltip}}">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" ng-model="user.lastname" required class="form-control"
+                               placeholder="{{texts.lastname.tooltip}}" tooltip="{{texts.lastname.tooltip}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Country</label>
+
+                    <div class="col-sm-6">
+                        <select required ng-model="user.country" class="form-control">
+                            <option ng-value="o.code" ng-repeat="o in countries">{{o.name}}</option>
+
+                        </select>
+                        <!--<input required type="text" ng-model="user.country" placeholder="Country" class="form-control"-->
+                        <!--uib-typeahead="state.name as state.name for state in countries | filter:$viewValue | limitTo:8">-->
+
+                        <!--<input-location ng-model="user.country" required name="country"></input-location>-->
+                    </div>
+                    <div class="col-sm-3">
+                        <div ng-show="ctrl.$form.country.$invalid" class="danger">Country is required</div>
+                    </div>
+                </div>
+                <!--<pre>{{user.country|json}}</pre>-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Gender</label>
+                    <div class="col-sm-10">
+                        <label class="radio-inline"><input required name="gender" type="radio" value="m"
+                                                           ng-model="user.gender">Male</label>
+                        <label class="radio-inline"><input required name="gender" type="radio" value="f"
+                                                           ng-model="user.gender">Female</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Language</label>
+                    <div class="col-sm-10">
+                        <label class="radio-inline"><input required name="language" type="radio" value="en" ng-model="user.language">English</label>
+                        <label class="radio-inline"><input required name="language" type="radio" value="pl" ng-model="user.language">Polski</label>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">T-shirt</label>-->
+                <!--<div class="col-sm-10">-->
+                <!--<label class="radio-inline"><input required name="tshirt_gender" type="radio" value="m"-->
+                <!--ng-model="user.tshirt_gender">Male</label>-->
+                <!--<label class="radio-inline"><input required name="tshirt_gender" type="radio" value="f"-->
+                <!--ng-model="user.tshirt_gender">Female</label>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label"></label>-->
+
+                <!--<div class="col-sm-3">-->
+                <!--<img ng-if="user.tshirt_gender == 'f'" class="img-responsive" src="/assets/images/uhf2017-top.jpg" ng-click="box('/assets/images/uhf2017-top.jpg');$event.preventDefault()">-->
+                <!--<img ng-if="user.tshirt_gender == 'm'" class="img-responsive" src="/assets/images/uhf2017-t-shirt.jpg" ng-click="box('/assets/images/uhf2017-t-shirt.jpg');$event.preventDefault()">-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">T-shirt size</label>-->
+                <!--&lt;!&ndash;<div class="col-sm-2">&ndash;&gt;-->
+                <!--&lt;!&ndash;Upssss... t-shirt's were available until 15th of July 12:00 <br>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--<div class="col-sm-10">-->
+                <!--<label ng-if="user.tshirt_gender == 'f'" class="radio-inline"><input required name="tshirt" type="radio" value="xs" ng-model="user.tshirt">XS</label>-->
+                <!--<label class="radio-inline"><input required name="tshirt" type="radio" value="s" ng-model="user.tshirt">S</label>-->
+                <!--<label class="radio-inline"><input required name="tshirt" type="radio" value="m" ng-model="user.tshirt">M</label>-->
+                <!--<label class="radio-inline"><input required name="tshirt" type="radio" value="l" ng-model="user.tshirt">L</label>-->
+                <!--<label class="radio-inline"><input required name="tshirt" type="radio" value="xl" ng-model="user.tshirt">XL</label>-->
+                <!--<label  ng-if="user.tshirt_gender == 'm'" class="radio-inline"><input required name="tshirt" type="radio" value="xxl" ng-model="user.tshirt">XXL</label>-->
+                <!--<div>-->
+                <!--&lt;!&ndash;Availability: {{stats.tshirt_available[user.tshirt_gender][user.tshirt]}}&ndash;&gt;-->
+                <!--<p class="alert alert-info" ng-if="stats.tshirt_available[user.tshirt_gender][user.tshirt] <= 0">-->
+                <!--Sorry, but this tshirt size is out, we can't promise to manufacture it on time, but we will try!-->
+                <!--</p>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">sizes (cm)</label>-->
+
+                <!--<div class="col-sm-3">-->
+                <!--<a href="/assets/images/uhf2017-top-sizes-2.jpg" target="_blank" ng-click="box('/assets/images/uhf2017-top-sizes-2.jpg');$event.preventDefault()">-->
+                <!--<img ng-if="user.tshirt_gender == 'f'" class="img-responsive" src="/assets/images/uhf2017-top-sizes-2.jpg" >-->
+                <!--</a>-->
+                <!--<a href="/assets/images/uhf2017-t-shirt-sizes.jpg" target="_blank" ng-click="box('/assets/images/uhf2017-t-shirt-sizes.jpg');$event.preventDefault()">-->
+                <!--<img ng-if="user.tshirt_gender == 'm'" class="img-responsive" src="/assets/images/uhf2017-t-shirt-sizes.jpg" >-->
+                <!--</a>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">T-shirt</label>
+
+                    <div class="col-sm-6">
+                        <p>
+                            Sorry, no more t-shirts available :(
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Extra notes</label>
+
+                    <div class="col-sm-6">
+                        <textarea ng-model="user.notes" class="form-control">
+
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input required name="agree_mails" type="checkbox" ng-model="user.agree_mails">
+                                I agree to send me emails which are related to the festival
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix buttons">
+                    <!--<div class="alert alert-success alert-dismissable" role="alert">-->
+                    <!--Pre-registration is closed, see you in Lublin !!!-->
+                    <!--</div>-->
+                    <div ng-if="saving" class="alert alert-success alert-dismissable" role="alert">Saving...</div>
+                    <div ng-if="ctrl.error" class="alert alert-danger alert-dismissable " role="alert">
+                        Sorry, some strange kind of error is destroying your plans :(
+                        <h3>{{ctrl.error}}</h3>
+                    </div>
+                    <div ng-if="submited && ctrl.$form.$invalid" class="alert alert-warning alert-dismissable"
+                         role="alert">
+                        <ul>
+                            <li ng-repeat="e in ctrl.$form.$error.required">{{e.$name}} is required</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <button type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Register for UHF
+                            2017
+                        </button>
+                    </div>
+                    <br><br><br><br>
+                    <!--<div ng-click="register()" class="btn btn-success btn-block btn-lg" ng-disabled="saving">Register for UHF 2016</div>-->
+                </div>
+
+                <div ng-if="lightbox" class="lightbox" ng-click="boxClose()">
+                    <img ng-src="{{lightbox}}" class="img-responsive">
+                </div>
+            </form>
+            <!--<pre>{{ctrl.$form.$error|json}}</pre>-->
+            <!--<pre>{{ctrl.$form.$valid|json}}</pre>-->
+            <!--<pre>{{user|json}}</pre>-->
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script>
+    angular.module('uhf', []).controller('UhfCtrl', function ($scope, $http) {
+        $scope.texts = {
+            email: {
+                tooltip: 'Email'
+            },
+            firstname: {
+                tooltip: 'First name'
+            },
+            lastname: {
+                tooltip: 'Last name'
+            },
+            country: {
+                tooltip: 'country'
+            },
+            documentNumber: {
+                tooltip: 'ID number'
+            }
+        };
+        $scope.stats = {};
+        $scope.countries = [];
+        $http.get('/assets/countries.json').then(function (data) {
+            $scope.countries = data.data;
+        })
+        $http.get('/api/v1/event-register/stats').then(function (data) {
+            $scope.stats = data.data;
+        })
+
+        $scope.ctrl = {};
+        $scope.user = {
+
+            guest: param('guest') ? true : false,
+            volunteer: param('volunteer') ? true : false,
+            step_one: true,
+        };
+//        $scope.user = {
+//            "opened": true,
+//            "agree": true,
+//            "email": "pedro.blaszczak@gmail.com",
+//            "firstname": "Piotr",
+//            "lastname": "Błaszczak",
+//            "street": "Puławska 465",
+//            "postcode": "02-844",
+//            "city": "Warszawa",
+//            "country": 'Poland',
+//            "birthday": "2015-06-16",
+//            "documentType": "id",
+//            "documentNumber": "gggg",
+//            "gender": "m",
+//            "language": "en",
+//            "tshirt": "s"
+//        };
+
+        $scope.box = function(url) {
+            $scope.lightbox = url;
+        }
+        $scope.boxClose = function() {
+            $scope.lightbox = null;
+        }
+        $scope.register = function () {
+            $scope.submited = true;
+            if (!$scope.ctrl.$form.$valid) {
+                return;
+            }
+
+            if($scope.saving) return;
+            $scope.saving = true;
+            $scope.ctrl.error = null;
+
+            var url = '/api/v1/event-register/step-one';
+
+            $http.post(url, $scope.user).then(function (data) {
+                $scope.saving = false;
+                $scope.regUser = data;
+                //$('html, body').animate({
+                //    scrollTop: $(".menu").offset().top
+                //}, 500);
+                //ga('send', 'event', 'uhf2014', 'register', 'success', $scope.user.country.name);
+            }, function (data) {
+                $scope.saving = false;
+                $scope.ctrl.error = data.data.detail;
+                //ga('send', 'event', 'uhf2014', 'register', 'error', data);
+            });
+        };
+    })
+
+    function param(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+</script>
+</body>
+</html>
