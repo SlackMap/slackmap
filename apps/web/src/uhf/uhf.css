@@ -31,7 +31,7 @@
 h3 {
     border-top: 1px solid #d4d4d6;
     font-weight: bold;
-    text-align: center;
+    /* text-align: center; */
     margin-top: 35px;
     padding-top: 15px;
     margin-bottom: 10px;
@@ -45,4 +45,11 @@ h3 {
 .tshirt-box img {
     height: 200px;
     cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .nav-tabs.nav-justified > li {
+    float: left;
+    width: 50%;
+  }
 }

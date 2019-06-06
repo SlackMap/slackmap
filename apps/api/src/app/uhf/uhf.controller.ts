@@ -31,7 +31,6 @@ export class UhfController {
     public async edit(@Query('hash') hash: string): Promise<RegisterResponse> {
       const db = await this.db.acquire();
         const event_rid = 'e0uhf2019'
-
         if (!hash) {
             return {
                 error: 'no hash provided'
@@ -59,6 +58,7 @@ export class UhfController {
 
     /**
      * register for uhf
+     *
      */
     @Post('register')
     public async register(@Body() body: any): Promise<RegisterResponse> {
@@ -140,9 +140,9 @@ export class UhfController {
             item.payment_id = record['@rid'].position;
         }
 
-        delete item.tshirt_gender;
-        delete item.tshirt_type;
-        delete item.tshirt_size;
+        // delete item.tshirt_gender;
+        // delete item.tshirt_type;
+        // delete item.tshirt_size;
 
         delete item.rid;
 
@@ -156,7 +156,9 @@ export class UhfController {
         delete item['@rid'];
         delete item['@version'];
 
-        let data: any = await db.query('UPDATE EventRegistration MERGE :data RETURN AFTER WHERE hash = :hash AND rid=:rid', {
+        const json = JSON.stringify(item);
+
+        let data: any = await db.command(`UPDATE EventRegistration MERGE ${json} RETURN AFTER WHERE hash = :hash AND rid=:rid`, {
             params: {
                 hash: hash,
                 rid: rid,

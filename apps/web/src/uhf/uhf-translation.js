@@ -34,6 +34,10 @@ var texts = {
         pl: `Płatności`
     },
     PAYMENT_WAITING: {
+        en: `No worries, you will get email notification when it will be ready`,
+        pl: `Poinformujemy Cię mailem jak płatność będzie możliwa`
+    },
+    PAYMENT_WAITING_: {
         en: `We are waiting now for your transfer`,
         pl: `Czekamy na twój przelew`
     },
@@ -42,6 +46,19 @@ var texts = {
         pl: `Otrzymaliśmy Twoją wpłatę - teraz czekamy na Ciebie`
     },
     PAYMENT_DETAILS: {
+        en: `
+        <h2>Payment info</h2>
+        <div class="alert alert-danger ng-binding ng-scope">
+          Sorry, we are waiting to set up our bank account
+        </div>
+        `,
+        pl: `<h2>Płatności</h2>
+        <div class="alert alert-danger ng-binding ng-scope">
+          Przepraszamy, ale ciągle czekamy na otwarcie rachunku bankowego
+
+        </div>`
+    },
+    PAYMENT_DETAILS_: {
         en: `
         <h2>Payment info</h2>
         <p>
@@ -128,29 +145,29 @@ var texts = {
         pl: `zgadzam się na otrzymywanie emaili powiązanych z festiwalem`
     },
     AGREE_REGULATIONS: {
-        en: `agree to <a target="_blank" href="http://urbanhighline.pl/uhf-2018/files/regulations/"> regulations</a>`,
-        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf2018/pliki/regulamin/">regulamin</a>`
+        en: `agree to <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/regulations/"> regulations</a>`,
+        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/regulamin/">regulamin</a>`
     },
     AGREE_DECLARATION: {
-        en: `agree to <a target="_blank" href="http://urbanhighline.pl/uhf-2018/files/declaration/">participant declaration</a>`,
-        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf2018/pliki/oswiadczenie/">oświadczenie uczestnika</a>`
+        en: `agree to <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/declaration/">participant declaration</a>`,
+        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/oswiadczenie/">oświadczenie uczestnika</a>`
     },
     PARENTAL_INFO: {
-        en: `I have <a target="_blank" href="http://urbanhighline.pl/uhf-2018/files/parental-consent/">parental consent</a>`,
-        pl: `posiadam <a target="_blank" href="http://urbanhighline.pl/uhf2018/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
+        en: `I have <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/parental-consent/">parental consent</a>`,
+        pl: `posiadam <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
     },
     UNDER18_INFO: {
-        en: `Remember you are under 18 yers old, you have to have printed and signed <a target="_blank" href="http://urbanhighline.pl/uhf-2018/files/parental-consent/">parental consent</a>`,
-        pl: `Pamiętaj że jeśli jesteś niepełnoletni, musisz przynieść wydrukowaną i podpisaną <a target="_blank" href="http://urbanhighline.pl/uhf2018/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
+        en: `Remember you are under 18 yers old, you have to have printed and signed <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/parental-consent/">parental consent</a>`,
+        pl: `Pamiętaj że jeśli jesteś niepełnoletni, musisz przynieść wydrukowaną i podpisaną <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
     },
     RODO: {
         en: `We inform you that the Controller of the personal data of UHF’s Participants are Workshops of Culture in Lublin.
 		The personal data of the Participants will be processed for the organization of the artistic event, for statistical purposes and for archiving (evidential ) purposes for securing information in case a legal need arises to demonstrate facts, which is a legitimate interest of Workshops of Culture (pursuant to art 6 sec 1 let f of the General Data Protection Regulation of 27 April 2016 further referred to as GDPR).
-		More information on the processing of personal data of the Participants can be found in <a target="_blank" href="http://urbanhighline.pl/uhf-2018/files/regulations/"> UHF Regulations </a>in a chapter entitled “The Personal Data of the Participants”
+		More information on the processing of personal data of the Participants can be found in <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/regulations/"> UHF Regulations </a>in a chapter entitled “The Personal Data of the Participants”
         `,
         pl: `Informujemy, że Administratorem (The controller) danych osobowych Uczestników UHF są Warsztaty Kultury w Lublinie.
         Dane osobowe Uczestników będą przetwarzane w celu organizacji wydarzenia artystycznego, w celach statystycznych oraz w celach archiwalnych (dowodowych) dla zabezpieczenia informacji na wypadek prawnej potrzeby wykazania faktów, co jest prawnie uzasadnionym interesem Warsztatów Kultury (podstawa z art 6 ust 1 lit f RODO).
-        Więcej informacji na temat przetwarzania danych osobowych Uczestników znajduje się w <a target="_blank" href="http://urbanhighline.pl/uhf2018/pliki/regulamin/">Regulaminie UHF </a>w rozdziale pod tytułem Dane osobowe Uczestników.
+        Więcej informacji na temat przetwarzania danych osobowych Uczestników znajduje się w <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/regulamin/">Regulaminie UHF </a>w rozdziale pod tytułem Dane osobowe Uczestników.
         `
     },
     LANGUAGE: {
@@ -173,6 +190,23 @@ var texts = {
         <b>25EUR / 100PLN</b> za dwa ostatnie dni (weekend ticket)<br><br>
 
         Koszulka gratis jeśli zarejestrujesz się przed 15 lipca`
+    },
+    TICKET_TYPE: {
+        en: `Ticket type`,
+        pl: `Typ biletu`
+    },
+    TSHIRT_NOT_YET: {
+        en: `<div class="alert alert-danger ng-binding ng-scope">
+        Sorry, the t-shirt visualizations are from last year.<br><br>
+
+        We work on the new design, you will get email notification about it!<br>
+        And you will be able edit your choice.
+      </div>`,
+        pl: `<div class="alert alert-danger ng-binding ng-scope">
+        Wybacz, ale koszulki na zdjęciach są z zeszłego roku. <br><br>
+        Pracujemy nad nowymi, dostaniesz maila gdy będą gotowe!<br>
+        I będziesz mógł edytować swój wybór.
+      </div>`
     },
 }
 

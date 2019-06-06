@@ -4,18 +4,17 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Registration - UHF 2018</title>
+    <title>Registration - UHF 2019</title>
     <base href="/">
 
     <meta property="og:site_name" content="slackmap.com">
     <meta property="og:url" content="https://slackmap.com/event/e0uhf2017">
-    <meta property="og:title" content="Registration - UHF 2017">
+    <meta property="og:title" content="Registration - UHF 2019">
     <meta property="og:image" content="https://test.slackmap.com/assets/images/uhf2017-fb-share-reg.png">
     <meta property="og:description" content="Urban Highline Festival">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
-    <link rel="stylesheet" href="/uhf/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="/uhf/bootstrap.min.css">
     <link rel="stylesheet" href="/uhf/uhf.css">
 
     <body>
@@ -88,8 +87,8 @@
                         </p>
                     </div>
 
-                    <h3>Language</h3>
-
+                    <!-- <h3>Language</h3> -->
+<br><br>
                     <div class="form-group">
                         <!-- <label class="col-sm-2 control-label">Language</label> -->
                         <div class="col-sm-10">
@@ -105,7 +104,7 @@
                             </label>
                         </div>
                     </div>
-                    <h3>Ticket type</h3>
+                    <h3>{{tr('TICKET_TYPE')}}</h3>
                     <div class="form-group">
                         <!-- <label class="col-sm-2 control-label">Language</label> -->
                         <div class="col-sm-10">
@@ -254,9 +253,13 @@
                     </div>
 
                     <h3>T-shirt</h3>
-                    <p>Sorry, no more tshirts available :( <br>if you registered before 15th of July, tshirt will wait for you :)<br> Otherwise you are late :(</p>
 
-                    <!-- <div class="form-group">
+                    <div  ng-bind-html="tr('TSHIRT_NOT_YET') | trust"></div>
+
+                    <!-- <p>Sorry, no more tshirts available :( <br>if you registered before 15th of July, tshirt will wait for you :)<br> Otherwise you are late :(</p> -->
+                    <!-- <p>Sorry, not available yet :( <br>We are working on it!<br> You will receive notification email when it will be ready to order!</p> -->
+
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">gender</label>
                         <div class="col-sm-10">
                             <label class="radio-inline">
@@ -302,31 +305,28 @@
                                 <img ng-click="openBox($event)" src="/uhf/tshirt-sizes.png" class="img-responsive" />
                             </p>
                         </div>
-                    </div> -->
+                    </div>
 
                     <h3>Slackline Skills </h3>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label"></label>
-                        <div class="col-sm-10">
-                                <label class="radio">
-                                    <input type="radio" name="skills" value="none" ng-model="user.skills" required> no slackline skills
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="skills" value="slackline" ng-model="user.skills" required> I can walk slackline
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="skills" value="longline" ng-model="user.skills" required> I can walk longline
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="skills" value="want_highline" ng-model="user.skills" required> I want to learn highline
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="skills" value="highline" ng-model="user.skills" required> I can walk highline (doesn't matter if you sent one or not)
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="skills" value="rigger" ng-model="user.skills" required> I can rig highline
-                                </label>
-                        </div>
+                    <div class="radio">
+                      <label class="radio">
+                        <input type="radio" name="skills" value="none" ng-model="user.skills" required> no slackline skills
+                      </label>
+                      <label class="radio">
+                          <input type="radio" name="skills" value="slackline" ng-model="user.skills" required> I can walk slackline
+                      </label>
+                      <label class="radio">
+                          <input type="radio" name="skills" value="longline" ng-model="user.skills" required> I can walk longline
+                      </label>
+                      <label class="radio">
+                          <input type="radio" name="skills" value="want_highline" ng-model="user.skills" required> I want to learn highline
+                      </label>
+                      <label class="radio">
+                          <input type="radio" name="skills" value="highline" ng-model="user.skills" required> I can walk highline (doesn't matter if you sent one or not)
+                      </label>
+                      <label class="radio">
+                          <input type="radio" name="skills" value="rigger" ng-model="user.skills" required> I can rig highline
+                      </label>
                     </div>
                     <h3>Extra notes</h3>
 
@@ -398,7 +398,7 @@
                         </div>
 
                         <div class="col-sm-6 col-sm-offset-2">
-                            <button ng-if="!user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Register for UHF 2018
+                            <button ng-if="!user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Register for UHF 2019
                             <button ng-if="user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Save changes
                             </button>
                         </div>
@@ -419,117 +419,11 @@
                 <!-- <pre>{{user|json}}</pre> -->
             </div>
         </div>
+        <script src="/uhf/uhf-utils.js"></script>
         <script src="/uhf/countries.js"></script>
         <script src="/uhf/uhf-translation.js?v=1"></script>
         <script src="/uhf/angular.min.js"></script>
-        <script>
-            angular.module('uhf', [])
-                .filter('trust', ['$sce', function ($sce) {
-                    return function (text) {
-                        return $sce.trustAsHtml(text);
-                    };
-                }])
-                .controller('UhfCtrl', function ($scope, $http) {
-                $scope.countries = countries;
-                $http.get('/api/v1/event-register/register', {params:{hash: param('hash')}}).then(function (res) {
-                    if (res.data.data) {
-                        $scope.user = res.data.data;
-                        if($scope.user.payment_id) {
-                            $scope.setTab('payment')
-                        } else {
-                            $scope.setTab('data')
-                        }
-                    } else {
-                        $scope.error = res.data.error;
-                    }
-                }, function (err) {
-
-                    console.error(err)
-                    $scope.error = err.message;
-                })
-
-                $scope.ctrl = {};
-                $scope.user = null;
-
-                $scope.setTab = function (tab) {
-                    $scope.active = tab;
-                }
-                $scope.openBox = function (e) {
-                    console.log('e', e)
-                    $scope.lightbox = e.target.src;
-                }
-                $scope.boxClose = function () {
-                    $scope.lightbox = null;
-                }
-                $scope.isUnder18 = function () {
-                    var user = $scope.user;
-                    if(!user || !user.birthday) return false;
-                    if(user.birthday.length < 10) return false;
-                    var today = new Date();
-                    var birthDate = new Date(user.birthday+'T13:18:23.330Z');
-                    var age = today.getFullYear() - birthDate.getFullYear();
-                    console.log('age', age)
-                    return age <= 18;
-                }
-                $scope.register = function () {
-                    $scope.submited = true;
-                    if (!$scope.ctrl.$form.$valid) {
-                        return;
-                    }
-
-                    if ($scope.saving) return;
-                    $scope.saving = true;
-                    $scope.update_success = null;
-                    $scope.update_error = null;
-                    $scope.ctrl.error = null;
-
-                    var url = '/api/v1/event-register/update';
-
-                    $http.post(url, $scope.user).then(function (data) {
-                        console.log('saved data', data)
-                        $scope.saving = false;
-                        $scope.user = data.data.data;
-                        $scope.update_success = true;
-                    }, function (data) {
-                        console.log('err', data)
-                        $scope.saving = false;
-                        $scope.update_error = data.data;
-                    });
-                };
-                $scope.cancel = function () {
-                    $scope.submited = true;
-
-                    if ($scope.saving) return;
-                    $scope.saving = true;
-                    $scope.update_success = null;
-                    $scope.update_error = null;
-                    $scope.ctrl.error = null;
-
-                    var url = '/api/v1/event-register/delete';
-
-                    $http.post(url, $scope.user).then(function (data) {
-                        window.location = '/uhf/register.html';
-                    }, function (data) {
-                        console.log('err', data)
-                        $scope.saving = false;
-                        $scope.update_error = data.data;
-                    });
-                };
-                $scope.tr = function (name) {
-                    return tr(name, $scope.user);
-                };
-            })
-
-            function param(name, url) {
-                if (!url) url = window.location.href;
-                name = name.replace(/[\[\]]/g, "\\$&");
-                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                    results = regex.exec(url);
-                if (!results) return null;
-                if (!results[2]) return '';
-                return decodeURIComponent(results[2].replace(/\+/g, " "));
-            }
-        </script>
+        <script src="/uhf/edit.js"></script>
     </body>
 
 </html>
