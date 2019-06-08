@@ -22,7 +22,7 @@ angular
       no_header: true,
     };
     $scope.user = {
-      email: 'pedro.blaszczak@gmail.com',
+      // email: 'pedro.blaszczak@gmail.com',
       language: 'en',
       guest: param('guest') ? true : false,
       volunteer: param('volunteer') ? true : false,

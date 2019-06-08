@@ -57,6 +57,7 @@ export class SpotService {
         }
       }
     ).all();
+    await db.close();
     // [
     //     15.281982421875,    // _southWest.lng
     //     49.95121990866204,  //_southWest.lat

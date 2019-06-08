@@ -5,6 +5,8 @@ declare module 'orientjs' {
 
     static connect: (config: OrientDBClientConfig) => Promise<OrientDBClient>;
 
+    connect: () => Promise<OrientDBClient>;
+
     /**
      * Create an OrientDBClient;
      */
@@ -14,6 +16,35 @@ declare module 'orientjs' {
      * Open a pool of sessions with a given config
      */
     sessions: (config: ODatabaseSessionPoolConfig) => Promise<ODatabaseSessionPool>;
+
+    /**
+     * Open single session
+     */
+    session: (config: ODatabaseSessionConfig) => Promise<ODatabaseSession>;
+
+    close(): Promise<void>;
+  }
+
+  export class Server extends EventEmitter {
+
+    static connect: (config: OrientDBClientConfig) => Promise<OrientDBClient>;
+
+    connect: () => Promise<OrientDBClient>;
+
+    /**
+     * Create an OrientDBClient;
+     */
+    constructor(config: OrientDBClientConfig);
+
+    /**
+     * Open a pool of sessions with a given config
+     */
+    sessions: (config: ODatabaseSessionPoolConfig) => Promise<ODatabaseSessionPool>;
+
+    /**
+     * Open single session
+     */
+    session: (config: ODatabaseSessionConfig) => Promise<ODatabaseSession>;
 
     close(): Promise<void>;
   }
@@ -53,95 +84,105 @@ declare module 'orientjs' {
     pool: { max?: number; min?: number };
   }
 
+  export interface ODatabaseSessionConfig {
+    name?: string;
+    username?: string;
+    password?: string;
+  }
+
   export class ODatabaseSessionPool {
 
     constructor(client: OrientDBClient, config: ODatabaseSessionPoolConfig)
 
-    acquire: () => Promise<Session>;
+    acquire: () => Promise<ODatabaseSession>;
     close(): Promise<void>;
 
-    // createError(err): errors.DatabaseError
-    // createPool(config, params): ODatabasePoolFactory;
-  }
+    on(event: string, cb: (data: any) => void): any;
 
-  export interface Session {
-    query<T>(query: string, options?: QueryOptions): ResultStream<T>;
-    command<T>(command: string, options?: QueryOptions): ResultStream<T>;
-    batch<T>(command: string, options?: QueryOptions): ResultStream<T>;
-    liveQuery(command: string, options?: QueryOptions): LiveQueryHandler;
-    begin(): void;
-    runInTransaction(commandsFactory: (tx) => void): Promise<{result: any,tx: any}>;
-    close(): Promise<void>;
-  }
+  // createError(err): errors.DatabaseError
+  // createPool(config, params): ODatabasePoolFactory;
+}
 
-  export interface ResultStream<T> {
-    all: () => Promise<[T]>;
-    one: () => Promise<T>;
-    on: (event: string, callback: (data: T) => void) => ResultStream<T>;
-    set: (params: any) => ResultStream<T>;
-    into: (name: string) => ResultStream<T>;
-  }
+export interface ODatabaseSession {
+  query<T>(query: string, options?: QueryOptions): ResultStream<T>;
+  command<T>(command: string, options?: QueryOptions): ResultStream<T>;
+  batch<T>(command: string, options?: QueryOptions): ResultStream<T>;
+  liveQuery(command: string, options?: QueryOptions): LiveQueryHandler;
+  begin(): void;
+  on(event: string, cb: (data: any) => void): any;
+  runInTransaction(commandsFactory: (tx) => void): Promise<{ result: any, tx: any }>;
+  close(): Promise<void>;
+}
 
-  export interface QueryOptions {
-    params?: any;
-    pageSize?: number;
-  }
+export interface ResultStream<T> {
+  all: () => Promise<[T]>;
+  one: () => Promise<T>;
+  on: (event: string, callback: (data: T) => void) => ResultStream<T>;
+  set: (params: any) => ResultStream<T>;
+  into: (name: string) => ResultStream<T>;
+}
 
-  export class LiveQueryHandler extends EventEmitter {
-    unsubscribe(): Promise<void>
-  }
+export interface QueryOptions {
+  params?: any;
+  pageSize?: number;
+}
 
-  export enum LiveQueryEvents {
-    INSERT = "live-insert",
-    UPDATE = "live-update",
-    DELETE = "live-delete",
-    END = "live-end"
-  }
+export class LiveQueryHandler extends EventEmitter {
+  unsubscribe(): Promise<void>
+}
 
-  // OrientDB.RecordID = OrientDB.RecordId = OrientDB.RID = require('./recordid');
-  // OrientDB.RIDBag = OrientDB.Bag = require('./bag');
-  // OrientDB.Server = require('./server');
-  // OrientDB.Db = require('./db');
-  // OrientDB.Pool = require('./client/pool').Pool;
-  // OrientDB.ODatabase = require('./db/odatabase');
-  // OrientDB.Statement = OrientDB.Db.Statement;
-  // OrientDB.Query = OrientDB.Db.Query;
-  // OrientDB.transport = require('./transport');
-  // OrientDB.errors = require('./errors');
-  // OrientDB.Migration = require('./migration');
-  // OrientDB.CLI = require('./cli');
-  // OrientDB.utils = require('./utils');
-  // OrientDB.jsonify = OrientDB.utils.jsonify;
-  // OrientDB.OrientDBClient = require('./client').OrientDBClient;
+export enum LiveQueryEvents {
+  INSERT = "live-insert",
+  UPDATE = "live-update",
+  DELETE = "live-delete",
+  CREATE = "live-create",
+  END = "live-end"
+}
 
-  /**
-   * A list of orientdb data types, indexed by their type id.
-   * @type {Object}
-   */
-  enum DataTypes {
-    Boolean = 0,
-    Integer = 1,
-    Short = 2,
-    Long = 3,
-    Float = 4,
-    Double = 5,
-    Datetime = 6,
-    string = 7,
-    Binary = 8,
-    Embedded = 9,
-    EmbeddedList = 10,
-    EmbeddedSet = 11,
-    EmbeddedMap = 12,
-    Link = 13,
-    LinkList = 14,
-    LinkSet = 15,
-    LinkMap = 16,
-    Byte = 17,
-    Transient = 18,
-    Date = 19,
-    Custom = 20,
-    Decimal = 21,
-    LinkBag = 22,
-    Any = 23
-  }
+// OrientDB.RecordID = OrientDB.RecordId = OrientDB.RID = require('./recordid');
+// OrientDB.RIDBag = OrientDB.Bag = require('./bag');
+// OrientDB.Server = require('./server');
+// OrientDB.Db = require('./db');
+// OrientDB.Pool = require('./client/pool').Pool;
+// OrientDB.ODatabase = require('./db/odatabase');
+// OrientDB.Statement = OrientDB.Db.Statement;
+// OrientDB.Query = OrientDB.Db.Query;
+// OrientDB.transport = require('./transport');
+// OrientDB.errors = require('./errors');
+// OrientDB.Migration = require('./migration');
+// OrientDB.CLI = require('./cli');
+// OrientDB.utils = require('./utils');
+// OrientDB.jsonify = OrientDB.utils.jsonify;
+// OrientDB.OrientDBClient = require('./client').OrientDBClient;
+
+/**
+ * A list of orientdb data types, indexed by their type id.
+ * @type {Object}
+ */
+enum DataTypes {
+  Boolean = 0,
+  Integer = 1,
+  Short = 2,
+  Long = 3,
+  Float = 4,
+  Double = 5,
+  Datetime = 6,
+  string = 7,
+  Binary = 8,
+  Embedded = 9,
+  EmbeddedList = 10,
+  EmbeddedSet = 11,
+  EmbeddedMap = 12,
+  Link = 13,
+  LinkList = 14,
+  LinkSet = 15,
+  LinkMap = 16,
+  Byte = 17,
+  Transient = 18,
+  Date = 19,
+  Custom = 20,
+  Decimal = 21,
+  LinkBag = 22,
+  Any = 23
+}
 }

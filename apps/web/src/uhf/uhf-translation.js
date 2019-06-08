@@ -176,14 +176,14 @@ var texts = {
     },
     EDIT_INFO: {
         en: `If you already registered, you will receive a link to manage submitted data `,
-        pl: `Jeśli już się rejestrowałeś, wyślemi Ci link do edycji twoich danych`
+        pl: `Jeśli już się rejestrowałeś, wyślemy Ci link do edycji twoich danych`
     },
     PRICE_INFO: {
         en: `5 days of the festival (1 day of workshops, 4 days of highlines)<br>
         Ticket price: <br>
         <b>50EUR / 200PLN</b> for all days (full ticket)<br>
         <b>25EUR / 100PLN</b> for last two days (weekend ticket)<br><br>
-        Free t-shirt for all tickets if you register until 15th`,
+        Free t-shirt for all tickets if you register until 15th of July`,
         pl: `5 dni festiwalu (1 dzień warsztatów, 4 dni z taśmami highline)<br>
         Cena biletu:<br>
         <b>50EUR / 200PLN</b> za wszystkie dni (full ticket)<br>

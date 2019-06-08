@@ -146,7 +146,7 @@ export class ClusterService {
   private async loadSpots() {
     const db = await this.db.acquire();
     const entities = await db.query<SpotEntity>(`SELECT rid, lat, lon, subtype FROM Spot`).all();
-
+    await db.close();
     this.spots = entities.map<Feature>((spot) => {
       return {
         name: 'Feature',
