@@ -146,7 +146,8 @@ export class UhfController {
     const sendPayment = !item.payment_id;
 
     if (sendPayment) {
-      item.payment_id = record['@rid'].position;
+
+      item.payment_id = record['@rid'].position - 547;
     }
 
     // delete item.tshirt_gender;
@@ -213,7 +214,7 @@ export class UhfController {
       }
     }
 
-    const data = await db.query('DELETE FROM :rid', {
+    const data = await db.command('DELETE FROM :rid', {
       params: {
         rid: record['@rid']
       }
@@ -273,43 +274,41 @@ export class UhfController {
   }
 
   @Get('stats')
-  public async stats(): Promise<StatsResponse> {
-    return {
-      total: 0,
-    };
-
+  public async stats(@Query('pass') pass: string): Promise<any> {
+    if (pass !== process.env.PASS) {
+      return { status: 'forbidden' }
+    }
     const db = await this.db.acquire();
     const event_rid = 'e0uhf2019';
-
-    const total: number = await db.query<any>('select count(1) from EventRegistration WHERE event_rid=:event_rid', {
+    const total: number = await db.query<any>('select count(1) as count from EventRegistration WHERE event_rid=:event_rid', {
       params: { event_rid: event_rid }
     }).all().then<number>(i => i[0].count);
 
-    const not_finished: number = await db.query<any>('select count(1) from EventRegistration WHERE event_rid=:event_rid AND payment_id IS NULL', {
+    const not_finished: number = await db.query<any>('select count(1) as count from EventRegistration WHERE event_rid=:event_rid AND payment_id IS NULL', {
       params: { event_rid: event_rid }
     }).all().then<number>(i => i[0].count);
 
-    const payment_online: number = await db.query<any>('select count(1) from EventRegistration WHERE event_rid=:event_rid AND payment_online IS NOT NULL', {
+    const payment_online: number = await db.query<any>('select count(1) as count from EventRegistration WHERE event_rid=:event_rid AND payment_online IS NOT NULL', {
       params: { event_rid: event_rid }
     }).all().then<number>(i => i[0].count);
 
-    const payment_onsite: number = await db.query<any>('select count(1) from EventRegistration WHERE event_rid=:event_rid AND payment_onsite IS NOT NULL', {
+    const payment_onsite: number = await db.query<any>('select count(1) as count from EventRegistration WHERE event_rid=:event_rid AND payment_onsite IS NOT NULL', {
       params: { event_rid: event_rid }
     }).all().then<number>(i => i[0].count);
 
-    const payment_onsite_permit: number = await db.query<any>('select count(1) from EventRegistration WHERE event_rid=:event_rid AND payment_onsite_permit IS NOT NULL', {
+    const payment_onsite_permit: number = await db.query<any>('select count(1) as count from EventRegistration WHERE event_rid=:event_rid AND payment_onsite_permit IS NOT NULL', {
       params: { event_rid: event_rid }
     }).all().then<number>(i => i[0].count);
 
-    const pl: number = await db.query<any>('select count(1) from EventRegistration WHERE event_rid=:event_rid AND country = "PL" ', {
+    const pl: number = await db.query<any>('select count(1) as count from EventRegistration WHERE event_rid=:event_rid AND country = "PL" ', {
       params: { event_rid: event_rid }
     }).all().then<number>(i => i[0].count);
 
-    const not_pl: number = await db.query<any>('select count(1) from EventRegistration WHERE event_rid=:event_rid AND country <> "PL" ', {
+    const not_pl: number = await db.query<any>('select count(1) as count from EventRegistration WHERE event_rid=:event_rid AND country <> "PL" ', {
       params: { event_rid: event_rid }
     }).all().then<number>(i => i[0].count);
 
-    const countries: any = await db.query<any>('select count(1), country from EventRegistration WHERE event_rid=:event_rid GROUP BY country', {
+    const countries: any = await db.query<any>('select count(1) as count, country from EventRegistration WHERE event_rid=:event_rid GROUP BY country', {
       params: { event_rid: event_rid }
     }).all().then<any>(items => {
       const res: any = {};
@@ -318,7 +317,7 @@ export class UhfController {
       }
       return res;
     });
-    const genders: any = await db.query<any>('select count(1), gender from EventRegistration WHERE event_rid=:event_rid GROUP BY gender', {
+    const genders: any = await db.query<any>('select count(1) as count, gender from EventRegistration WHERE event_rid=:event_rid GROUP BY gender', {
       params: { event_rid: event_rid }
     }).all().then<any>(items => {
       const res: any = {};
@@ -333,7 +332,7 @@ export class UhfController {
       m_count: 0,
       f_count: 0
     }
-    await db.query<any>(`select count(1), tshirt_type from EventRegistration WHERE event_rid=:event_rid AND tshirt_gender='m' GROUP BY tshirt_type`, {
+    await db.query<any>(`select count(1) as count, tshirt_type from EventRegistration WHERE event_rid=:event_rid AND tshirt_gender='m' GROUP BY tshirt_type`, {
       params: { event_rid: event_rid }
     }).all().then<any>(items => {
       for (const item of items) {
@@ -341,7 +340,7 @@ export class UhfController {
         tshirts.m_count = tshirts.m_count + item.count;
       }
     });
-    await db.query<any>(`select count(1), tshirt_type from EventRegistration WHERE event_rid=:event_rid AND tshirt_gender='f' GROUP BY tshirt_type`, {
+    await db.query<any>(`select count(1) as count, tshirt_type from EventRegistration WHERE event_rid=:event_rid AND tshirt_gender='f' GROUP BY tshirt_type`, {
       params: { event_rid: event_rid }
     }).all().then<any>(items => {
       for (const item of items) {
@@ -385,7 +384,7 @@ export class UhfController {
         l: tshirt_limits.f.l - int(_.get(tshirts, 'f.l'))
       }
     }
-
+    await db.close();
     return <any>{
       total,
       not_finished,

@@ -275,14 +275,14 @@
                                 <input required name="tshirt_type" type="radio" value="tshirt" ng-model="user.tshirt_type">t-shirt</label>
                             <label class="radio-inline">
                                 <input required name="tshirt_type" type="radio" value="top" ng-model="user.tshirt_type">top</label>
-                            <p ng-if="user.tshirt_gender === 'f'">
+                            <!-- <p ng-if="user.tshirt_gender === 'f'">
                                 <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-women-slim.jpg" class="img-responsive" />
                                 <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-women-short.jpg" class="img-responsive" />
                             </p>
                             <p ng-if="user.tshirt_gender === 'm'">
                                 <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-men-slim.jpg" class="img-responsive" />
                                 <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-men-short.jpg" class="img-responsive" />
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                     <div class="form-group">
@@ -362,16 +362,12 @@
                                     <span ng-bind-html="tr('AGREE_REGULATIONS') | trust"></span>
                                 </label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
                             <div class="checkbox">
-                                <label>
-                                    <input required name="agree_declaration" type="checkbox" ng-model="user.agree_declaration">
-                                    <span ng-bind-html="tr('AGREE_DECLARATION') | trust"></span>
-                                </label>
-                            </div>
+                              <label>
+                                  <input required name="agree_declaration" type="checkbox" ng-model="user.agree_declaration">
+                                  <span ng-bind-html="tr('AGREE_DECLARATION') | trust"></span>
+                              </label>
+                          </div>
                         </div>
                     </div>
 

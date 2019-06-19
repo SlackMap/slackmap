@@ -146,19 +146,19 @@ var texts = {
     },
     AGREE_REGULATIONS: {
         en: `agree to <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/regulations/"> regulations</a>`,
-        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/regulamin/">regulamin</a>`
+        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf-2019/pliki/regulamin/">regulamin</a>`
     },
     AGREE_DECLARATION: {
         en: `agree to <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/declaration/">participant declaration</a>`,
-        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/oswiadczenie/">oświadczenie uczestnika</a>`
+        pl: `akceptuję <a target="_blank" href="http://urbanhighline.pl/uhf-2019/pliki/oswiadczenie/">oświadczenie uczestnika</a>`
     },
     PARENTAL_INFO: {
         en: `I have <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/parental-consent/">parental consent</a>`,
-        pl: `posiadam <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
+        pl: `posiadam <a target="_blank" href="http://urbanhighline.pl/uhf-2019/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
     },
     UNDER18_INFO: {
         en: `Remember you are under 18 yers old, you have to have printed and signed <a target="_blank" href="http://urbanhighline.pl/uhf-2019/files/parental-consent/">parental consent</a>`,
-        pl: `Pamiętaj że jeśli jesteś niepełnoletni, musisz przynieść wydrukowaną i podpisaną <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
+        pl: `Pamiętaj że jeśli jesteś niepełnoletni, musisz przynieść wydrukowaną i podpisaną <a target="_blank" href="http://urbanhighline.pl/uhf-2019/pliki/zgoda-opiekuna/ ">zgodę opiekuna</a>`
     },
     RODO: {
         en: `We inform you that the Controller of the personal data of UHF’s Participants are Workshops of Culture in Lublin.
@@ -167,7 +167,7 @@ var texts = {
         `,
         pl: `Informujemy, że Administratorem (The controller) danych osobowych Uczestników UHF są Warsztaty Kultury w Lublinie.
         Dane osobowe Uczestników będą przetwarzane w celu organizacji wydarzenia artystycznego, w celach statystycznych oraz w celach archiwalnych (dowodowych) dla zabezpieczenia informacji na wypadek prawnej potrzeby wykazania faktów, co jest prawnie uzasadnionym interesem Warsztatów Kultury (podstawa z art 6 ust 1 lit f RODO).
-        Więcej informacji na temat przetwarzania danych osobowych Uczestników znajduje się w <a target="_blank" href="http://urbanhighline.pl/uhf2019/pliki/regulamin/">Regulaminie UHF </a>w rozdziale pod tytułem Dane osobowe Uczestników.
+        Więcej informacji na temat przetwarzania danych osobowych Uczestników znajduje się w <a target="_blank" href="http://urbanhighline.pl/uhf-2019/pliki/regulamin/">Regulaminie UHF </a>w rozdziale pod tytułem Dane osobowe Uczestników.
         `
     },
     LANGUAGE: {
@@ -197,14 +197,11 @@ var texts = {
     },
     TSHIRT_NOT_YET: {
         en: `<div class="alert alert-danger ng-binding ng-scope">
-        Sorry, the t-shirt visualizations are from last year.<br><br>
-
         We work on the new design, you will get email notification about it!<br>
         And you will be able edit your choice.
       </div>`,
         pl: `<div class="alert alert-danger ng-binding ng-scope">
-        Wybacz, ale koszulki na zdjęciach są z zeszłego roku. <br><br>
-        Pracujemy nad nowymi, dostaniesz maila gdy będą gotowe!<br>
+        Pracujemy nad nowymi koszulkami, dostaniesz maila gdy będą gotowe!<br>
         I będziesz mógł edytować swój wybór.
       </div>`
     },
