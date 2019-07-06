@@ -33,11 +33,11 @@ var texts = {
         en: `Payment info`,
         pl: `Płatności`
     },
-    PAYMENT_WAITING: {
+    PAYMENT_WAITING_unavailable: {
         en: `No worries, you will get email notification when it will be ready`,
         pl: `Poinformujemy Cię mailem jak płatność będzie możliwa`
     },
-    PAYMENT_WAITING_: {
+    PAYMENT_WAITING: {
         en: `We are waiting now for your transfer`,
         pl: `Czekamy na twój przelew`
     },
@@ -45,7 +45,7 @@ var texts = {
         en: `We received your payment - now we are waiting for You`,
         pl: `Otrzymaliśmy Twoją wpłatę - teraz czekamy na Ciebie`
     },
-    PAYMENT_DETAILS: {
+    PAYMENT_DETAILS_no: {
         en: `
         <h2>Payment info</h2>
         <div class="alert alert-danger ng-binding ng-scope">
@@ -58,23 +58,33 @@ var texts = {
 
         </div>`
     },
-    PAYMENT_DETAILS_: {
+    PAYMENT_DETAILS: {
         en: `
         <h2>Payment info</h2>
         <p>
             Your ticket number is: <b> {{payment_id}}</b><br><br>
+
+            You have two options:<br><br>
+            <b>1.</b> You pay onsite at infopoint in Lublin.<Br>
+            <b>2.</b> You can do bank transfer right now, if it's better for you.<br><br>
+
             So your transfer title should be: <b>"ticket {{payment_id}}"</b><br>
             You can pay for more then one ticket with one transfer,
             just get the ticket numbers from your friends and put them all separated with coma, like: "tickets 345,677,898"<br><br>
 
             Transfer amount per person should be: <br>
-            <b>50EUR / 200PLN</b> for all days (full ticket)<br>
-            <b>25EUR / 100PLN</b> for last two days (weekend ticket)<br><br>
+            <b>13EUR / 50PLN</b> camping (no highline access)<br>
+            <b>50EUR / 200PLN</b> highlines for all days (full ticket)<br>
+            <b>25EUR / 100PLN</b> highlines for last two days (weekend ticket)<br><br>
 
-            Warsztaty Kultury w Lublinie<br>
-            Ul. Grodzka 5a, 20-112 Lublin<br>
-            IBAN: PL 38 1240 1503 1111 0010 5772 9238 (Bank Pekao S.A.)<br>
-            Kod BIC: PKOPPLPW<br><br>
+            Title: ticket {{payment_id}}<br>
+            Name: FUNDACJA FIRMAMENT<br>
+            Address: ul. CYRKONIOWA 8/3, 20-583 LUBLIN<br>
+            IBAN: PL93114020040000330278894300 (mBank)<br>
+            BIC/SWIFT: BREXPLPWMBK <br>
+            Bank: mBank S.A. FORMERLY BRE BANK S.A. (RETAIL BANKING) LODZ, Skrytka pocztowa 2108, 90-959 Łódź 2<br>
+            SORT CODE/numer rozliczeniowy - 11402004
+            <br><br>
 
             <b>Any problems or questions related to payments ???</b><br>
             <p>please contact us on: <a href="mailto:registration@urbanhighline.pl">registration@urbanhighline.pl</a></p>
@@ -82,18 +92,30 @@ var texts = {
         pl: `<h2>Płatności</h2>
         <p>
             Twój numer biletu to: <b> {{payment_id}}</b><br><br>
+
+
+            Masz dwie opcje do wyboru:<br><br>
+            <b>1.</b> Płacisz na miejscu w infopoint.<Br>
+            <b>2.</b> Robisz przelew bankowy teraz, będzie szybciej na miejscu.<br><br>
+
+
             Tytuł przelewu powinien zawierać: <b>"ticket {{payment_id}}"</b><br>
             możesz zapłacić za wielu uczestników jednym przelewem,
-            zdobądź numery biletów twoich znajomych i podaj je odzielone przecinkami, np: "tickets 345,677,898"<br><br>
+            zdobądź numery biletów twoich znajomych i podaj je oddzielone przecinkami, np: "tickets 345,677,898"<br><br>
 
             Kwota przelewu: <br>
-            <b>50EUR / 200PLN</b> za wszystkie dni (full ticket)<br>
-            <b>25EUR / 100PLN</b> za dwa ostatnie dni (weekend ticket)<br><br>
+            <b>13EUR / 50PLN</b> zjednoczony lublin/kemping (bez dostępu do highline) <br>
+            <b>50EUR / 200PLN</b> highline za wszystkie dni (full ticket)<br>
+            <b>25EUR / 100PLN</b> highline za dwa ostatnie dni (weekend ticket)<br><br>
 
-            Warsztaty Kultury w Lublinie<br>
-            Ul. Grodzka 5a, 20-112 Lublin<br>
-            IBAN: PL 38 1240 1503 1111 0010 5772 9238 (Bank Pekao S.A.)<br>
-            Kod BIC: PKOPPLPW<br><br>
+            Tytuł: ticket {{payment_id}}<br>
+            Nazwa: FUNDACJA FIRMAMENT<br>
+            Adres: ul. CYRKONIOWA 8/3, 20-583 LUBLIN<br>
+            IBAN: PL93114020040000330278894300 (mBank)<br>
+            BIC/SWIFT: BREXPLPWMBK <br>
+            Bank: mBank S.A. FORMERLY BRE BANK S.A. (RETAIL BANKING) LODZ, Skrytka pocztowa 2108, 90-959 Łódź 2<br>
+            SORT CODE/numer rozliczeniowy - 11402004
+            <br><br>
 
             <b>Masz problem lub pytanie związane z płatnościami ???</b><br>
             <p>napisz na: <a href="mailto:registration@urbanhighline.pl">registration@urbanhighline.pl</a></p>
@@ -190,6 +212,16 @@ var texts = {
         <b>25EUR / 100PLN</b> za dwa ostatnie dni (weekend ticket)<br><br>
 
         Koszulka gratis jeśli zarejestrujesz się przed 15 lipca`
+    },
+    PRICE_INFO_CAMP: {
+        en: `5 days of Zjednoczony Lublin meeting<br>
+        <br>
+        <b>13EUR / 50PLN</b> for all days
+        `,
+        pl: `5 dni spotkania Zjednoczony Lublin<br>
+        <br>
+        <b>13EUR / 50PLN</b> za wszystkie dni
+        `
     },
     TICKET_TYPE: {
         en: `Ticket type`,

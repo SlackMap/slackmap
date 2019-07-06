@@ -61,7 +61,7 @@
                     <div ng-bind-html="tr('PAYMENT_DETAILS') | trust"></div>
 
                     <div class="alert alert-danger" ng-if="isUnder18()" ng-bind-html="tr('UNDER18_INFO') | trust" ></div>
-                    <div class="alert alert-danger" ng-if="!user.payment_online && !user.payment_onsite_permit" ng-bind-html="tr('PAYMENT_WAITING') | trust"></div>
+                    <!-- <div class="alert alert-danger" ng-if="!user.payment_online && !user.payment_onsite_permit" ng-bind-html="tr('PAYMENT_WAITING') | trust"></div> -->
                     <div class="alert alert-success" ng-if="user.payment_online && !user.payment_onsite_permit" ng-bind-html="tr('PAYMENT_RECEIVED') | trust"></div>
                     <div class="alert alert-success" ng-if="user.payment_onsite_permit" ng-bind-html="tr('PAYMENT_ONSITE_PERMIT') | trust"></div>
 
@@ -105,8 +105,15 @@
                         </div>
                     </div>
                     <h3>{{tr('TICKET_TYPE')}}</h3>
-                    <div class="form-group">
-                        <!-- <label class="col-sm-2 control-label">Language</label> -->
+                    <div ng-if="user.zjednoczony" class="form-group">
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input required name="ticket_type" type="radio" value="camp" ng-model="user.ticket_type">
+                                Camping (13EUR / 50PLN)
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="!user.zjednoczony" class="form-group">
                         <div class="col-sm-10">
                             <label class="radio-inline">
                                 <input required name="ticket_type" type="radio" value="full" ng-model="user.ticket_type">
@@ -129,7 +136,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group"  ng-if="!user.zjednoczony">
                         <label class="col-sm-2 control-label">mobile<br><i>(optional)</i></label>
 
                         <div class="col-sm-6">
@@ -138,7 +145,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group"  ng-if="!user.zjednoczony">
                         <label class="col-sm-2 control-label">social media<br><i>(optional)</i></label>
 
                         <div class="col-sm-6">
@@ -172,7 +179,7 @@
                             <input type="text" ng-model="user.lastname" required class="form-control" placeholder="{{texts.lastname.tooltip}}" tooltip="{{texts.lastname.tooltip}}">
                         </div>
                     </div>
-
+<div  ng-if="!user.zjednoczony">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Country</label>
 
@@ -254,7 +261,7 @@
 
                     <h3>T-shirt</h3>
 
-                    <div  ng-bind-html="tr('TSHIRT_NOT_YET') | trust"></div>
+                    <!-- <div  ng-bind-html="tr('TSHIRT_NOT_YET') | trust"></div> -->
 
                     <!-- <p>Sorry, no more tshirts available :( <br>if you registered before 15th of July, tshirt will wait for you :)<br> Otherwise you are late :(</p> -->
                     <!-- <p>Sorry, not available yet :( <br>We are working on it!<br> You will receive notification email when it will be ready to order!</p> -->
@@ -275,14 +282,14 @@
                                 <input required name="tshirt_type" type="radio" value="tshirt" ng-model="user.tshirt_type">t-shirt</label>
                             <label class="radio-inline">
                                 <input required name="tshirt_type" type="radio" value="top" ng-model="user.tshirt_type">top</label>
-                            <!-- <p ng-if="user.tshirt_gender === 'f'">
-                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-women-slim.jpg" class="img-responsive" />
-                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-women-short.jpg" class="img-responsive" />
+                            <p ng-if="user.tshirt_gender === 'f'">
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-2019/f-tshirt.jpg" class="img-responsive" />
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-2019/f-top.jpg" class="img-responsive" />
                             </p>
                             <p ng-if="user.tshirt_gender === 'm'">
-                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-men-slim.jpg" class="img-responsive" />
-                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-men-short.jpg" class="img-responsive" />
-                            </p> -->
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'tshirt'" src="/uhf/tshirt-2019/m-tshirt.jpg" class="img-responsive" />
+                                <img ng-click="openBox($event)" ng-if="user.tshirt_type === 'top'" src="/uhf/tshirt-2019/m-top.jpg" class="img-responsive" />
+                            </p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -302,7 +309,8 @@
                             <label ng-if="user.tshirt_gender == 'm'" class="radio-inline">
                                 <input required name="tshirt_size" type="radio" value="xxl" ng-model="user.tshirt_size">XXL</label>
                             <p>
-                                <img ng-click="openBox($event)" src="/uhf/tshirt-sizes.png" class="img-responsive" />
+                                <img ng-click="openBox($event)" src="/uhf/tshirt-2019/SIZE-CHARTS_EN_TABLE.png" class="img-responsive" />
+                                <img style="max-height: 150px" ng-click="openBox($event)" src="/uhf/tshirt-2019/SIZE-CHARTS_EN_BODY.png" class="img-responsive" />
                             </p>
                         </div>
                     </div>
@@ -328,6 +336,7 @@
                           <input type="radio" name="skills" value="rigger" ng-model="user.skills" required> I can rig highline
                       </label>
                     </div>
+          </div>
                     <h3>Extra notes</h3>
 
                     <div class="form-group">
@@ -362,7 +371,7 @@
                                     <span ng-bind-html="tr('AGREE_REGULATIONS') | trust"></span>
                                 </label>
                             </div>
-                            <div class="checkbox">
+                            <div class="checkbox"  ng-if="!user.zjednoczony">
                               <label>
                                   <input required name="agree_declaration" type="checkbox" ng-model="user.agree_declaration">
                                   <span ng-bind-html="tr('AGREE_DECLARATION') | trust"></span>
@@ -394,9 +403,13 @@
                         </div>
 
                         <div class="col-sm-6 col-sm-offset-2">
-                            <button ng-if="!user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Register for UHF 2019
-                            <button ng-if="user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Save changes
+                            <button ng-if="!user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">
+                              Register for
+                              <span  ng-if="user.zjednoczony">Zjednoczony Lublin</span>
+                              <span  ng-if="!user.zjednoczony">UHF 2019</span>
                             </button>
+                            <button ng-if="user.payment_id" type="submit" class="btn btn-success btn-block btn-lg " ng-disabled="saving">Save changes</button>
+
                         </div>
                         <br>
                         <br>
@@ -417,7 +430,7 @@
         </div>
         <script src="/uhf/uhf-utils.js"></script>
         <script src="/uhf/countries.js"></script>
-        <script src="/uhf/uhf-translation.js?v=1"></script>
+        <script src="/uhf/uhf-translation.js?v=3"></script>
         <script src="/uhf/angular.min.js"></script>
         <script src="/uhf/edit.js"></script>
     </body>

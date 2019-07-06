@@ -6,8 +6,13 @@ import { texts } from "./uhf-emails";
 import { now, OrientService } from "@slackmap/api/orient";
 // import * as _ from 'lodash';
 const _ = require('lodash');
-import { Controller, Get, Query, Post, Body, Request } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Request, UseGuards } from '@nestjs/common';
 import { UhfMailRegConfig } from './uhf-mail-reg-config';
+import { User } from './user-decorator';
+import { UhfGuard } from './uhf.guard';
+import * as FB from 'fb';
+import { JwtService } from './jwt.service';
+
 const nodemailer = require('nodemailer');
 const striptags = require('striptags');
 const randomstring = require('randomstring');
@@ -15,14 +20,46 @@ const randomstring = require('randomstring');
 export interface StatsResponse {
   total?: number
 }
+export class AuthConnectFacebookRequestDto {
+  access_token: string;
+  signed_request?: string;
+}
+
+export interface RegisterResponse {
+}
+
+export interface FacebookProfileEntity {
+  id?: string;
+  email?: string;
+  name?: string;
+  first_name?: string;
+  last_name?: string;
+}
 
 @Controller("uhf")
 export class UhfController {
 
   constructor(
     private db: OrientService,
-    private mailConfig: UhfMailRegConfig
+    private mailConfig: UhfMailRegConfig,
+    private jwt: JwtService
   ) { }
+  selectQuery = [
+    'name',
+    'rid',
+    'email',
+    'facebook_id',
+    'type',
+    'subtype',
+    'lastname',
+    'firstname',
+    'location_path',
+    'imperial',
+    'has_uhf',
+    'created_at',
+    '@rid as id',
+    '@version as _version'
+  ];
 
   /**
    * get your data by hash
@@ -95,7 +132,79 @@ export class UhfController {
       };
     } else {
       // new registration
-      const item = body;
+      const item: any = {
+        email: body.email,
+        language: body.language,
+        guest: body.guest,
+        volunteer: body.volunteer,
+        agree_mails: body.agree_mails,
+        agree_privacy: body.agree_privacy,
+      };
+      item.event_rid = event_rid;
+      item.created_at = now();
+
+      item.rid = 'e1' + randomstring.generate(11);
+      item.hash = randomstring.generate(20);
+
+      record = await db.command('INSERT INTO EventRegistration CONTENT :item', {
+        params: { item: item }
+      }).one();
+      const subject = tr('REGISTER_EMAIL_SUBJECT', record);
+      const html = tr('REGISTER_EMAIL_HTML', record);
+      this.sendEmail(item.email, subject, html);
+      await db.close();
+      return {
+        message: tr('REGISTER_EMAIL_SUCCESS', record)
+      };
+    }
+  }
+  /**
+   * register for uhf
+   *
+   */
+  @Post('register-zjednoczony')
+  public async registerZjednoczony(@Body() body: any): Promise<RegisterResponse> {
+    const db = await this.db.acquire();
+    const email = body.email;
+    const event_rid = 'e0uhf2019';
+
+    if (!email) {
+      await db.close();
+      throw new Error('no email provided')
+    }
+
+    let record: any = await db.query('SELECT * FROM EventRegistration WHERE email=:email AND event_rid=:event_rid', {
+      params: {
+        email,
+        event_rid
+      }
+    }).one();
+
+    if (record) {
+      // send edit link
+      const subject = tr('EDIT_EMAIL_SUBJECT', record);
+      const html = tr('EDIT_EMAIL_HTML', record);
+
+      this.sendEmail(record.email, subject, html);
+      await db.close();
+      return {
+        message: tr('EDIT_EMAIL_SUCCESS', record)
+      };
+    } else {
+      // new registration
+      const item: any = {
+        zjednoczony: true,
+        email: body.email,
+        // gender: body.gender,
+        // firstname: body.firstname,
+        // lastname: body.lastname,
+        language: body.language,
+        ticket_type: 'cmap',
+        guest: body.guest,
+        volunteer: body.volunteer,
+        agree_mails: body.agree_mails,
+        agree_privacy: body.agree_privacy,
+      };
       item.event_rid = event_rid;
       item.created_at = now();
 
@@ -112,10 +221,6 @@ export class UhfController {
         message: tr('REGISTER_EMAIL_SUCCESS', record)
       };
     }
-
-
-
-
   }
 
   /**
@@ -404,14 +509,9 @@ export class UhfController {
    *  list for admin panel
    */
   @Get('list')
-  public async listGet(@Request() ctx: any): Promise<RegisterResponse> {
+  @UseGuards(UhfGuard)
+  public async listGet(@User() user: any): Promise<RegisterResponse> {
 
-    if (!ctx.state.user) {
-      throw new ForbiddenError({ message: 'access forbidden' })
-    }
-    if (!ctx.state.user.has_uhf) {
-      throw new ForbiddenError({ message: 'access restricted' })
-    }
 
     const db = await this.db.acquire();
     const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
@@ -536,12 +636,108 @@ export class UhfController {
 
   }
 
+  @Post('fb-auth')
+  async fbAuth(@Body() request: AuthConnectFacebookRequestDto): Promise<any> {
+    /**
+     * get profile from facebook
+     */
+    const profile: FacebookProfileEntity = await this.fbMe(request.access_token);
+
+    // profile id is required
+    if (!profile || !profile.id) {
+      throw new ValidationError({ title: `We can't get id of your facebook profile :(`, data: { rerequest: true } });
+    }
+
+    /**
+     * find user in database by facebook_id or email
+     */
+    const users: any[] = await this.findByFacebookProfile(profile);
+    let user = null;
+    if (users.length) {
+      user = users[0];
+    }
+    const api_token: string = this.jwt.tokenSign({
+      facebook_profile: profile,
+      user
+    });
+
+    return {
+      facebook_profile: profile,
+      api_token,
+      users,
+      user
+    };
+  }
+
+  /**
+   * get users by facebook profile, should be only one, but can happen more
+   */
+  async findByFacebookProfile(profile: FacebookProfileEntity): Promise<Array<any>> {
+    let where = '';
+    const params: any = {};
+    if (profile.id) {
+      where = 'facebook_id = :facebook_id';
+      params.facebook_id = profile.id;
+    }
+    if (profile.email) {
+      where = where + ' OR email = :email';
+      params.email = profile.email;
+    }
+    const query = `
+    SELECT ${this.selectQuery.join(',')}
+    FROM User
+    where ${where}
+    `;
+    const db = await this.db.acquire();
+    const items: any = await db.query<any[]>(query, {
+      params
+    }).all();
+    await db.close();
+    return items.map(userRow2entity);
+  }
+
+  fbMe(accessToken: string): Promise<FacebookProfileEntity> {
+    return new Promise<FacebookProfileEntity>(function (resolve, reject) {
+      FB.api(
+        'me',
+        {
+          fields: ['id', 'name', 'email'],
+          access_token: accessToken
+        },
+        function (profile) {
+          // error getting the profile
+          if (profile.error) {
+            const e = new ValidationError({
+              title: `Did you canceled the login dialog?? Becourse we got: ${profile.error.message}`,
+              data: { rerequest: true },
+              parent: profile.error
+            });
+            reject(e);
+          }
+
+          resolve(profile);
+        }
+      );
+    });
+  }
 }
-
-export interface RegisterResponse {
+export function userRow2entity(row: any): any {
+  if (row) {
+    delete row['@type'];
+    delete row['@rid'];
+    delete row['@version'];
+    if (row['firstname']) {
+      row.first_name = row['firstname'];
+      delete row['firstname'];
+    }
+    if (row['lastname']) {
+      row.last_name = row['lastname'];
+      delete row['lastname'];
+    }
+    row.id = row.id.toString();
+  }
+  return row;
 }
-
-
 function tr(name: string, item: any) {
   if (!texts[name]) {
     return name;

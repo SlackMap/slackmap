@@ -18,11 +18,11 @@ angular
         function(res) {
           if (res.data.data) {
             $scope.user = res.data.data;
-            if ($scope.user.payment_id) {
-              $scope.setTab('payment');
-            } else {
+            // if ($scope.user.payment_id) {
+            //   $scope.setTab('payment');
+            // } else {
               $scope.setTab('data');
-            }
+            // }
           } else {
             $scope.error = res.data.error;
           }

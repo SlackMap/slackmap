@@ -2,10 +2,11 @@
     padding-top: 15px;
 }
 .header-img {
-    background-image: url(/uhf/2018.jpg);
+    background-image: url(/uhf/tshirt-2019/top_fb.jpg);
     height: 119px;
-    background-size: cover;
+    background-size: contain;
     background-position: bottom;
+    background-repeat: no-repeat;
 }
 .header h2 {
     text-align: center;

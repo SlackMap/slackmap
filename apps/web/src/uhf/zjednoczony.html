@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Registration - UHF 2019</title>
+    <title>Zjednoczony Lublin 2019 | Rejestracja</title>
     <base href="/">
 
     <meta property="og:site_name" content="slackmap.com">
-    <meta property="og:url" content="https://test.slackmap.com/uhf/register.html">
-    <meta property="og:title" content="Registration - UHF 2019">
+    <meta property="og:url" content="https://test.slackmap.com/uhf/zjednoczony.html">
+    <meta property="og:title" content="Zjednoczony Lublin | Rejestracja">
     <meta property="og:image" content="https://slackmap.com/assets/images/uhf2018-fb-share-reg.png">
-    <meta property="og:description" content="Urban Highline Festival">
+    <meta property="og:description" content="Rejstracja na Zjednoczony Lublin 2019">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
     <!-- Latest compiled and minified CSS -->
@@ -21,8 +21,14 @@
     <body>
         <div class="event-state container " ng-controller="UhfCtrl">
 
-            <ng-include src="'/uhf/header.html'"></ng-include>
-
+            <div class="header">
+                <div class="header-img" ng-if="!ctrl.no_header"></div>
+                <h2>
+                    Zjednoczony Lublin
+                    <!-- <br> <i>{{tr('REGISTRATION')}}</i> -->
+                    <br> <i>{{tr('DATES')}}</i>
+                </h2>
+            </div>
             <div class="row3" ng-if="closed">
                 <div class="alert alert-success alert-dismissable" role="alert">
                     <b>CLOSED !!!</b>
@@ -77,7 +83,7 @@
                             </div>
                         </div>
 
-                        <p ng-bind-html="tr('PRICE_INFO') | trust"></p>
+                        <p ng-bind-html="tr('PRICE_INFO_CAMP') | trust"></p>
 
                         <p ng-bind-html="tr('RODO') | trust"></p>
 
@@ -85,12 +91,38 @@
                           {{tr('START_REG_INFO')}}
                         </h4>
                         <div class="form-group">
-                            <!-- <label class="col-sm-2 control-label">Email</label> -->
+                            <label class="col-sm-2 control-label">Email</label>
 
                             <div class="col-sm-6">
                                 <input placeholder="Email" type="email" ng-model="user.email" name="email" required class="form-control">
                             </div>
+
                         </div>
+<!--
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">Gender</label>
+                          <div class="col-sm-10">
+                              <label class="radio-inline">
+                                  <input required name="gender" type="radio" value="m" ng-model="user.gender">Male</label>
+                              <label class="radio-inline">
+                                  <input required name="gender" type="radio" value="f" ng-model="user.gender">Female</label>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First name</label>
+
+                            <div class="col-sm-6">
+                                <input type="text" ng-model="user.firstname" required class="form-control" placeholder="{{texts.firstname.tooltip}}" tooltip="{{texts.firstname.tooltip}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Last name</label>
+
+                            <div class="col-sm-6">
+                                <input type="text" ng-model="user.lastname" required class="form-control" placeholder="{{texts.lastname.tooltip}}" tooltip="{{texts.lastname.tooltip}}">
+                            </div>
+                        </div> -->
+
                         <div class="form-group">
                             <div class="col-sm-offset-2- col-sm-10">
 
@@ -154,7 +186,7 @@
         <script src="/uhf/uhf-utils.js"></script>
         <script src="/uhf/uhf-translation.js?v=1"></script>
         <script src="/uhf/angular.min.js"></script>
-        <script src="/uhf/register.js"></script>
+        <script src="/uhf/zjednoczony.js"></script>
     </body>
 
 </html>
