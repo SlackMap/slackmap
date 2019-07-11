@@ -6,6 +6,7 @@
     "sm": "./apps/cli/src/sm"
   },
   "scripts": {
+    "api": "ng serve api",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
@@ -139,7 +140,7 @@
     "shipit-deploy": "^4.1.4",
     "standard-version": "^6.0.1",
     "ts-jest": "^24.0.2",
-    "ts-loader": "^5.4.6",
+    "ts-loader": "^5.4.5",
     "ts-node": "^8.1.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.16.0",

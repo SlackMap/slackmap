@@ -1,0 +1,40 @@
+@media print {
+  .print {
+      display: none
+  }
+}
+
+.container {
+  max-width: 700px;
+}
+
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .7);
+  overflow: auto;
+}
+
+.lightbox img {
+  margin: auto;
+}
+
+.break .break-page2 {
+  page-break-before: always;
+}
+
+tr:hover {
+  background-color: lightgrey;
+}
+li a {
+  cursor: pointer
+}
+.nav {
+  margin-bottom: 5px;
+}
+.no-hover:hover {
+  background-color: transparent;
+}

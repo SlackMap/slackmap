@@ -1,5 +1,9 @@
-var apiToken;
-
+var session;
+try {
+  session = JSON.parse(localStorage.getItem('session'));
+} catch (err) {
+  console.log('session decode error', err);
+}
 window.fbAsyncInit = function () {
   var id = (window.location.host.substring(0, 9) === 'localhost') ? 306418119377317 : 235127536543011;
   FB.init({
@@ -56,7 +60,9 @@ angular.module('uhf', [])
   return {
     request: function (config) {
 
-      config.headers['apiToken'] = apiToken;
+      if(session) {
+        config.headers['apiToken'] = session.api_token;
+      }
 
       return config;
     }
@@ -112,7 +118,8 @@ angular.module('uhf', [])
                   access_token: response.authResponse.accessToken
               }).then(function (user) {
                 console.log('USER', user);
-                apiToken = user.data.api_token;
+                session = user.data;
+                localStorage.setItem('session', JSON.stringify(session));
 
                   $http.get(domain+ '/uhf/list').then(function (data) {
                       $scope.rows = data.data.map(row => {

@@ -1,9 +1,11 @@
 
 var domain = '';
 
-if(window.location.host.substr(0,9) === 'localhost') {
+if(window.location.host.substr(0, 15) === 'localhost:8080') {
+  domain = 'https://test-api.slackmap.com';
+} else if(window.location.host.substr(0,9) === 'localhost') {
   domain = 'http://localhost:3333';
-} else if (window.location.host === 'test.slackmap.com') {
+} else if  (window.location.host === 'test.slackmap.com') {
   domain = 'https://test-api.slackmap.com';
 } else if (window.location.host === 'stage.slackmap.com') {
   domain = 'https://stage-api.slackmap.com';

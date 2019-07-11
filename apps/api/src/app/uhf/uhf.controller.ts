@@ -517,6 +517,7 @@ export class UhfController {
     const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
       params: {}
     }).all();
+    await db.close();
     return records;
   }
 
@@ -524,15 +525,9 @@ export class UhfController {
    *  update the record
    */
   @Post('list')
-  public async listUpdate(@Body() data: any, @Request() ctx): Promise<RegisterResponse> {
+  @UseGuards(UhfGuard)
+  public async listUpdate(@Body() data: any, @User() user): Promise<RegisterResponse> {
 
-
-    if (!ctx.state.user) {
-      throw new ForbiddenError({ message: 'access forbidden' })
-    }
-    if (!ctx.state.user.has_uhf) {
-      throw new ForbiddenError({ message: 'access restricted' })
-    }
 
     const db = await this.db.acquire();
     const item = _.omit(data, [
@@ -558,6 +553,9 @@ export class UhfController {
     const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
       params: {}
     }).all();
+
+    await db.close();
+
     return records;
 
   }
@@ -566,19 +564,13 @@ export class UhfController {
    *  onsite peyment permit
    */
   @Post('onsite-permit')
-  public async osPermit(@Request() ctx: any): Promise<RegisterResponse> {
+  @UseGuards(UhfGuard)
+  public async osPermit(@Body() body: any): Promise<RegisterResponse> {
 
-
-    if (!ctx.state.user) {
-      throw new ForbiddenError({ message: 'access forbidden' });
-    }
-    if (!ctx.state.user.has_uhf) {
-      throw new ForbiddenError({ message: 'access restricted' })
-    }
     const db = await this.db.acquire();
-    const item = ctx.request.body;
-    const rid = ctx.request.body.rid;
-    const data = { payment_onsite_permit: !ctx.request.body.payment_onsite_permit };
+    const item = body;
+    const rid = body.rid;
+    const data = { payment_onsite_permit: !body.payment_onsite_permit };
 
     await db.query('UPDATE EventRegistration MERGE :data RETURN AFTER WHERE rid=:rid', {
       params: {
@@ -595,6 +587,9 @@ export class UhfController {
     const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
       params: {}
     }).all();
+
+    await db.close();
+
     return records;
 
   }
@@ -603,19 +598,14 @@ export class UhfController {
    *  online payment log
    */
   @Post('online-payment')
-  public async onlinePayment(@Request() ctx: any): Promise<RegisterResponse> {
+  @UseGuards(UhfGuard)
+  public async onlinePayment(@Body() body: any): Promise<RegisterResponse> {
 
 
-    if (!ctx.state.user) {
-      throw new ForbiddenError({ message: 'access forbidden' })
-    }
-    if (!ctx.state.user.has_uhf) {
-      throw new ForbiddenError({ message: 'access restricted' })
-    }
     const db = await this.db.acquire();
-    const rid = ctx.request.body.item.rid;
-    const item = ctx.request.body.item;
-    const data = { payment_online: ctx.request.body.payment };
+    const rid = body.item.rid;
+    const item = body.item;
+    const data = { payment_online: body.payment };
 
     const row: any = await db.query('UPDATE EventRegistration MERGE :data RETURN AFTER WHERE rid=:rid', {
       params: {
@@ -632,6 +622,9 @@ export class UhfController {
     const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
       params: {}
     }).all();
+
+    await db.close();
+
     return records;
 
   }

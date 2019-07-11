@@ -8,59 +8,16 @@
     <base href="/">
 
     <meta property="og:site_name" content="slackmap.com">
-    <meta property="og:url" content="https://slackmap.com/event/e0uhf2017">
-    <meta property="og:title" content="Registration - UHF 2017">
-    <meta property="og:image" content="https://slackmap.com/assets/images/uhf2017-fb-share-reg.png">
+    <meta property="og:url" content="https://slackmap.com/event/e0uhf2019">
+    <meta property="og:title" content="Registration - UHF 2019">
+    <meta property="og:image" content="https://slackmap.com/assets/images/uhf2019-fb-share-reg.png">
     <meta property="og:description" content="Urban Highline Festival">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
-    <style>
-        @media print {
-            .print {
-                display: none
-            }
-        }
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./panel.css">
 
-        .container {
-            max-width: 700px;
-        }
-
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, .7);
-            overflow: auto;
-        }
-
-        .lightbox img {
-            margin: auto;
-        }
-
-        .break .break-page2 {
-            page-break-before: always;
-        }
-
-        tr:hover {
-            background-color: lightgrey;
-        }
-        li a {
-            cursor: pointer
-        }
-        .nav {
-            margin-bottom: 5px;
-        }
-        .no-hover:hover {
-            background-color: transparent;
-        }
-    </style>
-
-<script src="/uhf/countries.js"></script>
 </head>
     <body>
 
@@ -163,7 +120,7 @@
                             <td>guest</td>
                             <td>lang</td>
                             <td>payment online</td>
-                            <td>onsite permit</td>
+                            <!-- <td>onsite permit</td> -->
                             <td></td>
                         </tr>
                     </thead>
@@ -180,7 +137,7 @@
                             <td>{{row.guest}}</td>
                             <td>{{row.language}}</td>
                             <td>{{row.payment_online}}</td>
-                            <td>{{row.payment_onsite_permit}}</td>
+                            <!-- <td>{{row.payment_onsite_permit}}</td> -->
                             <td>
                                 <a target="_blank" href="https://test.slackmap.com/uhf/edit.html?hash={{row.hash}}" class="btn btn-primary pull-left print">EDIT</a>
                                 <!-- <div class="btn btn-primary pull-left print" ng-click="edit(row)">EDIT</div> -->
@@ -372,6 +329,8 @@
             </div>
         </div>
 
+
+        <script src="/uhf/countries.js"></script>
         <script src="/uhf/uhf-utils.js"></script>
         <script src="/uhf/countries.js"></script>
         <script src="/uhf/uhf-translation.js?v=1"></script>
