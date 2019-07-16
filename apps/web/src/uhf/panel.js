@@ -268,7 +268,7 @@ angular.module('uhf', [])
       $scope.saving = true;
       $scope.error = null;
 
-      var url = domain+ '/uhf/list';
+      var url = domain+ '/uhf/list/'+$scope.user.rid;
 
       $http.post(url, $scope.user).then(function (data) {
           console.log('res data', data)
@@ -280,6 +280,12 @@ angular.module('uhf', [])
           $scope.error = data.data.detail;
       });
   };
+
+  $scope.collectTshirt = function(user) {
+    user.tshirt_collected_gender = user.tshirt_gender;
+    user.tshirt_collected_type = user.tshirt_type;
+    user.tshirt_collected_size = user.tshirt_size;
+  }
 
   $scope.onlinePayment = async function (row, payment_online, sendEmail) {
 
