@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { OrientConfig } from './orient.config';
-import { Server, OrientDBClient, ODatabaseSessionPool, ODatabaseSession } from 'orientjs';
+import { Server, OrientDBClient, ODatabaseSessionPool, ODatabaseSession, QueryOptions, ResultStream } from 'orientjs';
 import { Observable } from 'rxjs';
 
 interface Db {
@@ -73,6 +73,26 @@ export class OrientService implements OnModuleDestroy {
       await c;
     }
     return await this.pool.acquire()
+  }
+
+  queryAll<T>(query: string, options?: QueryOptions): Promise<T[]> {
+    return this.acquire()
+    .then(db => db.query<T>(query, options).all().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
+  }
+
+  commandAll<T>(query: string, options?: QueryOptions): Promise<T[]> {
+    return this.acquire()
+    .then(db => db.command<T>(query, options).all().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
+  }
+
+  queryOne<T>(query: string, options?: QueryOptions): Promise<T> {
+    return this.acquire()
+    .then(db => db.query<T>(query, options).one().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
+  }
+
+  commandOne<T>(query: string, options?: QueryOptions): Promise<T> {
+    return this.acquire()
+    .then(db => db.command<T>(query, options).one().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
   }
 
 }

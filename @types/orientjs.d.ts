@@ -115,7 +115,7 @@ export interface ODatabaseSession {
 }
 
 export interface ResultStream<T> {
-  all: () => Promise<[T]>;
+  all: () => Promise<T[]>;
   one: () => Promise<T>;
   on: (event: string, callback: (data: T) => void) => ResultStream<T>;
   set: (params: any) => ResultStream<T>;

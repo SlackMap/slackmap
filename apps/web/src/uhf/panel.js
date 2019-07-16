@@ -254,14 +254,13 @@ angular.module('uhf', [])
       };
   }
   $scope.setData = function(data) {
-      $scope.rows = data.data.map(row => {
-          row.id = row['@rid'].substr(4);
-          if($scope.user && $scope.user.id === row.id) {
-              $scope.user = angular.copy(row);
-          }
-          return row;
+      $scope.rows = data;
+      data.forEach(row => {
+        if($scope.user && $scope.user.id === row.id) {
+            $scope.user = angular.copy(row);
+        }
       });
-      $scope.doStats()
+      $scope.doStats();
   }
   $scope.update = function () {
 
@@ -274,53 +273,26 @@ angular.module('uhf', [])
       $http.post(url, $scope.user).then(function (data) {
           console.log('res data', data)
           $scope.saving = false;
-          $scope.setData(data)
-
           $scope.user = null;
+          $scope.setData(data.data)
       }, function (data) {
           $scope.saving = false;
           $scope.error = data.data.detail;
       });
   };
 
-  $scope.onsitePermit = function (row) {
-
-      if ($scope.onsite_permit_saving) return;
-      $scope.onsite_permit_saving = true;
-      $scope.error = null;
-
-      var url = domain+ '/uhf/onsite-permit';
-
-      $http.post(url, row).then(function (data) {
-          console.log('res data', data)
-          $scope.onsite_permit_saving = false;
-          $scope.rows = data.data.map(row => {
-              row.id = row['@rid'].substr(4);
-              return row;
-          });
-          $scope.doStats()
-      }, function (data) {
-          $scope.onsite_permit_saving = false;
-          $scope.error = data.data.detail;
-      });
-  };
-
-  $scope.onlinePayment = function (row, payment) {
+  $scope.onlinePayment = async function (row, payment_online, sendEmail) {
 
       if ($scope.online_payment_saving) return;
       $scope.online_payment_saving = true;
       $scope.error = null;
 
-      var url = domain+ '/uhf/online-payment';
+      var url = domain+ '/uhf/list/'+row.rid;
 
-      $http.post(url, { item: row, payment }).then(function (data) {
+      $http.post(url, { payment_online }).then(function (data) {
           console.log('res data', data)
           $scope.online_payment_saving = false;
-          $scope.rows = data.data.map(row => {
-              row.id = row['@rid'].substr(4);
-              return row;
-          });
-          $scope.doStats()
+          $scope.setData(data.data);
       }, function (data) {
           $scope.online_payment_saving = false;
           $scope.error = data.data.detail;

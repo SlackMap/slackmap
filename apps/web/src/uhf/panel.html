@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./panel.css">
+    <link rel="stylesheet" href="/uhf/panel.css">
 
 </head>
     <body>
@@ -139,42 +139,33 @@
                             <td>{{row.payment_online}}</td>
                             <!-- <td>{{row.payment_onsite_permit}}</td> -->
                             <td>
-                                <a target="_blank" href="https://test.slackmap.com/uhf/edit.html?hash={{row.hash}}" class="btn btn-primary pull-left print">EDIT</a>
+                                <a target="_blank" href="/uhf/edit.html?hash={{row.hash}}" class="btn btn-primary pull-left print">EDIT</a>
                                 <!-- <div class="btn btn-primary pull-left print" ng-click="edit(row)">EDIT</div> -->
                                 <!-- <div class="btn btn-default pull-right print" ng-click="show(row)">SHOW</div> -->
                             </td>
                         </tr>
-                        <tr class="no-hover" ng-if="user.id == row.id">
+                        <tr class="no-hover" ng-if="user.id == row.id" ng-init="onlineOpen = false; payment_online = row.payment_online; payment_email = true;">
                             <td colspan="13">
                                 <form  class="form-horizontal" >
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Payment ONLINE</label>
+                                        <label class="col-sm-2 control-label"  ng-click="onlineOpen = !onlineOpen">Payment ONLINE</label>
 
                                         <div class="col-sm-10">
-                                            <input class="form-control" name="payment_online" ng-model="user.payment_online" style="width: 100px; float: left;" />
-                                                <div class="btn btn-text" ng-click="user.payment_online = ''">none</div>
-                                                <div class="btn btn-text" ng-click="user.payment_online = 'FREE'">FREE</div>
-                                                <div class="btn btn-text" ng-click="user.payment_online = '100PLN'">100PLN</div>
-                                                <div class="btn btn-text" ng-click="user.payment_online = '200PLN'">200PLN</div>
-                                                <div class="btn btn-text" ng-click="user.payment_online = '25EUR'">25EUR</div>
-                                                <div class="btn btn-text" ng-click="user.payment_online = '50EUR'">50EUR</div>
-                                        </div>
-                                        <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-10">
-                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '')">none</div>
-                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, 'FREE')">FREE</div>
-                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '50EUR')">50EUR</div>
-                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '200PLN')">200PLN</div>
-                                                    <div class="btn btn-primary pull-left print" ng-click="onlinePayment(row, '100PLN')">100PLN</div>
-                                                    <div class="btn btn-primary pull-left print" ng-click="onsitePermit(row)">OS Permit</div>
-                                                </div>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Payment ONLINE</label>
-
-                                        <div class="col-sm-10">
-                                            <input readonly class="form-control" name="payment_online" ng-model="user.payment_online" style="width: 100px; float: left;" />
+                                          <input readonly class="form-control" name="payment_online" ng-model="user.payment_online" style="width: 100px; float: left;" />
+                                          <!-- online payment form -->
+                                          <div style="clear: both"  ng-if="onlineOpen">
+                                            <input class="form-control" name="payment_online" ng-model="payment_online" style="width: 100px; float: left;" />
+                                            <div class="btn btn-text" ng-click="payment_online = ''">none</div>
+                                            <div class="btn btn-text" ng-click="payment_online = 'FREE'">FREE</div>
+                                            <div class="btn btn-text" ng-click="payment_online = '50'">50PLN</div>
+                                            <div class="btn btn-text" ng-click="payment_online = '100'">100PLN</div>
+                                            <div class="btn btn-text" ng-click="payment_online = '200'">200PLN</div>
+                                            <br><br>
+                                            <div ng-disabled="online_payment_saving" class="btn btn-success pull-left print" ng-click="onlinePayment(row, payment_online,payment_email)">save</div>
+                                            <label style="margin: 10px;">
+                                              <input type="checkbox" class="form-control" name="payment_email" ng-model="payment_email" style="width: 15px; float: left; margin: -10px 10px 0" /> Send email notification
+                                            </label>
+                                          </div>
                                         </div>
                                     </div>
                                     <div class="form-group">

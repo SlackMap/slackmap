@@ -6,7 +6,7 @@ import { texts } from "./uhf-emails";
 import { now, OrientService } from "@slackmap/api/orient";
 // import * as _ from 'lodash';
 const _ = require('lodash');
-import { Controller, Get, Query, Post, Body, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Request, UseGuards, Param } from '@nestjs/common';
 import { UhfMailRegConfig } from './uhf-mail-reg-config';
 import { User } from './user-decorator';
 import { UhfGuard } from './uhf.guard';
@@ -66,9 +66,7 @@ export class UhfController {
    */
   @Get('register')
   public async edit(@Query('hash') hash: string): Promise<RegisterResponse> {
-    console.log('Actquire')
     const db = await this.db.acquire();
-    console.log('Actquire after')
     const event_rid = 'e0uhf2019'
     if (!hash) {
       await db.close();
@@ -83,8 +81,8 @@ export class UhfController {
         event_rid
       }
     }).one();
+
     await db.close();
-    console.log('get record after')
 
 
     if (!data) {
@@ -510,26 +508,25 @@ export class UhfController {
    */
   @Get('list')
   @UseGuards(UhfGuard)
-  public async listGet(@User() user: any): Promise<RegisterResponse> {
+  public async listGet(): Promise<RegisterResponse> {
 
-
-    const db = await this.db.acquire();
-    const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
+    const records: any = await this.db.queryAll(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
       params: {}
-    }).all();
-    await db.close();
-    return records;
+    });
+    return records.map(row => {
+      row.id = row['@rid'].toString().substr(4);
+      return row;
+  });
   }
 
   /**
    *  update the record
    */
-  @Post('list')
+  @Post('list/:rid')
   @UseGuards(UhfGuard)
-  public async listUpdate(@Body() data: any, @User() user): Promise<RegisterResponse> {
+  public async listUpdate(@Body() data: any, @Param('rid') rid): Promise<RegisterResponse> {
 
 
-    const db = await this.db.acquire();
     const item = _.omit(data, [
       '@rid',
       '@class',
@@ -538,94 +535,30 @@ export class UhfController {
 
     ])
 
-    if (!data.rid) {
+    const json = JSON.stringify(item);
 
-    }
-
-    await db.query('UPDATE EventRegistration MERGE :data RETURN AFTER WHERE rid=:rid', {
+    await this.db.commandOne(`UPDATE EventRegistration MERGE ${json} RETURN AFTER WHERE rid=:rid`, {
       params: {
-        hash: data.hash,
-        rid: data.rid,
-        data: item
+        rid
       }
     });
 
-    const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
-      params: {}
-    }).all();
-
-    await db.close();
-
-    return records;
+    return this.listGet();
 
   }
 
   /**
-   *  onsite peyment permit
+   *  send email
    */
-  @Post('onsite-permit')
+  @Post('email')
   @UseGuards(UhfGuard)
-  public async osPermit(@Body() body: any): Promise<RegisterResponse> {
-
-    const db = await this.db.acquire();
-    const item = body;
-    const rid = body.rid;
-    const data = { payment_onsite_permit: !body.payment_onsite_permit };
-
-    await db.query('UPDATE EventRegistration MERGE :data RETURN AFTER WHERE rid=:rid', {
-      params: {
-        rid,
-        data
-      }
-    }).one();
-
-    const subject = tr('ONSITE_PERMIT_EMAIL_SUBJECT', item);
-    const html = tr('ONSITE_PERMIT_EMAIL_HTML', item);
-
-    this.sendEmail(item.email, subject, html);
-
-    const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
-      params: {}
-    }).all();
-
-    await db.close();
-
-    return records;
-
-  }
-
-  /**
-   *  online payment log
-   */
-  @Post('online-payment')
-  @UseGuards(UhfGuard)
-  public async onlinePayment(@Body() body: any): Promise<RegisterResponse> {
+  public async onlinePayment(@Body() body: {rid, email, subject, html}): Promise<RegisterResponse> {
 
 
-    const db = await this.db.acquire();
-    const rid = body.item.rid;
-    const item = body.item;
-    const data = { payment_online: body.payment };
+    // const subject = tr('ONLINE_PAYMENT_EMAIL_SUBJECT', row);
+    // const html = tr('ONLINE_PAYMENT_EMAIL_HTML', row);
 
-    const row: any = await db.query('UPDATE EventRegistration MERGE :data RETURN AFTER WHERE rid=:rid', {
-      params: {
-        rid,
-        data
-      }
-    }).one();
-
-    const subject = tr('ONLINE_PAYMENT_EMAIL_SUBJECT', row);
-    const html = tr('ONLINE_PAYMENT_EMAIL_HTML', row);
-
-    this.sendEmail(row.email, subject, html);
-
-    const records: any = await db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
-      params: {}
-    }).all();
-
-    await db.close();
-
-    return records;
+    return this.sendEmail(body.email, body.subject, body.html);
 
   }
 
