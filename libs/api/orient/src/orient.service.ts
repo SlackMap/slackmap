@@ -75,25 +75,20 @@ export class OrientService implements OnModuleDestroy {
     return await this.pool.acquire()
   }
 
-  queryAll<T>(query: string, options?: QueryOptions): Promise<T[]> {
-    return this.acquire()
-    .then(db => db.query<T>(query, options).all().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
-  }
+  query<T>(query: string, options?: QueryOptions): Partial<ResultStream<T>> {
+    const all = () => this.acquire().then(db => db.query<T>(query, options).all().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))));
+    const one = ()=> this.acquire().then(db => db.query<T>(query, options).one().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))));
 
-  commandAll<T>(query: string, options?: QueryOptions): Promise<T[]> {
-    return this.acquire()
-    .then(db => db.command<T>(query, options).all().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
+    return {
+      one,
+      all
+    }
   }
-
-  queryOne<T>(query: string, options?: QueryOptions): Promise<T> {
-    return this.acquire()
-    .then(db => db.query<T>(query, options).one().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
+  command<T>(query: string, options?: QueryOptions): Partial<ResultStream<T>> {
+    return {
+      all: () => this.acquire().then(db => db.command<T>(query, options).all().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err)))),
+      one: () => this.acquire().then(db => db.command<T>(query, options).one().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err)))),
+    }
   }
-
-  commandOne<T>(query: string, options?: QueryOptions): Promise<T> {
-    return this.acquire()
-    .then(db => db.command<T>(query, options).one().then(res => db.close().then(() => res)).catch(err => db.close().then(() => Promise.reject(err))))
-  }
-
 }
 

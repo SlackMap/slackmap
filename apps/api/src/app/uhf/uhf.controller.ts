@@ -66,24 +66,20 @@ export class UhfController {
    */
   @Get('register')
   public async edit(@Query('hash') hash: string): Promise<RegisterResponse> {
-    const db = await this.db.acquire();
     const event_rid = 'e0uhf2019'
     if (!hash) {
-      await db.close();
       return {
         error: 'no hash provided'
       }
     }
 
-    const data = await db.query('SELECT * FROM EventRegistration WHERE hash=:hash AND event_rid=:event_rid', {
+    const req = this.db.query('SELECT * FROM EventRegistration WHERE hash=:hash AND event_rid=:event_rid', {
       params: {
         hash,
         event_rid
       }
-    }).one();
-
-    await db.close();
-
+    })
+    const data = await req.one();
 
     if (!data) {
       return {
@@ -102,16 +98,14 @@ export class UhfController {
    */
   @Post('register')
   public async register(@Body() body: any): Promise<RegisterResponse> {
-    const db = await this.db.acquire();
     const email = body.email;
     const event_rid = 'e0uhf2019';
 
     if (!email) {
-      await db.close();
       throw new Error('no email provided')
     }
 
-    let record: any = await db.query('SELECT * FROM EventRegistration WHERE email=:email AND event_rid=:event_rid', {
+    let record: any = await this.db.query('SELECT * FROM EventRegistration WHERE email=:email AND event_rid=:event_rid', {
       params: {
         email,
         event_rid
@@ -124,7 +118,6 @@ export class UhfController {
       const html = tr('EDIT_EMAIL_HTML', record);
 
       this.sendEmail(record.email, subject, html);
-      await db.close();
       return {
         message: tr('EDIT_EMAIL_SUCCESS', record)
       };
@@ -144,13 +137,13 @@ export class UhfController {
       item.rid = 'e1' + randomstring.generate(11);
       item.hash = randomstring.generate(20);
 
-      record = await db.command('INSERT INTO EventRegistration CONTENT :item', {
+      record = await this.db.command('INSERT INTO EventRegistration CONTENT :item', {
         params: { item: item }
       }).one();
       const subject = tr('REGISTER_EMAIL_SUBJECT', record);
       const html = tr('REGISTER_EMAIL_HTML', record);
       this.sendEmail(item.email, subject, html);
-      await db.close();
+
       return {
         message: tr('REGISTER_EMAIL_SUCCESS', record)
       };
@@ -162,16 +155,14 @@ export class UhfController {
    */
   @Post('register-zjednoczony')
   public async registerZjednoczony(@Body() body: any): Promise<RegisterResponse> {
-    const db = await this.db.acquire();
     const email = body.email;
     const event_rid = 'e0uhf2019';
 
     if (!email) {
-      await db.close();
       throw new Error('no email provided')
     }
 
-    let record: any = await db.query('SELECT * FROM EventRegistration WHERE email=:email AND event_rid=:event_rid', {
+    let record: any = await this.db.query('SELECT * FROM EventRegistration WHERE email=:email AND event_rid=:event_rid', {
       params: {
         email,
         event_rid
@@ -184,7 +175,6 @@ export class UhfController {
       const html = tr('EDIT_EMAIL_HTML', record);
 
       this.sendEmail(record.email, subject, html);
-      await db.close();
       return {
         message: tr('EDIT_EMAIL_SUCCESS', record)
       };
@@ -208,13 +198,12 @@ export class UhfController {
 
       item.rid = 'e1' + randomstring.generate(11);
       item.hash = randomstring.generate(20);
-      record = await db.command('INSERT INTO EventRegistration CONTENT :item', {
+      record = await this.db.command('INSERT INTO EventRegistration CONTENT :item', {
         params: { item: item }
       }).one();
       const subject = tr('REGISTER_EMAIL_SUBJECT', record);
       const html = tr('REGISTER_EMAIL_HTML', record);
       this.sendEmail(item.email, subject, html);
-      await db.close();
       return {
         message: tr('REGISTER_EMAIL_SUCCESS', record)
       };
@@ -226,13 +215,12 @@ export class UhfController {
    */
   @Post('update')
   public async update(@Body() item: any): Promise<RegisterResponse> {
-    const db = await this.db.acquire();
     const rid = item['rid'];
     const hash = item['hash'];
     const event_rid = 'e0uhf2019';
 
 
-    const record: any = await db.query('SELECT * FROM EventRegistration WHERE hash=:hash AND event_rid=:event_rid AND rid=:rid', {
+    const record: any = await this.db.query('SELECT * FROM EventRegistration WHERE hash=:hash AND event_rid=:event_rid AND rid=:rid', {
       params: {
         hash,
         event_rid,
@@ -241,7 +229,6 @@ export class UhfController {
     }).one();
 
     if (!record) {
-      await db.close();
       return {
         error: 'hash not valid'
       }
@@ -271,15 +258,13 @@ export class UhfController {
 
     const json = JSON.stringify(item);
 
-    const data: any = await db.command(`UPDATE EventRegistration MERGE ${json} RETURN AFTER WHERE hash = :hash AND rid=:rid`, {
+    const data: any = await this.db.command(`UPDATE EventRegistration MERGE ${json} RETURN AFTER WHERE hash = :hash AND rid=:rid`, {
       params: {
         hash: hash,
         rid: rid,
         data: item
       }
     }).one();
-
-    await db.close();
 
     if (sendPayment) {
       const subject = tr('PAYMENT_INFO_EMAIL_SUBJECT', data);
@@ -297,12 +282,11 @@ export class UhfController {
    */
   @Post('delete')
   public async delete(@Body() item: any): Promise<RegisterResponse> {
-    const db = await this.db.acquire();
     const rid = item['rid'];
     const hash = item['hash'];
     const event_rid = 'e0uhf2019';
 
-    const record: any = await db.query('SELECT * FROM EventRegistration WHERE hash=:hash AND event_rid=:event_rid AND rid=:rid', {
+    const record: any = await this.db.query('SELECT * FROM EventRegistration WHERE hash=:hash AND event_rid=:event_rid AND rid=:rid', {
       params: {
         hash,
         event_rid,
@@ -311,19 +295,16 @@ export class UhfController {
     }).one();
 
     if (!record) {
-      await db.close();
       return {
         error: 'hash not valid'
       }
     }
 
-    const data = await db.command('DELETE FROM :rid', {
+    const data = await this.db.command('DELETE FROM :rid', {
       params: {
         rid: record['@rid']
       }
     }).one();
-    await db.close();
-
 
     const subject = tr('DELETE_EMAIL_TITLE', item);
     const html = tr('DELETE_EMAIL_SUCCESS', item);
@@ -375,6 +356,149 @@ export class UhfController {
       });
     })
   }
+
+  /**
+   *  list for admin panel
+   */
+  @Get('list')
+  @UseGuards(UhfGuard)
+  public async listGet(): Promise<RegisterResponse> {
+
+    const records: any = await this.db.query(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
+      params: {}
+    }).all();
+    return records.map(row => {
+      row.id = row['@rid'].toString().substr(4);
+      return row;
+  });
+  }
+
+  /**
+   *  update the record
+   */
+  @Post('list/:rid')
+  @UseGuards(UhfGuard)
+  public async listUpdate(@Body() data: any, @Param('rid') rid): Promise<RegisterResponse> {
+
+
+    const item = _.omit(data, [
+      '@rid',
+      '@class',
+      'rid',
+      '@version',
+
+    ])
+
+    const json = JSON.stringify(item);
+
+    await this.db.command(`UPDATE EventRegistration MERGE ${json} RETURN AFTER WHERE rid=:rid`, {
+      params: {
+        rid
+      }
+    }).one;
+
+    return this.listGet();
+
+  }
+
+  /**
+   *  send email
+   */
+  @Post('email')
+  @UseGuards(UhfGuard)
+  public async onlinePayment(@Body() body: {rid, email, subject, html}): Promise<RegisterResponse> {
+
+
+    // const subject = tr('ONLINE_PAYMENT_EMAIL_SUBJECT', row);
+    // const html = tr('ONLINE_PAYMENT_EMAIL_HTML', row);
+
+    return this.sendEmail(body.email, body.subject, body.html);
+
+  }
+
+  @Post('fb-auth')
+  async fbAuth(@Body() request: AuthConnectFacebookRequestDto): Promise<any> {
+    /**
+     * get profile from facebook
+     */
+    const profile: FacebookProfileEntity = await this.fbMe(request.access_token);
+
+    // profile id is required
+    if (!profile || !profile.id) {
+      throw new ValidationError({ title: `We can't get id of your facebook profile :(`, data: { rerequest: true } });
+    }
+
+    /**
+     * find user in database by facebook_id or email
+     */
+    const users: any[] = await this.findByFacebookProfile(profile);
+    let user = null;
+    if (users.length) {
+      user = users[0];
+    }
+    const api_token: string = this.jwt.tokenSign({
+      facebook_profile: profile,
+      user
+    });
+
+    return {
+      facebook_profile: profile,
+      api_token,
+      users,
+      user
+    };
+  }
+
+  /**
+   * get users by facebook profile, should be only one, but can happen more
+   */
+  async findByFacebookProfile(profile: FacebookProfileEntity): Promise<Array<any>> {
+    let where = '';
+    const params: any = {};
+    if (profile.id) {
+      where = 'facebook_id = :facebook_id';
+      params.facebook_id = profile.id;
+    }
+    if (profile.email) {
+      where = where + ' OR email = :email';
+      params.email = profile.email;
+    }
+    const query = `
+    SELECT ${this.selectQuery.join(',')}
+    FROM User
+    where ${where}
+    `;
+    const items: any = await this.db.query<any[]>(query, {
+      params
+    }).all();
+    return items.map(userRow2entity);
+  }
+
+  fbMe(accessToken: string): Promise<FacebookProfileEntity> {
+    return new Promise<FacebookProfileEntity>(function (resolve, reject) {
+      FB.api(
+        'me',
+        {
+          fields: ['id', 'name', 'email'],
+          access_token: accessToken
+        },
+        function (profile) {
+          // error getting the profile
+          if (profile.error) {
+            const e = new ValidationError({
+              title: `Did you canceled the login dialog?? Becourse we got: ${profile.error.message}`,
+              data: { rerequest: true },
+              parent: profile.error
+            });
+            reject(e);
+          }
+
+          resolve(profile);
+        }
+      );
+    });
+  }
+
 
   @Get('stats')
   public async stats(@Query('pass') pass: string): Promise<any> {
@@ -503,149 +627,6 @@ export class UhfController {
     }
   }
 
-  /**
-   *  list for admin panel
-   */
-  @Get('list')
-  @UseGuards(UhfGuard)
-  public async listGet(): Promise<RegisterResponse> {
-
-    const records: any = await this.db.queryAll(`SELECT FROM EventRegistration WHERE event_rid = 'e0uhf2019' ORDER BY @rid DESC`, {
-      params: {}
-    });
-    return records.map(row => {
-      row.id = row['@rid'].toString().substr(4);
-      return row;
-  });
-  }
-
-  /**
-   *  update the record
-   */
-  @Post('list/:rid')
-  @UseGuards(UhfGuard)
-  public async listUpdate(@Body() data: any, @Param('rid') rid): Promise<RegisterResponse> {
-
-
-    const item = _.omit(data, [
-      '@rid',
-      '@class',
-      'rid',
-      '@version',
-
-    ])
-
-    const json = JSON.stringify(item);
-
-    await this.db.commandOne(`UPDATE EventRegistration MERGE ${json} RETURN AFTER WHERE rid=:rid`, {
-      params: {
-        rid
-      }
-    });
-
-    return this.listGet();
-
-  }
-
-  /**
-   *  send email
-   */
-  @Post('email')
-  @UseGuards(UhfGuard)
-  public async onlinePayment(@Body() body: {rid, email, subject, html}): Promise<RegisterResponse> {
-
-
-    // const subject = tr('ONLINE_PAYMENT_EMAIL_SUBJECT', row);
-    // const html = tr('ONLINE_PAYMENT_EMAIL_HTML', row);
-
-    return this.sendEmail(body.email, body.subject, body.html);
-
-  }
-
-  @Post('fb-auth')
-  async fbAuth(@Body() request: AuthConnectFacebookRequestDto): Promise<any> {
-    /**
-     * get profile from facebook
-     */
-    const profile: FacebookProfileEntity = await this.fbMe(request.access_token);
-
-    // profile id is required
-    if (!profile || !profile.id) {
-      throw new ValidationError({ title: `We can't get id of your facebook profile :(`, data: { rerequest: true } });
-    }
-
-    /**
-     * find user in database by facebook_id or email
-     */
-    const users: any[] = await this.findByFacebookProfile(profile);
-    let user = null;
-    if (users.length) {
-      user = users[0];
-    }
-    const api_token: string = this.jwt.tokenSign({
-      facebook_profile: profile,
-      user
-    });
-
-    return {
-      facebook_profile: profile,
-      api_token,
-      users,
-      user
-    };
-  }
-
-  /**
-   * get users by facebook profile, should be only one, but can happen more
-   */
-  async findByFacebookProfile(profile: FacebookProfileEntity): Promise<Array<any>> {
-    let where = '';
-    const params: any = {};
-    if (profile.id) {
-      where = 'facebook_id = :facebook_id';
-      params.facebook_id = profile.id;
-    }
-    if (profile.email) {
-      where = where + ' OR email = :email';
-      params.email = profile.email;
-    }
-    const query = `
-    SELECT ${this.selectQuery.join(',')}
-    FROM User
-    where ${where}
-    `;
-    const db = await this.db.acquire();
-    const items: any = await db.query<any[]>(query, {
-      params
-    }).all();
-    await db.close();
-    return items.map(userRow2entity);
-  }
-
-  fbMe(accessToken: string): Promise<FacebookProfileEntity> {
-    return new Promise<FacebookProfileEntity>(function (resolve, reject) {
-      FB.api(
-        'me',
-        {
-          fields: ['id', 'name', 'email'],
-          access_token: accessToken
-        },
-        function (profile) {
-          // error getting the profile
-          if (profile.error) {
-            const e = new ValidationError({
-              title: `Did you canceled the login dialog?? Becourse we got: ${profile.error.message}`,
-              data: { rerequest: true },
-              parent: profile.error
-            });
-            reject(e);
-          }
-
-          resolve(profile);
-        }
-      );
-    });
-  }
 }
 export function userRow2entity(row: any): any {
   if (row) {

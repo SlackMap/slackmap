@@ -135,7 +135,7 @@
                             <input type="text" ng-model="user.email" required readonly class="form-control" />
                         </div>
                     </div>
-
+<!--
                     <div class="form-group"  ng-if="!user.zjednoczony">
                         <label class="col-sm-2 control-label">mobile<br><i>(optional)</i></label>
 
@@ -153,6 +153,7 @@
                             <p class="help-block" ng-bind-html="tr('SOCIAL_MEDIA_HELP') | trust"></p>
                         </div>
                     </div>
+-->
 
                     <h3>Personal data</h3>
 
@@ -222,6 +223,7 @@
                             <div class="alert alert-danger" ng-if="isUnder18()" ng-bind-html="tr('UNDER18_INFO') | trust" ></div>
                         </div>
                     </div>
+<!--
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Document Type</label>
 
@@ -240,6 +242,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group" ng-if="user.document_type == 'other'">
                         <label class="col-sm-2 control-label">Document Name</label>
 
@@ -258,7 +261,7 @@
                         <label class="col-sm-2 control-label"></label>
 
                     </div>
-
+-->
                     <h3>T-shirt</h3>
 
                     <!-- <div  ng-bind-html="tr('TSHIRT_NOT_YET') | trust"></div> -->

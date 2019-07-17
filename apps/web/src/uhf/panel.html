@@ -19,22 +19,20 @@
     <link rel="stylesheet" href="/uhf/panel.css">
 
 </head>
-    <body>
-
+    <body style="margin-top: 10px;">
+        <div style="" ng-if="saving">working</div>
         <div class="event-state " ng-controller="UhfCtrl" style="margin: 0 10px;">
-            <h1 class="print" ng-click="loadData()">UHF 2018
-                <small ng-if="saving">working</small>
-            </h1>
             <ul class="nav nav-tabs">
-                <li role="presentation" class="disabled"><a >UHF 2018</a></li>
-                <li role="presentation" ng-class="{active: tab==='all'}" ng-click="tab = 'all'"><a >All</a></li>
-                <li role="presentation" ng-class="{active: tab==='guests'}" ng-click="tab = 'guests'"><a >Guests</a></li>
-                <li role="presentation" ng-class="{active: tab==='riggers'}" ng-click="tab = 'riggers'"><a>Riggers</a></li>
-                <li role="presentation" ng-class="{active: tab==='volunteers'}" ng-click="tab = 'volunteers'"><a >Volonteers</a></li>
-                <li role="presentation" ng-class="{active: tab==='not-finished'}" ng-click="tab = 'not-finished'"><a >Not fishished</a></li>
-                <li role="presentation" ng-class="{active: tab==='camping'}" ng-click="tab = 'camping'"><a >Camping</a></li>
-                <li role="presentation" ng-class="{active: tab==='hostel'}" ng-click="tab = 'hostel'"><a >Hostel</a></li>
-                <li role="presentation" ng-class="{active: tab==='notes'}" ng-click="tab = 'notes'"><a >with notes</a></li>
+                <li role="presentation" class="disabled"><a ng-click="loadData()">UHF 2019</a> </li>
+                <li role="presentation" ng-class="{active: tab==='all'}" ng-click="setTab('all')"><a >All</a></li>
+                <li role="presentation" ng-class="{active: tab==='special_guest'}" ng-click="setTab('special_guest')"><a >Special Guests</a></li>
+                <li role="presentation" ng-class="{active: tab==='guests'}" ng-click="tab = 'guests'; doStats()"><a >Guests</a></li>
+                <li role="presentation" ng-class="{active: tab==='riggers'}" ng-click="tab = 'riggers'; doStats()"><a>Riggers</a></li>
+                <li role="presentation" ng-class="{active: tab==='volunteers'}" ng-click="tab = 'volunteers'; doStats()"><a >Volonteers</a></li>
+                <li role="presentation" ng-class="{active: tab==='not-finished'}" ng-click="tab = 'not-finished'; doStats()"><a >Not fishished</a></li>
+                <li role="presentation" ng-class="{active: tab==='zjednoczony'}" ng-click="tab = 'zjednoczony'; doStats()"><a >Zjednoczony</a></li>
+                <!-- <li role="presentation" ng-class="{active: tab==='hostel'}" ng-click="tab = 'hostel'; doStats()"><a >Hostel</a></li> -->
+                <li role="presentation" ng-class="{active: tab==='notes'}" ng-click="tab = 'notes'; doStats()"><a >with notes</a></li>
             </ul>
 
             <!-- USER FORM -->
@@ -45,7 +43,7 @@
 
             <div ng-show="action == 'list'">
 
-                <div style="margin-bottom: 10px;">
+                <div style="margin-bottom: 10px;" >
 
                     <input class="form-control" type="text" ng-model="query" style="width: 300px; display: inline-block" />
                     <div class="btn btn-default" ng-click="query = ''">
@@ -63,19 +61,13 @@
                 </div>
                 <p class="print" ng-if="show_stats">
                     <b>online</b>
-                    <br> total:
-                    <b>{{stats.total}}</b>
-                    <br> payment_id:
-                    <b>{{stats.payment_id}}</b> ({{stats.no_payment_id}} not finished)
+                    <br> total: <b>{{stats.payment_id}}</b> ({{stats.no_payment_id}} not finished)
                     <br> ticket full:
-                    <b>{{stats.ticket_full}}</b> weekend:
-                    <b>{{stats.ticket_weekend}}</b>
+                    <b>{{stats.ticket_full}}</b> weekend: <b>{{stats.ticket_weekend}}</b> zjednoczony: <b>{{stats.ticket_zjednoczony}}</b>
                     <br> male:
                     <b>{{stats.male}}</b>
                     female:
                     <b>{{stats.fmale}}</b>
-                    <br> os permit:
-                    <b>{{stats.payment_onsite_permit}}</b>
                     <br>
 
                     <b>onsite</b>

@@ -35,6 +35,9 @@ angular.module('uhf', [])
 })
 .filter('uhf', function() {
   return function(rows, tab) {
+      if(tab === 'stats') {
+          rows = []
+      }
       if(tab === 'all') {
           rows = rows
       }
@@ -47,8 +50,8 @@ angular.module('uhf', [])
       if(tab === 'riggers') {
           rows = rows.filter(v=>v.rigger)
       }
-      if(tab === 'camping') {
-          rows = rows.filter(v=>v.camping)
+      if(tab === 'zjednoczony') {
+          rows = rows.filter(v=>!!v.zjednoczony)
       }
       if(tab === 'not-finished') {
           rows = rows.filter(v=>!v.payment_id)
@@ -71,7 +74,7 @@ angular.module('uhf', [])
 .config(function ($httpProvider) {
   $httpProvider.interceptors.push('httpRequestInterceptor');
 })
-.controller('UhfCtrl', function ($scope, $http, $q) {
+.controller('UhfCtrl', function ($scope, $http, $filter) {
 
   $scope.action = 'list';
 
@@ -171,7 +174,9 @@ angular.module('uhf', [])
   }
 
   $scope.doStats = function (row) {
-      var rows = $scope.rows;
+
+      var rows = $filter('uhf')($scope.rows, $scope.tab);
+      var rows = $filter('filter')(rows, $scope.query);
 
       const tshirts = {
           count: 0,
@@ -232,11 +237,12 @@ angular.module('uhf', [])
       })
       $scope.stats = {
 
-          total: $scope.rows.length,
-          payment_id: $scope.rows.filter(v => v.payment_id).length,
-          no_payment_id: $scope.rows.filter(v => !v.payment_id).length,
+          total: rows.length,
+          payment_id: rows.filter(v => v.payment_id).length,
+          no_payment_id: rows.filter(v => !v.payment_id).length,
           ticket_full: rows.filter(v => v.ticket_type === 'full' || !v.ticket_type).length,
           ticket_weekend: rows.filter(v => v.ticket_type === 'weekend').length,
+          ticket_zjednoczony: rows.filter(v => v.ticket_type === 'camp').length,
           male: rows.filter(v => v.gender === 'm').length,
           fmale: rows.filter(v => v.gender === 'f').length,
           payment_onsite_permit: rows.filter(v => v.payment_onsite_permit).length,
@@ -252,6 +258,10 @@ angular.module('uhf', [])
           checkin_fmale: rows.filter(v => v.gender === 'f' && v.checkin_at).length,
 
       };
+  }
+  $scope.setTab = function(tab) {
+    $scope.tab = tab;
+    $scope.doStats();
   }
   $scope.setData = function(data) {
       $scope.rows = data;
