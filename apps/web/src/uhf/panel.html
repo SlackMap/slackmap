@@ -26,13 +26,14 @@
                 <li role="presentation" class="disabled"><a ng-click="loadData()">UHF 2019</a> </li>
                 <li role="presentation" ng-class="{active: tab==='all'}" ng-click="setTab('all')"><a >All</a></li>
                 <li role="presentation" ng-class="{active: tab==='special_guest'}" ng-click="setTab('special_guest')"><a >Special Guests</a></li>
-                <li role="presentation" ng-class="{active: tab==='guests'}" ng-click="tab = 'guests'; doStats()"><a >Guests</a></li>
-                <li role="presentation" ng-class="{active: tab==='riggers'}" ng-click="tab = 'riggers'; doStats()"><a>Riggers</a></li>
-                <li role="presentation" ng-class="{active: tab==='volunteers'}" ng-click="tab = 'volunteers'; doStats()"><a >Volonteers</a></li>
-                <li role="presentation" ng-class="{active: tab==='not-finished'}" ng-click="tab = 'not-finished'; doStats()"><a >Not fishished</a></li>
-                <li role="presentation" ng-class="{active: tab==='zjednoczony'}" ng-click="tab = 'zjednoczony'; doStats()"><a >Zjednoczony</a></li>
+                <li role="presentation" ng-class="{active: tab==='guests'}" ng-click="setTab('guests')"><a >Guests</a></li>
+                <li role="presentation" ng-class="{active: tab==='riggers'}" ng-click="setTab('riggers')"><a>Riggers</a></li>
+                <li role="presentation" ng-class="{active: tab==='volunteers'}" ng-click="setTab('volunteers')"><a >Volonteers</a></li>
+                <li role="presentation" ng-class="{active: tab==='workshops'}" ng-click="setTab('workshops')"><a >Workshops</a></li>
+                <li role="presentation" ng-class="{active: tab==='not-finished'}" ng-click="setTab('not-finished')"><a >Not fishished</a></li>
+                <li role="presentation" ng-class="{active: tab==='zjednoczony'}" ng-click="setTab('zjednoczony')"><a >Zjednoczony</a></li>
                 <!-- <li role="presentation" ng-class="{active: tab==='hostel'}" ng-click="tab = 'hostel'; doStats()"><a >Hostel</a></li> -->
-                <li role="presentation" ng-class="{active: tab==='notes'}" ng-click="tab = 'notes'; doStats()"><a >with notes</a></li>
+                <li role="presentation" ng-class="{active: tab==='notes'}" ng-click="setTab('notes')"><a >with notes</a></li>
             </ul>
 
             <!-- USER FORM -->
@@ -59,7 +60,7 @@
                         NEW
                     </div> -->
                 </div>
-                <p class="print" ng-if="show_stats">
+                <div class="print" ng-if="show_stats">
                     <b>online</b>
                     <br> total: <b>{{stats.payment_id}}</b> ({{stats.no_payment_id}} not finished)
                     <br> ticket full:
@@ -80,24 +81,29 @@
                     <br> male:
                     <b>{{stats.checkin_male}}</b> female:
                     <b>{{stats.checkin_fmale}}</b>
-                    <br> campsite:
-                    <b>{{stats.campsite}}</b>
                     <br>
 
-                    <b>tshirts</b>
-                    <!-- <pre>{{stats.tshirts|json}}</pre> -->
+                    <b ng-click="show_tshirts = !show_tshirts">tshirts</b>
+
+<pre ng-if="show_tshirts">
+Ordered
+{{stats.tshirts|json}}
+collected
+{{stats.tshirts|json}}
+</pre>
                     <br>
                     <b ng-click="show_emails = !show_emails">emails</b>
-                    <span ng-show="show_emails" ng-repeat="row in rows | uhf:tab | filter:query | unique track by $index">
-                        {{row}}
-                    </span>
+
+                    <p style="max-width: 100%; overflow-wrap: break-word;" ng-show="show_emails">
+                        <span ng-repeat="row in rows | uhf:tab | filter:query | unique track by $index">{{row}},</span>pedro.blaszczak@gmail.com
+                    </p>
                     <Br>
                     <b ng-click="show_countries = !show_countries">countries</b>
                     <span ng-show="show_countries" ng-repeat="row in stats.checkin_countries track by $index">
                         <br>{{row.name}}
                         <!-- ({{row.count}}) -->
                     </span>
-                </p>
+                </div>
                 <table class="table">
                     <thead>
                         <tr style="font-weight: bold">
@@ -108,8 +114,7 @@
                             <td>last name</td>
                             <td>country</td>
                             <td>ticket type</td>
-                            <td>vol</td>
-                            <td>guest</td>
+                            <td>roles</td>
                             <td>lang</td>
                             <td>payment online</td>
                             <!-- <td>onsite permit</td> -->
@@ -117,24 +122,42 @@
                         </tr>
                     </thead>
                     <tbody ng-repeat="row in rows | uhf:tab | filter:query track by $index">
-                        <tr ng-click="selectUser(row)">
+                        <tr ng-click="selectUser(row)" ng-class="{noPayment: !row.payment_id}">
                             <td>{{$index+1}}</td>
-                            <td>{{row.id}}</td>
+                            <td>{{row.payment_id}}</td>
                             <td>{{row.email}}</td>
                             <td>{{row.firstname}}</td>
                             <td>{{row.lastname}}</td>
                             <td>{{row.country}} {{row.country_name}}</td>
                             <td>{{row.ticket_type}} </td>
-                            <td>{{row.volunteer}}</td>
-                            <td>{{row.guest}}</td>
+                            <td>
+                                <span ng-if="row.special_guest">
+                                    <span>Special Guest</span>
+                                </span>
+                                <span ng-if="row.guest">
+                                    <span>Guest</span>
+                                </span>
+                                <span ng-if="row.rigger">
+                                    <span>Rigger</span>
+                                </span>
+                                <span ng-if="row.volunteer">
+                                    <span>Volunteer</span>
+                                </span>
+                                <span ng-if="row.workshops">
+                                    <span>Workshops</span>
+                                </span>
+                            </td>
                             <td>{{row.language}}</td>
                             <td>{{row.payment_online}}</td>
                             <!-- <td>{{row.payment_onsite_permit}}</td> -->
                             <td>
-                                <a target="_blank" href="/uhf/edit.html?hash={{row.hash}}" class="btn btn-primary pull-left print">EDIT</a>
+                                <a ng-click="$event.stopPropagation()" target="_blank" href="/uhf/edit.html?hash={{row.hash}}" class="btn btn-primary pull-left print">EDIT</a>
                                 <!-- <div class="btn btn-primary pull-left print" ng-click="edit(row)">EDIT</div> -->
                                 <!-- <div class="btn btn-default pull-right print" ng-click="show(row)">SHOW</div> -->
                             </td>
+                        </tr>
+                        <tr ng-if="tab==='notes'">
+                            <td style="border-top: none;" colspan="11">{{row.notes}}</td>
                         </tr>
                         <tr class="no-hover" ng-if="user.id == row.id" ng-init="onlineOpen = false; payment_online = row.payment_online; payment_email = true;">
                             <td colspan="13">
@@ -246,8 +269,11 @@
                                                 <span ng-if="user.rigger">
                                                     <span>Rigger</span>
                                                 </span>
-                                                <span ng-if="user.vlunteer">
+                                                <span ng-if="user.volunteer">
                                                     <span>Volunteer</span>
+                                                </span>
+                                                <span ng-if="user.workshops">
+                                                    <span>Workshops</span>
                                                 </span>
                                             </div>
                                             <div ng-if="edit_roles">
@@ -265,8 +291,12 @@
                                                     <span>Rigger</span>
                                                 </label>
                                                 <label>
-                                                    <input name="vlunteer" type="checkbox" ng-model="user.vlunteer">
+                                                    <input name="volunteer" type="checkbox" ng-model="user.volunteer">
                                                     <span>Volunteer</span>
+                                                </label>
+                                                <label>
+                                                    <input name="workshops" type="checkbox" ng-model="user.workshops">
+                                                    <span>Workshops</span>
                                                 </label>
                                             </div>
                                           </div>

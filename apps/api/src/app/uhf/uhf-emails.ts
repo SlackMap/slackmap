@@ -21,8 +21,8 @@ export const texts = {
         pl: 'Informacja o płatności'
     },
     ONLINE_PAYMENT_EMAIL_HTML: {
-        en: `We are happy to confir your payment.<br>
-        Payment amount: {{payment_online}}.<br><br>
+        en: `We are happy to confirm your payment.<br>
+        Payment amount: {{payment_online}} PLN<br><br>
 
         See you in Lublin<Br>
         UHF Team`,

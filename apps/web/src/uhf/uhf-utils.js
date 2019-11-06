@@ -3,6 +3,8 @@ var domain = '';
 
 if(window.location.host.substr(0, 15) === 'localhost:8080') {
   domain = 'https://test-api.slackmap.com';
+} else if(window.location.host.substr(0,15) === 'localhost:5500') {
+  domain = 'https://test-api.slackmap.com';
 } else if(window.location.host.substr(0,9) === 'localhost') {
   domain = 'http://localhost:3333';
 } else if  (window.location.host === 'test.slackmap.com') {
@@ -22,4 +24,3 @@ function param(name, url) {
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-

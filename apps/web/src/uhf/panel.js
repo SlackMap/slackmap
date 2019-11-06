@@ -29,7 +29,6 @@ angular.module('uhf', [])
       rows.map( function(v) {
           emails[v.email] = 1;
       } );
-      console.log(emails)
       return Object.keys(emails);
   }
 })
@@ -41,11 +40,17 @@ angular.module('uhf', [])
       if(tab === 'all') {
           rows = rows
       }
+      if(tab === 'special_guest') {
+          rows = rows.filter(v=>v.special_guest)
+      }
       if(tab === 'guests') {
           rows = rows.filter(v=>v.guest)
       }
       if(tab === 'volunteers') {
           rows = rows.filter(v=>v.volunteer)
+      }
+      if(tab === 'workshops') {
+          rows = rows.filter(v=>v.workshops)
       }
       if(tab === 'riggers') {
           rows = rows.filter(v=>v.rigger)
@@ -55,6 +60,9 @@ angular.module('uhf', [])
       }
       if(tab === 'not-finished') {
           rows = rows.filter(v=>!v.payment_id)
+      }
+      if(tab === 'notes') {
+          rows = rows.filter(v=>!!v.notes)
       }
       return rows;
   }
@@ -175,8 +183,8 @@ angular.module('uhf', [])
 
   $scope.doStats = function (row) {
 
-      var rows = $filter('uhf')($scope.rows, $scope.tab);
-      var rows = $filter('filter')(rows, $scope.query);
+      let rows = $filter('uhf')($scope.rows, $scope.tab);
+      rows = $filter('filter')(rows, $scope.query);
 
       const tshirts = {
           count: 0,
@@ -184,8 +192,6 @@ angular.module('uhf', [])
           f_count: 0,
           m_top_count:0,
           f_top_count: 0,
-          m_tshirt_collected_count: 0,
-          f_tshirt_collected_count: 0,
           m: {
               top: {
                   s: 0,
@@ -219,22 +225,75 @@ angular.module('uhf', [])
               }
           }
       }
+      const tshirts_collected = {
+          count: 0,
+          m_count: 0,
+          f_count: 0,
+          m_top_count:0,
+          f_top_count: 0,
+          m: {
+              top: {
+                  s: 0,
+                  m: 0,
+                  l: 0,
+                  xl: 0,
+                  xxl: 0
+              },
+              tshirt: {
+                  s: 0,
+                  m: 0,
+                  l: 0,
+                  xl: 0,
+                  xxl: 0
+              },
+          },
+          f: {
+              top: {
+                  xs: 0,
+                  s: 0,
+                  m: 0,
+                  l: 0,
+                  xl: 0
+              },
+              tshirt: {
+                  xs: 0,
+                  s: 0,
+                  m: 0,
+                  l: 0,
+                  xl: 0
+              }
+          }
+      }
+     // countries
       let checkin_countries = rows
       // .filter(v => v.checkin_at)
       .reduce((acc, v)=>{
-              if(!acc[v.country]) {
-                  acc[v.country] = {name: countries_hash[v.country], count: 0}
-              }
-              acc[v.country].count++
-              return acc;
-          }, {})
-      rows.filter(v => v.tshirt_collected_gender && v.tshirt_collected_type && v.tshirt_collected_size).forEach((v)=>{
-          tshirts[v.tshirt_collected_gender][v.tshirt_collected_type][v.tshirt_collected_size]++;
+          if(!acc[v.country]) {
+              acc[v.country] = {name: countries_hash[v.country], count: 0}
+          }
+          acc[v.country].count++
+          return acc;
+      }, {})
+
+      // tshirts ordered
+      rows.filter(v => v.tshirt_gender && v.tshirt_type && v.tshirt_size).forEach((v)=>{
+          tshirts[v.tshirt_gender][v.tshirt_type][v.tshirt_size]++;
 
           tshirts['count']++;
-          tshirts[v.tshirt_collected_gender+'_count']++;
-          tshirts[v.tshirt_collected_gender+'_'+v.tshirt_collected_type+'_count']++;
+          tshirts[v.tshirt_gender+'_count']++;
+          tshirts[v.tshirt_gender+'_'+v.tshirt_type+'_count']++;
       })
+
+      // tshirts collected
+      rows.filter(v => v.tshirt_collected_gender && v.tshirt_collected_type && v.tshirt_collected_size).forEach((v)=>{
+          tshirts_collected[v.tshirt_collected_gender][v.tshirt_collected_type][v.tshirt_collected_size]++;
+
+          tshirts_collected['count']++;
+          tshirts_collected[v.tshirt_collected_gender+'_count']++;
+          tshirts_collected[v.tshirt_collected_gender+'_'+v.tshirt_collected_type+'_count']++;
+      })
+
+      // return stats object
       $scope.stats = {
 
           total: rows.length,
@@ -248,7 +307,8 @@ angular.module('uhf', [])
           payment_onsite_permit: rows.filter(v => v.payment_onsite_permit).length,
 
           campsite: rows.filter(v => v.campsite).length,
-          tshirts,
+          tshirts: tshirts,
+          tshirts_collected: tshirts_collected,
 
           checkin: rows.filter(v => v.checkin_at).length,
           checkin_countries: Object.values(checkin_countries),
@@ -297,7 +357,7 @@ angular.module('uhf', [])
     user.tshirt_collected_size = user.tshirt_size;
   }
 
-  $scope.onlinePayment = async function (row, payment_online, sendEmail) {
+  $scope.onlinePayment = async function (row, payment_online, payment_email) {
 
       if ($scope.online_payment_saving) return;
       $scope.online_payment_saving = true;
@@ -305,7 +365,7 @@ angular.module('uhf', [])
 
       var url = domain+ '/uhf/list/'+row.rid;
 
-      $http.post(url, { payment_online }).then(function (data) {
+      $http.post(url, { payment_online, payment_email }).then(function (data) {
           console.log('res data', data)
           $scope.online_payment_saving = false;
           $scope.setData(data.data);

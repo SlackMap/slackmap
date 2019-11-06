@@ -240,9 +240,9 @@ export class UhfController {
       item.payment_id = record['@rid'].position - 547;
     }
 
-    // delete item.tshirt_gender;
-    // delete item.tshirt_type;
-    // delete item.tshirt_size;
+    delete item.tshirt_gender;
+    delete item.tshirt_type;
+    delete item.tshirt_size;
 
     delete item.rid;
 
@@ -380,12 +380,28 @@ export class UhfController {
   @UseGuards(UhfGuard)
   public async listUpdate(@Body() data: any, @Param('rid') rid): Promise<RegisterResponse> {
 
+    const event_rid = 'e0uhf2019';
+
+    const record: any = await this.db.query('SELECT * FROM EventRegistration WHERE event_rid=:event_rid AND rid=:rid', {
+      params: {
+        event_rid,
+        rid
+      }
+    }).one();
+
+    if (!record) {
+      return {
+        error: 'record not found'
+      }
+    }
+    const mail = data.payment_email;
 
     const item = _.omit(data, [
       '@rid',
       '@class',
       'rid',
       '@version',
+      'payment_email'
 
     ])
 
@@ -395,7 +411,14 @@ export class UhfController {
       params: {
         rid
       }
-    }).one;
+    }).one();
+
+    if(mail) {
+      const subject = tr('ONLINE_PAYMENT_EMAIL_SUBJECT', record);
+      const html = tr('ONLINE_PAYMENT_EMAIL_HTML', record);
+
+      this.sendEmail(record.email, subject, html);
+    }
 
     return this.listGet();
 
@@ -407,10 +430,6 @@ export class UhfController {
   @Post('email')
   @UseGuards(UhfGuard)
   public async onlinePayment(@Body() body: {rid, email, subject, html}): Promise<RegisterResponse> {
-
-
-    // const subject = tr('ONLINE_PAYMENT_EMAIL_SUBJECT', row);
-    // const html = tr('ONLINE_PAYMENT_EMAIL_HTML', row);
 
     return this.sendEmail(body.email, body.subject, body.html);
 
