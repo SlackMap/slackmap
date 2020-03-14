@@ -362,11 +362,73 @@
             "passWithNoTests": true,
             "setupFile": "libs/ui/pwa/src/test-setup.ts"
           }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/ui/pwa/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/ui-pwa",
+            "config": {
+              "configFolder": "libs/ui/pwa/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         }
       },
       "schematics": {
         "@nrwl/angular:component": {
           "styleext": "scss"
+        }
+      }
+    },
+    "ui-pwa-e2e": {
+      "root": "apps/ui-pwa-e2e",
+      "sourceRoot": "apps/ui-pwa-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ui-pwa-e2e/cypress.json",
+            "tsConfig": "apps/ui-pwa-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ui-pwa:storybook"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "ui-pwa:storybook:ci"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/ui-pwa-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/ui-pwa-e2e/**"
+            ]
+          }
         }
       }
     }

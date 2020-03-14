@@ -5,12 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { UpdateService } from './update.service';
 import { UpdateDialogComponent } from './update-dialog/update-dialog.component';
 import { UpdateConfig } from './update-config';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   imports: [
     CommonModule,
     MatDialogModule,
-    MatButtonModule,
+    MatButtonModule
   ],
   declarations: [UpdateDialogComponent],
   entryComponents: [UpdateDialogComponent],
