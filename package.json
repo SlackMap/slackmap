@@ -29,7 +29,8 @@
     "dev:ssr": "ng run web:serve-ssr",
     "serve:ssr": "node dist/apps/web/server/main.js",
     "build:ssr": "ng build --prod && ng run web:server:production",
-    "prerender": "ng run web:prerender"
+    "prerender": "ng run web:prerender",
+    "dist:web": "http-server -p 8080 -c-1 dist/apps/web/browser"
   },
   "private": true,
   "dependencies": {

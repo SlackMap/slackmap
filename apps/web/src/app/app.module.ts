@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
     ApiModule,
     PwaModule.forRoot({enabled: environment.production}),
     BrowserAnimationsModule,
