@@ -3,7 +3,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { interval } from 'rxjs';
 import { PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { UpdateAvailableEvent } from '@angular/service-worker';
 import { UpdateDialogComponent } from './update-dialog/update-dialog.component';
 import { UpdateConfig } from './update-config';

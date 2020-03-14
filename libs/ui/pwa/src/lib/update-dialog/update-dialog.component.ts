@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface Version {
   hash: string;
@@ -14,7 +14,7 @@ export interface UpdateAvailableEvent {
 @Component({
   selector: 'sm-update-dialog',
   templateUrl: './update-dialog.component.html',
-  styleUrls: ['./update-dialog.component.scss'],
+  styleUrls: ['./update-dialog.component.css'],
 })
 export class UpdateDialogComponent implements OnInit {
   constructor(
