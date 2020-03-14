@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ApiModule } from '@slackmap/ui/api';
+import { PwaModule } from '@slackmap/ui/pwa';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -15,7 +16,8 @@ import { environment } from '../environments/environment';
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ApiModule
+    ApiModule,
+    PwaModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
