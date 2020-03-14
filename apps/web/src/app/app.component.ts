@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ApiService } from '@slackmap/ui/api';
 
 @Component({
   selector: 'sm-root',
@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  data$ = this.http.get('/api')
+  data$ = this.api.getConfig()
 
-  constructor(private http: HttpClient) {}
+  constructor(private api: ApiService) {}
 
 }

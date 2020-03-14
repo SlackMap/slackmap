@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@slackmap/core": ["libs/core/src/index.ts"],
-      "@slackmap/ui/api": ["libs/ui/api/src/index.ts"]
+      "@slackmap/ui/api": ["libs/ui/api/src/index.ts"],
+      "@slackmap/api-client": ["libs/api-client/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

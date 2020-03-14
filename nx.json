@@ -26,6 +26,9 @@
     },
     "ui-api": {
       "tags": ["ui"]
+    },
+    "api-client": {
+      "tags": ["api", "ui"]
     }
   }
 }
