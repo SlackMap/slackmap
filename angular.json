@@ -21,7 +21,11 @@
             "polyfills": "apps/web/src/polyfills.ts",
             "tsConfig": "apps/web/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets", "apps/web/src/manifest.webmanifest"],
+            "assets": [
+              "apps/web/src/favicon.ico",
+              "apps/web/src/assets",
+              "apps/web/src/manifest.webmanifest"
+            ],
             "styles": ["apps/web/src/styles.scss"],
             "scripts": []
           },
@@ -134,9 +138,7 @@
           "options": {
             "browserTarget": "web:build:production",
             "serverTarget": "web:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
@@ -251,6 +253,34 @@
           }
         }
       }
+    },
+    "ui-api": {
+      "projectType": "library",
+      "root": "libs/ui/api",
+      "sourceRoot": "libs/ui/api/src",
+      "prefix": "slackmap",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/api/tsconfig.lib.json",
+              "libs/ui/api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/api/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/api/jest.config.js",
+            "tsConfig": "libs/ui/api/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/api/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {
