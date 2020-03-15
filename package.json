@@ -1,6 +1,6 @@
 {
   "name": "slackmap",
-  "version": "0.1.0",
+  "version": "0.1.1-next.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -34,7 +34,7 @@
     "db": "set ORIENTDB_ROOT_PASSWORD=root &&  bash ./db/current/bin/server.sh ",
     "db:backup": "npx shipit --shipitfile shipitfile-db-backup.js",
     "db:deploy": "npx shipit --shipitfile shipitfile-db-deploy.js",
-    "bump:test": "standard-version --prerelease next -t '' --skip.tag=true --skip.commit=true",
+    "bump:test": "standard-version --prerelease next -t ''",
     "bump:prod": "standard-version --no-verify -t '' --message 'chore(release): %s [skip ci]'",
     "bd:test": "npm run build api --prod && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit test deploy",
     "bd:prod": "npm run build api --prod && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit prod deploy"
