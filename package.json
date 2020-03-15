@@ -1,6 +1,6 @@
 {
   "name": "slackmap",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -28,9 +28,16 @@
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "dev:ssr": "ng run web:serve-ssr",
     "serve:ssr": "node dist/apps/web/server/main.js",
-    "build:ssr": "ng build --prod && ng run web:server:production",
+    "build:ssr": "ng build web --prod && ng run web:server:production",
     "prerender": "ng run web:prerender",
-    "dist:web": "http-server -p 8080 -c-1 dist/apps/web/browser"
+    "serve:pwa": "http-server -p 8080 -c-1 dist/apps/web/browser",
+    "db": "set ORIENTDB_ROOT_PASSWORD=root &&  bash ./db/current/bin/server.sh ",
+    "db:backup": "npx shipit --shipitfile shipitfile-db-backup.js",
+    "db:deploy": "npx shipit --shipitfile shipitfile-db-deploy.js",
+    "bump:test": "standard-version --prerelease next -t '' --skip.tag=true --skip.commit=true",
+    "bump:prod": "standard-version --no-verify -t '' --message 'chore(release): %s [skip ci]'",
+    "bd:test": "npm run build api --prod && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit test deploy",
+    "bd:prod": "npm run build api --prod && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit prod deploy"
   },
   "private": true,
   "dependencies": {
@@ -84,9 +91,11 @@
     "cypress": "^3.8.2",
     "dotenv": "6.2.0",
     "eslint": "6.1.0",
+    "http-server": "^0.12.1",
     "jest": "24.9.0",
     "jest-preset-angular": "8.0.0",
     "prettier": "1.18.2",
+    "standard-version": "^7.1.0",
     "ts-jest": "24.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
