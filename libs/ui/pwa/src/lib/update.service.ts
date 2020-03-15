@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateAvailableEvent } from '@angular/service-worker';
 import { UpdateDialogComponent } from './update-dialog/update-dialog.component';
-import { UpdateConfig } from './update-config';
+import { PwaModuleConfig } from './pwa-module-config';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class UpdateService {
   constructor(
     private dialog: MatDialog,
     private swUpdate: SwUpdate,
-    private config: UpdateConfig,
+    private config: PwaModuleConfig,
     @Inject(PLATFORM_ID) platformId: Object,
   ) {
     if(!this.config.enabled) {

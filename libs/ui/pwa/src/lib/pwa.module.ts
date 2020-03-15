@@ -4,8 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { UpdateService } from './update.service';
 import { UpdateDialogComponent } from './update-dialog/update-dialog.component';
-import { UpdateConfig } from './update-config';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { PwaModuleConfig } from './pwa-module-config';
 
 @NgModule({
   imports: [
@@ -17,11 +16,11 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   entryComponents: [UpdateDialogComponent],
 })
 export class PwaModule {
-  static forRoot(config: UpdateConfig): ModuleWithProviders {
+  static forRoot(config: PwaModuleConfig): ModuleWithProviders {
     return {
       ngModule: PwaModule,
       providers: [{
-        provide: UpdateConfig,
+        provide: PwaModuleConfig,
         useValue: config
       }]
     }

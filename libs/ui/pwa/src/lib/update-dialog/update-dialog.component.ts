@@ -1,9 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+export interface AppData {
+  version: string;
+  changelog: string;
+}
 export interface Version {
   hash: string;
-  appData?: any;
+  appData?: AppData;
 }
 export interface UpdateAvailableEvent {
   type: 'UPDATE_AVAILABLE';
