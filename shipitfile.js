@@ -4,6 +4,7 @@ module.exports = function (shipit) {
 
   const host = process.env.SSH_HOST;
   const user = process.env.SSH_USER;
+  if(!host || !user) throw new Error('SSH_HOST & SSH_USER env variables has to be set in your system')
 
   shipit.initConfig({
     default: {

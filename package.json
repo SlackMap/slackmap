@@ -2,6 +2,9 @@
   "name": "slackmap",
   "version": "0.1.1-next.0",
   "license": "MIT",
+  "bin": {
+    "sm": "./apps/cli/bin/run"
+  },
   "scripts": {
     "ng": "ng",
     "nx": "nx",
@@ -34,10 +37,15 @@
     "db": "set ORIENTDB_ROOT_PASSWORD=root &&  bash ./db/current/bin/server.sh ",
     "db:backup": "npx shipit --shipitfile shipitfile-db-backup.js",
     "db:deploy": "npx shipit --shipitfile shipitfile-db-deploy.js",
+    "build:all": "ng build api --prod && npm run build:ssr",
     "bump:test": "standard-version --prerelease next -t ''",
     "bump:prod": "standard-version --no-verify -t '' --message 'chore(release): %s [skip ci]'",
-    "bd:test": "npm run build api --prod && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit test deploy",
-    "bd:prod": "npm run build api --prod && npm run build:ssr && node ./tools/scripts/copy-assets.js && shipit prod deploy"
+    "copy-assets:test": "node ./tools/scripts/copy-assets.js",
+    "copy-assets:prod": "node ./tools/scripts/copy-assets.js",
+    "deploy:test": "shipit test deploy",
+    "deploy:prod": "shipit prod deploy",
+    "bd:test": "npm run build:all && npm run bump:test && npm run copy-assets:test && npm run deploy:test",
+    "bd:prod": "npm run build:all && npm run bump:prod && npm run copy-assets:prod && npm run deploy:prod"
   },
   "private": true,
   "dependencies": {
@@ -89,12 +97,14 @@
     "babel-loader": "8.0.6",
     "codelyzer": "~5.0.1",
     "cypress": "^3.8.2",
-    "dotenv": "6.2.0",
+    "dotenv": "^6.2.0",
     "eslint": "6.1.0",
     "http-server": "^0.12.1",
     "jest": "24.9.0",
     "jest-preset-angular": "8.0.0",
     "prettier": "1.18.2",
+    "shipit-cli": "^5.2.0",
+    "shipit-deploy": "^5.2.0",
     "standard-version": "^7.1.0",
     "ts-jest": "24.0.0",
     "ts-node": "~7.0.0",
