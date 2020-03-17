@@ -9,7 +9,7 @@ module.exports = function (shipit) {
 
   shipit.initConfig({
     default: {
-      workspace: path.resolve(__dirname, 'apps/db/current'),
+      workspace: path.resolve(__dirname, 'db/current'),
       keepReleases: 5,
       deleteOnRollback: true,
       copy: '-rf',

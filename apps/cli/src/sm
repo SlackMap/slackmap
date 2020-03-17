@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const { resolve } = require('path');
+const project = resolve(__dirname, '../tsconfig.json');
+
+require('ts-node').register({
+  project
+});
+require('./sm.ts');

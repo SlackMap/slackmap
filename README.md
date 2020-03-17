@@ -6,16 +6,53 @@ We use [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](htt
 
 <a href="https://slackmap.com" target="_blank"><img src="https://slackmap.com/assets/logo.svg"></a>
 
-## OrientDB by Docker
-
-docker run -d --name orientdb -p 2424:2424 -p 2480:2480 -e ORIENTDB_ROOT_PASSWORD=root orientdb:2.2.37-spatial
-
 ## SlackMap CLI
 
 Run development CLI
 
 ```bash
-npm run sm
+# after cloning the repo, install dependencies
+npm install
+
+# link local bin to your global paths
+npm link
+
+# now you can use SlackMap CLI
+sm
+```
+
+## OrientDB
+
+### Local development
+
+Download the database and run it locally
+
+```bash
+sm orient:download
+sm orient:switch
+npm run db
+```
+
+### Server deployment
+
+```bash
+# test deploy
+npm run db:deploy test deploy
+# test rollback
+npm run db:deploy test rollback
+
+# prod deploy
+npm run db:deploy prod deploy
+# prod rollback
+npm run db:deploy prod rollback
+```
+
+### Using Docker
+
+TODO
+
+```bash
+docker run -d --name orientdb -p 2424:2424 -p 2480:2480 -e ORIENTDB_ROOT_PASSWORD=root orientdb:2.2.37-spatial
 ```
 
 ## Nx Workspaces

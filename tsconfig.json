@@ -15,6 +15,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "esModuleInterop": true,
     "paths": {
       "@slackmap/core": ["libs/core/src/index.ts"],
       "@slackmap/ui/api": ["libs/ui/api/src/index.ts"],
