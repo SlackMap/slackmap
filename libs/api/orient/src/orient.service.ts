@@ -62,21 +62,10 @@ export class OrientService implements OnModuleDestroy {
 
   }).pipe(
     takeUntil(this.destroy$),
-    tap({
-      next: (v)=> console.log('next before'),
-      error: (v)=> console.log('error before'),
-      complete: ()=> console.log('complete before'),
-    }),
     shareReplay({
       bufferSize: 1,
       refCount: false // this connection wil live even without subscribers
     }),
-    tap({
-      next: (v)=> console.log('next after'),
-      error: (v)=> console.log('error after'),
-      complete: ()=> console.log('complete after'),
-    })
-
   );
 
   /**

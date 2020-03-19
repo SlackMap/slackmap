@@ -9,8 +9,8 @@ module.exports = function (shipit) {
   shipit.initConfig({
     default: {
       workspace: './dist',
-      keepReleases: 5,
-      deleteOnRollback: true,
+      keepReleases: 10,
+      deleteOnRollback: false,
       copy: '-rf',
       rsync: '--del',
       ignores: ['node_modules']
@@ -31,6 +31,12 @@ module.exports = function (shipit) {
   shipit.on('updated', () => shipit.start('npm:install'));
 
   shipit.blTask('npm:install', async function() {
+    // symlink .env to api app folder
+    const deployTo = this.config.deployTo;
+    const releaseDir = `${this.releasePath}`;
+    await shipit.remote(`ln -s ${deployTo}/.env ${releaseDir}/apps/api/.env`);
+
+    // npm install
     await shipit.remote(`cd ${shipit.releasePath} && npm install --production`);
   })
 
@@ -40,7 +46,7 @@ module.exports = function (shipit) {
   shipit.on('deployed', () => shipit.start('pm2:reload'));
 
   shipit.blTask('pm2:reload', async function () {
-    await shipit.remote(`pm2 startOrGracefulReload ${this.config.deployTo}/pm2.json`);
+    await shipit.remote(`pm2 startOrGracefulReload ${deployTo}/pm2.json`);
   });
 
   // currentPath: '/home/[user]/test/current',

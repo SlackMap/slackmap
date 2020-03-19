@@ -7,7 +7,7 @@ export function acquire(): ($in) => Observable<ODatabaseSession> {
     return new Observable<ODatabaseSession>(subscriber => {
       // if acquire session promise will resolve after subscriber unsubscribes
       // we will have hanging unused session
-      // so we havet to keep this info in this variable
+      // so we have to keep this info in this variable
       let closed = false;
       let sessionCache: ODatabaseSession;
       const sub = in$.subscribe({

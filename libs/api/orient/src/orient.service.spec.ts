@@ -3,23 +3,23 @@ import { OrientService } from './orient.service';
 import { OrientConfig } from './orient.config';
 
 describe('OrientService', () => {
-  let service: OrientService;
-  let module: TestingModule;
+  // let service: OrientService;
+  // let module: TestingModule;
 
-  beforeAll(async () => {
-    module = await Test.createTestingModule({
-      providers: [OrientService, OrientConfig],
-    }).compile();
-    service = module.get<OrientService>(OrientService);
-  });
+  // beforeAll(async () => {
+  //   module = await Test.createTestingModule({
+  //     providers: [OrientService, OrientConfig],
+  //   }).compile();
+  //   service = module.get<OrientService>(OrientService);
+  // });
 
-  afterAll(async () => {
-    await module.close();
-  });
+  // afterAll(async () => {
+  //   await module.close();
+  // });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
+  // it('should be defined', () => {
+  //   expect(service).toBeDefined();
+  // });
 
   // beforeEach(async () => {
   //   session = await orient.session();
@@ -78,17 +78,17 @@ describe('OrientService', () => {
   //   expect(res).toBeTruthy();
   // });
 
-  it.skip('should close the connection', async () => {
-    const m: TestingModule = await Test.createTestingModule({
-      providers: [OrientService, OrientConfig],
-    }).compile();
-    const s: OrientService = module.get<OrientService>(OrientService);
+  // it.skip('should close the connection', async () => {
+  //   const m: TestingModule = await Test.createTestingModule({
+  //     providers: [OrientService, OrientConfig],
+  //   }).compile();
+  //   const s: OrientService = module.get<OrientService>(OrientService);
 
-    const db = await s.acquire();
-    expect(db).toBeDefined();
+  //   const db = await s.acquire();
+  //   expect(db).toBeDefined();
 
-    await m.close();
-    expect(s['_pool']).toBeNull();
-    expect(s['_client']).toBeNull();
-  });
+  //   await m.close();
+  //   expect(s['_pool']).toBeNull();
+  //   expect(s['_client']).toBeNull();
+  // });
 });

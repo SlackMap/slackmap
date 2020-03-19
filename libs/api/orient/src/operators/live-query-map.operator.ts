@@ -1,19 +1,19 @@
 import { Observable } from 'rxjs';
-import { OResult, ODatabaseSession, LiveQuery } from 'orientjs';
+import { ODatabaseSession, LiveQuery } from 'orientjs';
 import { OrientConnection } from '../orient.interfaces';
-import { Logger } from '@nestjs/common';
-const logger = new Logger('LiveQuery');
+
 export function liveQueryMap<T>(streamFn: (session: ODatabaseSession) => LiveQuery): ($in) => Observable<T> {
   return (in$: Observable<OrientConnection>) => {
     return new Observable<T>(subscriber => {
-      logger.log('new subscription')
+      // if acquire session promise will resolve after subscriber unsubscribes
+      // we will have hanging unused session
+      // so we have to keep this info in this variable
+      let closed = false;
       let stream: LiveQuery;
       const sub = in$.subscribe({
         next: ({ pool }) => {
-          logger.log('got the pool')
           pool.acquire()
             .then((session) => {
-              logger.log('got the session')
               stream = streamFn(session);
 
               stream.on("data", (data: any) => {
@@ -34,10 +34,10 @@ export function liveQueryMap<T>(streamFn: (session: ODatabaseSession) => LiveQue
       });
 
       return () => {
-        logger.log('clean')
         if (stream) {
           stream.unsubscribe();
         }
+        closed = true;
         sub.unsubscribe();
       }
     });
