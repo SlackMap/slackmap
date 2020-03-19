@@ -1,4 +1,4 @@
-import { Injectable, OnModuleDestroy, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationShutdown } from '@nestjs/common';
 import { OrientConfig } from './orient.config';
 import { OrientDBClient, ODatabaseSession, QueryOptions } from 'orientjs';
 import { Observable, Subject } from 'rxjs';
@@ -9,7 +9,7 @@ import { streamMap } from './operators/stream-map.operator';
 import { liveQueryMap } from './operators/live-query-map.operator';
 
 @Injectable()
-export class OrientService implements OnModuleDestroy {
+export class OrientService implements OnApplicationShutdown {
   destroy$ = new Subject();
   private readonly logger = new Logger('OrientService');
 
@@ -81,7 +81,7 @@ export class OrientService implements OnModuleDestroy {
     private config: OrientConfig,
   ) { }
 
-  onModuleDestroy() {
+  onApplicationShutdown() {
     this.logger.log(`Destroy connection...`);
     this.destroy$.next();
     this.destroy$.complete();
