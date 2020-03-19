@@ -1,7 +1,7 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+const result = require('dotenv').config()
+if (result.error) {
+  throw result.error
+}
 
 import { NestFactory } from '@nestjs/core';
 
