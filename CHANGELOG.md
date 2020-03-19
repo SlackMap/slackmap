@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1-next.1](https://github.com/SlackMap/slackmap/compare/0.1.1-next.0...0.1.1-next.1) (2020-03-19)
+
+
+### Features
+
+* **api:** Added parsing .env config files ([1e89953](https://github.com/SlackMap/slackmap/commit/1e899535d683b612146af28384da8b5eb5e0b117))
+* **api-orient:** Added orientjs based on rxjs ([f6db497](https://github.com/SlackMap/slackmap/commit/f6db497b8557e8317a845c8f05f18842ad01c7fd))
+* **db:** OrientDB instalation and deployment CLI added ([7c91b03](https://github.com/SlackMap/slackmap/commit/7c91b038272d9d2a042e65c7bea5b53f5e40c3e6))
+
+
+### Bug Fixes
+
+* **web:** Fix views paths for SSR ([eb77e19](https://github.com/SlackMap/slackmap/commit/eb77e196b1105f58f80f0bbcc0a95dabf3c101a8))
+
 ### [0.1.1-next.0](https://github.com/SlackMap/slackmap/compare/v0.1.0...v0.1.1-next.0) (2020-03-15)
 
 
