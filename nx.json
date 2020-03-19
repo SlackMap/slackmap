@@ -12,51 +12,36 @@
   },
   "projects": {
     "web": {
-      "tags": [
-        "ui"
-      ]
+      "tags": ["ui"]
     },
     "web-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "web"
-      ]
+      "implicitDependencies": ["web"]
     },
     "api": {
-      "tags": [
-        "api"
-      ]
+      "tags": ["api"]
     },
     "core": {
-      "tags": [
-        "api",
-        "ui"
-      ]
+      "tags": ["api", "ui"]
     },
     "ui-api": {
-      "tags": [
-        "ui"
-      ]
+      "tags": ["ui"]
     },
     "api-client": {
-      "tags": [
-        "api",
-        "ui"
-      ]
+      "tags": ["api", "ui"]
     },
     "ui-pwa": {
-      "tags": [
-        "ui"
-      ]
+      "tags": ["ui"]
     },
     "ui-pwa-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "ui-pwa"
-      ]
+      "implicitDependencies": ["ui-pwa"]
     },
     "cli": {
       "tags": []
+    },
+    "api-orient": {
+      "tags": ["api"]
     }
   }
 }

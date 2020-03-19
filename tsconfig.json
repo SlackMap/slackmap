@@ -20,7 +20,8 @@
       "@slackmap/core": ["libs/core/src/index.ts"],
       "@slackmap/ui/api": ["libs/ui/api/src/index.ts"],
       "@slackmap/api-client": ["libs/api-client/src/index.ts"],
-      "@slackmap/ui/pwa": ["libs/ui/pwa/src/index.ts"]
+      "@slackmap/ui/pwa": ["libs/ui/pwa/src/index.ts"],
+      "@slackmap/api/orient": ["libs/api/orient/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
