@@ -1,28 +1,31 @@
 import { ClusterModel } from '../models';
 import { LayerType } from '@slackmap/core';
-import { IsString, IsNumber, IsNumberString } from "class-validator";
+import { IsString, IsNumber, IsNumberString, IsEnum } from "class-validator";
 
-export enum ClustersPaths {
-  CLUSTERS = 'clusters/clusters',
-  SPOTS = 'clusters/spots',
+export const CLUSTERS_PATHS = {
+  clustersGet: () => 'clusters/clusters',
+  spotsGet: () => 'clusters/spots',
 }
 
 export class ClustersClustersGetRequestDto {
+  @IsEnum(LayerType)
   layer: LayerType;
   @IsString()
   bbox: string;
   @IsNumberString()
   zoom: number;
 }
-export class ClustersClustersGetResponseDto {
+export class ClustersClustersGetDto {
   clusters: ClusterModel[];
 }
 
 export class SpotSpotsGetRequestDto {
+  @IsEnum(LayerType)
   layer: LayerType;
+  @IsString()
   hash: string;
 }
 
-export class SpotSpotsGetResponseDto {
-  clusters: ClusterModel[];
+export class SpotSpotsGetDto {
+  spots: any[];
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { OrientService, SpotEntity, spotRow2entity } from '@slackmap/api/orient';
 import * as geohash from 'ngeohash';
-import { SpotSpotsGetResponseDto, SpotSpotsGetRequestDto } from '@slackmap/api-client';
+import { SpotSpotsGetDto, SpotSpotsGetRequestDto } from '@slackmap/api-client';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class SpotsService {
@@ -67,13 +67,13 @@ export class SpotsService {
     //     54.85131525968609,  //_northEast.lat
     // ]
   }
-  async getByHash(request: SpotSpotsGetRequestDto): Promise<SpotSpotsGetResponseDto> {
+  getByHash(request: SpotSpotsGetRequestDto): Observable<SpotSpotsGetDto> {
 
     const bbox = this.geohash2bbox(request.hash);
     // const spots = await this.findByBBox(bbox);
     const spots = [];// mock it
-    return <any>{
+    return of({
       spots: spots
-    };
+    });
   }
 }

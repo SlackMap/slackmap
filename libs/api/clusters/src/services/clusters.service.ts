@@ -3,7 +3,7 @@ import Supercluster from 'supercluster';
 import { ClusterSubtype, ItemRidPrefix, ItemType, SpotSubtype } from '@slackmap/core';
 import { OrientService, SpotEntity, ClusterEntity, ClusterCountsEntity } from "@slackmap/api/orient";
 import { ClusterOptions } from '../models';
-import { map, reduce, takeUntil, shareReplay, filter, take, switchMap, tap } from 'rxjs/operators';
+import { map, reduce, takeUntil, shareReplay, filter, take, switchMap, tap, catchError } from 'rxjs/operators';
 import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 
 export interface Feature {
@@ -50,7 +50,7 @@ export class ClustersService {
     switchMap(() => this.loadSpots$),
     map(spots => {
       const cluster = new Supercluster(this.options);
-      cluster.load(spots as any);
+      cluster.load(spots as any); // TODO fix any typing
       return cluster;
     }),
     takeUntil(this.destroy$),
