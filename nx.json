@@ -48,6 +48,9 @@
     },
     "api-clusters": {
       "tags": ["api"]
+    },
+    "ui-core": {
+      "tags": ["ui"]
     }
   }
 }
