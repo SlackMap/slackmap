@@ -1,3 +1,3 @@
 export * from './lib/pwa-module-config';
-export * from './lib/pwa.module';
+export * from './lib/ui-pwa.module';
 export * from './lib/update.service';

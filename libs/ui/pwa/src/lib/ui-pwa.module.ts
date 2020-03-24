@@ -15,10 +15,10 @@ import { PwaModuleConfig } from './pwa-module-config';
   declarations: [UpdateDialogComponent],
   entryComponents: [UpdateDialogComponent],
 })
-export class PwaModule {
+export class UiPwaModule {
   static forRoot(config: PwaModuleConfig): ModuleWithProviders {
     return {
-      ngModule: PwaModule,
+      ngModule: UiPwaModule,
       providers: [{
         provide: PwaModuleConfig,
         useValue: config

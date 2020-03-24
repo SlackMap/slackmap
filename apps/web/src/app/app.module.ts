@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ApiModule } from '@slackmap/ui/api';
-import { PwaModule } from '@slackmap/ui/pwa';
+import { UiApiModule } from '@slackmap/ui/api';
+import { UiPwaModule } from '@slackmap/ui/pwa';
+import { UiCoreModule } from '@slackmap/ui/core';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -10,6 +11,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,10 +23,27 @@ import { CommonModule } from '@angular/common';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
-    ApiModule,
-    PwaModule.forRoot({enabled: environment.production}),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerImmediately'
+    }),
+    UiApiModule,
+    UiPwaModule.forRoot({ enabled: environment.production }),
     BrowserAnimationsModule,
+    StoreModule.forRoot(
+      {},
+      {
+        metaReducers: !environment.production ? [] : [],
+        runtimeChecks: {
+          strictActionImmutability: true,
+          strictStateImmutability: true
+        }
+      }
+    ),
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule.forRoot(),
+    UiCoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

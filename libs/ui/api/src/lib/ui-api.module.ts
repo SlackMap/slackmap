@@ -34,4 +34,4 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   exports: []
 })
-export class ApiModule { }
+export class UiApiModule { }

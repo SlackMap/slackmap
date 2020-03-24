@@ -1,5 +1,5 @@
 import { UpdateDialogComponent } from './update-dialog.component';
-import { PwaModule } from '../pwa.module';
+import { UiPwaModule } from '../ui-pwa.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { Component } from '@angular/core';
 import { UpdateService } from '../update.service';
@@ -42,7 +42,7 @@ export const NewUpdate = () => ({
     imports: [
       BrowserAnimationsModule,
       ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
-      PwaModule.forRoot({enabled: true})
+      UiPwaModule.forRoot({enabled: true})
     ],
     // providers: [
     //   {provide: MatDialogRef, useValue: {}}
