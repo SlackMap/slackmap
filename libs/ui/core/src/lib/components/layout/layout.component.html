@@ -88,8 +88,9 @@ class="sidenav-container"
       </mat-card>
       <router-outlet></router-outlet>
     </div>
-    <sm-map>
+    <sm-map-view>
       <button class="show-list-btn" mat-raised-button color="primary" (click)="showMap = false">List view</button>
-    </sm-map>
+      <sm-leaflet-map></sm-leaflet-map>
+    </sm-map-view>
   </mat-sidenav-content>
 </mat-sidenav-container>

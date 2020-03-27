@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { UiApiModule } from '@slackmap/ui/api';
 import { UiPwaModule } from '@slackmap/ui/pwa';
-import { UiCoreModule } from '@slackmap/ui/core';
+import { UiCoreModule, uiCoreRoutes} from '@slackmap/ui/core';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -21,7 +21,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
   imports: [
     CommonModule,
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
+    RouterModule.forRoot(uiCoreRoutes, { initialNavigation: 'enabled' }),
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
@@ -43,7 +43,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot(),
-    UiCoreModule
+    UiCoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

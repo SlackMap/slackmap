@@ -6,12 +6,20 @@
   width: 250px;
 }
 .content {
+  z-index: 2;
+  position: relative;
   background-color: white;
   overflow: auto;
 }
 .side-menu {
+  z-index: 3;
+  position: relative;
   background-color: #e5e5e5;
   // background-color: #3f51b5;
+}
+sm-map {
+  width: 100%;
+  height: 100%;
 }
 // DESKTOP
 .desktop {
@@ -23,7 +31,7 @@
   .side-menu {
     width: 70px;
     height: 100%;
-    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    box-shadow: 2px 0 5px rgba(0,0,0,.2);
   }
   .content {
     height: 100%;
@@ -31,7 +39,7 @@
     max-width: 400px;
     box-shadow: 2px 0 5px rgba(0,0,0,.2);
   }
-  sm-map {
+  sm-map-view {
     flex-grow: 1;
     height: 100%;
   }
@@ -74,7 +82,7 @@
       z-index: 1;
     }
   }
-  sm-map {
+  sm-map-view {
     position: absolute;
     top: 0;
     left: 0;

@@ -28,6 +28,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/leaflet/dist/leaflet.css",
               "apps/web/src/styles.scss"
             ],
             "scripts": []
@@ -556,6 +557,68 @@
             "tsConfig": "libs/ui/core/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/ui/core/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "ui-map": {
+      "projectType": "library",
+      "root": "libs/ui/map",
+      "sourceRoot": "libs/ui/map/src",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/map/tsconfig.lib.json",
+              "libs/ui/map/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/map/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/map/jest.config.js",
+            "tsConfig": "libs/ui/map/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/map/src/test-setup.ts"
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/ui/map/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/ui-map",
+            "config": {
+              "configFolder": "libs/ui/map/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
           }
         }
       },

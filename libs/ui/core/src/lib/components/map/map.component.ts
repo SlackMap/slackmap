@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'sm-map',
+  selector: 'sm-map-view',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })

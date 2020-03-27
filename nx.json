@@ -51,6 +51,9 @@
     },
     "ui-core": {
       "tags": ["ui"]
+    },
+    "ui-map": {
+      "tags": []
     }
   }
 }

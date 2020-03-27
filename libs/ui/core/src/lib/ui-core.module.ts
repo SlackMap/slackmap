@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MapComponent } from './components/map/map.component';
+import { UiMapModule} from '@slackmap/ui/map';
 
 export const uiCoreRoutes: Route[] = [];
 
@@ -30,7 +31,8 @@ export const uiCoreRoutes: Route[] = [];
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    UiMapModule,
   ],
   providers: [CoreFacade],
   declarations: [LayoutComponent, MapComponent],
