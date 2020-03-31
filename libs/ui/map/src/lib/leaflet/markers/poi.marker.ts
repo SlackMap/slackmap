@@ -1,8 +1,9 @@
-L.slackmap = L.slackmap || {};
+import * as L from 'leaflet';
 
-L.slackmap.PoiMarker = class PoiMarker extends L.Marker {
+export class PoiMarker extends L.Marker {
 
-  constructor(item, options) {
+  shapeLayer: L.GeoJSON<any>;
+  constructor(private item, options?) {
     super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
     this.item = item;
     if (item.shape) {

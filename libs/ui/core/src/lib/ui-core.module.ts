@@ -16,6 +16,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MapComponent } from './components/map/map.component';
 import { UiMapModule} from '@slackmap/ui/map';
+import { ItemUtils } from '@slackmap/core';
+import { UiApiModule, API_HOST } from '@slackmap/ui/api';
 
 export const uiCoreRoutes: Route[] = [];
 
@@ -33,8 +35,20 @@ export const uiCoreRoutes: Route[] = [];
     MatListModule,
     MatCardModule,
     UiMapModule,
+    UiApiModule,
   ],
-  providers: [CoreFacade],
+  providers: [
+    CoreFacade,
+    {
+      provide: ItemUtils,
+      useFactory: (host) => {
+        const utils = new ItemUtils();
+        utils.setHost(host);
+        return utils;
+      },
+      deps: [API_HOST]
+    }
+  ],
   declarations: [LayoutComponent, MapComponent],
   exports: [LayoutComponent]
 })

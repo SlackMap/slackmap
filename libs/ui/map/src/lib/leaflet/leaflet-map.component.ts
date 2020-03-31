@@ -5,6 +5,9 @@ import { restoreView } from './plugins/leaflet.restoreview';
 import { leafletCustoms } from './map/leaflet-customs';
 import { mapTileLayer } from './layers/map.tile.layer';
 import { satelliteGoogleTileLayer } from './layers/satellite.google.tile.layer';
+import { SpotsLayer } from './layers/spots.layer';
+import { ItemUtils } from '@slackmap/core';
+import { clusters } from '../clusters';
 
 restoreView();
 leafletCustoms();
@@ -37,7 +40,7 @@ export class LeafletMapComponent implements AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private zone: NgZone,
     private cd: ChangeDetectorRef,
-    // private itemUtils: ItemUtils
+    private itemUtils: ItemUtils
   ) {}
 
   ngAfterViewInit(): void {
@@ -60,16 +63,16 @@ export class LeafletMapComponent implements AfterViewInit {
       // }
       const mapTileLayerInstance = mapTileLayer().addTo(_map);
       const satelliteTileLayerInstance = satelliteGoogleTileLayer();
-
+      const slacklineSpotsLayer = new SpotsLayer(this.itemUtils);
       const baseLayers = {
         'Map': mapTileLayerInstance,
         'Satellite': satelliteTileLayerInstance
       };
       const overlays = {
-        // 'Slackline': slacklineSpotsLayer
+        'Slackline': slacklineSpotsLayer
       };
       L.control.layers(baseLayers, overlays).addTo(_map);
-
+      slacklineSpotsLayer.setSpots(clusters.clusters)
       // // minimap
       // const miniMap = new L.Control.GlobeMiniMap().addTo(_map);
 

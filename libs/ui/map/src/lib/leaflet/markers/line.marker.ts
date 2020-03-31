@@ -1,15 +1,19 @@
-L.slackmap = L.slackmap || {};
+import * as L from 'leaflet';
+
 /**
  * Line Marker
  */
-L.slackmap.LineMarker = class LineMarker extends L.Marker {
-  constructor(item, itemUtils, options) {
+export class LineMarker extends L.Marker {
+  len = 0;
+  highlighted = false;
+  shapeLayer: L.GeoJSON<any>;
+  _marker1: L.Marker;
+  _marker2: L.Marker;
+  _icon: any;
+
+  constructor(private item, private itemUtils, options?) {
     super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
 
-    this.item = item;
-    this.itemUtils = itemUtils;
-    this.len = 0;
-    this.highlighted = false;
 
     this.options.icon = new L.DivIcon({
       html: '0m',
@@ -85,8 +89,8 @@ L.slackmap.LineMarker = class LineMarker extends L.Marker {
     if (this._map && this.item && this.item.shape && !this._marker1) {
       this._marker1 = L.marker([this.item.shape.coordinates[0][1], this.item.shape.coordinates[0][0]]).addTo(this._map);
       this._marker2 = L.marker([this.item.shape.coordinates[1][1], this.item.shape.coordinates[1][0]]).addTo(this._map);
-      this._marker1.bounce(1);
-      this._marker2.bounce(1);
+      // this._marker1.bounce(1);
+      // this._marker2.bounce(1);
       this.setZIndexOffset(1000);
       this._icon.classList.add('item-highlight');
     }

@@ -2,11 +2,11 @@ import * as leaflet from 'leaflet';
 
 declare module "leaflet" {
   export interface Map {
-      restoreView(): boolean;
-      fitBbox(bbox, options): void;
+    restoreView(): boolean;
+    fitBbox(bbox, options): void;
   }
   export interface LatLngBounds {
-    toArray(): any;
+    toArray(): any[];
     toGeoJSON(): any;
     logSize(label): void;
     max(maxHeight, maxWidth): void;
@@ -15,18 +15,18 @@ declare module "leaflet" {
     limit(): LatLngBounds;
   }
   export interface LatLng {
-    toArray(): [any, any];
+    toArray(): any[];
     toGeoJSON(): any;
     limit(): LatLng;
   }
 }
 
 export function leafletCustoms(L = leaflet) {
-  L.LatLngBounds.prototype.toArray = function() {
+  L.LatLngBounds.prototype.toArray = function () {
     return [this._southWest, this._northEast];
   };
 
-  L.LatLngBounds.prototype.toGeoJSON = function() {
+  L.LatLngBounds.prototype.toGeoJSON = function () {
     return [this._southWest.lng, this._southWest.lat, this._northEast.lng, this._northEast.lat];
   };
 
@@ -34,8 +34,8 @@ export function leafletCustoms(L = leaflet) {
    * log bounds size, for degugging purposes
    * @returns {L.LatLngBounds}
    */
-  L.LatLngBounds.prototype.logSize = function(label) {
-    var height = (this._southWest.lat - this._northEast.lat) * -1,
+  L.LatLngBounds.prototype.logSize = function (label) {
+    const height = (this._southWest.lat - this._northEast.lat) * -1,
       width = (this._southWest.lng - this._northEast.lng) * -1;
     // console.log(label||'BOUNDS SIZE:', height, width, '(lat,lon)');
     return this;
@@ -47,7 +47,7 @@ export function leafletCustoms(L = leaflet) {
    * @param maxWidth
    * @returns {L.LatLngBounds}
    */
-  L.LatLngBounds.prototype.max = function(maxHeight, maxWidth) {
+  L.LatLngBounds.prototype.max = function (maxHeight, maxWidth) {
     // (Number) -> LatLngBounds
     let r,
       sw = this._southWest,
@@ -82,7 +82,7 @@ export function leafletCustoms(L = leaflet) {
    * @param minWidth
    * @returns {L.LatLngBounds}
    */
-  L.LatLngBounds.prototype.min = function(minHeight, minWidth) {
+  L.LatLngBounds.prototype.min = function (minHeight, minWidth) {
     // (Number) -> LatLngBounds
     let r,
       sw = this._southWest,
@@ -111,9 +111,9 @@ export function leafletCustoms(L = leaflet) {
   //]).min(70, 70).logSize().toBBoxString()
   //console.log('MIN', s);
 
-  L.LatLngBounds.prototype.wrap = function() {
-    var min = this.getSouthWest().wrap();
-    var max = this.getNorthEast().wrap();
+  L.LatLngBounds.prototype.wrap = function () {
+    const min = this.getSouthWest().wrap();
+    const max = this.getNorthEast().wrap();
     return L.latLngBounds(min, max);
   };
 
@@ -122,26 +122,26 @@ export function leafletCustoms(L = leaflet) {
    * limits the bounds lng to max 180
    * orginal wrap function never extends to full widht of the world
    */
-  L.LatLngBounds.prototype.limit = function() {
-    var min = this.getSouthWest().limit();
-    var max = this.getNorthEast().limit();
+  L.LatLngBounds.prototype.limit = function () {
+    const min = this.getSouthWest().limit();
+    const max = this.getNorthEast().limit();
     return L.latLngBounds(min, max);
   };
-  L.LatLng.prototype.limit = function() {
+  L.LatLng.prototype.limit = function () {
     let lng = this.lng;
-    if(lng > 180) {
+    if (lng > 180) {
       lng = 180;
     }
-    if(lng < -180) {
+    if (lng < -180) {
       lng = -180;
     }
     return L.latLng([this.lat, lng])
   };
 
-  L.LatLng.prototype.toArray = function() {
+  L.LatLng.prototype.toArray = function () {
     return [this.lat, this.lng];
   };
-  L.LatLng.prototype.toGeoJSON = function() {
+  L.LatLng.prototype.toGeoJSON = function () {
     return {
       type: 'Feature',
       properties: {},
@@ -152,7 +152,7 @@ export function leafletCustoms(L = leaflet) {
     };
   };
 
-  L.Map.prototype.fitBbox = function(bbox, options) {
+  L.Map.prototype.fitBbox = function (bbox, options) {
     this.fitBounds(L.latLngBounds([
       [bbox[1], bbox[0]],
       [bbox[3], bbox[2]]

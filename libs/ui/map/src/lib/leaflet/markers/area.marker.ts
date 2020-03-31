@@ -1,25 +1,25 @@
-L.slackmap = L.slackmap || {};
+import * as L from 'leaflet';
 
 /**
  * Area Label
  */
-L.slackmap.AreaMarker = class AreaMarker extends L.Marker {
-
-  constructor(item, itemUtils, options) {
+export class AreaMarker extends L.Marker {
+  _latlng: L.LatLng;
+  highlighted = false;
+  shapeLayer: L.GeoJSON<any>;
+  constructor(private item, private itemUtils, options?) {
     super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
-    this.item = item;
-    this.itemUtils = itemUtils;
-    this.highlighted = false;
+
 
     this.options.icon = new L.DivIcon({
       html: '<span></span>',
       className: 'item-label'
     });
     if (item.shape) {
-      var color = 'green';
-      if (item.access == 2) {
+      let color = 'green';
+      if (item.access === 2) {
         color = 'yellow';
-      } else if (item.access == 3) {
+      } else if (item.access === 3) {
         color = 'red';
       }
       this.shapeLayer = L.geoJSON(item.shape, {
@@ -37,7 +37,7 @@ L.slackmap.AreaMarker = class AreaMarker extends L.Marker {
       });
       this.shapeLayer.on('click', e => {
         if (this._map) {
-          this._map.fire('item-click', {item: item});
+          this._map.fire('item-click', { item: item });
         }
       });
     }

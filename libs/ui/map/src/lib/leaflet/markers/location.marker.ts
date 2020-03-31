@@ -1,11 +1,12 @@
-L.slackmap = L.slackmap || {};
+import * as L from 'leaflet';
 
-L.slackmap.LocationMarker = class LocationMarker extends L.Marker {
+export class LocationMarker extends L.Marker {
 
-  constructor(item, options) {
+  shapeLayer: L.GeoJSON<any>;
+
+  constructor(private item, options?) {
     super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
-    this.item = item;
-    var html, cls;
+    let html, cls;
     if (item.subtype === 102) {
       html = `
                         <span class="label-mask"></span>
@@ -66,8 +67,8 @@ L.slackmap.LocationMarker = class LocationMarker extends L.Marker {
             //     var layer = e.target;
             //     self.$$shape.resetStyle(e.target);
             // },
-            click: function(e) {
-              this._map.fire('item-click', {item: item});
+            click: function (e) {
+              this._map.fire('item-click', { item: item });
             }
           });
         }

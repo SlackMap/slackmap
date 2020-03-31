@@ -1,10 +1,12 @@
+// @ts-nocheck
+import * as L from 'leaflet';
 // Based on https://github.com/shramov/leaflet-plugins
 // GridLayer like https://avinmathew.com/leaflet-and-google-maps/ , but using MutationObserver instead of jQuery
 
 
 // 🍂class GridLayer.GoogleMutant
 // 🍂extends GridLayer
-L.GridLayer.GoogleMutant = L.GridLayer.extend({
+const GoogleMutant = L.GridLayer.extend({
 	options: {
 		minZoom: 0,
 		maxZoom: 23,
@@ -62,7 +64,11 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 			this._initMutant();
 
 			map.on('viewreset', this._reset, this);
-			map.on('move', this._update, this);
+			if (this.options.updateWhenIdle) {
+				map.on('moveend', this._update, this);
+			} else {
+				map.on('move', this._update, this);
+			}
 			map.on('zoomend', this._handleZoomAnim, this);
 			map.on('resize', this._resize, this);
 
@@ -90,13 +96,14 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 	onRemove: function (map) {
 		L.GridLayer.prototype.onRemove.call(this, map);
+		this._observer.disconnect();
 		map._container.removeChild(this._mutantContainer);
-		this._mutantContainer = undefined;
 
 		google.maps.event.clearListeners(map, 'idle');
 		google.maps.event.clearListeners(this._mutant, 'idle');
 		map.off('viewreset', this._reset, this);
 		map.off('move', this._update, this);
+		map.off('moveend', this._update, this);
 		map.off('zoomend', this._handleZoomAnim, this);
 		map.off('resize', this._resize, this);
 
@@ -108,13 +115,6 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 	getAttribution: function () {
 		return this.options.attribution;
-	},
-
-	setOpacity: function (opacity) {
-		this.options.opacity = opacity;
-		if (opacity < 1) {
-			L.DomUtil.setOpacity(this._mutantContainer, opacity);
-		}
 	},
 
 	setElementSize: function (e, size) {
@@ -150,8 +150,10 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 			this._mutantContainer.style.zIndex = '800'; //leaflet map pane at 400, controls at 1000
 			this._mutantContainer.style.pointerEvents = 'none';
 
-			this._map.getContainer().appendChild(this._mutantContainer);
+			L.DomEvent.off(this._mutantContainer);
+
 		}
+		this._map.getContainer().appendChild(this._mutantContainer);
 
 		this.setOpacity(this.options.opacity);
 		this.setElementSize(this._mutantContainer, this._map.getSize());
@@ -161,6 +163,13 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 	_initMutant: function () {
 		if (!this._ready || !this._mutantContainer) return;
+
+		if (this._mutant) {
+			// reuse old _mutant, just make sure it has the correct size
+			this._resize();
+			return;
+		}
+
 		this._mutantCenter = new google.maps.LatLng(0, 0);
 
 		var map = new google.maps.Map(this._mutantContainer, {
@@ -195,10 +204,18 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 	_attachObserver: function _attachObserver (node) {
 // 		console.log('Gonna observe', node);
 
-		var observer = new MutationObserver(this._onMutations.bind(this));
+		if (!this._observer)
+			this._observer = new MutationObserver(this._onMutations.bind(this));
 
 		// pass in the target node, as well as the observer options
-		observer.observe(node, { childList: true, subtree: true });
+		this._observer.observe(node, { childList: true, subtree: true });
+
+		// if we are reusing an old _mutantContainer, we must manually detect
+		// all existing tiles in it
+		Array.prototype.forEach.call(
+			node.querySelectorAll('img'),
+			this._boundOnMutatedImage
+		);
 	},
 
 	_onMutations: function _onMutations (mutations) {
@@ -214,6 +231,17 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 						node.querySelectorAll('img'),
 						this._boundOnMutatedImage
 					);
+
+					// Check for, and remove, the "Google Maps can't load correctly" div.
+					// You *are* loading correctly, you dumbwit.
+					if (node.style.backgroundColor === 'white') {
+						L.DomUtil.remove(node);
+					}
+
+					// Check for, and remove, the "For development purposes only" divs on the aerial/hybrid tiles.
+					if (node.textContent.indexOf('For development purposes only') === 0) {
+						L.DomUtil.remove(node);
+					}
 
 					// Check for, and remove, the "Sorry, we have no imagery here"
 					// empty <div>s. The [style*="text-align: center"] selector
@@ -257,7 +285,7 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 				x: match[2],
 				y: match[3]
 			};
-			if (this._imagesPerTile > 1) { 
+			if (this._imagesPerTile > 1) {
 				imgNode.style.zIndex = 1;
 				sublayer = 1;
 			}
@@ -286,9 +314,9 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 			if (key in this._tileCallbacks && this._tileCallbacks[key]) {
 // console.log('Fullfilling callback ', key);
-				//fullfill most recent tileCallback because there maybe callbacks that will never get a 
+				//fullfill most recent tileCallback because there maybe callbacks that will never get a
 				//corresponding mutation (because map moved to quickly...)
-				this._tileCallbacks[key].pop()(imgNode); 
+				this._tileCallbacks[key].pop()(imgNode);
 				if (!this._tileCallbacks[key].length) { delete this._tileCallbacks[key]; }
 			} else {
 				if (this._tiles[tileKey]) {
@@ -386,7 +414,7 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 			//ignore fractional zoom levels
 			if (!fractionalLevel && (zoom != mutantZoom)) {
 				this._mutant.setZoom(zoom);
-							
+
 				if (this._mutantIsReady) this._checkZoomLevels();
 				//else zoom level check will be done later by 'idle' handler
 			}
@@ -438,20 +466,40 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 		for (var i=0; i<this._imagesPerTile; i++) {
 			var key2 = key + '/' + i;
-			if (key2 in this._freshTiles) { 
+			if (key2 in this._freshTiles) {
 				var tileBounds = this._map && this._keyToBounds(key);
 				var stillVisible = this._map && tileBounds.overlaps(gMapBounds) && (tileZoom == gZoom);
 
-				if (!stillVisible) delete this._freshTiles[key2]; 
+				if (!stillVisible) delete this._freshTiles[key2];
 //				console.log('Prunning of ', key, (!stillVisible))
 			}
 		}
 	}
 });
 
+export interface GoogleMutantOptions {
+  minZoom: number;
+  maxZoom: number;
+  tileSize: number;
+  subdomains: string;
+  errorTileUrl: string;
+  attribution: string;	// The mutant container will add its own attribution anyways.
+  opacity: number;
+  continuousWorld: boolean;
+  noWrap: boolean;
+  // 🍂option type: String = 'roadmap'
+  // Google's map type. Valid values are 'roadmap', 'satellite' or 'terrain'. 'hybrid' is not really supported.
+  type: 'roadmap' | 'satellite' | 'terrain' | 'hybrid' ;
+  maxNativeZoom: number;
+  // custom google styling: https://developers.google.com/maps/documentation/javascript/styling
+  styles: any[
+  //     {elementType: 'labels', stylers: [{visibility: 'off'}]},
+  //     {featureType: 'water', stylers: [{color: '#444444'}]}
+  ];
+}
 
-// 🍂factory gridLayer.googleMutant(options)
+// 🍂factory googleMutant(options)
 // Returns a new `GridLayer.GoogleMutant` given its options
-L.gridLayer.googleMutant = function (options) {
-	return new L.GridLayer.GoogleMutant(options);
+export function googleMutant(options: GoogleMutantOptions) {
+	return new GoogleMutant(options);
 };

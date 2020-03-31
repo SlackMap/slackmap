@@ -1,14 +1,15 @@
-L.slackmap = L.slackmap || {};
+import * as L from 'leaflet';
 
-L.slackmap.ClusterMarker = class ClusterMarker extends L.Marker {
+export class ClusterMarker extends L.Marker {
+  shapeLayer: L.GeoJSON<any>;
 
-  constructor(item, options) {
+  constructor(private item, options?) {
     super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
 
     this.item = item;
     // cluster icon
-    var c = 'marker-cluster-';
-    var color = '#64BDE5';
+    let c = 'marker-cluster-';
+    let color = '#64BDE5';
     if (item.spot_count < 10) {
       c += 'small';
       color = '#92D664';
@@ -39,7 +40,7 @@ L.slackmap.ClusterMarker = class ClusterMarker extends L.Marker {
         },
         onEachFeature: (feature, layer) => {
           layer.on({
-            click: function(e) {
+            click: function (e) {
               this.fire('click', e);
             }
           });

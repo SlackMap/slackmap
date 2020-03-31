@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { UiApiModule } from '@slackmap/ui/api';
 import { UiPwaModule } from '@slackmap/ui/pwa';
 import { UiCoreModule, uiCoreRoutes} from '@slackmap/ui/core';
 
@@ -27,7 +26,6 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
       enabled: environment.production,
       registrationStrategy: 'registerImmediately'
     }),
-    UiApiModule,
     UiPwaModule.forRoot({ enabled: environment.production }),
     BrowserAnimationsModule,
     StoreModule.forRoot(

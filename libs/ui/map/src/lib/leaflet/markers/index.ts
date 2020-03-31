@@ -1,1 +1,1 @@
-export const markers = [];
+export * from './marker-factory'
