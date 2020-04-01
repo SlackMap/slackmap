@@ -1,4 +1,4 @@
-import {GeojsonBbox} from './geojson';
+import {GeojsonBbox} from '@slackmap/api-client';
 
 export interface MapViewChangeData {
   bounds: [[number, number], [number, number]];

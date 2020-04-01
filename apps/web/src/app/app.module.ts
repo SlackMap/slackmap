@@ -14,6 +14,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +43,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot(),
     UiCoreModule,
+    IonicStorageModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

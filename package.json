@@ -61,6 +61,8 @@
     "@angular/platform-server": "9.0.7",
     "@angular/router": "9.0.7",
     "@angular/service-worker": "9.0.7",
+    "@capacitor/core": "^1.5.2",
+    "@ionic/storage": "^2.2.0",
     "@nestjs/common": "^6.8.3",
     "@nestjs/core": "^6.8.3",
     "@nestjs/platform-express": "^6.8.3",

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApiService } from '@slackmap/ui/api';
+import { UiApiService } from '@slackmap/ui/api';
 
 @Component({
   selector: 'sm-root',
@@ -9,6 +9,6 @@ import { ApiService } from '@slackmap/ui/api';
 export class AppComponent {
   data$ = this.api.getConfig()
 
-  constructor(private api: ApiService) {}
+  constructor(private api: UiApiService) {}
 
 }

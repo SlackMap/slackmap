@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ConfigPaths, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, SpotSpotsGetRequestDto, SpotSpotsGetDto, ConfigGetResponseDto } from '@slackmap/api-client';
 
 @Injectable({ providedIn: 'root' })
-export class ApiService {
+export class UiApiService {
 
   constructor(
     protected httpClient: HttpClient,

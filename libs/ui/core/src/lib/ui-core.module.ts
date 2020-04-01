@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import * as fromCore from './+state/core.reducer';
-import { CoreEffects } from './+state/core.effects';
-import { CoreFacade } from './+state/core.facade';
+import * as fromCore from './+core/core.reducer';
+import { CoreEffects } from './+core/core.effects';
+import { CoreFacade } from './+core/core.facade';
 import { LayoutComponent } from './components/layout/layout.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,9 +15,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MapComponent } from './components/map/map.component';
-import { UiMapModule} from '@slackmap/ui/map';
+import { UiMapModule } from '@slackmap/ui/map';
 import { ItemUtils } from '@slackmap/core';
 import { UiApiModule, API_HOST } from '@slackmap/ui/api';
+import * as fromMap from './+map/map.reducer';
+import { MapEffects } from './+map/map.effects';
+import { MapFacade } from './+map/map.facade';
+import * as fromSpots from './+spot/spot.reducer';
+import { SpotEffects } from './+spot/spot.effects';
+import { SpotFacade } from './+spot/spot.facade';
 
 export const uiCoreRoutes: Route[] = [];
 
@@ -36,18 +42,24 @@ export const uiCoreRoutes: Route[] = [];
     MatCardModule,
     UiMapModule,
     UiApiModule,
+    StoreModule.forFeature(fromMap.MAP_FEATURE_KEY, fromMap.reducer),
+    EffectsModule.forFeature([MapEffects]),
+    StoreModule.forFeature(fromSpots.SPOT_FEATURE_KEY, fromSpots.reducer),
+    EffectsModule.forFeature([SpotEffects])
   ],
   providers: [
     CoreFacade,
     {
       provide: ItemUtils,
-      useFactory: (host) => {
+      useFactory: host => {
         const utils = new ItemUtils();
         utils.setHost(host);
         return utils;
       },
       deps: [API_HOST]
-    }
+    },
+    MapFacade,
+    SpotFacade
   ],
   declarations: [LayoutComponent, MapComponent],
   exports: [LayoutComponent]
