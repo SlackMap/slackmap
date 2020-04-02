@@ -24,6 +24,7 @@ import { MapFacade } from './+map/map.facade';
 import * as fromSpots from './+spot/spot.reducer';
 import { SpotEffects } from './+spot/spot.effects';
 import { SpotFacade } from './+spot/spot.facade';
+import { HomePage } from './pages/home/home.page';
 
 export const uiCoreRoutes: Route[] = [];
 
@@ -61,7 +62,7 @@ export const uiCoreRoutes: Route[] = [];
     MapFacade,
     SpotFacade
   ],
-  declarations: [LayoutComponent, MapComponent],
+  declarations: [LayoutComponent, MapComponent, HomePage],
   exports: [LayoutComponent]
 })
 export class UiCoreModule {}

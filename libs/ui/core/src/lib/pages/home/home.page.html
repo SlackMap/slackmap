@@ -1,0 +1,38 @@
+<div class="page" fxLayout="column" fxLayoutAlign="space-between stretch">
+  <div class="page-content" fxFlex>
+
+    <mat-card class="example-card header-card" [routerLink]="[ '/map' ]">
+      <img mat-card-image src="/assets/logo-hor-sub.svg" alt="SlackMap Logo">
+      <mat-card-content>
+        <p>
+            this project is in
+            <span class="label">BETA {{version}}, </span>
+
+            <span>we work hard to fix every error</span>
+            <br> please report any issues in
+            <a href="https://www.facebook.com/groups/359533594169894/" target="_blank">SlackMap Laboratory</a> group.
+        </p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="example-card" [routerLink]="[ '/map' ]">
+      <img mat-card-image src="/assets/map-demo.png" alt="Map">
+      <mat-card-content>
+          <h2>Map of sport activity</h2>
+        <p>
+          Browse the world of slackline spots<br>
+          Filter and find what you want.
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">To to slackline map</button>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+  <!-- <mat-toolbar fxFlex="50px">
+    <button mat-button expand="full" [routerLink]="[ '/map' ]">Map</button>
+    <button mat-button expand="full" [routerLink]="[ '/login' ]">Login</button>
+    <button mat-button expand="full" [routerLink]="[ '/add' ]">add</button>
+  </mat-toolbar> -->
+</div>
