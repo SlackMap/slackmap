@@ -25,13 +25,18 @@ import * as fromSpots from './+spot/spot.reducer';
 import { SpotEffects } from './+spot/spot.effects';
 import { SpotFacade } from './+spot/spot.facade';
 import { HomePage } from './pages/home/home.page';
+import { XPage } from './pages/x/x.page';
 
-export const uiCoreRoutes: Route[] = [];
+export const uiCoreRoutes: Route[] = [
+  { path: '', pathMatch: 'full', component: HomePage },
+  { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
+  { path: 'x', component: XPage},
+];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
+    RouterModule.forChild(uiCoreRoutes),
     StoreModule.forFeature(fromCore.CORE_FEATURE_KEY, fromCore.reducer),
     EffectsModule.forFeature([CoreEffects]),
     LayoutModule,
@@ -62,7 +67,7 @@ export const uiCoreRoutes: Route[] = [];
     MapFacade,
     SpotFacade
   ],
-  declarations: [LayoutComponent, MapComponent, HomePage],
+  declarations: [LayoutComponent, MapComponent, HomePage, XPage],
   exports: [LayoutComponent]
 })
 export class UiCoreModule {}

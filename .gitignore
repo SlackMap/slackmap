@@ -6,6 +6,7 @@ db/current
 /dist
 /tmp
 /out-tsc
+*.nx-tmp
 
 # dependencies
 /node_modules

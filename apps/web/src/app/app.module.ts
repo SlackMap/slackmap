@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { UiPwaModule } from '@slackmap/ui/pwa';
-import { UiCoreModule, uiCoreRoutes} from '@slackmap/ui/core';
+import { UiCoreModule} from '@slackmap/ui/core';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -21,7 +21,7 @@ import { IonicStorageModule } from '@ionic/storage';
   imports: [
     CommonModule,
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    RouterModule.forRoot(uiCoreRoutes, { initialNavigation: 'enabled' }),
+    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
