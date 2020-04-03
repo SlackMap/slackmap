@@ -6,7 +6,7 @@ declare module "leaflet" {
     fitBbox(bbox, options): void;
   }
   export interface LatLngBounds {
-    toArray(): any[];
+    toArray(): [[number, number], [number, number]];
     toGeoJSON(): any;
     logSize(label): void;
     max(maxHeight, maxWidth): void;

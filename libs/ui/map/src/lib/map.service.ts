@@ -1,9 +1,32 @@
 import { Injectable } from '@angular/core';
+import { ReplaySubject, Subject, Observable } from 'rxjs';
+import { MapComponent, MapViewChangeData } from './ui-map.models';
+import { switchMap, debounceTime } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MapService {
+export class MapService implements MapComponent {
 
-  constructor() { }
+  private map$$ = new ReplaySubject<MapComponent>(1);
+  map$ = this.map$$.asObservable();
+
+  viewChange$: Observable<MapViewChangeData> = this.map$.pipe(
+    switchMap(map => map.viewChange$)
+  );
+
+  itemClick$: Observable<{ item: any; }> = this.map$.pipe(
+    switchMap(map => map.itemClick$)
+  );
+
+
+  spotsLayer(spots$: Observable<any>): Observable<void> {
+    return this.map$.pipe(
+      switchMap(map => map.spotsLayer(spots$))
+    );
+  }
+
+  setMap(map: MapComponent) {
+    this.map$$.next(map);
+  }
 }

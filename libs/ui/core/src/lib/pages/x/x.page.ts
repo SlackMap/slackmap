@@ -1,15 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MapService } from '@slackmap/ui/map';
+import { SubSink, LayerType } from '@slackmap/core';
+import { MapFacade } from '../../+map/map.facade';
+import { debounceTime, switchMap, tap } from 'rxjs/operators';
+import * as MapActions from '../../+map/map.actions';
 
 @Component({
   selector: 'sm-x',
   templateUrl: './x.page.html',
   styleUrls: ['./x.page.scss']
 })
-export class XPage implements OnInit {
+export class XPage implements OnInit, OnDestroy {
 
-  constructor() { }
+  subSink = new SubSink();
+
+  constructor(
+    private mapService: MapService,
+    private mapFacade: MapFacade,
+  ) { }
 
   ngOnInit(): void {
+
+    this.subSink.subscribe = this.mapService.spotsLayer(this.mapFacade.getLayerFilteredSpots(LayerType.SLACKLINE));
+
+    this.subSink.subscribe = this.mapService.viewChange$.pipe(
+      tap(view => this.mapFacade.dispatch(MapActions.viewChange({view})))
+    )
+  }
+
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
   }
 
 }

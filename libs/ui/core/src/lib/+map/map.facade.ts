@@ -15,7 +15,7 @@ export class MapFacade {
 
   getFilters$ = (layer: LayerType) => this.store.pipe(select(MapSelectors.getMapFilters(layer)));
 
-  selectMapLayerFilteredSpots = (layer: LayerType) => this.store.select(MapSelectors.getMapLayerFilteredSpots(layer));
+  getLayerFilteredSpots = (layer: LayerType) => this.store.select(MapSelectors.getMapLayerFilteredSpots(layer));
 
   dispatch(action: Action) {
     this.store.dispatch(action);

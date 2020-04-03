@@ -1,8 +1,3 @@
-import {GeojsonBbox} from '@slackmap/api-client';
+import {MapViewChangeData} from '@slackmap/ui/map';
 
-export interface MapViewChangeData {
-  bounds: [[number, number], [number, number]];
-  bbox: GeojsonBbox;
-  zoom: number;
-  hashes?: string[];
-}
+export {MapViewChangeData};

@@ -4,7 +4,7 @@ import {catchError, tap, share, startWith, merge, map, shareReplay, switchMap} f
 import {Observable, of, Subject, merge as mergeObservables, EMPTY} from 'rxjs';
 import {LayerType, ItemType, ClusterSubtype} from '@slackmap/core';
 import {CLUSTERS_PATHS, ClusterModel, GeojsonBbox, ClustersClustersGetDto} from '@slackmap/api-client';
-import * as supercluster from 'supercluster';
+import Supercluster from 'supercluster';
 import { UiApiService } from '@slackmap/ui/api';
 import { ResponseSource, LoadHashResponse } from '../+spot/spot.models';
 
@@ -85,7 +85,7 @@ export class SpotService {
           return acc;
         }
       };
-      const cluster = new supercluster(options);
+      const cluster = new Supercluster(options);
       cluster.load(features);
       return cluster;
     }),

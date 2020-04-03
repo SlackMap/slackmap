@@ -1,0 +1,12 @@
+<!-- <mat-form-field floatLabel="never"> -->
+<!--  -->
+<mat-select class="fill-remaining-space" placeholder="filter spots" multiple [ngModel]="filters$ | async"
+  (ngModelChange)="onChange($event)" name="filters">
+  <mat-select-trigger>
+    {{ (filters$ | async).join(', ')}}
+    <mat-icon (click)="$event.stopPropagation();onChange([])">close</mat-icon>
+    <!-- <span *ngFor="let option of filters$ | async">{{option}}</span> -->
+  </mat-select-trigger>
+  <mat-option *ngFor="let option of options" [value]="option.name">{{option.name}}</mat-option>
+</mat-select>
+<!-- </mat-form-field> -->

@@ -14,6 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
 import { MapComponent } from './components/map/map.component';
 import { UiMapModule } from '@slackmap/ui/map';
 import { ItemUtils } from '@slackmap/core';
@@ -26,6 +27,8 @@ import { SpotEffects } from './+spot/spot.effects';
 import { SpotFacade } from './+spot/spot.facade';
 import { HomePage } from './pages/home/home.page';
 import { XPage } from './pages/x/x.page';
+import { LayerFiltersComponent } from './components/layer-filters/layer-filters.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -46,8 +49,11 @@ export const uiCoreRoutes: Route[] = [
     MatIconModule,
     MatListModule,
     MatCardModule,
+    MatSelectModule,
     UiMapModule,
     UiApiModule,
+    ReactiveFormsModule,
+    FormsModule,
     StoreModule.forFeature(fromMap.MAP_FEATURE_KEY, fromMap.reducer),
     EffectsModule.forFeature([MapEffects]),
     StoreModule.forFeature(fromSpots.SPOT_FEATURE_KEY, fromSpots.reducer),
@@ -67,7 +73,7 @@ export const uiCoreRoutes: Route[] = [
     MapFacade,
     SpotFacade
   ],
-  declarations: [LayoutComponent, MapComponent, HomePage, XPage],
+  declarations: [LayoutComponent, MapComponent, HomePage, XPage, LayerFiltersComponent],
   exports: [LayoutComponent]
 })
 export class UiCoreModule {}
