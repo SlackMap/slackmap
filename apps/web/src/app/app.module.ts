@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
@@ -30,7 +30,9 @@ import { IonicStorageModule } from '@ionic/storage';
     UiPwaModule.forRoot({ enabled: environment.production }),
     BrowserAnimationsModule,
     StoreModule.forRoot(
-      {},
+      {
+        router: routerReducer
+      },
       {
         metaReducers: !environment.production ? [] : [],
         runtimeChecks: {
