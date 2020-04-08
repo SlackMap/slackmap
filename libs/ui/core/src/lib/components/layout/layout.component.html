@@ -52,7 +52,8 @@ class="sidenav-container"
     </div>
     <sm-map-view>
       <button class="show-list-btn" mat-raised-button color="primary" (click)="showMap = false">List view</button>
-      <sm-leaflet-map></sm-leaflet-map>
+      <!-- <sm-leaflet-map></sm-leaflet-map> -->
+      <ng-container #mapContainer></ng-container>
     </sm-map-view>
   </mat-sidenav-content>
 </mat-sidenav-container>

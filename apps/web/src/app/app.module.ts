@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { UiPwaModule } from '@slackmap/ui/pwa';
-import { UiCoreModule} from '@slackmap/ui/core';
+import { UiCoreModule } from '@slackmap/ui/core';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -51,3 +51,4 @@ import { IonicStorageModule } from '@ionic/storage';
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+

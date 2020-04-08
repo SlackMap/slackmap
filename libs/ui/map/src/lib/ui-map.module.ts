@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LeafletMapComponent } from './leaflet/leaflet-map.component';
+// import { LeafletMapComponent } from './leaflet/leaflet-map.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [LeafletMapComponent],
-  exports: [LeafletMapComponent]
+  declarations: [],
+  exports: []
 })
 export class UiMapModule {}
