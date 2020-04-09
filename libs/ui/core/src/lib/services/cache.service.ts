@@ -1,31 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable, from, merge, EMPTY, of } from 'rxjs';
 import { tap, catchError, switchMap } from 'rxjs/operators';
-import {Storage} from '@ionic/storage';
-// import { Plugins } from '@capacitor/core';
-// const { Storage } = Plugins;
+import {StorageService} from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CacheService {
 
-  constructor(private storage: Storage) {
-  // storage.ready().then(() => {
-  //   console.log('storage ready');
-  // });
-  }
-
-  ready(): Observable<LocalForage> {
-    return from(this.storage.ready());
-  }
+  constructor(private storage: StorageService) {}
 
   get<T>(key: string): Observable<T> {
-    return from(this.storage.get(key));
+    return this.storage.get<T>(key);
   }
 
   set<T>(key: string, value: any): Observable<T> {
-    return from(this.storage.set(key, value));
+    return this.storage.set<T>(key, value);
   }
 
   /**
@@ -70,32 +60,4 @@ export class CacheService {
       )
     );
   }
-
-
-  /**
-   * capacitor version
-   */
-
-  // get<T>(key: string): Observable<T> {
-  //   return from(Storage.get({ key }).then(ret => JSON.parse(ret.value)));
-  // }
-
-  // set(key: string, value: any): Observable<void> {
-  //   return from(Storage.set({
-  //     key,
-  //     value: JSON.stringify(value)
-  //   }))
-  // }
-  // remove(key: string): Observable<void> {
-  //   return from(Storage.remove({ key }));
-  // }
-
-  // keys(): Observable<string[]> {
-  //   return from(Storage.keys().then(res => res.keys));
-  // }
-
-  // clear(): Observable<void> {
-  //   return from(Storage.clear());
-  // }
-
 }

@@ -21,11 +21,8 @@ export class UpdateService {
     if(!this.config.enabled) {
       return;
     }
-    console.log('SW CONSTRUCTOR');
     if (isPlatformBrowser(platformId)) {
-      console.log('SW INIT');
       swUpdate.available.subscribe((event: UpdateAvailableEvent) => {
-        console.log('update available', event);
         this.openDialog(event);
       });
       swUpdate.activated.subscribe(event => {

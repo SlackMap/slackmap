@@ -29,6 +29,7 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/leaflet/dist/leaflet.css",
+              "./node_modules/leaflet-draw/dist/leaflet.draw.css",
               "apps/web/src/styles.scss"
             ],
             "scripts": []
@@ -119,7 +120,7 @@
                   "with": "apps/web/src/environments/environment.prod.ts"
                 }
               ],
-              "sourceMap": false,
+              "sourceMap": true,
               "optimization": true
             }
           }
