@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import * as L from "leaflet";
 import { restoreView } from './plugins/leaflet.restoreview';
 import { leafletCustoms } from './map/leaflet-customs';
+import { drawHandler } from './draw/draw-handler';
 import { mapTileLayer } from './layers/map.tile.layer';
 import { satelliteGoogleTileLayer } from './layers/satellite.google.tile.layer';
 import { SpotsLayer } from './layers/spots.layer';
@@ -13,7 +14,7 @@ import { merge, fromEvent, Observable, Subject, combineLatest } from 'rxjs';
 import { map, takeUntil, startWith, debounceTime, share } from 'rxjs/operators';
 import { MAP_ZOOM_THRESHOLD } from '@slackmap/api-client';
 import * as geohash from 'ngeohash';
-import { MapViewChangeData, MapComponent } from '../ui-map.models';
+import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawShape } from '../ui-map.models';
 
 restoreView();
 leafletCustoms();
@@ -36,6 +37,7 @@ leafletCustoms();
       width: 200px;
       margin: auto;
     }
+    :host /deep/ .leaflet-draw { display: none;}
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -58,7 +60,7 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
   @ViewChild('mapContainer', { read: ElementRef, static: true }) mapContainer: ElementRef;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+
     private zone: NgZone,
     private cd: ChangeDetectorRef,
     private itemUtils: ItemUtils,
@@ -66,16 +68,7 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
   ) { }
 
   ngAfterViewInit(): void {
-    // this code will work only in browser
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
     // this.zone.runOutsideAngular(async () => {
-
-      // L.slackmap.itemUtils = this.itemUtils;
-      // L.slackmap.SUBTYPES = SUBTYPES;
-      // L.slackmap.ItemType = ItemType;
 
       const _map = L.map(this.mapContainer.nativeElement);
       this.map = _map;
@@ -154,6 +147,10 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
         layer.setSpots(spots)
       })
     );
+  }
+
+  drawHandler(type: DrawType, shape?: DrawShape): Observable<DrawHandler> {
+    return drawHandler(this.map, type, shape)
   }
 
   ngOnDestroy() {

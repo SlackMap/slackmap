@@ -1,3 +1,18 @@
+import * as L from "leaflet";
+import "leaflet-draw";
+
+declare module "leaflet" {
+  export interface Map {
+    _container: any;
+  }
+  export namespace Edit {
+    export interface PolyVerticesEdit {
+      _createMiddleMarkerOld(): any;
+      _createMiddleMarker(): any;
+    }
+    export let noMiddleMarker: boolean;
+  }
+}
 
 L.Edit.PolyVerticesEdit.prototype._createMiddleMarkerOld = L.Edit.PolyVerticesEdit.prototype._createMiddleMarker;
 L.Edit.PolyVerticesEdit.prototype._createMiddleMarker = function() {

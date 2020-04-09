@@ -1,26 +1,25 @@
-L.slackmap = L.slackmap || {};
-
-L.slackmap.DrawTypes = {
-  LINE: 'LINE',
-  AREA: 'AREA'
-}
+import * as L from "leaflet";
+import "./draw-customs";
+import { DrawType, DrawData, DrawHandler } from "../../ui-map.models";
+import { Observable, ReplaySubject } from 'rxjs';
 
 /**
-  * handler for drawing spot area or line things on map
+  * handler for drawing or editing shapes on map
   *
   * @param {*} map L.Map
-  * @param {*} category SpotCategory
+  * @param {*} type SpotCategory
   * @param {*} shape geojson shape to edit
-  * @param {*} onChange callback to fire on changes
-*/
-L.slackmap.drawHandler = function (map, category, shape, onChange) {
+  */
+export function drawHandler(map: L.Map, type: DrawType, shape): Observable<DrawHandler> {
+  return new Observable<DrawHandler>(subscriber => {
+    const data$ = new ReplaySubject<DrawData>(1);
     let vertexCount = 0,
       distance = 0,
       layer;
 
     // from leaflet-draw-customs.js
     // blocks middle marker on line drawing
-    L.Edit.noMiddleMarker = category === L.slackmap.DrawTypes.LINE ? true : false;
+    L.Edit.noMiddleMarker = type === DrawType.LINE ? true : false;
 
     // hide draw toolbar
     map._container.classList.add('hide-draw-toolbar');
@@ -34,12 +33,9 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
     /**
      * draw controll
      */
-    const drawControl = new L.Control.Draw({
+    const drawControl: any = new L.Control.Draw({
       edit: {
         featureGroup: features,
-        poly: {
-          allowIntersection: false
-        },
         remove: false
       },
       draw: {
@@ -62,9 +58,10 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
         /**
          * edit existing shape
          */
-        if (category === L.slackmap.DrawTypes.AREA) {
+        if (type === DrawType.AREA) {
           layer = L.GeoJSON.geometryToLayer(shape);
         } else {
+          // @ts-ignore
           layer = new L.Polyline(L.GeoJSON.coordsToLatLngs(shape.coordinates), L.Draw.Polyline.prototype.options.shapeOptions);
         }
         features.addLayer(layer);
@@ -76,7 +73,7 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
         /**
          * draw new shape
          */
-        if (category === L.slackmap.DrawTypes.AREA) {
+        if (type === DrawType.AREA) {
           drawControl._toolbars.draw._modes.polygon.handler.enable();
         } else {
           drawControl._toolbars.draw._modes.polyline.handler.enable();
@@ -118,7 +115,7 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
      */
     function onProgress(e) {
       vertexCount = e.layers.getLayers().length;
-      if (category === L.slackmap.DrawTypes.LINE && vertexCount >= 2) {
+      if (type === DrawType.LINE && vertexCount >= 2) {
         // if you fire completeShape inside L.Draw.Event.DRAWVERTEX handler, you will get error
         // that's why we have to use setTimeout
         setTimeout(() => {
@@ -148,9 +145,10 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
         // bounds does not update when the shape is edited, but layer shape is correct
         // so we have to transform it to get the coordinates
         let l;
-        if (category === L.slackmap.DrawTypes.AREA) {
+        if (type === DrawType.AREA) {
           l = L.GeoJSON.geometryToLayer(newShape);
         } else {
+          // @ts-ignore
           l = new L.Polyline(L.GeoJSON.coordsToLatLngs(newShape.coordinates), L.Draw.Polyline.prototype.options.shapeOptions);
         }
         coordinates = l
@@ -159,14 +157,14 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
           .toGeoJSON().geometry;
 
         // calculate line length
-        if (category === L.slackmap.DrawTypes.LINE) {
+        if (type === DrawType.LINE) {
           const latlngs = layer.getLatLngs();
           distance = latlngs[0].distanceTo(latlngs[1]).toFixed(2);
         }
       }
 
-      onChange({
-        category: category,
+      data$.next({
+        type,
         vertexCount: vertexCount,
         distance: distance,
         coordinates: coordinates,
@@ -177,13 +175,13 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
     function undo() {
       try {
         drawControl._toolbars.draw._modes.polygon.handler.deleteLastVertex();
-      } catch (err) {}
+      } catch (err) { }
     }
 
-    function complete() {
+    function completeShape() {
       try {
         drawControl._toolbars.draw._modes.polygon.handler.completeShape();
-      } catch (err) {}
+      } catch (err) { }
     }
 
     function reset() {
@@ -192,16 +190,18 @@ L.slackmap.drawHandler = function (map, category, shape, onChange) {
       fireChange();
     }
 
-    function destroy() {
+    subscriber.next({
+      undo,
+      completeShape,
+      reset,
+      data$: data$.asObservable()
+    });
+
+    return () => {
       stop();
+      data$.complete()
       map.removeLayer(features);
       map.removeControl(drawControl);
     }
-
-    return {
-      undo,
-      reset,
-      complete,
-      destroy
-    };
+  });
 }

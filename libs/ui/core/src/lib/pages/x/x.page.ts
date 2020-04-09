@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MapService } from '@slackmap/ui/map';
+import { MapService, DrawType } from '@slackmap/ui/map';
 import { SubSink, LayerType } from '@slackmap/core';
 import { MapFacade } from '../../+map/map.facade';
 import { debounceTime, switchMap, tap } from 'rxjs/operators';
@@ -26,6 +26,9 @@ export class XPage implements OnInit, OnDestroy {
     this.subSink.subscribe = this.mapService.viewChange$.pipe(
       tap(view => this.mapFacade.dispatch(MapActions.viewChange({view})))
     )
+    this.subSink.add = this.mapService.drawHandler(DrawType.LINE).subscribe(handler => {
+      console.log('handler', handler)
+    })
   }
 
   ngOnDestroy() {

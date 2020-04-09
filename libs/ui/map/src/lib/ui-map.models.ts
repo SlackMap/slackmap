@@ -11,5 +11,34 @@ export interface MapViewChangeData {
 export interface MapComponent {
   viewChange$: Observable<MapViewChangeData>;
   itemClick$: Observable<{item: any}>;
-  spotsLayer(spots$: Observable<any>): Observable<void>
+  spotsLayer(spots$: Observable<any>): Observable<void>;
+  drawHandler(type: DrawType, shape?: DrawShape): Observable<DrawHandler>;
 }
+
+/**
+ * Draw Handler drawing shapes types
+ */
+export enum DrawType {
+  LINE = 'LINE',
+  AREA = 'AREA'
+}
+
+/**
+ * draw handler will emit this data
+ */
+export interface DrawData {
+  shape: DrawShape;
+  coordinates: any;
+  distance: number;
+  vertexCount: number;
+  type: DrawType;
+}
+
+export interface DrawHandler {
+  undo: () => void,
+  reset: () => void,
+  completeShape: () => void,
+  data$: Observable<DrawData>
+}
+
+export type DrawShape = any;

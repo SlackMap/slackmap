@@ -29,6 +29,7 @@ import { HomePage } from './pages/home/home.page';
 import { XPage } from './pages/x/x.page';
 import { LayerFiltersComponent } from './components/layer-filters/layer-filters.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DrawControlComponent } from './components/draw-control/draw-control.component';
 
 export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -73,7 +74,7 @@ export const uiCoreRoutes: Route[] = [
     MapFacade,
     SpotFacade
   ],
-  declarations: [LayoutComponent, MapComponent, HomePage, XPage, LayerFiltersComponent],
+  declarations: [LayoutComponent, MapComponent, HomePage, XPage, LayerFiltersComponent, DrawControlComponent],
   exports: [LayoutComponent]
 })
 export class UiCoreModule {}

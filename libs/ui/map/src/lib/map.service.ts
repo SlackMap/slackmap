@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject, Observable } from 'rxjs';
-import { MapComponent, MapViewChangeData } from './ui-map.models';
+import { MapComponent, MapViewChangeData, DrawType, DrawShape, DrawHandler } from './ui-map.models';
 import { switchMap, debounceTime } from 'rxjs/operators';
 
 @Injectable({
@@ -23,6 +23,12 @@ export class MapService implements MapComponent {
   spotsLayer(spots$: Observable<any>): Observable<void> {
     return this.map$.pipe(
       switchMap(map => map.spotsLayer(spots$))
+    );
+  }
+
+  drawHandler(type: DrawType, shape?: DrawShape): Observable<DrawHandler> {
+    return this.map$.pipe(
+      switchMap(map => map.drawHandler(type, shape))
     );
   }
 

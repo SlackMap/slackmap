@@ -1,7 +1,8 @@
-import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'sm-layout',
@@ -24,9 +25,14 @@ export class LayoutComponent implements AfterViewInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) { }
 
   ngAfterViewInit(): void {
+    // this code will work only in browser
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     import('../../../../../map/src/lib/leaflet/leaflet-map.component').then(
       ({ LeafletMapComponent }) => {
         const component = this.componentFactoryResolver.resolveComponentFactory(LeafletMapComponent);

@@ -7,7 +7,6 @@ export * from './consts';
 export * from './location-path.model';
 export * from './location.model';
 export * from './me.model';
-export * from './shape.model';
 export * from './user.model';
 export * from './viewport.model';
 export * from './item.model';
