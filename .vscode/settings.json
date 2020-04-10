@@ -13,7 +13,9 @@
     "titleBar.inactiveForeground": "#e7e7e799",
     "statusBar.background": "#3e7b0a",
     "statusBarItem.hoverBackground": "#56aa0e",
-    "statusBar.foreground": "#e7e7e7"
+    "statusBar.foreground": "#e7e7e7",
+    "statusBar.border": "#3e7b0a",
+    "titleBar.border": "#3e7b0a"
   },
   "vsicons.presets.angular": true,
   "cSpell.language": "en,pl",

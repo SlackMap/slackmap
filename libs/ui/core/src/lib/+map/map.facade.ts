@@ -4,7 +4,7 @@ import { select, Store, Action } from '@ngrx/store';
 
 import * as fromMap from './map.reducer';
 import * as MapSelectors from './map.selectors';
-import { LayerType } from '@slackmap/core';
+import { SportType } from '@slackmap/core';
 
 @Injectable()
 export class MapFacade {
@@ -13,9 +13,9 @@ export class MapFacade {
 
   constructor(private store: Store<fromMap.MapPartialState>) {}
 
-  getFilters$ = (layer: LayerType) => this.store.pipe(select(MapSelectors.getMapFilters(layer)));
+  getFilters$ = (layer: SportType) => this.store.pipe(select(MapSelectors.getMapFilters(layer)));
 
-  getLayerFilteredSpots = (layer: LayerType) => this.store.select(MapSelectors.getMapLayerFilteredSpots(layer));
+  getLayerFilteredSpots = (layer: SportType) => this.store.select(MapSelectors.getMapLayerFilteredSpots(layer));
 
   dispatch(action: Action) {
     this.store.dispatch(action);

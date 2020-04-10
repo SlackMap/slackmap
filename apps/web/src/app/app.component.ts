@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, HostBinding } from '@angular/core';
 import { UiApiService } from '@slackmap/ui/api';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -10,9 +10,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class AppComponent {
   constructor(
-    icons: MatIconRegistry, sanitizer: DomSanitizer
+    icons: MatIconRegistry, sanitizer: DomSanitizer,
+    private el: ElementRef,
   ) {
     icons.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl('/assets/icons/icons.svg'));
   }
 
+  /**
+   * Get version of current running app, it's from the <sm-root> data-sm-version attribute
+   */
+  get version() {
+    if(this.el.nativeElement?.dataset?.smVersion) {
+      return this.el.nativeElement.dataset.smVersion;
+    }
+  }
 }

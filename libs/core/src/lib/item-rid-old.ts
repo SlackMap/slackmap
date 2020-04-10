@@ -1,5 +1,9 @@
-import {isNumeric, ItemRidPrefix, ItemType, ParseRidResult} from './item';
+import { ParseRidResult, ItemRidPrefix } from './item-rid';
+import { isNumeric } from './helpers';
+import { ItemType } from './item-type';
+
 export const itemOldRidSuffixes = ['0s', '0u', '0p', '0v', '0c', '0o', '0m', '0t'];
+
 export function parseOldRid(rid: string): ParseRidResult {
   if (!rid || typeof rid !== 'string' || isNumeric(rid)) {
     return {

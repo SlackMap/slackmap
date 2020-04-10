@@ -2,13 +2,13 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as SpotActions from './spot.actions';
-import { LayerType } from '@slackmap/core';
+import { SportType } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';
 
 export const SPOT_FEATURE_KEY = 'spot';
 
 export interface State  {
-  layers: {[key in LayerType]: {[key: string]: LoadHashResponse}}; // layers spots as hash of arrays, key is geohash
+  layers: {[key in SportType]: {[key: string]: LoadHashResponse}}; // layers spots as hash of arrays, key is geohash
 }
 
 export interface SpotPartialState {
@@ -17,9 +17,9 @@ export interface SpotPartialState {
 
 export const initialState: State = {
   layers: {
-    [LayerType.SLACKLINE]: {},
-    [LayerType.TRAMPOLINE]: {},
-    [LayerType.DIVING]: {}
+    [SportType.SLACKLINE]: {},
+    [SportType.TRAMPOLINE]: {},
+    [SportType.DIVING]: {}
   },
 };
 

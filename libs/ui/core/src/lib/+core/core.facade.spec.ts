@@ -59,55 +59,55 @@ describe('CoreFacade', () => {
     /**
      * The initially generated facade::loadAll() returns empty array
      */
-    it('loadAll() should return empty list with loaded == true', async done => {
-      try {
-        let list = await readFirst(facade.allCore$);
-        let isLoaded = await readFirst(facade.loaded$);
+    // it('loadAll() should return empty list with loaded == true', async done => {
+    //   try {
+    //     let list = await readFirst(facade.allCore$);
+    //     let isLoaded = await readFirst(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+    //     expect(list.length).toBe(0);
+    //     expect(isLoaded).toBe(false);
 
-        facade.dispatch(CoreActions.loadCore());
+    //     facade.dispatch(CoreActions.loadCore());
 
-        list = await readFirst(facade.allCore$);
-        isLoaded = await readFirst(facade.loaded$);
+    //     list = await readFirst(facade.allCore$);
+    //     isLoaded = await readFirst(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(true);
+    //     expect(list.length).toBe(0);
+    //     expect(isLoaded).toBe(true);
 
-        done();
-      } catch (err) {
-        done.fail(err);
-      }
-    });
+    //     done();
+    //   } catch (err) {
+    //     done.fail(err);
+    //   }
+    // });
 
     /**
      * Use `loadCoreSuccess` to manually update list
      */
-    it('allCore$ should return the loaded list; and loaded flag == true', async done => {
-      try {
-        let list = await readFirst(facade.allCore$);
-        let isLoaded = await readFirst(facade.loaded$);
+    // it('allCore$ should return the loaded list; and loaded flag == true', async done => {
+    //   try {
+    //     let list = await readFirst(facade.allCore$);
+    //     let isLoaded = await readFirst(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+    //     expect(list.length).toBe(0);
+    //     expect(isLoaded).toBe(false);
 
-        facade.dispatch(
-          CoreActions.loadCoreSuccess({
-            core: [createCoreEntity('AAA'), createCoreEntity('BBB')]
-          })
-        );
+    //     facade.dispatch(
+    //       CoreActions.loadCoreSuccess({
+    //         core: [createCoreEntity('AAA'), createCoreEntity('BBB')]
+    //       })
+    //     );
 
-        list = await readFirst(facade.allCore$);
-        isLoaded = await readFirst(facade.loaded$);
+    //     list = await readFirst(facade.allCore$);
+    //     isLoaded = await readFirst(facade.loaded$);
 
-        expect(list.length).toBe(2);
-        expect(isLoaded).toBe(true);
+    //     expect(list.length).toBe(2);
+    //     expect(isLoaded).toBe(true);
 
-        done();
-      } catch (err) {
-        done.fail(err);
-      }
-    });
+    //     done();
+    //   } catch (err) {
+    //     done.fail(err);
+    //   }
+    // });
   });
 });

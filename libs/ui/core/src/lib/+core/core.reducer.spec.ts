@@ -12,18 +12,18 @@ describe('Core Reducer', () => {
   beforeEach(() => {});
 
   describe('valid Core actions', () => {
-    it('loadCoreSuccess should return set the list of known Core', () => {
-      const core = [
-        createCoreEntity('PRODUCT-AAA'),
-        createCoreEntity('PRODUCT-zzz')
-      ];
-      const action = CoreActions.loadCoreSuccess({ core });
+    // it('loadCoreSuccess should return set the list of known Core', () => {
+    //   const core = [
+    //     createCoreEntity('PRODUCT-AAA'),
+    //     createCoreEntity('PRODUCT-zzz')
+    //   ];
+    //   const action = CoreActions.loadCoreSuccess({ core });
 
-      const result: State = reducer(initialState, action);
+    //   const result: State = reducer(initialState, action);
 
-      expect(result.loaded).toBe(true);
-      expect(result.ids.length).toBe(2);
-    });
+    //   expect(result.loaded).toBe(true);
+    //   expect(result.ids.length).toBe(2);
+    // });
   });
 
   describe('unknown action', () => {

@@ -8,7 +8,7 @@ import { map, distinctUntilChanged, mergeMap, switchMap } from 'rxjs/operators';
 import { MAP_ZOOM_THRESHOLD } from '@slackmap/api-client';
 import { arrayDiff, ArrayDiff } from '../utils';
 import { from, of } from 'rxjs';
-import { LayerType } from '@slackmap/core';
+import { SportType } from '@slackmap/core';
 import { SpotService } from '../services/spot.service';
 
 @Injectable()
@@ -42,14 +42,14 @@ export class MapEffects {
       mergeMap((action) => {
         const enters = action.data.enter.map(hash => {
           return SpotActions.hashLoad({
-            layer: LayerType.SLACKLINE,
+            layer: SportType.SLACKLINE,
             hash
           });
         });
 
         const exits = action.data.exit.map(hash => {
           return SpotActions.hashClear({
-            layer: LayerType.SLACKLINE,
+            layer: SportType.SLACKLINE,
             hash
           });
         });
@@ -71,14 +71,14 @@ export class MapEffects {
       switchMap((action) => {
 
         if (action.view.zoom < MAP_ZOOM_THRESHOLD) {
-          return this.spotService.getClusters(LayerType.SLACKLINE, action.view.bbox, action.view.zoom).pipe(
+          return this.spotService.getClusters(SportType.SLACKLINE, action.view.bbox, action.view.zoom).pipe(
             map(data => {
               return SpotActions.hashRequestSuccess({data});
             })
           );
         } else {
           return of(SpotActions.hashClear({
-            layer: LayerType.SLACKLINE,
+            layer: SportType.SLACKLINE,
             hash: 'clusters'
           }));
         }

@@ -5,7 +5,7 @@ import {
   MapPartialState,
 } from './map.reducer';
 import { getSpotLayer } from '../+spot/spot.selectors';
-import { LayerType, ItemType } from '@slackmap/core';
+import { SportType, ItemType } from '@slackmap/core';
 import { LoadHashResponse } from '../+spot/spot.models';
 
 // Lookup the 'Map' feature state managed by NgRx
@@ -16,7 +16,7 @@ export const getMapLayerEnabled = createSelector(getMapState, (state: State) => 
 export const getMapLayerFilters = createSelector(getMapState, (state: State) => state.layer_filters);
 
 // select filters for specific layer type
-export const getMapFilters = function (layer: LayerType) {
+export const getMapFilters = function (layer: SportType) {
   return createSelector(
     getMapLayerFilters,
     (layers) => layers[layer]
@@ -24,7 +24,7 @@ export const getMapFilters = function (layer: LayerType) {
 };
 
 // select spots for specific layer type, apply filters to them
-export const getMapLayerFilteredSpots = function (layer: LayerType) {
+export const getMapLayerFilteredSpots = function (layer: SportType) {
   return createSelector(
     getSpotLayer(layer),
     getMapFilters(layer),

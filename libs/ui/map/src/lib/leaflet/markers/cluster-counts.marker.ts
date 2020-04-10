@@ -1,5 +1,5 @@
 import {Marker, Icon, Point, GeoJSON} from 'leaflet';
-import { SUBTYPES } from '@slackmap/core';
+import { SUBTYPE_OPTIONS } from '@slackmap/core';
 
 export class ClusterCountsMarker extends Marker {
   constructor(private item, options?) {
@@ -12,7 +12,7 @@ export class ClusterCountsMarker extends Marker {
   }
 };
 
-const COLORS = SUBTYPES.filter(t => t.color).reduce(
+const COLORS = SUBTYPE_OPTIONS.filter(t => t.color).reduce(
   (colors, type, index, array) => {
     colors[type.name] = type.color;
     return colors;

@@ -23,7 +23,7 @@ leafletCustoms();
   selector: 'sm-leaflet-map',
   template: `
     <div #mapContainer class="map-container">
-      <span class="map-loader" *ngIf="!map">Loading map...</span>
+      <!-- <span class="map-loader" *ngIf="!map">Loading map...</span> -->
     </div>
   `,
   styles: [`

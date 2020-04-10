@@ -4,12 +4,12 @@ import { select, Store, Action } from '@ngrx/store';
 
 import * as fromCore from './core.reducer';
 import * as CoreSelectors from './core.selectors';
+import * as CoreActions from './core.actions';
 
 @Injectable()
 export class CoreFacade {
-  loaded$ = this.store.pipe(select(CoreSelectors.getCoreLoaded));
-  allCore$ = this.store.pipe(select(CoreSelectors.getAllCore));
-  selectedCore$ = this.store.pipe(select(CoreSelectors.getSelected));
+  actions = CoreActions;
+  version$ = this.store.pipe(select(CoreSelectors.getCoreVersion));
 
   constructor(private store: Store<fromCore.CorePartialState>) {}
 

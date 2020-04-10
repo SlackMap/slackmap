@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { LayerType } from '@slackmap/core';
+import { SportType } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';
 
 /**
@@ -8,7 +8,7 @@ import { LoadHashResponse } from './spot.models';
  */
 export const hashLoad = createAction(
   '[Spot] Hash Load',
-  props<{ hash: string, layer: LayerType }>()
+  props<{ hash: string, layer: SportType }>()
 );
 
 /**
@@ -16,7 +16,7 @@ export const hashLoad = createAction(
  */
 export const hashLoading = createAction(
   '[Spot] Hash Loading',
-  props<{ hash: string, layer: LayerType, loading: boolean }>()
+  props<{ hash: string, layer: SportType, loading: boolean }>()
 );
 
 /**
@@ -48,7 +48,7 @@ export const hashRequestFailure = createAction(
  */
 export const hashClear = createAction(
   '[Spot] Hash Clear',
-  props<{ hash: string, layer: LayerType }>()
+  props<{ hash: string, layer: SportType }>()
 );
 
 /**
@@ -56,5 +56,5 @@ export const hashClear = createAction(
  */
 export const hashNoConnection = createAction(
   '[Spot] Hash No Connection',
-  props<{ hash: string, layer: LayerType }>()
+  props<{ hash: string, layer: SportType }>()
 );

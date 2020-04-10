@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {CacheService} from './cache.service';
 import {catchError, tap, share, startWith, merge, map, shareReplay, switchMap} from 'rxjs/operators';
 import {Observable, of, Subject, merge as mergeObservables, EMPTY} from 'rxjs';
-import {LayerType, ItemType, ClusterSubtype} from '@slackmap/core';
+import {SportType, ItemType, ClusterSubtype, ItemSubtype} from '@slackmap/core';
 import {CLUSTERS_PATHS, ClusterModel, GeojsonBbox, ClustersClustersGetDto} from '@slackmap/api-client';
 import Supercluster from 'supercluster';
 import { UiApiService } from '@slackmap/ui/api';
@@ -34,7 +34,7 @@ export class SpotService {
       const request = this.api.clustersGet({
         bbox: '-180,-90,180,90',
         zoom: 16,
-        layer: LayerType.SLACKLINE
+        layer: SportType.SLACKLINE
       });
       const key = CLUSTERS_PATHS.clustersGet();
       const ttl = 60 * 60 * 1;
@@ -99,12 +99,12 @@ export class SpotService {
     shareReplay()
   );
 
-  loadSpotsByHash(layer: LayerType, hash: string): Observable<LoadHashResponse> {
+  loadSpotsByHash(layer: SportType, hash: string): Observable<LoadHashResponse> {
     if (this.hashes[hash]) {
       return this.hashes[hash];
     }
 
-    const request$ = this.api.clustersSpotsGet({hash: hash, layer: LayerType.SLACKLINE}).pipe(
+    const request$ = this.api.clustersSpotsGet({hash: hash, layer: SportType.SLACKLINE}).pipe(
 
       map((data) => {
         // save resonse to cache
@@ -160,7 +160,7 @@ export class SpotService {
    * @param bbox GeojsonBbox
    * @param zoom
    */
-  getClusters(layer: LayerType, bbox: GeojsonBbox, zoom: number): Observable<LoadHashResponse> {
+  getClusters(layer: SportType, bbox: GeojsonBbox, zoom: number): Observable<LoadHashResponse> {
     return <any> this.supercluster$.pipe(
       map((scluster) => {
         const clusters = scluster.getClusters(bbox, zoom).map(cluster => {
@@ -170,7 +170,7 @@ export class SpotService {
           const c: ClusterModel = {
             rid: cluster.properties.rid || '',
             type: ItemType.CLUSTER,
-            subtype: !!cluster.properties.cluster ? ClusterSubtype.CLUSTER : ClusterSubtype.SPOT,
+            subtype: !!cluster.properties.cluster ? ItemSubtype.CLUSTER_CLUSTER : ItemSubtype.CLUSTER_SPOT,
             coordinates: cluster.geometry,
             expansion_zoom: cluster.properties.expansion_zoom || 17,
             spot_count: cluster.properties.spot_count || 1,

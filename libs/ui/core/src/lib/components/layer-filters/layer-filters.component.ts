@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { LayerType, SUBTYPES } from '@slackmap/core';
+import { SportType, SUBTYPE_OPTIONS, SPORT_OPTIONS } from '@slackmap/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MapFacade } from '../../+map/map.facade';
@@ -13,7 +13,8 @@ import * as MapActions from '../../+map/map.actions';
 })
 export class LayerFiltersComponent implements OnInit {
 
-  options = SUBTYPES.filter(t => t.color);
+  layers = SPORT_OPTIONS;
+  options = SUBTYPE_OPTIONS.filter(t => t.color);
   filters$: Observable<any>;
   constructor(
     private mapFacade: MapFacade,
@@ -33,7 +34,7 @@ export class LayerFiltersComponent implements OnInit {
   onChange(filters: string[]) {
     // TODO when other sports will be implemented, change this
     this.mapFacade.dispatch(MapActions.layerFiltersChange({
-      layer: LayerType.SLACKLINE,
+      layer: SportType.SLACKLINE,
       filters
     }));
   }

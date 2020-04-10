@@ -1,5 +1,5 @@
-import {ItemType, parseRid} from './item';
-import {parseOldRid} from './parse-old-rid';
+import {parseOldRid} from './item-rid-old';
+import { parseRid, ItemType } from '.';
 
 describe('@slackmap/core/parse-old-rid.ts', () => {
   /**

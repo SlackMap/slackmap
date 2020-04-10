@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SPOT_FEATURE_KEY, State, SpotPartialState, } from './spot.reducer';
-import { LayerType } from '@slackmap/core';
+import { SportType } from '@slackmap/core';
 
 // Lookup the 'Spots' feature state managed by NgRx
 export const getSpotState = createFeatureSelector<SpotPartialState, State>(
@@ -12,7 +12,7 @@ export const getSpotLayers = createSelector(
   state => state.layers,
 );
 
-export const getSpotLayer = function (layer: LayerType) {
+export const getSpotLayer = function (layer: SportType) {
   return createSelector(
     getSpotLayers,
     layers => layers[layer],

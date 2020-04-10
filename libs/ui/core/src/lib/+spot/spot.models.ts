@@ -1,4 +1,4 @@
-import {LayerType} from '@slackmap/core';
+import {SportType} from '@slackmap/core';
 
 /**
  * success response from cache or request
@@ -12,7 +12,7 @@ export enum ResponseSource {
  * success response from cashe or request
  */
 export interface LoadHashResponse {
-  layer: LayerType;
+  layer: SportType;
   hash: string;
   source: ResponseSource;
   timestamp: number;

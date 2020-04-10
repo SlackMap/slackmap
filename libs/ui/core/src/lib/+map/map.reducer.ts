@@ -1,7 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as MapActions from './map.actions';
 import { MapViewChangeData } from './map.models';
-import { LayerType } from '@slackmap/core';
+import { SportType } from '@slackmap/core';
 import { SPOT_FEATURE_KEY, State as SpotsState } from '../+spot/spot.reducer';
 
 export const MAP_FEATURE_KEY = 'map';
@@ -9,8 +9,8 @@ export const MAP_FEATURE_KEY = 'map';
 export interface State {
   view: MapViewChangeData;
   selected: any[]; // selected spots, map will focus on this and add it on the map
-  layer_enabled: { [key in LayerType]: boolean }; // list of enabled layers
-  layer_filters: { [key in LayerType]: string[] }; // filters for each layers
+  layer_enabled: { [key in SportType]: boolean }; // list of enabled layers
+  layer_filters: { [key in SportType]: string[] }; // filters for each layers
 }
 
 export interface MapPartialState {
@@ -22,14 +22,14 @@ export const initialState: State = {
   view: null,
   selected: [],
   layer_enabled: {
-    [LayerType.SLACKLINE]: false,
-    [LayerType.TRAMPOLINE]: false,
-    [LayerType.DIVING]: false,
+    [SportType.SLACKLINE]: false,
+    [SportType.TRAMPOLINE]: false,
+    [SportType.DIVING]: false,
   },
   layer_filters: {
-    [LayerType.SLACKLINE]: [],
-    [LayerType.TRAMPOLINE]: [],
-    [LayerType.DIVING]: [],
+    [SportType.SLACKLINE]: [],
+    [SportType.TRAMPOLINE]: [],
+    [SportType.DIVING]: [],
   },
 };
 
