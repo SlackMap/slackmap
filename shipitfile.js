@@ -46,6 +46,7 @@ module.exports = function (shipit) {
   shipit.on('deployed', () => shipit.start('pm2:reload'));
 
   shipit.blTask('pm2:reload', async function () {
+    const deployTo = this.config.deployTo;
     await shipit.remote(`pm2 startOrGracefulReload ${deployTo}/pm2.json`);
   });
 
