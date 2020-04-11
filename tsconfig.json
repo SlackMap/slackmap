@@ -25,7 +25,8 @@
       "@slackmap/api/common": ["libs/api/common/src/index.ts"],
       "@slackmap/api/clusters": ["libs/api/clusters/src/index.ts"],
       "@slackmap/ui/core": ["libs/ui/core/src/index.ts"],
-      "@slackmap/ui/map": ["libs/ui/map/src/index.ts"]
+      "@slackmap/ui/map": ["libs/ui/map/src/index.ts"],
+      "@slackmap/gis": ["libs/gis/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

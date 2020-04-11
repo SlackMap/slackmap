@@ -2,7 +2,7 @@ import { Inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_HOST } from './ui-api-tokens';
 import { Observable } from 'rxjs';
-import { ConfigPaths, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, SpotSpotsGetRequestDto, SpotSpotsGetDto, ConfigGetResponseDto } from '@slackmap/api-client';
+import { ConfigPaths, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetResponseDto } from '@slackmap/api-client';
 
 @Injectable({ providedIn: 'root' })
 export class UiApiService {
@@ -33,8 +33,8 @@ export class UiApiService {
   /**
    * query clusters by bbox
    */
-  public clustersSpotsGet(params: SpotSpotsGetRequestDto): Observable<SpotSpotsGetDto> {
-    return this.httpClient.get<SpotSpotsGetDto>(
+  public clustersSpotsGet(params: ClustersSpotsGetRequestDto): Observable<ClustersSpotsGetDto> {
+    return this.httpClient.get<ClustersSpotsGetDto>(
       `${this.basePath}/${CLUSTERS_PATHS.spotsGet()}`,
       {
         params: <any>params,

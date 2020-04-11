@@ -1,9 +1,9 @@
-import {GeojsonBbox} from '@slackmap/api-client';
+import {BBox} from '@slackmap/gis';
 import { Observable } from 'rxjs';
 
 export interface MapViewChangeData {
   bounds: [[number, number], [number, number]];
-  bbox: GeojsonBbox;
+  bbox: BBox;
   zoom: number;
   hashes?: string[];
 }

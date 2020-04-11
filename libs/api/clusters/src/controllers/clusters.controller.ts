@@ -3,14 +3,12 @@ import {
   CLUSTERS_PATHS,
   ClustersClustersGetRequestDto,
   ClustersClustersGetDto,
-  SpotSpotsGetRequestDto,
-  SpotSpotsGetDto,
+  ClustersSpotsGetRequestDto,
+  ClustersSpotsGetDto,
 } from '@slackmap/api-client';
 import { SpotsService, ClustersService } from '../services';
-import { ValidationError } from '@slackmap/api/common';
 import { Observable } from 'rxjs';
-import { map, catchError, tap, take } from 'rxjs/operators';
-import { LayerType } from '@slackmap/core';
+import { map, catchError } from 'rxjs/operators';
 
 /**
  * query map clusters
@@ -29,9 +27,9 @@ export class ClustersController {
   @UsePipes(ValidationPipe)
   clustersGet(@Query() request: ClustersClustersGetRequestDto): Observable<ClustersClustersGetDto> {
     const bbox = request.bbox.split(',');
-    return this.clusterService.query(bbox, request.zoom).pipe(
+    return this.clusterService.query(request.sport, bbox, request.zoom).pipe(
       catchError((err) => {
-        console.error('SpotController.clustersGet()', 'zoom', request.zoom, 'bbox', request.bbox, err);
+        console.error('ClustersController.clustersGet()', 'zoom', request.zoom, 'bbox', request.bbox, err);
         return [];
       }),
       map(clusters => ({clusters})),
@@ -43,7 +41,7 @@ export class ClustersController {
    */
   @Get(CLUSTERS_PATHS.spotsGet())
   @UsePipes(ValidationPipe)
-  clustersSpotsGet(@Query() request: SpotSpotsGetRequestDto): Observable<SpotSpotsGetDto> {
+  clustersSpotsGet(@Query() request: ClustersSpotsGetRequestDto): Observable<ClustersSpotsGetDto> {
     return this.spotService.getByHash(request);
   }
 }

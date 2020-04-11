@@ -1,5 +1,5 @@
 import {ItemRids, ItemType} from '@slackmap/core';
-import {GeojsonBbox} from '@slackmap/api-client';
+import {BBox} from '@slackmap/gis';
 
 /**
  * converts array of latlng's to string
@@ -53,14 +53,14 @@ import {GeojsonBbox} from '@slackmap/api-client';
  * returns item geojson bounding box
  *
  * @param item
- * @returns GeojsonBbox
+ * @returns BBox
  */
-export function getItemBounds(item: any): GeojsonBbox {
+export function getItemBounds(item: any): BBox {
   const data: any = {};
   if (item.rid === ItemRids.WORLD) {
     return [-180, -90, 180, 90];
   } else if (item.type === ItemType.SPOT) {
-    return geojsonBbox(item.shape);
+    return BBox(item.shape);
   }
   return null;
 }
@@ -122,7 +122,7 @@ export function getItemBounds(item: any): GeojsonBbox {
 /**
  * get bbox from array of bbox
  */
-export function bboxes2bbox(bboxes: GeojsonBbox[]) {
+export function bboxes2bbox(bboxes: BBox[]) {
   const bbox = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY,
   Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, ];
   return bboxes.reduce(function (prev, box) {
@@ -138,7 +138,7 @@ export function bboxes2bbox(bboxes: GeojsonBbox[]) {
 /**
  * get bbox from geojson features
  */
-export function geojsonBbox(gj) {
+export function BBox(gj) {
   let coords, bbox;
   if (!gj.hasOwnProperty('type')) {return; }
   coords = getCoordinatesDump(gj);

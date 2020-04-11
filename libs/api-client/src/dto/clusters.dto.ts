@@ -1,6 +1,8 @@
 import { ClusterModel } from '../models';
 import { SportType } from '@slackmap/core';
 import { IsString, IsNumber, IsNumberString, IsEnum } from "class-validator";
+import { Transform } from "class-transformer";
+import { SpotModel } from '../models/spot.model';
 
 export const CLUSTERS_PATHS = {
   clustersGet: () => 'clusters/clusters',
@@ -9,7 +11,8 @@ export const CLUSTERS_PATHS = {
 
 export class ClustersClustersGetRequestDto {
   @IsEnum(SportType)
-  layer: SportType;
+  @Transform(value => Number(value))
+  sport: SportType;
   @IsString()
   bbox: string;
   @IsNumberString()
@@ -19,13 +22,13 @@ export class ClustersClustersGetDto {
   clusters: ClusterModel[];
 }
 
-export class SpotSpotsGetRequestDto {
+export class ClustersSpotsGetRequestDto {
   @IsEnum(SportType)
-  layer: SportType;
+  sport: SportType;
   @IsString()
   hash: string;
 }
 
-export class SpotSpotsGetDto {
-  spots: any[];
+export class ClustersSpotsGetDto {
+  spots: SpotModel[];
 }

@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
-import {CacheService} from './cache.service';
-import {catchError, tap, share, startWith, merge, map, shareReplay, switchMap} from 'rxjs/operators';
-import {Observable, of, Subject, merge as mergeObservables, EMPTY} from 'rxjs';
-import {SportType, ItemType, ClusterSubtype, ItemSubtype} from '@slackmap/core';
-import {CLUSTERS_PATHS, ClusterModel, GeojsonBbox, ClustersClustersGetDto} from '@slackmap/api-client';
+import { Injectable } from '@angular/core';
+import { CacheService } from './cache.service';
+import { catchError, tap, share, startWith, merge, map, shareReplay, switchMap } from 'rxjs/operators';
+import { Observable, of, Subject, merge as mergeObservables, EMPTY } from 'rxjs';
+import { SportType, ItemType, ClusterSubtype, ItemSubtype } from '@slackmap/core';
+import { CLUSTERS_PATHS, ClusterModel, ClustersClustersGetDto } from '@slackmap/api-client';
+import { BBox } from '@slackmap/gis';
 import Supercluster from 'supercluster';
 import { UiApiService } from '@slackmap/ui/api';
 import { ResponseSource, LoadHashResponse } from '../+spot/spot.models';
@@ -16,8 +17,8 @@ export class SpotService {
   constructor(
     private api: UiApiService,
     private cache: CacheService
-  ) {}
-  hashes: {[s: string]: any} = {};
+  ) { }
+  hashes: { [s: string]: any } = {};
 
   private reloadSupercluster$ = new Subject<any>();
 
@@ -34,7 +35,7 @@ export class SpotService {
       const request = this.api.clustersGet({
         bbox: '-180,-90,180,90',
         zoom: 16,
-        layer: SportType.SLACKLINE
+        sport: SportType.SLACKLINE
       });
       const key = CLUSTERS_PATHS.clustersGet();
       const ttl = 60 * 60 * 1;
@@ -104,7 +105,7 @@ export class SpotService {
       return this.hashes[hash];
     }
 
-    const request$ = this.api.clustersSpotsGet({hash: hash, layer: SportType.SLACKLINE}).pipe(
+    const request$ = this.api.clustersSpotsGet({ hash: hash, sport: SportType.SLACKLINE }).pipe(
 
       map((data) => {
         // save resonse to cache
@@ -157,11 +158,11 @@ export class SpotService {
 
   /**
    *
-   * @param bbox GeojsonBbox
+   * @param bbox BBox
    * @param zoom
    */
-  getClusters(layer: SportType, bbox: GeojsonBbox, zoom: number): Observable<LoadHashResponse> {
-    return <any> this.supercluster$.pipe(
+  getClusters(layer: SportType, bbox: BBox, zoom: number): Observable<LoadHashResponse> {
+    return <any>this.supercluster$.pipe(
       map((scluster) => {
         const clusters = scluster.getClusters(bbox, zoom).map(cluster => {
           if (cluster.properties.cluster) {

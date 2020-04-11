@@ -1,6 +1,4 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
 import * as SpotActions from './spot.actions';
 import { SportType } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';

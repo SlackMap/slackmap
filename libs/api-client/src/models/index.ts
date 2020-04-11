@@ -1,6 +1,4 @@
 export * from './facebook';
-export * from './geojson';
-export * from './cluster-counts-model';
 export * from './cluster.model';
 export * from './config.model';
 export * from './consts';

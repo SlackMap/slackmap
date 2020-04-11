@@ -1,6 +1,7 @@
-
+export type Rid = string;
 
 export interface Item {
+  rid: Rid;
   type: ItemType;
   subtype: ItemSubtype;
 }

@@ -1,4 +1,4 @@
-import { Position, Geometry } from '@slackmap/api-client';
+import { Position, Geometry } from '@slackmap/gis';
 import { LocationPathEntity } from '../location-path.entity';
 
 /**

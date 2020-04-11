@@ -33,9 +33,9 @@ export class LayerFiltersComponent implements OnInit {
 
   onChange(filters: string[]) {
     // TODO when other sports will be implemented, change this
-    this.mapFacade.dispatch(MapActions.layerFiltersChange({
+    this.mapFacade.dispatch(MapActions.layerSubtypeFiltersChange({
       layer: SportType.SLACKLINE,
-      filters
+      subtypesEnabled: filters
     }));
   }
 

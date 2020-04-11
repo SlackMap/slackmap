@@ -12,13 +12,13 @@ import { LoadHashResponse } from '../+spot/spot.models';
 export const getMapState = createFeatureSelector<MapPartialState, State>(MAP_FEATURE_KEY);
 
 export const getMapView = createSelector(getMapState, (state: State) => state.view);
-export const getMapLayerEnabled = createSelector(getMapState, (state: State) => state.layer_enabled);
-export const getMapLayerFilters = createSelector(getMapState, (state: State) => state.layer_filters);
+export const getMapLayersEnabled = createSelector(getMapState, (state: State) => state.layersEnabled);
+export const getMapLayerSubtypeFilters = createSelector(getMapState, (state: State) => state.layersSubtypeFilters);
 
 // select filters for specific layer type
 export const getMapFilters = function (layer: SportType) {
   return createSelector(
-    getMapLayerFilters,
+    getMapLayerSubtypeFilters,
     (layers) => layers[layer]
   );
 };
@@ -27,7 +27,7 @@ export const getMapFilters = function (layer: SportType) {
 export const getMapLayerFilteredSpots = function (layer: SportType) {
   return createSelector(
     getSpotLayer(layer),
-    getMapFilters(layer),
+    getMapLayerSubtypeFilters,
     (spots: {[key: string]: LoadHashResponse}, filters) => {
 
       // convert has of arrays, to flat array

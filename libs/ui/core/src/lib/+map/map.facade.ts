@@ -9,7 +9,7 @@ import { SportType } from '@slackmap/core';
 @Injectable()
 export class MapFacade {
   view$ = this.store.pipe(select(MapSelectors.getMapView));
-  layerFilters$ = this.store.select(MapSelectors.getMapLayerFilters);
+  layerFilters$ = this.store.select(MapSelectors.getMapLayerSubtypeFilters);
 
   constructor(private store: Store<fromMap.MapPartialState>) {}
 

@@ -1,4 +1,5 @@
 import {SportType} from '@slackmap/core';
+import { ClustersSpotsGetDto } from '@slackmap/api-client';
 
 /**
  * success response from cache or request
@@ -16,6 +17,6 @@ export interface LoadHashResponse {
   hash: string;
   source: ResponseSource;
   timestamp: number;
-  data?: any;
+  data?: ClustersSpotsGetDto;
   error?: any;
 }

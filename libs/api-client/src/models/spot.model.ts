@@ -1,8 +1,9 @@
 import { LocationPathModel } from './location-path.model';
 import { Geometry, Position } from '@slackmap/gis';
 import { Item, ItemType, ItemSubtype, Rid } from '@slackmap/core';
+import { ItemModel } from './item.model';
 
-export class ItemModel implements Item {
+export class SpotModel extends ItemModel {
     rid: Rid;
     type: ItemType;
     subtype: ItemSubtype;
@@ -10,7 +11,7 @@ export class ItemModel implements Item {
     photo?: string;
     name?: string;
     description?: string;
-    location_path?: Array<LocationPathModel>;
+    location_path?: LocationPathModel[];
     length?: number;
     access?: number;
     coordinates: Position;

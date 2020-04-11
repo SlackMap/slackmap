@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { MapViewChangeData } from './map.models';
 import { ArrayDiff } from '../utils';
-import { SportType } from '@slackmap/core';
+import { SportType, ItemSubtype } from '@slackmap/core';
 import { ItemModel } from '@slackmap/api-client';
 
 // fired when user moves the map, or the viewport changes
@@ -17,15 +17,15 @@ export const viewHashesChange = createAction(
 );
 
 // fired when layer filters are changed by the user
-export const layerFiltersChange = createAction(
-  '[Map] Layer Filters Change',
-  props<{ layer: SportType, filters: string[] }>()
+export const layerSubtypeFiltersChange = createAction(
+  '[Map] Layer Subtype Filters Change',
+  props<{ subtypesEnabled: ItemSubtype[] }>()
 );
 
 // enable or disable the layer
-export const layerEnabledChange = createAction(
-  '[Map] Layer Enabled Change',
-  props<{ layer: SportType, enabled: boolean }>()
+export const layersEnabledChange = createAction(
+  '[Map] Layers Enabled Change',
+  props<{ layersEnabled: SportType[] }>()
 );
 
 // when you click item on the map

@@ -1,11 +1,3 @@
-/**
- * geojson bounding box
- *
- * [maxLon, maxLat, minLon, maxLat]
- * sw, ne
- */
-export type GeojsonBbox = [number, number, number, number];
-
 // Type definitions for non-npm package geojson 7946.0
 // Project: https://geojson.org/
 // Definitions by: Jacob Bruun <https://github.com/cobster>
