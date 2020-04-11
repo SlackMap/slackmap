@@ -1,6 +1,6 @@
 {
   "name": "slackmap",
-  "version": "0.5.0-next.3",
+  "version": "0.5.0-next.4",
   "license": "MIT",
   "bin": {
     "sm": "./apps/cli/src/sm"
