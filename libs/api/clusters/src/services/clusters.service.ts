@@ -3,7 +3,7 @@ import Supercluster from 'supercluster';
 import { ItemType, ItemSubtype, RIDS, SportType } from '@slackmap/core';
 import { ClusterCountsModel, ClusterModel } from '@slackmap/api-client';
 import { OrientService, SpotEntity } from "@slackmap/api/orient";
-import { SuperclusterOptions, SuperclusterFeature } from '../models';
+import { superclusterOptions, SuperclusterFeature } from '../models';
 import { map, reduce, takeUntil, take } from 'rxjs/operators';
 import { Observable, of, Subject, ReplaySubject } from 'rxjs';
 const logger = new Logger('ClustersService');
@@ -16,9 +16,8 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
   destroy$ = new Subject();
 
   constructor(
-    private options: SuperclusterOptions,
     private db: OrientService
-  ) { }
+  ) {}
 
   /**
    * query the index for clusters
@@ -38,7 +37,6 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
     return this.getCluster(sport).pipe(
       map(index => {
         const clusters = index.getClusters(bbox, zoom);
-
         // add extra stuff and convert Feature to Cluster
         return clusters.map((cluster: SuperclusterFeature) => {
           let expansion_zoom = 17;
@@ -81,12 +79,11 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
     this.clusters[sport] = new ReplaySubject(1);
     this.loadPointFeaturesBySportType(sport).pipe(
       map(spots => {
-        const cluster = new Supercluster(this.options);
+        const cluster = new Supercluster(superclusterOptions);
         cluster.load(spots);
         return cluster;
       }),
       takeUntil(this.destroy$),
-      // tap(v=>console.log('V2',v), err => console.log('ERR2'), () => console.log('complete2')),
     ).subscribe({
       next: cluster => this.clusters[sport].next(cluster),
       error: (err: Error) => {
@@ -124,7 +121,6 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
         acc.push(v);
         return acc;
       }, []),
-      // tap(v=>console.log('V',v.length), err => console.log('ERR'), () => console.log('complete'))
     )
   }
 

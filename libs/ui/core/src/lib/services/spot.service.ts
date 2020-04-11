@@ -2,12 +2,45 @@ import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
 import { catchError, tap, share, startWith, merge, map, shareReplay, switchMap } from 'rxjs/operators';
 import { Observable, of, Subject, merge as mergeObservables, EMPTY } from 'rxjs';
-import { SportType, ItemType, ClusterSubtype, ItemSubtype } from '@slackmap/core';
+import { SportType, ItemType, Rid, ItemSubtype } from '@slackmap/core';
 import { CLUSTERS_PATHS, ClusterModel, ClustersClustersGetDto } from '@slackmap/api-client';
 import { BBox } from '@slackmap/gis';
 import Supercluster from 'supercluster';
 import { UiApiService } from '@slackmap/ui/api';
 import { ResponseSource, LoadHashResponse } from '../+spot/spot.models';
+
+import { Options, ClusterProperties, PointFeature } from 'supercluster';
+import { ClusterCountsModel } from '@slackmap/api-client';
+
+export interface SuperclusterProps {
+  spot_count: number;
+  counts: ClusterCountsModel;
+};
+
+export interface SuperclusterFeatureProps {
+  rid: Rid;
+  subtype: ItemSubtype;
+};
+
+export type SuperclusterFeature = PointFeature<SuperclusterFeatureProps & Partial<ClusterProperties>>;
+
+export const superclusterOptions: Partial<Options<SuperclusterFeatureProps, SuperclusterProps>> = {
+  radius: 60,
+  maxZoom: 16,
+  log: false,
+  reduce(acc: SuperclusterProps, props: Readonly<SuperclusterProps>): void {
+    for (const name in props.counts) {
+      if (props.counts.hasOwnProperty(name)) {
+        if (!acc.counts[name]) {
+          acc.counts[name] = 0;
+        }
+        acc.counts[name] += props.counts[name];
+      }
+    }
+    acc.spot_count += props.spot_count;
+  }
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -50,48 +83,30 @@ export class SpotService {
     /**
      * create supercluster instance
      */
-    map((clusters: ClusterModel[]) => {
-      const features = clusters.map<any>(_cluster => {
+    map<ClusterModel[], Supercluster>((clusters) => {
+      const features = clusters.map<SuperclusterFeature>(_cluster => {
         return {
-          name: 'Feature',
+          type: 'Feature',
           properties: {
             counts: _cluster.counts,
+            subtype: _cluster.subtype,
             spot_count: _cluster.spot_count,
             expansion_zoom: _cluster.expansion_zoom,
             rid: _cluster.rid
           },
-          geometry: _cluster.coordinates
+          geometry: {
+            type: 'Point',
+            coordinates: _cluster.coordinates
+          }
         };
       });
-      const options = {
-        radius: 60,
-        maxZoom: 16,
-        log: false,
-        initial: function () {
-          return {
-            spot_count: 0,
-            counts: {}
-          };
-        },
-        reduce: function (acc, props) {
-          for (const name in props.counts) {
-            if (props.counts.hasOwnProperty(name)) {
-              if (!acc.counts[name]) {
-                acc.counts[name] = 0;
-              }
-              acc.counts[name] += props.counts[name];
-            }
-          }
-          acc.spot_count += props.spot_count;
-          return acc;
-        }
-      };
-      const cluster = new Supercluster(options);
+
+      const cluster = new Supercluster(superclusterOptions);
       cluster.load(features);
       return cluster;
     }),
     catchError(err => {
-      console.log('supercluster$ ERROR', err);
+      console.error('supercluster$ ERROR', err);
       return EMPTY;
     }),
     /**

@@ -14,7 +14,7 @@ export class ClusterCountsMarker extends Marker {
 
 const COLORS = SUBTYPE_OPTIONS.filter(t => t.color).reduce(
   (colors, type, index, array) => {
-    colors[type.name] = type.color;
+    colors[type.id] = type.color;
     return colors;
   },
   {}

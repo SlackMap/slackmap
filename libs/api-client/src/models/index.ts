@@ -8,3 +8,4 @@ export * from './me.model';
 export * from './user.model';
 export * from './viewport.model';
 export * from './item.model';
+export * from './spot.model';

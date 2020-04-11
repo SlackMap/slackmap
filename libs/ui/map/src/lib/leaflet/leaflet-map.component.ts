@@ -72,10 +72,10 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
 
       const _map = L.map(this.mapContainer.nativeElement);
       this.map = _map;
-      // if (!_map.restoreView()) {
-      // _map.setView([27.916159899896595, -15.604705810546875], 10);
-      _map.setView([0, 0], 1);
-      // }
+      if (!_map.restoreView()) {
+        // _map.setView([27.916159899896595, -15.604705810546875], 10);
+        _map.setView([0, 0], 1);
+      }
       const mapTileLayerInstance = mapTileLayer().addTo(_map);
       const satelliteTileLayerInstance = satelliteGoogleTileLayer();
 

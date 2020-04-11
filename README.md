@@ -223,6 +223,10 @@ sometimes you can find this kind of notation, and it's the same
 [westLng, southLat, eastLng, northLat]
 ```
 
+#### ngeohash.decode_bbox(hash)
+
+Returned value: [minlat, minlon, maxlat, maxlon]
+
 #### BBox type definition
 
 ```typescript

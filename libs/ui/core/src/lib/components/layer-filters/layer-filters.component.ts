@@ -1,9 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { SportType, SUBTYPE_OPTIONS, SPORT_OPTIONS } from '@slackmap/core';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { SportType, SUBTYPE_OPTIONS, SPORT_OPTIONS, ItemSubtype } from '@slackmap/core';
 import { MapFacade } from '../../+map/map.facade';
-import * as MapActions from '../../+map/map.actions';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'sm-layer-filters',
@@ -13,30 +11,26 @@ import * as MapActions from '../../+map/map.actions';
 })
 export class LayerFiltersComponent implements OnInit {
 
-  layers = SPORT_OPTIONS;
-  options = SUBTYPE_OPTIONS.filter(t => t.color);
-  filters$: Observable<any>;
-  constructor(
-    private mapFacade: MapFacade,
-    ) {
+  sports$ = of(SPORT_OPTIONS);
+  subtypes$ = of(SUBTYPE_OPTIONS.filter(t => t.color));
 
-    this.filters$ = this.mapFacade.layerFilters$.pipe(
-      map((filters) => {
-        return filters.slackline; // TODO this is hard coded only for slackline
-      })
-    );
-  }
+  sportsEnabled$ = this.map.sportsEnabled$;
+  subtypesEnabled$ = this.map.subtypesEnabled$;
+
+  constructor(
+    private map: MapFacade,
+  ) { }
 
   ngOnInit() {
 
   }
 
-  onChange(filters: string[]) {
-    // TODO when other sports will be implemented, change this
-    this.mapFacade.dispatch(MapActions.layerSubtypeFiltersChange({
-      layer: SportType.SLACKLINE,
-      subtypesEnabled: filters
-    }));
+  onSportChange(sportsEnabled: SportType[]) {
+    this.map.dispatch(this.map.actions.sportsEnabledChange({ sportsEnabled }));
+  }
+
+  onSubtypeChange(subtypesEnabled: ItemSubtype[]) {
+    this.map.dispatch(this.map.actions.subtypesEnabledChange({ subtypesEnabled }));
   }
 
 }

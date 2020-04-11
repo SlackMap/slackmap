@@ -17,15 +17,15 @@ export const viewHashesChange = createAction(
 );
 
 // fired when layer filters are changed by the user
-export const layerSubtypeFiltersChange = createAction(
-  '[Map] Layer Subtype Filters Change',
+export const subtypesEnabledChange = createAction(
+  '[Map] Subtypes Enabled Change',
   props<{ subtypesEnabled: ItemSubtype[] }>()
 );
 
 // enable or disable the layer
-export const layersEnabledChange = createAction(
-  '[Map] Layers Enabled Change',
-  props<{ layersEnabled: SportType[] }>()
+export const sportsEnabledChange = createAction(
+  '[Map] Sports Enabled Change',
+  props<{ sportsEnabled: SportType[] }>()
 );
 
 // when you click item on the map

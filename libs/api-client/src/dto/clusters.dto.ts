@@ -24,6 +24,7 @@ export class ClustersClustersGetDto {
 
 export class ClustersSpotsGetRequestDto {
   @IsEnum(SportType)
+  @Transform(value => Number(value))
   sport: SportType;
   @IsString()
   hash: string;

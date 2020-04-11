@@ -1,4 +1,5 @@
 import * as L from 'leaflet';
+import { getSubtypeFromItem, getLength } from '@slackmap/core';
 
 /**
  * Line Marker
@@ -24,7 +25,7 @@ export class LineMarker extends L.Marker {
       this.shapeLayer = L.geoJSON(item.shape, {
         style: data => {
           return {
-            color: this.itemUtils.getSubtype(item).color,
+            color: (getSubtypeFromItem(this.item) || {}).color,
             weight: 3,
             opacity: 0.9,
             clickable: true,
@@ -71,7 +72,7 @@ export class LineMarker extends L.Marker {
 
   updateColor() {
     if (!this.item || !this._icon) { return; }
-    this._icon.style.background = this.itemUtils.getSubtype(this.item).color;
+    this._icon.style.background = (getSubtypeFromItem(this.item) || {}).color;
     if (this.item.subtype === 7) {
       this._icon.style.color = 'white';
     } else {
@@ -81,7 +82,7 @@ export class LineMarker extends L.Marker {
 
   updateLength() {
     if (!this._icon) { return; }
-    this._icon.innerHTML = this.itemUtils.getLength(this.item);
+    this._icon.innerHTML = getLength(this.item);
   }
 
   highlight() {

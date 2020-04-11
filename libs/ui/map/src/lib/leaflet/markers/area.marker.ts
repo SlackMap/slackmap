@@ -66,13 +66,13 @@ export class AreaMarker extends L.Marker {
   highlight() {
     this.highlighted = true;
     if (this._map) {
-      if (!this.getPopup()) {
-        if (this.itemUtils) {
-          this.bindPopup(this.itemUtils.getTitleHtml(this.item));
-        } else {
-          this.bindPopup(this.item.name || 'Area');
-        }
-      }
+      // if (!this.getPopup()) {
+      //   if (this.itemUtils) {
+      //     this.bindPopup(this.itemUtils.getTitleHtml(this.item));
+      //   } else {
+      //     this.bindPopup(this.item.name || 'Area');
+      //   }
+      // }
       this.openPopup();
     }
   }

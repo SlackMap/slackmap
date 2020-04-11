@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import { ItemSubtype, Rid } from '@slackmap/core';
 import { Options, ClusterProperties, PointFeature } from 'supercluster';
 import { ClusterCountsModel } from '@slackmap/api-client';
@@ -14,23 +13,17 @@ export interface SuperclusterFeatureProps {
 
 export type SuperclusterFeature = PointFeature<SuperclusterFeatureProps & Partial<ClusterProperties>>;
 
-@Injectable()
-export class SuperclusterOptions implements Partial<Options<SuperclusterFeatureProps, SuperclusterProps>> {
-  radius = 60;
-  maxZoom = 16;
-  log = false;
-  initial() {
-    return {
-      counts: {}
-    };
-  }
+export const superclusterOptions : Partial<Options<SuperclusterFeatureProps, SuperclusterProps>> = {
+  radius: 60,
+  maxZoom: 16,
+  log: false,
   map(props: SuperclusterFeatureProps): SuperclusterProps {
     return {
       counts: {
         [props.subtype]: 1
       }
     };
-  }
+  },
   reduce(acc: SuperclusterProps, props: Readonly<SuperclusterProps>): void {
     for (const name in props.counts) {
       if (props.counts.hasOwnProperty(name)) {

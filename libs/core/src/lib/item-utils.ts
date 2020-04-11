@@ -26,10 +26,47 @@ export function getSubtypeOptionsByItemType(itemType: ItemType, subtypeOptions =
   return subtypeOptions.filter(i => i.type === itemType);
 }
 
+export function getSubtypeFromItem(item: Item, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption | null {
+  try {
+    let id;
+    if (isNumber(item)) {
+      id = item;
+    } else if (isObject(item)) {
+      id = item.subtype;
+    }
+    if (!id) {
+      return null;
+    }
+    return subtypeOptions.find(i => i.id === id);
+  } catch (err) {
+    return null;
+  }
+}
+
 export function getItemTypeByItemName(itemName: string, typeOptions = TYPE_OPTIONS): ItemType | null {
   const option = typeOptions.find(i => i.name === itemName);
   return option ? option.id : null;
 }
+
+/**
+ * Returns lentgth of the item, converted to imperial if needed
+ * with suffix about measure unit m/ft
+ *
+ * @param item
+ */
+export function getLength(item, imperial = false): string {
+  if (imperial) {
+    return Math.round(Measure.convert(item.length || 0, Measure.METRIC_TO_IMPERIAL)) + 'ft';
+  }
+  return Math.round(item.length) + 'm';
+}
+export function getLengthHtml(item, imperial = false): string {
+  if (this.imperial) {
+    return '<b>' + Math.round(Measure.convert(item.length || 0, Measure.METRIC_TO_IMPERIAL)) + '</b><i>ft</i>';
+  }
+  return '<b>' + Math.round(item.length) + '</b><i>m</i>';
+}
+
 
 export class ItemUtils {
   private host = 'https://slackmap.com';
@@ -45,23 +82,6 @@ export class ItemUtils {
   }
 
 
-
-  // getSubtype(item): SubtypeOption | null {
-  //   try {
-  //     let id;
-  //     if (isNumber(item)) {
-  //       id = item;
-  //     } else if (isObject(item)) {
-  //       id = item.subtype;
-  //     }
-  //     if (!id) {
-  //       return null;
-  //     }
-  //     return find(this.subtypes, i => i.id === id) || {};
-  //   } catch (err) {
-  //     return null;
-  //   }
-  // }
 
   // getAccess(item): AccessOption | null {
   //   let id;
@@ -272,25 +292,6 @@ export class ItemUtils {
   //   }
 
   //   return title;
-  // }
-
-  // /**
-  //  * Returns lentgth of the item, converted to imperial if needed
-  //  * with suffix about measure unit m/ft
-  //  *
-  //  * @param item
-  //  */
-  // getLength(item): string {
-  //   if (this.imperial) {
-  //     return Math.round(Measure.convert(item.length || 0, Measure.METRIC_TO_IMPERIAL)) + 'ft';
-  //   }
-  //   return Math.round(item.length) + 'm';
-  // }
-  // getLengthHtml(item): string {
-  //   if (this.imperial) {
-  //     return '<b>' + Math.round(Measure.convert(item.length || 0, Measure.METRIC_TO_IMPERIAL)) + '</b><i>ft</i>';
-  //   }
-  //   return '<b>' + Math.round(item.length) + '</b><i>m</i>';
   // }
 
   // /**

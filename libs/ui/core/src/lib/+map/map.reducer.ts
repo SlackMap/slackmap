@@ -9,8 +9,8 @@ export const MAP_FEATURE_KEY = 'map';
 export interface State {
   view: MapViewChangeData;
   selected: any[]; // selected spots, map will focus on this and add it on the map
-  layersEnabled: SportType[]; // list of enabled layers
-  layersSubtypeFilters: ItemSubtype[]; // filters for each layers
+  sportsEnabled: SportType[]; // sports enabled to show on the map
+  subtypesEnabled: ItemSubtype[]; // only show this subtypes, if empty then show all
 }
 
 export interface MapPartialState {
@@ -21,8 +21,8 @@ export interface MapPartialState {
 export const initialState: State = {
   view: null,
   selected: [],
-  layersEnabled: [],
-  layersSubtypeFilters: [],
+  sportsEnabled: [],
+  subtypesEnabled: [],
 };
 
 const mapReducer = createReducer(
@@ -30,14 +30,14 @@ const mapReducer = createReducer(
 
   on(MapActions.viewChange, (state, { view }) => ({ ...state, view })),
 
-  on(MapActions.layersEnabledChange, (state, { layersEnabled }) => ({
+  on(MapActions.sportsEnabledChange, (state, { sportsEnabled }) => ({
     ...state,
-    layersEnabled,
+    sportsEnabled,
   })),
 
-  on(MapActions.layerSubtypeFiltersChange, (state, { subtypesEnabled }) => ({
+  on(MapActions.subtypesEnabledChange, (state, { subtypesEnabled }) => ({
     ...state,
-    layersSubtypeFilters: subtypesEnabled,
+    subtypesEnabled: subtypesEnabled,
   })),
 );
 

@@ -60,7 +60,7 @@ export function getItemBounds(item: any): BBox {
   if (item.rid === ItemRids.WORLD) {
     return [-180, -90, 180, 90];
   } else if (item.type === ItemType.SPOT) {
-    return BBox(item.shape);
+    return getBBox(item.shape);
   }
   return null;
 }
@@ -138,7 +138,7 @@ export function bboxes2bbox(bboxes: BBox[]) {
 /**
  * get bbox from geojson features
  */
-export function BBox(gj) {
+export function getBBox(gj) {
   let coords, bbox;
   if (!gj.hasOwnProperty('type')) {return; }
   coords = getCoordinatesDump(gj);
