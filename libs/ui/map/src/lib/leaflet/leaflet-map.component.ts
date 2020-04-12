@@ -26,19 +26,7 @@ leafletCustoms();
       <!-- <span class="map-loader" *ngIf="!map">Loading map...</span> -->
     </div>
   `,
-  styles: [`
-    .map-container {
-      width: 100%;
-      height: 100%;
-    }
-    .map-loader {
-      padding: 10px;
-      display: block;
-      width: 200px;
-      margin: auto;
-    }
-    :host /deep/ .leaflet-draw { display: none;}
-  `],
+  styleUrls: ['./leaflet-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapComponent {

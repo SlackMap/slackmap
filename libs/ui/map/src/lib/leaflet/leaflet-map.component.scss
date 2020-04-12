@@ -1,0 +1,77 @@
+.map-container {
+  width: 100%;
+  height: 100%;
+}
+.map-loader {
+  padding: 10px;
+  display: block;
+  width: 200px;
+  margin: auto;
+}
+
+
+:host ::ng-deep {
+  // Leaflet styles
+  .leaflet-draw {
+    display: none;
+  }
+  // Markers
+  .item-line-label {
+    padding: 0 3px;
+    width: auto !important;
+    height: 20px !important;
+    box-shadow: 2px 2px 4px -1px rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+    &.item-highlight {
+      font-weight: bold;
+    }
+  }
+  .item-location-label {
+    color: white;
+  }
+  .item-country-label {
+    text-align: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    width: auto !important;
+    height: auto !important;
+    .label-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: black;
+      opacity: 0.5;
+
+      border-radius: 5px;
+    }
+    img {
+      //clear: both;
+      //display: block;
+      //width: 24px;
+      //margin: auto;
+    }
+    .badge {
+      position: relative;
+      display: inline-block;
+      min-width: 10px;
+      padding: 0px 5px;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      background-color: transparent;
+      border-radius: 5px;
+
+      i {
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
+}
