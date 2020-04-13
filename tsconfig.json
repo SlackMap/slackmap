@@ -26,7 +26,9 @@
       "@slackmap/api/clusters": ["libs/api/clusters/src/index.ts"],
       "@slackmap/ui/core": ["libs/ui/core/src/index.ts"],
       "@slackmap/ui/map": ["libs/ui/map/src/index.ts"],
-      "@slackmap/gis": ["libs/gis/src/index.ts"]
+      "@slackmap/gis": ["libs/gis/src/index.ts"],
+      "@slackmap/api/auth": ["libs/api/auth/src/index.ts"],
+      "@slackmap/api/facebook-client": ["libs/api/facebook-client/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

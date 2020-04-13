@@ -57,6 +57,12 @@
     },
     "gis": {
       "tags": ["ui", "api"]
+    },
+    "api-auth": {
+      "tags": ["api"]
+    },
+    "api-facebook-client": {
+      "tags": ["api"]
     }
   }
 }

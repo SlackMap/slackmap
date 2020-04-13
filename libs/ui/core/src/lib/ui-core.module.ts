@@ -32,6 +32,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DrawControlComponent } from './components/map/draw-control/draw-control.component';
 import { SpotsLayerComponent } from './components/map/spots-layer/spots-layer.component';
 import { DrawHandlerComponent } from './components/map/draw-handler/draw-handler.component';
+import { LoginDialog } from './dialogs/login/login.dialog';
 
 export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -76,7 +77,7 @@ export const uiCoreRoutes: Route[] = [
     MapFacade,
     SpotFacade
   ],
-  declarations: [LayoutComponent, MapComponent, HomePage, XPage, LayerFiltersComponent, DrawControlComponent, SpotsLayerComponent, DrawHandlerComponent],
+  declarations: [LayoutComponent, MapComponent, HomePage, XPage, LayerFiltersComponent, DrawControlComponent, SpotsLayerComponent, DrawHandlerComponent, LoginDialog],
   exports: [LayoutComponent]
 })
 export class UiCoreModule {}

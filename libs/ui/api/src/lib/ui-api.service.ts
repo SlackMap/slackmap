@@ -2,7 +2,7 @@ import { Inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_HOST } from './ui-api-tokens';
 import { Observable } from 'rxjs';
-import { ConfigPaths, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetResponseDto } from '@slackmap/api-client';
+import { ConfigPaths, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetResponseDto, AUTH_PATHS, AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '@slackmap/api-client';
 
 @Injectable({ providedIn: 'root' })
 export class UiApiService {
@@ -40,5 +40,12 @@ export class UiApiService {
         params: <any>params,
       },
     );
+  }
+
+  /**
+   * query clusters by bbox
+   */
+  public authConnectFacebook(data: AuthConnectFacebookRequestDto): Observable<AuthConnectFacebookDto> {
+    return this.httpClient.post<AuthConnectFacebookDto>(`${this.basePath}/${AUTH_PATHS.connectFacebook()}`, data);
   }
 }
