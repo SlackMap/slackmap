@@ -1,6 +1,6 @@
 import { ItemSubtype, Rid } from '@slackmap/core';
 import { Options, ClusterProperties, PointFeature } from 'supercluster';
-import { ClusterCountsModel } from '@slackmap/api-client';
+import { ClusterCountsModel } from '../models';
 
 export interface SuperclusterProps {
   counts: ClusterCountsModel;

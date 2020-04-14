@@ -1,1 +1,1 @@
-export * from './api-clusters.module';
+export * from './lib/api-clusters.module';

@@ -1,17 +1,18 @@
-import { Injectable, Inject } from '@nestjs/common';
-
-@Injectable()
-export class FacebookConfigOptions {
-  app_id: string;
-  secret: string;
-}
+import { Injectable, Optional, Logger } from '@nestjs/common';
+const logger = new Logger('FacebookConfig');
 
 @Injectable()
 export class FacebookConfig {
-  app_id = '';
-  secret = '';
-  scope = ['email'];
-  constructor(@Inject(FacebookConfigOptions) data: Partial<FacebookConfigOptions> = {}) {
-    Object.assign(this, data);
+  readonly FACEBOOK_APP_ID: string = process.env.FACEBOOK_APP_ID;
+  readonly FACEBOOK_SECRET: string = process.env.FACEBOOK_SECRET;
+  readonly FACEBOOK_SCOPE: string[] = (process.env.FACEBOOK_SCOPE) ? process.env.FACEBOOK_SCOPE.split(','): undefined;
+
+  constructor(@Optional() options: Partial<FacebookConfig> = {}) {
+    Object.assign(this, options);
+    Object.keys(this).forEach(key => {
+      if (this[key] === undefined || this[key] === NaN) {
+        logger.error(key + ' in env is missing');
+      }
+    })
   }
 }

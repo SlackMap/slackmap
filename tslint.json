@@ -54,7 +54,11 @@
       true,
       {
         "enforceBuildableLibDependency": true,
-        "allow": [],
+        "allow": [
+          "@slackmap/api/clusters/dto",
+          "@slackmap/api/auth/dto",
+          "@slackmap/api/config/dto"
+        ],
         "depConstraints": [
           {
             "sourceTag": "*",

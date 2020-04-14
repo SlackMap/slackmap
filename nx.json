@@ -53,7 +53,7 @@
       "tags": ["ui"]
     },
     "ui-map": {
-      "tags": []
+      "tags": ["ui"]
     },
     "gis": {
       "tags": ["ui", "api"]
@@ -62,6 +62,9 @@
       "tags": ["api"]
     },
     "api-facebook": {
+      "tags": ["api"]
+    },
+    "api-config": {
       "tags": ["api"]
     }
   }

@@ -2,7 +2,7 @@ import { ClusterModel } from '../models';
 import { SportType } from '@slackmap/core';
 import { IsString, IsNumber, IsNumberString, IsEnum } from "class-validator";
 import { Transform } from "class-transformer";
-import { SpotModel } from '../models/spot.model';
+// import { SpotModel } from '@slackmap/api-client';
 
 export const CLUSTERS_PATHS = {
   clustersGet: () => 'clusters/clusters',
@@ -31,5 +31,6 @@ export class ClustersSpotsGetRequestDto {
 }
 
 export class ClustersSpotsGetDto {
-  spots: SpotModel[];
+  // spots: SpotModel[];
+  spots: any[];
 }

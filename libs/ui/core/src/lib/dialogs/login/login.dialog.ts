@@ -33,7 +33,7 @@ export class LoginDialog implements OnInit {
             appId: '306418119377317', // localhost
             cookie: true, // enable cookies to allow the server to access the session
             xfbml: false, // parse social plugins on this page
-            version: 'v2.8' // use graph api version 6
+            version: 'v2.8' // use graph api version
           });
           console.log('FB INIT')
         };

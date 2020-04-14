@@ -2,7 +2,7 @@ import { Inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_HOST } from './ui-api-tokens';
 import { Observable } from 'rxjs';
-import { ConfigPaths, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetResponseDto, AUTH_PATHS, AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '@slackmap/api-client';
+import { CONFIG_PATHS, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetResponseDto, AUTH_PATHS, AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '@slackmap/api-client';
 
 @Injectable({ providedIn: 'root' })
 export class UiApiService {
@@ -14,7 +14,7 @@ export class UiApiService {
 
   public getConfig(): Observable<ConfigGetResponseDto> {
     return this.httpClient.get<ConfigGetResponseDto>(
-      `${this.basePath}/${ConfigPaths.CONFIG}`
+      `${this.basePath}/${CONFIG_PATHS.configGet()}`
     );
   }
 

@@ -1,4 +1,5 @@
-import { Injectable, Optional } from '@nestjs/common';
+import { Injectable, Optional, Logger } from '@nestjs/common';
+const logger = new Logger('OrientConfig');
 
 @Injectable()
 export class OrientConfig {
@@ -14,7 +15,7 @@ export class OrientConfig {
     Object.assign(this, options);
     Object.keys(this).forEach(key => {
       if (this[key] === undefined || this[key] === NaN) {
-        console.error('ERROR:', this.constructor.name + ' requires ' + key + ' config property to be defined');
+        logger.error(key + ' in env is missing');
       }
     })
   }

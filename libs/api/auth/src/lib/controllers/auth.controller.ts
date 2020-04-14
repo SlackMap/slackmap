@@ -1,6 +1,6 @@
 import { Controller, Request, Post, UseGuards, Get, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AUTH_PATHS, AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '@slackmap/api-client';
+import { AUTH_PATHS, AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '../dto';
 import { AuthConnectFacebookUseCase } from '../usecases';
 import { Observable } from 'rxjs';
 

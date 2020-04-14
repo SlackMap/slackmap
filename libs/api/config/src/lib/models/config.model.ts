@@ -1,23 +1,27 @@
 
 /**
  * UI config
- *
  */
 export class ConfigModel {
   /**
    * Domain on witch this app instance is running, exmpl: https://slackmap.com
    */
-  host: string;
+  appHost: string;
+
+  /**
+   * Domain of the API this app should use, exmpl: https://api.slackmap.com
+   */
+  apiHost: string;
 
   /**
    * 'SlackMap Facebook App ID
    */
-  facebook_app_id?: string;
+  facebookAppId: string;
 
   /**
    * Minimum scopes required for user to connect with facebook
    *
    * @uniqueItems
    */
-  facebook_scope?: string[];
+  facebookScope: string[];
 }
