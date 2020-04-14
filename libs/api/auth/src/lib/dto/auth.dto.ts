@@ -1,5 +1,5 @@
-import { FacebookProfileModel, UserModel } from '../models';
-
+import { UserModel } from '../models';
+import { FacebookUserModel } from '@slackmap/api/facebook/dto';
 
 export const AUTH_PATHS = {
   connectFacebook: () => 'auth/connect-facebook',
@@ -11,6 +11,6 @@ export class AuthConnectFacebookRequestDto {
 }
 
 export class AuthConnectFacebookDto {
-  facebookProfile: FacebookProfileModel;
+  facebookProfile: FacebookUserModel;
   users: UserModel[];
 }

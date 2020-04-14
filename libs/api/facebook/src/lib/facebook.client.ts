@@ -2,7 +2,7 @@ import { Injectable, HttpService } from '@nestjs/common';
 import { Observable, of, throwError } from 'rxjs';
 import { ValidationError } from '@slackmap/api/common';
 import { switchMap } from 'rxjs/operators';
-import { FbUser } from './facebook-client.model';
+import { FacebookUserModel } from './models';
 
 @Injectable()
 export class FacebookClient {
@@ -17,7 +17,7 @@ export class FacebookClient {
    * @param accessToken
    * @returns {Promise<FbProfile>}
    */
-  me(accessToken: string, fields = ['id', 'email', 'first_name', 'last_name']): Observable<FbUser> {
+  me(accessToken: string, fields = ['id', 'email', 'first_name', 'last_name']): Observable<FacebookUserModel> {
     return this.http.get(`https://graph.facebook.com/${this.version}/me`, {
       params: {
         fields: fields.join(','),

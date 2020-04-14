@@ -6,4 +6,4 @@ import { FacebookClient } from './facebook.client';
   providers: [FacebookClient],
   exports: [FacebookClient],
 })
-export class ApiFacebookClientModule {}
+export class ApiFacebookModule {}

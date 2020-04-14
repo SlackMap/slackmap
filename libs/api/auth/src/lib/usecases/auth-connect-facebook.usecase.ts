@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '@slackmap/api-client';
-import { FacebookClient } from '@slackmap/api/facebook-client';
+import { AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '../dto';
+import { FacebookClient } from '@slackmap/api/facebook';
 import { UserService, AuthService } from '../services';
 
 @Injectable()

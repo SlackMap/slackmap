@@ -61,7 +61,7 @@
     "api-auth": {
       "tags": ["api"]
     },
-    "api-facebook-client": {
+    "api-facebook": {
       "tags": ["api"]
     }
   }

@@ -9,12 +9,12 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { UserService } from './services';
 import { OrientModule } from '@slackmap/api/orient';
 import { AuthConnectFacebookUseCase } from './usecases';
-import { ApiFacebookClientModule } from '@slackmap/api/facebook-client';
+import { ApiFacebookModule } from '@slackmap/api/facebook';
 
 @Module({
   imports: [
     OrientModule,
-    ApiFacebookClientModule,
+    ApiFacebookModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ApiAuthModule],

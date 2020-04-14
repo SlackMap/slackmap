@@ -1,10 +1,3 @@
-// export interface FbProfile {
-//   id?: string;
-//   email?: string;
-//   name?: string;
-//   first_name?: string;
-//   last_name?: string;
-// }
 
 /**
  * TypeScript type definitions for Facebook Graph API version 2.8
@@ -12,12 +5,15 @@
  *
  * Definitions by: Alex Siman https://github.com/siman
  */
+/**
+ * Custom edits to match SlackMap conventions
+ */
 // declare module FbGraphApi {
 
   export type FbDateTime = string;
 
   export type FbProfile =
-    FbUser | FbPage | FbGroup | FbEvent | FbApp;
+    FacebookUserModel | FbPage | FbGroup | FbEvent | FbApp;
 
   export type FbPrivacy =
     "CLOSED" | "OPEN" | "SECRET";
@@ -39,7 +35,7 @@
     "AMAZON" | "SUPPLEMENTARY_IMAGES" | "GAMEROOM";
 
   /** Fields for a Facebook User */
-  export interface FbUser {
+  export interface FacebookUserModel {
 
     /** The ID of this person's user account. This ID is unique to each app and
      * cannot be used across different apps. Our upgrade guide provides more
@@ -214,7 +210,7 @@
     short_name: string;
 
     /** The person's significant other */
-    significant_other: FbUser;
+    significant_other: FacebookUserModel;
 
     /** Sports played by the person */
     sports: FbExperience[];
@@ -275,22 +271,22 @@
     description: string;
     employer: FbPage;
     end_date: string;
-    from: FbUser;
+    from: FacebookUserModel;
     location: FbPage;
     position: FbPage;
     projects: FbProjectExperience[];
     start_date: string;
-    with: FbUser[];
+    with: FacebookUserModel[];
   }
 
   export interface FbProjectExperience {
     id: string;
     description: string;
     end_date: string;
-    from: FbUser;
+    from: FacebookUserModel;
     name: string;
     start_date: string;
-    with: FbUser[];
+    with: FacebookUserModel[];
   }
 
   export interface FbVideoUploadLimits {
@@ -334,9 +330,9 @@
   export interface FbExperience {
     id: string;
     description: string;
-    from: FbUser;
+    from: FacebookUserModel;
     name: string;
-    with: FbUser[];
+    with: FacebookUserModel[];
   }
 
   export interface FbEducationExperience {
@@ -346,7 +342,7 @@
     degree: FbPage;
     school: FbPage;
     type: string;
-    with: FbUser[];
+    with: FacebookUserModel[];
     year: FbPage;
   }
 
@@ -370,7 +366,7 @@
     body: string;
     from: FbPage;
     id: string;
-    user: FbUser;
+    user: FacebookUserModel;
   }
 
   export interface FbAgeRange {
@@ -442,7 +438,7 @@
     leadgen_form_preview_details: any; // Undocumented type: LeadGenFormPreviewDetails.
     leadgen_tos_acceptance_time: FbDateTime;
     leadgen_tos_accepted: boolean;
-    leadgen_tos_accepting_user: FbUser;
+    leadgen_tos_accepting_user: FacebookUserModel;
     link: string;
     location: FbLocation;
     members: string;
@@ -630,7 +626,7 @@
   export interface FbVideoCopyright {
     id: string
     copyright_content_id: string
-    creator: FbUser
+    creator: FacebookUserModel
     monitoring_status: "NOT_EXAMED" | "COPYRIGHTED" | "ERROR"
     monitoring_type: string
     ownership_countries: string[]
@@ -644,7 +640,7 @@
     condition_groups: any // Undocumented type: VideoCopyrightConditionGroup
     copyrights: string[]
     created_date: FbDateTime
-    creator: FbUser
+    creator: FacebookUserModel
     name: string
   }
 
@@ -653,7 +649,7 @@
     creation_time: FbDateTime
     description: string
     last_modified: FbDateTime
-    owner: FbUser | FbPage
+    owner: FacebookUserModel | FbPage
     title: string
   }
 
@@ -880,8 +876,8 @@
   export interface FbRequest {
     id: string
     application: FbApp
-    to: FbUser
-    from: FbUser
+    to: FacebookUserModel
+    from: FacebookUserModel
     message: string
     created_time: FbDateTime
   }
@@ -942,7 +938,7 @@
     link: string;
     member_request_count: number;
     name: string;
-    owner: FbUser | FbPage;
+    owner: FacebookUserModel | FbPage;
     parent: FbGroup | FbPage | FbApp;
     privacy: FbPrivacy;
     updated_time: FbDateTime;
@@ -950,7 +946,7 @@
 
   export interface FbGroupDoc {
     id: string
-    from: FbUser | FbPage
+    from: FacebookUserModel | FbPage
     subject: string
     message: string
     icon: string
@@ -1045,8 +1041,8 @@
   /** An individual unread Facebook notification */
   export interface FbNotification {
     id: string;
-    from: FbUser | FbPage | FbApp;
-    to: FbUser;
+    from: FacebookUserModel | FbPage | FbApp;
+    to: FacebookUserModel;
     created_time: FbDateTime;
     updated_time: FbDateTime;
     title: string;
@@ -1058,7 +1054,7 @@
 
   export interface FbAchievement {
     id: string
-    from: FbUser
+    from: FacebookUserModel
     publish_time: FbDateTime
     application: FbApp
     data: FbAchievementData
@@ -1104,7 +1100,7 @@
     created_time: FbDateTime;
     description: string;
     event: FbEvent;
-    from: FbUser;
+    from: FacebookUserModel;
     link: string;
     location: string;
     name: string;
@@ -1125,7 +1121,7 @@
     can_tag: boolean;
     created_time: FbDateTime;
     event: FbEvent;
-    from: FbUser | FbPage;
+    from: FacebookUserModel | FbPage;
     height: number;
     icon: string;
     images: FbPlatformImageSource[];
@@ -1269,7 +1265,7 @@
     can_reply_privately: boolean
     comment_count: number
     created_time: FbDateTime
-    from: FbUser
+    from: FacebookUserModel
     like_count: number
     message: string
     message_tags: FbCommentMessageTag[]
@@ -1313,8 +1309,8 @@
     message_count: number
     unread_count: number
     tags: Set<FbConversationTag>
-    participants: (FbUser | FbPage)[]
-    senders: FbUser[]
+    participants: (FacebookUserModel | FbPage)[]
+    senders: FacebookUserModel[]
     can_reply: boolean
     is_subscribed: boolean
   }
@@ -1383,7 +1379,7 @@
     can_delete: boolean
     can_edit: boolean
     created_time: FbDateTime
-    from: FbUser
+    from: FacebookUserModel
     icon: string
     link: string
     message: string

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OrientService, UserEntity, userRow2entity } from '@slackmap/api/orient';
-import { FbProfile, FbUser } from '@slackmap/api/facebook-client';
+import { FbProfile, FacebookUserModel } from '@slackmap/api/facebook';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 
@@ -32,7 +32,7 @@ export class UserService {
    * find user in database by facebook id or email
    * should be only one, but can happen more
    */
-  findByFacebookProfile(fbUser: FbUser): Observable<UserEntity[]> {
+  findByFacebookProfile(fbUser: FacebookUserModel): Observable<UserEntity[]> {
     let where = '';
     const params: any = {};
     if (fbUser.id) {

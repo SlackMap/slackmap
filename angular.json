@@ -681,9 +681,9 @@
         }
       }
     },
-    "api-facebook-client": {
-      "root": "libs/api/facebook-client",
-      "sourceRoot": "libs/api/facebook-client/src",
+    "api-facebook": {
+      "root": "libs/api/facebook",
+      "sourceRoot": "libs/api/facebook/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -691,17 +691,17 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/api/facebook-client/tsconfig.lib.json",
-              "libs/api/facebook-client/tsconfig.spec.json"
+              "libs/api/facebook/tsconfig.lib.json",
+              "libs/api/facebook/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/facebook-client/**"]
+            "exclude": ["**/node_modules/**", "!libs/api/facebook/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/api/facebook-client/jest.config.js",
-            "tsConfig": "libs/api/facebook-client/tsconfig.spec.json",
+            "jestConfig": "libs/api/facebook/jest.config.js",
+            "tsConfig": "libs/api/facebook/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

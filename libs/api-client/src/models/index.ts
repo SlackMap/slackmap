@@ -1,4 +1,3 @@
-export * from './facebook';
 export * from './cluster.model';
 export * from './config.model';
 export * from './consts';
@@ -7,6 +6,4 @@ export * from './location-path.model';
 export * from './location.model';
 export * from './me.model';
 export * from './spot.model';
-export * from './token-payload.model';
-export * from './user.model';
 export * from './viewport.model';

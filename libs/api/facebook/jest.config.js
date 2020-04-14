@@ -1,10 +1,10 @@
 module.exports = {
-  name: 'api-facebook-client',
+  name: 'api-facebook',
   preset: '../../../jest.config.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
-  coverageDirectory: '../../../coverage/libs/api/facebook-client',
+  coverageDirectory: '../../../coverage/libs/api/facebook',
 };
