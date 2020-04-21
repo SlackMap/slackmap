@@ -63,8 +63,17 @@ export class LoginDialog implements OnInit {
       };
       console.log('RES', result, navigationExtras);
       this.api.authConnectFacebook({accessToken: result.accessToken.token}).subscribe({
-        next: data => console.log('next', data),
-        error: err => console.log('error', err),
+        next: data => {
+          console.log('TOKEN', data)
+          this.api.setToken(data.apiToken);
+          this.api.authMe().subscribe({
+            next: u => {
+              console.log('USER', u)
+            },
+            error: err => console.log('USER error', err),
+          })
+        },
+        error: err => console.log('TOKEN Error', err),
       })
       // this.router.navigate(["/home"], navigationExtras);
     }

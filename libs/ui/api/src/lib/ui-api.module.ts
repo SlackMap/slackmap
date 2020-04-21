@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { API_HOST } from './ui-api-tokens';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtTokenInterceptor } from './jwt-token.interceptor';
 
 @NgModule({
   imports: [
@@ -9,6 +10,11 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: JwtTokenInterceptor
+    },
     {
       provide: API_HOST,
       useFactory: (document) => {

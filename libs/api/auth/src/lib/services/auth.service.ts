@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
-import { TokenPayloadModel } from '@slackmap/api-client';
+import { JwtPayloadModel } from '../models';
 
 @Injectable()
 export class AuthService {
@@ -10,12 +10,18 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) { }
 
-  sign(payload: TokenPayloadModel): string {
+  /**
+   * Signs the payload and returns JWT token
+   */
+  sign(payload: JwtPayloadModel): string {
     return this.jwtService.sign(payload)
   }
 
-  verify(token: string): TokenPayloadModel {
-    return this.jwtService.verify(token, {})
+  /**
+   * Verifies JWT token and returns payload
+   */
+  verify(token: string): JwtPayloadModel {
+    return this.jwtService.verify(token)
   }
 
   async validateUser(username: string, pass: string): Promise<any> {

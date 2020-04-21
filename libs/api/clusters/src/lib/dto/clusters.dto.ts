@@ -5,8 +5,8 @@ import { Transform } from "class-transformer";
 // import { SpotModel } from '@slackmap/api-client';
 
 export const CLUSTERS_PATHS = {
-  clustersGet: () => 'clusters/clusters',
-  spotsGet: () => 'clusters/spots',
+  clustersGet: () => 'cluster/clusters',
+  spotsGet: () => 'spot/spots',
 }
 
 export class ClustersClustersGetRequestDto {

@@ -97,8 +97,10 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.5",
     "source-map-support": "^0.5.16",
+    "speakingurl": "^14.0.1",
     "supercluster": "^7.0.0",
     "tslib": "^1.11.1",
+    "uuid": "^7.0.3",
     "zone.js": "^0.10.3"
   },
   "devDependencies": {
@@ -133,7 +135,9 @@
     "@types/orientjs": "^3.0.11",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
+    "@types/speakingurl": "^13.0.2",
     "@types/supercluster": "^5.0.2",
+    "@types/uuid": "^7.0.2",
     "babel-loader": "^8.1.0",
     "codelyzer": "^5.2.2",
     "cypress": "^4.3.0",

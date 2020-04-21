@@ -1,2 +1,2 @@
 export * from './auth-connect-facebook.usecase';
-// export * from './auth-user-get.usecase';
+export * from './auth-me-get.usecase';

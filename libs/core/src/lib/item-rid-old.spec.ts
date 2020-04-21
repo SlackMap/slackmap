@@ -1,7 +1,7 @@
 import {parseOldRid} from './item-rid-old';
 import { parseRid, ItemType } from '.';
 
-describe('@slackmap/core/parse-old-rid.ts', () => {
+describe('@slackmap/core/item-rid-old.ts', () => {
   /**
    * parseOldRid()
    */

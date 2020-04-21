@@ -15,20 +15,21 @@ export class AuthConnectFacebookUseCase {
   process(request: AuthConnectFacebookRequestDto): Observable<AuthConnectFacebookDto> {
 
     return this.facebookClient.me(request.accessToken).pipe(
-      switchMap(fbUser => this.userService.findByFacebookProfile(fbUser).pipe(map(users => ({fbUser, users})))),
-      map(({fbUser, users}) => {
+      switchMap(facebookUser => this.userService.findByFacebookUser(facebookUser).pipe(map(users => ({facebookUser, users})))),
+      map(({facebookUser, users}) => {
         let user = null;
         if (users.length) {
           user = users[0];
         }
 
-        const api_token = this.authService.sign({
-          facebook_profile: fbUser,
-          user
+        const apiToken = this.authService.sign({
+          facebookUser,
+          user,
+          users
         });
         return {
-          facebookProfile: fbUser,
-          api_token,
+          facebookUser,
+          apiToken,
           users,
           user
         };

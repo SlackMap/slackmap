@@ -17,7 +17,7 @@ export class FacebookClient {
    * @param accessToken
    * @returns {Promise<FbProfile>}
    */
-  me(accessToken: string, fields = ['id', 'email', 'first_name', 'last_name']): Observable<FacebookUserModel> {
+  me(accessToken: string, fields = ['id', 'email', 'first_name', 'last_name', 'picture', 'name']): Observable<FacebookUserModel> {
     return this.http.get(`https://graph.facebook.com/${this.version}/me`, {
       params: {
         fields: fields.join(','),
