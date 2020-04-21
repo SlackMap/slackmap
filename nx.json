@@ -12,60 +12,102 @@
   },
   "projects": {
     "web": {
-      "tags": ["ui"]
+      "tags": [
+        "ui"
+      ]
     },
     "web-e2e": {
       "tags": [],
-      "implicitDependencies": ["web"]
+      "implicitDependencies": [
+        "web"
+      ]
     },
     "api": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "core": {
-      "tags": ["api", "ui"]
+      "tags": [
+        "api",
+        "ui"
+      ]
     },
     "ui-api": {
-      "tags": ["ui"]
+      "tags": [
+        "ui"
+      ]
     },
     "api-client": {
-      "tags": ["api", "ui"]
+      "tags": [
+        "api",
+        "ui"
+      ]
     },
     "ui-pwa": {
-      "tags": ["ui"]
+      "tags": [
+        "ui"
+      ]
     },
     "ui-pwa-e2e": {
       "tags": [],
-      "implicitDependencies": ["ui-pwa"]
+      "implicitDependencies": [
+        "ui-pwa"
+      ]
     },
     "cli": {
       "tags": []
     },
     "api-orient": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "api-common": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "api-clusters": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "ui-core": {
-      "tags": ["ui"]
+      "tags": [
+        "ui"
+      ]
     },
     "ui-map": {
-      "tags": ["ui"]
+      "tags": [
+        "ui"
+      ]
     },
     "gis": {
-      "tags": ["ui", "api"]
+      "tags": [
+        "ui",
+        "api"
+      ]
     },
     "api-auth": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "api-facebook": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     "api-config": {
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
+    },
+    "api-e2e": {
+      "tags": [
+        "api"
+      ]
     }
   }
 }

@@ -92,7 +92,10 @@
               "apps/web/tsconfig.app.json",
               "apps/web/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/web/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/web/**"
+            ]
           }
         },
         "test": {
@@ -143,7 +146,9 @@
           "options": {
             "browserTarget": "web:build:production",
             "serverTarget": "web:server:production",
-            "routes": ["/"]
+            "routes": [
+              "/"
+            ]
           },
           "configurations": {
             "production": {}
@@ -172,8 +177,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/web-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/web-e2e/**"]
+            "tsConfig": [
+              "apps/web-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/web-e2e/**"
+            ]
           }
         }
       }
@@ -191,7 +201,9 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -220,7 +232,10 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/api/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/api/**"
+            ]
           }
         },
         "test": {
@@ -246,7 +261,10 @@
               "libs/core/tsconfig.lib.json",
               "libs/core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/core/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/core/**"
+            ]
           }
         },
         "test": {
@@ -272,7 +290,10 @@
               "libs/ui/api/tsconfig.lib.json",
               "libs/ui/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui/api/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ui/api/**"
+            ]
           }
         },
         "test": {
@@ -300,7 +321,10 @@
               "libs/api-client/tsconfig.lib.json",
               "libs/api-client/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api-client/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api-client/**"
+            ]
           }
         },
         "test": {
@@ -326,7 +350,10 @@
               "libs/ui/pwa/tsconfig.lib.json",
               "libs/ui/pwa/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui/pwa/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ui/pwa/**"
+            ]
           }
         },
         "test": {
@@ -396,8 +423,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/ui-pwa-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/ui-pwa-e2e/**"]
+            "tsConfig": [
+              "apps/ui-pwa-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/ui-pwa-e2e/**"
+            ]
           }
         }
       }
@@ -415,7 +447,9 @@
             "outputPath": "dist/apps/cli",
             "main": "apps/cli/src/sm.ts",
             "tsConfig": "apps/cli/tsconfig.app.json",
-            "assets": ["apps/cli/src/assets"]
+            "assets": [
+              "apps/cli/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -444,7 +478,10 @@
               "apps/cli/tsconfig.app.json",
               "apps/cli/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/cli/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/cli/**"
+            ]
           }
         },
         "test": {
@@ -470,7 +507,10 @@
               "libs/api/orient/tsconfig.lib.json",
               "libs/api/orient/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/orient/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api/orient/**"
+            ]
           }
         },
         "test": {
@@ -496,7 +536,10 @@
               "libs/api/common/tsconfig.lib.json",
               "libs/api/common/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/common/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api/common/**"
+            ]
           }
         },
         "test": {
@@ -522,7 +565,10 @@
               "libs/api/clusters/tsconfig.lib.json",
               "libs/api/clusters/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/clusters/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api/clusters/**"
+            ]
           }
         },
         "test": {
@@ -548,7 +594,10 @@
               "libs/ui/core/tsconfig.lib.json",
               "libs/ui/core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui/core/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ui/core/**"
+            ]
           }
         },
         "test": {
@@ -580,7 +629,10 @@
               "libs/ui/map/tsconfig.lib.json",
               "libs/ui/map/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui/map/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ui/map/**"
+            ]
           }
         },
         "test": {
@@ -642,7 +694,10 @@
               "libs/gis/tsconfig.lib.json",
               "libs/gis/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/gis/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/gis/**"
+            ]
           }
         },
         "test": {
@@ -668,7 +723,10 @@
               "libs/api/auth/tsconfig.lib.json",
               "libs/api/auth/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/auth/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api/auth/**"
+            ]
           }
         },
         "test": {
@@ -694,7 +752,10 @@
               "libs/api/facebook/tsconfig.lib.json",
               "libs/api/facebook/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/facebook/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api/facebook/**"
+            ]
           }
         },
         "test": {
@@ -720,7 +781,10 @@
               "libs/api/config/tsconfig.lib.json",
               "libs/api/config/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api/config/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api/config/**"
+            ]
           }
         },
         "test": {
@@ -728,6 +792,66 @@
           "options": {
             "jestConfig": "libs/api/config/jest.config.js",
             "tsConfig": "libs/api/config/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-e2e": {
+      "root": "apps/api-e2e",
+      "sourceRoot": "apps/api-e2e/src",
+      "projectType": "application",
+      "prefix": "api-e2e",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/api-e2e",
+            "main": "apps/api-e2e/src/main.ts",
+            "tsConfig": "apps/api-e2e/tsconfig.app.json",
+            "assets": [
+              "apps/api-e2e/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api-e2e/src/environments/environment.ts",
+                  "with": "apps/api-e2e/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api-e2e:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/api-e2e/tsconfig.app.json",
+              "apps/api-e2e/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/api-e2e/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/api-e2e/jest.config.js",
+            "tsConfig": "apps/api-e2e/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

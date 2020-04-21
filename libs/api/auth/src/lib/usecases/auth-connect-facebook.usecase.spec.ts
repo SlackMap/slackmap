@@ -1,10 +1,5 @@
-import { Test } from 'testing';
-import { FacebookGatewayMock } from 'data-mock/gateways';
 import { AuthConnectFacebookUseCase } from './auth-connect-facebook.usecase';
-import { FacebookGateway, DataModule } from 'data';
-import { FacebookFixture } from 'data-fixtures';
-import { FacebookProfileModel } from '@domain';
-import { AuthUserGetResponseDto } from '@domain/dto';
+import { Test } from '@nestjs/testing';
 
 describe('auth-connect-facebook UseCase', () => {
   let usecase: AuthConnectFacebookUseCase, module;
