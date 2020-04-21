@@ -7,4 +7,4 @@ import { UserFixture } from './fixtures/user.fixture';
   providers: [UserFixture],
   exports: [UserFixture],
 })
-export class ApiAuthModule { }
+export class ApiAuthTestingModule { }

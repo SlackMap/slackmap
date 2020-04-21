@@ -17,7 +17,7 @@ export class UserFixture {
   private ridGenerator = new RidGenerator();
   constructor(
     public orient: OrientService,
-    private userService: AuthService,
+    // private userService: AuthService,
   ) {}
 
   /**
@@ -76,22 +76,22 @@ export class UserFixture {
       });
   }
 
-  async generateUserSession(user?: UserEntity): Promise<UserSessionMockData> {
-    if (!user) {
-      user = await this.generateUser();
-    }
-    const payload: JwtPayloadModel = {
-      user,
-      users: [user]
-    };
-    const api_token = this.userService.sign(payload);
-    this.tokens.push(api_token);
-    return {
-      apiToken: api_token,
-      payload,
-      user
-    };
-  }
+  // async generateUserSession(user?: UserEntity): Promise<UserSessionMockData> {
+  //   if (!user) {
+  //     user = await this.generateUser();
+  //   }
+  //   const payload: JwtPayloadModel = {
+  //     user,
+  //     users: [user]
+  //   };
+  //   const api_token = this.userService.sign(payload);
+  //   this.tokens.push(api_token);
+  //   return {
+  //     apiToken: api_token,
+  //     payload,
+  //     user
+  //   };
+  // }
 
   /**
    * clear all generated data

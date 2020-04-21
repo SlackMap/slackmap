@@ -23,7 +23,7 @@ export interface FacebookUserModel {
   /** The person's full name */
   name: string;
 
-  picture: FacebookPictureModel;
+  picture?: FacebookPictureModel;
 
 }
 

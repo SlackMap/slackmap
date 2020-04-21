@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "paths": {
+      "@app/api/*": ["apps/api/src/app/*"],
       "@slackmap/core": ["libs/core/src/index.ts"],
       "@slackmap/gis": ["libs/gis/src/index.ts"],
       "@slackmap/api-client": ["libs/api-client/src/index.ts"],
@@ -30,8 +31,10 @@
       "@slackmap/api/clusters/dto": ["libs/api/clusters/src/dto.ts"],
       "@slackmap/api/auth": ["libs/api/auth/src/index.ts"],
       "@slackmap/api/auth/dto": ["libs/api/auth/src/dto.ts"],
+      "@slackmap/api/auth/testing": ["libs/api/auth/src/testing/index.ts"],
       "@slackmap/api/facebook": ["libs/api/facebook/src/index.ts"],
       "@slackmap/api/facebook/dto": ["libs/api/facebook/src/dto.ts"],
+      "@slackmap/api/facebook/testing": ["libs/api/facebook/src/testing/index.ts"],
       "@slackmap/api/config": ["libs/api/config/src/index.ts"],
       "@slackmap/api/config/dto": ["libs/api/config/src/dto.ts"]
     }
