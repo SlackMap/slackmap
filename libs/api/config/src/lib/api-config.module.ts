@@ -3,12 +3,11 @@ import { ConfigController } from './controllers/config.controller';
 import { ConfigGetUseCase } from './usecases';
 import { ApiFacebookModule } from '@slackmap/api/facebook';
 import { ApiCommonModule } from '@slackmap/api/common';
-import { AppConfig } from './app.config';
 
 @Module({
   imports: [ApiCommonModule, ApiFacebookModule],
   controllers: [ConfigController],
-  providers: [ConfigGetUseCase, AppConfig],
-  exports: [AppConfig],
+  providers: [ConfigGetUseCase],
+  exports: [],
 })
 export class ApiConfigModule {}

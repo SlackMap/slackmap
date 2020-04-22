@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OrientService, UserEntity, userRow2entity } from '@slackmap/api/orient';
 import { FacebookUserModel } from '@slackmap/api/facebook';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 
 @Injectable()
@@ -43,10 +43,13 @@ export class UserService {
       where = where + ' OR email = :email';
       params.email = fbUser.email;
     }
+    if(!where) {
+      return of([]);
+    }
     const query = `
     SELECT ${this.selectQuery.join(',')}
     FROM User
-    where ${where}
+    WHERE ${where}
     `;
     return this.db.queryAll<any>(query, { params }).pipe(
       map(users => users.map(userRow2entity))

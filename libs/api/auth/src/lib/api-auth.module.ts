@@ -11,9 +11,11 @@ import { OrientModule } from '@slackmap/api/orient';
 import { AuthConnectFacebookUseCase, AuthMeGetUseCase } from './usecases';
 import { ApiFacebookModule } from '@slackmap/api/facebook';
 import { JwtAuthGuard } from './guards';
+import { ApiCommonModule } from '@slackmap/api/common';
 
 @Module({
   imports: [
+    ApiCommonModule,
     OrientModule,
     ApiFacebookModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),

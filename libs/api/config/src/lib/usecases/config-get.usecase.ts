@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 import { ConfigGetDto } from '../dto';
 import { FacebookConfig } from '@slackmap/api/facebook';
-import { AppConfig } from '../app.config';
+import { AppConfig } from '@slackmap/api/common';
 
 @Injectable()
 export class ConfigGetUseCase {

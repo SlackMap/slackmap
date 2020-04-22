@@ -1,6 +1,6 @@
 import { TestBed } from "./test-bed";
 import { FacebookFixture } from '@slackmap/api/facebook/testing';
-import { AuthConnectFacebookRequestDto, AUTH_PATHS } from '@slackmap/api/auth/dto';
+import { AuthConnectFacebookRequestDto, AUTH_PATHS, AuthConnectFacebookDto } from '@slackmap/api/auth/dto';
 
 let app: TestBed;
 beforeAll(async () => {
@@ -35,25 +35,25 @@ describe('Auth', () => {
         });
     });
 
-    // it('should login with facebook account', () => {
-    //   const req: AuthConnectFacebookRequestDto = {
-    //     accessToken: FacebookFixture.USER_PROFILE_TOKEN
-    //   };
-    //   const resBody = {
-    //     api_token: expect.any(String),
-    //     users: expect.any(Array),
-    //     user: expect.any(Object),
-    //     facebook_profile: expect.any(Object)
-    //   };
-    //   return app
-    //     .request()
-    //     .post(authConnectFacebookUrl)
-    //     .send(req)
-    //     .then(res => {
-    //       expect(res.body).toMatchObject(resBody);
-    //       expect(res).toHaveProperty('statusCode', 201);
-    //     });
-    // });
+    it('should login with facebook account', () => {
+      const req: AuthConnectFacebookRequestDto = {
+        accessToken: FacebookFixture.USER_PROFILE_TOKEN
+      };
+      const resBody: AuthConnectFacebookDto = {
+        apiToken: expect.any(String),
+        users: expect.any(Array),
+        user: expect.any(Object),
+        facebookUser: expect.any(Object)
+      };
+      return app
+        .request()
+        .post(authConnectFacebookUrl)
+        .send(req)
+        .then(res => {
+          expect(res.body).toMatchObject(resBody);
+          expect(res).toHaveProperty('statusCode', 201);
+        });
+    });
   });
 
   // const authMeUrl = TestBed.url('auth/user');
