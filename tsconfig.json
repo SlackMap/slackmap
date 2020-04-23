@@ -39,5 +39,9 @@
       "@slackmap/api/config/dto": ["libs/api/config/src/dto.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "tools/schematics/**/files/**"
+  ]
 }
