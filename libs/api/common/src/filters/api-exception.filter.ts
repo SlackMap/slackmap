@@ -16,7 +16,7 @@ export class ErrorModel {
 
 @Catch(InternalError, Error, HttpException)
 export class ApiExceptionFilter implements ExceptionFilter {
-  constructor(private appConfig: AppConfig) { }
+  constructor(private appConfig: AppConfig) {}
   catch(exception: InternalError | Error | HttpException, host: ArgumentsHost) {
     let data: ErrorModel;
     const ctx = host.switchToHttp();
@@ -58,7 +58,7 @@ export class ApiExceptionFilter implements ExceptionFilter {
       };
     }
     // remove private data when on production
-    if (!(this.appConfig.NODE_ENV === Env.DEV || this.appConfig.NODE_ENV === Env.TESTRUN)) {
+    if (!(this.appConfig.NODE_ENV === Env.DEV || this.appConfig.NODE_ENV === Env.TEST)) {
       delete data.message;
       delete data.stack;
       delete data.parent;

@@ -1,96 +1,75 @@
 import { AuthConnectFacebookUseCase } from './auth-connect-facebook.usecase';
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
+import { FacebookClient } from '@slackmap/api/facebook';
+import { FacebookClientMock, FacebookFixture } from '@slackmap/api/facebook/testing';
+import { ApiAuthModule } from '../api-auth.module';
+import { AuthConnectFacebookDto } from '../dto';
 
 describe('auth-connect-facebook UseCase', () => {
-  let usecase: AuthConnectFacebookUseCase, module;
+  let usecase: AuthConnectFacebookUseCase, module: TestingModule;
   beforeEach(async () => {
     module = await Test.createTestingModule({
-      imports: [DataModule],
-      providers: [AuthConnectFacebookUseCase]
+      imports: [ApiAuthModule],
     })
-      .overrideProvider(FacebookGateway)
-      .useClass(FacebookGatewayMock)
+      .overrideProvider(FacebookClient)
+      .useClass(FacebookClientMock)
       .compile();
 
     usecase = module.get(AuthConnectFacebookUseCase);
   });
-  afterEach(() => {
-    module.destroy();
+  afterEach(async () => {
+    await module.close();
   });
 
   test('should return fb profile', () => {
-    const value = {
-      facebook_profile: expect.any(Object),
+    const value: AuthConnectFacebookDto = {
+      facebookUser: expect.any(Object),
       user: null,
       users: expect.any(Array),
-      api_token: expect.any(String)
+      apiToken: expect.any(String)
     };
     return usecase
-      .process({
-        access_token: FacebookFixture.VALID_PROFILE_TOKEN,
-        signed_request: ''
-      })
-      .then(
-        (res: AuthUserGetResponseDto) => {
-          expect(res).toMatchObject(value);
-        },
-        err => {
-          expect(err).toBeFalsy();
-        }
-      );
+      .process({ accessToken: FacebookFixture.VALID_PROFILE_TOKEN })
+      .toPromise()
+      .then(res => expect(res).toMatchObject(value));
   });
   test('should throw error: profile id is required', async () => {
     return usecase
-      .process({
-        access_token: FacebookFixture.INVALID_PROFILE_TOKEN,
-        signed_request: ''
-      })
-      .then(
-        (res: AuthUserGetResponseDto) => {
-          expect(res).toBeFalsy();
-        },
-        err => {
-          expect(err.name).toBe('ValidationError');
-          expect(err.title).toContain('get id of your facebook profile');
-        }
+      .process({ accessToken: FacebookFixture.INVALID_PROFILE_TOKEN })
+      .toPromise()
+      .then(res => expect(res).toBeFalsy())
+      .catch(err => {
+        expect(err.name).toBe('ValidationError');
+        expect(err.title).toContain('get id of your facebook profile');
+      }
       );
   });
   test('should throw error: profile not found', () => {
     return usecase
-      .process({
-        access_token: FacebookFixture.INVALID_TOKEN,
-        signed_request: ''
-      })
-      .then(
-        (res: AuthUserGetResponseDto) => {
-          expect(res).toBeFalsy();
-        },
-        err => {
-          expect(err.name).toBe('ValidationError');
-          expect(err.title).toContain('Facebook token invalid');
-        }
+      .process({ accessToken: FacebookFixture.INVALID_TOKEN })
+      .toPromise()
+      .then(res => expect(res).toBeFalsy())
+      .catch(err => {
+        expect(err.name).toBe('ValidationError');
+        expect(err.title).toContain(`We can't get your facebook profile :(`);
+      }
       );
   });
   test('should return facebook profile + user', () => {
-    const value = {
-      facebook_profile: expect.any(Object),
+    const value: AuthConnectFacebookDto = {
+      facebookUser: expect.any(Object),
       user: expect.any(Object),
       users: expect.any(Array),
-      api_token: expect.any(String)
+      apiToken: expect.any(String)
     };
     return usecase
       .process({
-        access_token: FacebookFixture.USER_PROFILE_TOKEN,
-        signed_request: ''
+        accessToken: FacebookFixture.USER_PROFILE_TOKEN
       })
-      .then(
-        (res: AuthUserGetResponseDto) => {
-          expect(res).toMatchObject(value);
-          expect(res.users).toHaveLength(1);
-        },
-        err => {
-          expect(err).toBeFalsy();
-        }
-      );
+      .toPromise()
+      .then(res => {
+        expect(res).toMatchObject(value);
+        expect(res.users).toHaveLength(1);
+      });
   });
 });

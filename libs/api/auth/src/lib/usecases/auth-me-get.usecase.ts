@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, of} from 'rxjs';
 import { JwtPayloadModel } from '../models';
-import { UserService } from '../services';
 import { AuthMeGetDto } from '../dto';
 
 /**
@@ -9,8 +8,6 @@ import { AuthMeGetDto } from '../dto';
  */
 @Injectable()
 export class AuthMeGetUseCase {
-
-  constructor(private userService: UserService) { }
 
   process(payload: JwtPayloadModel): Observable<AuthMeGetDto> {
 

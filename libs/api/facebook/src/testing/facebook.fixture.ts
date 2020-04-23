@@ -1,16 +1,19 @@
 import { FacebookUserModel } from '@slackmap/api/facebook/dto';
 
+export interface FacebookErrorResponse {
+  error: Error
+}
 export interface ProfileFixture {
   token: string;
-  profile: FacebookUserModel;
+  response: FacebookUserModel | FacebookErrorResponse;
 }
 export const profiles: ProfileFixture[] = [
   {
     token: 'valid-profile-token',
-    profile: {
+    response: {
       id: '1234567890',
       email: 'test@slackmap.com',
-      name: 'Test User',
+      name: 'Valid FB User',
       first_name: 'Test',
       last_name: 'User'
 
@@ -18,11 +21,11 @@ export const profiles: ProfileFixture[] = [
   },
   {
     token: 'invalid-profile-token',
-    profile: {} as FacebookUserModel
+    response: {} as FacebookUserModel
   },
   {
     token: 'user-profile-token',
-    profile: {
+    response: {
       id: '1184894310',
       email: 'test2@slackmap.com',
       name: 'Test User',
@@ -32,7 +35,12 @@ export const profiles: ProfileFixture[] = [
   },
   {
     token: 'invalid-token',
-    profile: null
+    response: {
+      error: {
+        message: 'Fb connection error',
+        name: 'Error from Facebook'
+      }
+    }
   }
 ];
 export class FacebookFixture {
@@ -50,11 +58,13 @@ export class FacebookFixture {
   // for testing not valid fb token
   static readonly INVALID_TOKEN: string = 'invalid-token';
 
-  static getByToken(token: string): FacebookUserModel {
+  static getByToken(token: string): FacebookUserModel | FacebookErrorResponse {
+    // find response for token
     const profile = profiles.find(p => p.token === token);
     if (profile) {
-      return profile.profile;
+      return profile.response;
     }
-    return null;
+    // if token invalid, return error response
+    return profiles.find(p => p.token === FacebookFixture.INVALID_TOKEN).response;
   }
 }
