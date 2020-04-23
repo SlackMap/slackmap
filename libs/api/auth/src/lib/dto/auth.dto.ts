@@ -1,11 +1,6 @@
 import { UserModel } from '../models';
 import { FacebookUserModel } from '@slackmap/api/facebook/dto';
 
-export const AUTH_PATHS = {
-  connectFacebook: () => 'auth/connect-facebook',
-  me: () => 'auth/me',
-}
-
 export class AuthConnectFacebookRequestDto {
   accessToken: string;
   signedRequest?: string;

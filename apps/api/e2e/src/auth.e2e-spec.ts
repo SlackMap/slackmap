@@ -11,10 +11,10 @@ afterAll(async () => {
   if(app) await app.close();
 });
 
-describe('Auth', () => {
-  const authConnectFacebookUrl = '/' + AUTH_PATHS.connectFacebook();
+describe('Auth: Connect Facebook', () => {
+  const url = '/' + AUTH_PATHS.connectFacebook();
 
-  describe(`POST ${authConnectFacebookUrl}`, () => {
+  describe(`POST ${url}`, () => {
     it('should have validation error', () => {
       const req: AuthConnectFacebookRequestDto = {
         accessToken: FacebookFixture.INVALID_PROFILE_TOKEN
@@ -27,7 +27,7 @@ describe('Auth', () => {
 
       return app
         .request()
-        .post(authConnectFacebookUrl)
+        .post(url)
         .send(req)
         .then(res => {
           expect(res.body).toMatchObject(resBody);
@@ -47,7 +47,7 @@ describe('Auth', () => {
       };
       return app
         .request()
-        .post(authConnectFacebookUrl)
+        .post(url)
         .send(req)
         .then(res => {
           expect(res.body).toMatchObject(resBody);
@@ -55,19 +55,31 @@ describe('Auth', () => {
         });
     });
   });
+});
 
-  // const authMeUrl = TestBed.url('auth/user');
-  // describe(`GET ${authMeUrl}`, () => {
-  // it('should return current user session', async () => {
-  //   return app.agent
-  //     .get(authMeUrl)
-  //     .catch(errorHandler)
-  //     .then((res: any) => {
-  //       expect(res).to.have.status(200);
-  //       expect(res).to.have.property('body');
-  //       expect(res.body).to.have.all.keys(['me']);
-  //       expect(res.body.me).to.equal('you got me');
-  //     });
-  // });
-  // });
+describe('Auth: Register By Facebook', () => {
+  const url = '/' + AUTH_PATHS.registerByFacebook();
+
+  describe(`POST ${url}`, () => {
+    it('should have validation error', () => {
+      const req: AuthConnectFacebookRequestDto = {
+        accessToken: FacebookFixture.INVALID_PROFILE_TOKEN
+      };
+      const resBody = {
+        name: 'ValidationError',
+        title: expect.any(String),
+        statusCode: 422
+      };
+
+      return app
+        .request()
+        .post(url)
+        .send(req)
+        .then(res => {
+          expect(res.body).toMatchObject(resBody);
+          expect(res).toHaveProperty('statusCode', 422);
+        });
+    });
+
+  });
 });

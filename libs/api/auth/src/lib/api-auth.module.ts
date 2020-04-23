@@ -8,7 +8,7 @@ import { AuthConfig } from './api-auth.config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UserService } from './services';
 import { OrientModule } from '@slackmap/api/orient';
-import { AuthConnectFacebookUseCase, AuthMeGetUseCase } from './usecases';
+import { AuthConnectFacebookUseCase, AuthMeGetUseCase, AuthRegisterByFacebookUseCase } from './usecases';
 import { ApiFacebookModule } from '@slackmap/api/facebook';
 import { JwtAuthGuard } from './guards';
 import { ApiCommonModule } from '@slackmap/api/common';
@@ -38,7 +38,8 @@ import { ApiCommonModule } from '@slackmap/api/common';
     UserService,
     JwtAuthGuard,
     AuthConnectFacebookUseCase,
-    AuthMeGetUseCase
+    AuthMeGetUseCase,
+    AuthRegisterByFacebookUseCase
   ],
   controllers: [AuthController],
   exports: [AuthConfig],
