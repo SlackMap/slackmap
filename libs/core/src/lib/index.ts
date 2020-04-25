@@ -1,4 +1,5 @@
 export * from './climbing';
+export * from './core-models';
 export * from './helpers';
 export * from './item-rid-old';
 export * from './item-rid';
@@ -9,7 +10,7 @@ export * from './layer-options';
 export * from './like';
 export * from './measure';
 export * from './photo';
+export * from './rid-generator';
 export * from './spot-access';
 export * from './spot-shape-type';
 export * from './sub-sink';
-export * from './rid-generator';

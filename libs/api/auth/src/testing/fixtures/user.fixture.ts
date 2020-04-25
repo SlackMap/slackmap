@@ -20,16 +20,28 @@ export class UserFixture {
     // private userService: AuthService,
   ) {}
 
+  static fakeFacebookId() {
+    return 'test-'+Math.random().toString().split('.')[1];
+  }
+
+  static fakeEmail() {
+    return Math.random().toString().split('.')[1] + '@test.slackmap.com';
+  }
+
+  static fakeName() {
+    return Math.random().toString().split('.')[1] + '@test.slackmap.com';
+  }
+
   /**
    * Used when testing creation of new user
    */
   public generateUserData(): UserEntity {
     return {
-      email: this.ridGenerator.fakeEmail(),
+      email: UserFixture.fakeEmail(),
       name: 'Testo Maniak',
       first_name: 'Testo',
       last_name: 'Maniak',
-      facebook_id: this.ridGenerator.fakeFacebookId()
+      facebook_id: UserFixture.fakeFacebookId()
     };
   }
   /**

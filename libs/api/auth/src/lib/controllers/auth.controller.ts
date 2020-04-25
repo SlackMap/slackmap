@@ -23,15 +23,6 @@ export class AuthController {
   }
 
   /**
-   * Get current profile
-   */
-  @UseGuards(JwtAuthGuard)
-  @Get(AUTH_PATHS.me())
-  me(@JwtPayload() payload: JwtPayloadModel) {
-    return this.meGetUseCase.process(payload);
-  }
-
-  /**
    * Register by facebook
    */
   @Post(AUTH_PATHS.registerByFacebook())
@@ -39,6 +30,15 @@ export class AuthController {
     return this.registerByFacebookUseCase.process(data);
   }
 
+  /**
+   * Get current profile
+   */
+  @UseGuards(JwtAuthGuard)
+  @Get(AUTH_PATHS.me())
+  me(@JwtPayload() payload: JwtPayloadModel) {
+    return this.meGetUseCase.process(payload);
+  }
+  
   // TODO implement login by temporary email link & login+password
   // @UseGuards(LocalAuthGuard)
   // @Post('login')

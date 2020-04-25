@@ -1,6 +1,7 @@
 import { TestBed } from "./test-bed";
 import { FacebookFixture } from '@slackmap/api/facebook/testing';
-import { AuthConnectFacebookRequestDto, AUTH_PATHS, AuthConnectFacebookDto } from '@slackmap/api/auth/dto';
+import { AuthConnectFacebookRequestDto, AUTH_PATHS, AuthConnectFacebookDto, AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '@slackmap/api/auth/dto';
+import { Gender } from '@slackmap/core';
 
 let app: TestBed;
 beforeAll(async () => {
@@ -61,22 +62,25 @@ describe('Auth: Register By Facebook', () => {
   const url = '/' + AUTH_PATHS.registerByFacebook();
 
   describe(`POST ${url}`, () => {
-    it('should have validation error', () => {
-      const req: AuthConnectFacebookRequestDto = {
-        accessToken: FacebookFixture.INVALID_PROFILE_TOKEN
+    it('should create and return new user', () => {
+      const token = '';
+      const requestDto: AuthRegisterByFacebookRequestDto = {
+        token,
+        email: '',
+        firstName: '',
+        lastName: '',
+        gender: Gender.MALE
       };
-      const resBody = {
-        name: 'ValidationError',
-        title: expect.any(String),
-        statusCode: 422
+      const responseDto: AuthRegisterByFacebookDto = {
+
       };
 
       return app
         .request()
         .post(url)
-        .send(req)
+        .send(requestDto)
         .then(res => {
-          expect(res.body).toMatchObject(resBody);
+          expect(res.body).toMatchObject(responseDto);
           expect(res).toHaveProperty('statusCode', 422);
         });
     });

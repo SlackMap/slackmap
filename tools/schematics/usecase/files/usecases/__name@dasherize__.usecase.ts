@@ -10,7 +10,7 @@ import { <%= classify(name) %>RequestDto, <%= classify(name) %>Dto } from '../dt
 export class <%= classify(name) %>UseCase {
   constructor(
 
-) { }
+  ) { }
   process(request: <%= classify(name) %>RequestDto): Observable<<%= classify(name) %>Dto> {
     return of({} as any);
   }

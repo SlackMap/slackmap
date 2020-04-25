@@ -7,15 +7,6 @@ export class RidGenerator {
   public enableLogs = false;
   public logs: string[] = [];
 
-
-  fakeFacebookId() {
-    return 'test-'+Math.random().toString().split('.')[1];
-  }
-
-  fakeEmail() {
-    return Math.random().toString().split('.')[1] + '@test.slackmap.com';
-  }
-
   /**
    * Generate Rid for General Item
    *

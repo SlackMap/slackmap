@@ -50,6 +50,9 @@ export class LoginDialog implements OnInit {
 
     }
   }
+  async registerByFacebook(): Promise<void> {
+
+  }
   async signIn(): Promise<void> {
     const FACEBOOK_PERMISSIONS = ['public_profile', 'email'];
 
