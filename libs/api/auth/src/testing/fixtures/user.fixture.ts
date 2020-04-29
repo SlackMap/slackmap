@@ -71,7 +71,7 @@ export class UserFixture {
     // await this.orient.query(`DELETE VERTEX FROM User WHERE email = '${data.email}'`);
 
     return this.orient
-      .query<any>('INSERT INTO User CONTENT :user RETURN @this', {
+      .query$<any>('INSERT INTO User CONTENT :user RETURN @this', {
         params: {
           user: data
         }
@@ -110,7 +110,7 @@ export class UserFixture {
    */
   async destroy() {
     for (const user of this.users) {
-      const removed = await this.orient.query(`DELETE VERTEX FROM User WHERE @rid = ${user.id}`).toPromise().then(row => row[0]);
+      const removed = await this.orient.query$(`DELETE VERTEX FROM User WHERE @rid = ${user.id}`).toPromise().then(row => row[0]);
     }
     this.users = [];
     this.tokens = [];

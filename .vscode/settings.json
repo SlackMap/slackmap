@@ -21,5 +21,8 @@
   "cSpell.language": "en,pl",
   "peacock.color": "#3e7b0a",
   "liveServer.settings.root": "dist/apps/web/browser",
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "cSpell.words": [
+    "syslog"
+  ]
 }

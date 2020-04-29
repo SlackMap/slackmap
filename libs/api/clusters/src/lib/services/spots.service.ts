@@ -39,7 +39,7 @@ export class SpotsService {
 
   findByBBox(bbox: BBox): Observable<SpotEntity[]> {
     // console.log('BBOX', bbox)
-    return this.db.queryAll<SpotEntity>(
+    return this.db.queryAll$<SpotEntity>(
       // `SELECT ${this.selectQuery.join(', ')} FROM Spot WHERE ST_Contains(ST_Buffer(ST_GeomFromText('POINT(0 0)'),10),ST_GeomFromText('POINT(0 0)')) LIMIT 500`,
       `SELECT ${this.selectQuery.join(', ')} FROM Spot WHERE lat BETWEEN :minlat AND :maxlat AND  lon BETWEEN :minlon AND :maxlon`,
       // `SELECT ${this.selectQuery.join(', ')} FROM Spot WHERE lat  :minlat AND lat <= maxlat AND lon >= :minlon AND lon <=:maxlon`,

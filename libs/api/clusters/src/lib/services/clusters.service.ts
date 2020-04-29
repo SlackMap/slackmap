@@ -102,7 +102,7 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
    */
   loadPointFeaturesBySportType(sport: SportType): Observable<SuperclusterFeature[]> {
     // TODO after addding sport property to Spot entity, add it in WHERE section to this SQL query
-    return this.db.query<SpotEntity>(`SELECT rid, lat, lon, subtype FROM Spot`).pipe(
+    return this.db.query$<SpotEntity>(`SELECT rid, lat, lon, subtype FROM Spot`).pipe(
       map<SpotEntity, SuperclusterFeature>((spot) => {
         return {
           type: 'Feature',

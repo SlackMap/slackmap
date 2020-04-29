@@ -29,7 +29,7 @@ describe('AuthRegisterByFacebookUseCase', () => {
     await module.close();
   });
 
-  test.only('should work', async () => {
+  test('should work', async () => {
     const payload: JwtPayloadModel = {
       facebookUser: {
         email: UserFixture.fakeEmail(),

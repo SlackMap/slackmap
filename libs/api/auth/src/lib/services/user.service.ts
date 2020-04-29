@@ -51,7 +51,7 @@ export class UserService {
     FROM User
     WHERE ${where}
     `;
-    return this.db.queryAll<any>(query, { params }).pipe(
+    return this.db.queryAll$<any>(query, { params }).pipe(
       map(users => users.map(userRow2entity))
     );
   }

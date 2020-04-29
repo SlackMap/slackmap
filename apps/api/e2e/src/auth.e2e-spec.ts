@@ -1,11 +1,17 @@
 import { TestBed } from "./test-bed";
 import { FacebookFixture } from '@slackmap/api/facebook/testing';
-import { AuthConnectFacebookRequestDto, AUTH_PATHS, AuthConnectFacebookDto, AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '@slackmap/api/auth/dto';
+import { AuthConnectFacebookRequestDto, AUTH_PATHS, AuthConnectFacebookDto, AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto, JwtPayloadModel } from '@slackmap/api/auth/dto';
 import { Gender } from '@slackmap/core';
+import { UserFixture } from '@slackmap/api/auth/testing';
+import { AuthService } from '@slackmap/api/auth';
 
 let app: TestBed;
+let authService: AuthService;
+let userFixture: UserFixture;
 beforeAll(async () => {
   app = await TestBed.createApp();
+  authService = app.get(AuthService);
+  userFixture = app.get(UserFixture);
 });
 
 afterAll(async () => {
@@ -63,16 +69,29 @@ describe('Auth: Register By Facebook', () => {
 
   describe(`POST ${url}`, () => {
     it('should create and return new user', () => {
-      const token = '';
+      // create fake token with facebook user
+      const payload: JwtPayloadModel = {
+        facebookUser: {
+          email: UserFixture.fakeEmail(),
+          id: UserFixture.fakeFacebookId(),
+          name: 'Testo Maniak',
+          first_name: 'Testo',
+          last_name: 'Maniak',
+        },
+        user: null,
+        users: [],
+      };
       const requestDto: AuthRegisterByFacebookRequestDto = {
-        token,
+        token: authService.sign(payload),
         email: '',
         firstName: '',
         lastName: '',
         gender: Gender.MALE
       };
       const responseDto: AuthRegisterByFacebookDto = {
-
+        apiToken: expect.any(String),
+        user: expect.any(Object),
+        users: expect.any(Array),
       };
 
       return app

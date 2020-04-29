@@ -15,6 +15,7 @@ export class TestBed {
   static app: TestBed;
   app: INestApplication;
   close: () => Promise<void>;
+  get: <T=any, R = T>(cls: T) => R;
   request: () => request.SuperTest<request.Test>;
 
   static async createApp(): Promise<TestBed> {
@@ -39,9 +40,13 @@ export class TestBed {
       await app.close();
       TestBed.app = null;
     }
+    function get<T=any, R = T>(cls): R {
+      return app.get<T, R>(cls);
+    }
     return (TestBed.app = {
       app,
       close,
+      get,
       // mock,
       request: function () {
         return request(app.getHttpServer());
