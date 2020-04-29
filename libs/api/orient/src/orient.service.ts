@@ -2,13 +2,11 @@ import { Injectable, Logger, OnApplicationShutdown } from '@nestjs/common';
 import "./rx/orientjs-rx";
 import { OrientConfig } from './orient.config';
 import { OrientDBClient, ODatabaseSession, QueryOptions, ODatabaseSessionPool } from 'orientjs';
-import { Observable, Subject, from, of } from 'rxjs';
-import { takeUntil, reduce, take, switchMap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { OrientConnection } from './orient.interfaces';
-import { acquire } from './operators/acquire.operator';
-import { streamMap } from './operators/stream-map.operator';
-import { liveQueryMap } from './operators/live-query-map.operator';
 import { LiveQueryEvent } from './rx/orientjs-rx';
+import { switchTo, acquire } from './operators';
 
 @Injectable()
 export class OrientService implements OnApplicationShutdown {
@@ -33,7 +31,6 @@ export class OrientService implements OnApplicationShutdown {
       const client = new OrientDBClient({
         host: this.config.ORIENTDB_HOST,
         port: this.config.ORIENTDB_PORT,
-        pool: { max: 25, min: 1 },
       });
 
       this.logger.log('Connecting...')
@@ -51,7 +48,8 @@ export class OrientService implements OnApplicationShutdown {
           return client.sessions({
             username: this.config.ORIENTDB_DB_USERNAME,
             password: this.config.ORIENTDB_DB_PASSWORD,
-            name: this.config.ORIENTDB_DB_NAME
+            name: this.config.ORIENTDB_DB_NAME,
+            pool: { max: 25 },
           })
         })
         // start single session
@@ -107,6 +105,15 @@ export class OrientService implements OnApplicationShutdown {
   }
 
   /**
+   * Get the session from the pool
+   *
+   * Remember to close the session after you finish your work !!!
+   */
+  acquire(): Promise<ODatabaseSession> {
+    return this.connect().then(connection => connection.pool.acquire());
+  }
+
+  /**
    * Get singleton session
    *
    * Don't close it !!!
@@ -123,9 +130,8 @@ export class OrientService implements OnApplicationShutdown {
    * Session will be returned to the pool when subscriber unsubscribes
    */
   acquire$(): Observable<ODatabaseSession> {
-    return from(this.connect()).pipe(
+    return acquire(this.acquire()).pipe(
       takeUntil(this.destroy$),
-      acquire()
     );
   }
 
@@ -137,7 +143,7 @@ export class OrientService implements OnApplicationShutdown {
    */
   query$<T>(query: string, options?: QueryOptions): Observable<T> {
     return this.acquire$().pipe(
-      streamMap<T>(db => db.query(query, options))
+      switchTo((session: ODatabaseSession) => session.query$(query, options)),
     )
   }
   /**
@@ -148,11 +154,7 @@ export class OrientService implements OnApplicationShutdown {
    */
   queryAll$<T>(query: string, options?: QueryOptions): Observable<T[]> {
     return this.acquire$().pipe(
-      streamMap<T>(db => db.query(query, options)),
-      reduce((acc, v) => {
-        acc.push(v);
-        return acc as any;
-      }, [])
+      switchTo((session: ODatabaseSession) => session.queryAll$(query, options)),
     )
   }
 
@@ -164,8 +166,7 @@ export class OrientService implements OnApplicationShutdown {
    */
   queryOne$<T>(query: string, options?: QueryOptions): Observable<T> {
     return this.acquire$().pipe(
-      streamMap<T>(db => db.query(query, options)),
-      take(1)
+      switchTo((session: ODatabaseSession) => session.queryOne$(query, options)),
     )
   }
 
@@ -178,7 +179,7 @@ export class OrientService implements OnApplicationShutdown {
    */
   command$<T>(query: string, options?: QueryOptions): Observable<T> {
     return this.acquire$().pipe(
-      streamMap<T>(db => db.command(query, options))
+      switchTo((session: ODatabaseSession) => session.command$(query, options)),
     )
   }
 
@@ -188,9 +189,8 @@ export class OrientService implements OnApplicationShutdown {
    * @param options
    */
   liveQuery$<T>(query: string, options?: QueryOptions): Observable<LiveQueryEvent<T>> {
-    return new Observable(subscriber => subscriber.next(1)).pipe(
-      switchMap(() => from(this.connect())),
-      liveQueryMap<T>(session => session.liveQuery(query, options))
+    return this.acquire$().pipe(
+      switchTo((session: ODatabaseSession) => session.liveQuery$(query, options)),
     )
   }
 }

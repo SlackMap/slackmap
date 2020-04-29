@@ -4,8 +4,6 @@ export * from './orient.module';
 export * from './orient.service';
 export * from './close.interceptor';
 export * from './operators/acquire.operator';
-export * from './operators/stream-map.operator';
-export * from './operators/live-query-map.operator';
 import * as RecordId from 'orientjs/lib/recordid';
 
 export function toRid(rid: string) {
