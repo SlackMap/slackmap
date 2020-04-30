@@ -3,7 +3,7 @@ import { FacebookClient } from '@slackmap/api/facebook';
 import { Observable, of } from 'rxjs';
 import { FacebookFixture } from './facebook.fixture';
 
-const http: Partial<HttpService> = {
+export const httpForFacebookClient: Partial<HttpService> = {
   get(url, config): Observable<any> {
     if (url === `https://graph.facebook.com/${FacebookClient.version}/me`) {
       const data = FacebookFixture.getByToken(config.params.access_token);
@@ -16,6 +16,6 @@ const http: Partial<HttpService> = {
 export class FacebookClientMock extends FacebookClient {
 
   constructor() {
-    super(http as HttpService);
+    super(httpForFacebookClient as HttpService);
   }
 }

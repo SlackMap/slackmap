@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import Supercluster from 'supercluster';
+import * as Supercluster from 'supercluster';
 import { ItemType, ItemSubtype, RIDS, SportType } from '@slackmap/core';
 import { ClusterCountsModel, ClusterModel } from '../models';
 import { OrientService, SpotEntity } from "@slackmap/api/orient";

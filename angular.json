@@ -250,7 +250,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/api/e2e/jest.config.js",
-            "tsConfig": "apps/api/e2e/tsconfig.spec.json",
+            "tsConfig": "apps/api/e2e/tsconfig.json",
             "passWithNoTests": true
           }
         }

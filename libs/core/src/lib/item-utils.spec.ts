@@ -1,15 +1,17 @@
-import {ItemUtils} from './item-utils';
+import {ItemUtils, getSpotSubtypeOptions} from './item-utils';
 import { SpotAccess } from './spot-access';
 import { ItemType } from '.';
+import { SpotShapeType } from './spot-shape-type';
 
 describe('ItemUtils', () => {
-  // const itemUtils = new ItemUtils();
-  // test('getSpotSubtypeOptions(SpotCategory.AREA)', () => {
-  //   const options = itemUtils.getSpotSubtypeOptions(ShapeType.AREA);
-  //   expect(options[0].order < options[1].order).toBe(true);
-  // });
+  const itemUtils = new ItemUtils();
+
+  test('getSpotSubtypeOptions(SpotCategory.AREA)', () => {
+    const options = getSpotSubtypeOptions(SpotShapeType.AREA);
+    expect(options[0].order < options[1].order).toBe(true);
+  });
   // test('getType(ItemType.SPOT)', () => {
-  //   const type = itemUtils.getType(ItemType.SPOT);
+  //   const type = getType(ItemType.SPOT);
   //   expect(type.id).toBe(ItemType.SPOT);
   // });
   // test('getSubtype(SpotSubtype.HIGHLINE)', () => {

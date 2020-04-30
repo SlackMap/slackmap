@@ -1,4 +1,4 @@
-import {ItemType, rid2type, ItemSubtype, SpotAccess, PhotoSize, DislikeReason, ItemRidPrefix, parseRid, SpotSubtype} from './item';
+import { rid2type, ItemType, SpotAccess, PhotoSize, DislikeReason, ItemRidPrefix, parseRid, ItemSubtype } from ".";
 
 describe('@slackmap/core/item.ts', () => {
   describe('rid2type(rid:string)', () => {
@@ -22,7 +22,7 @@ describe('@slackmap/core/item.ts', () => {
   });
   describe('SpotSubtype', () => {
     test('should return spot highline subtype', () => {
-      expect(SpotSubtype.HIGHLINE).toBe(1);
+      expect(ItemSubtype.SPOT_HIGHLINE).toBe(1);
     });
   });
   describe('SpotAccess', () => {
