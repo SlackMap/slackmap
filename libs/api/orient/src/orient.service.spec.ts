@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrientService } from './orient.service';
 import { OrientConfig } from './orient.config';
-import { ODatabaseSession } from 'orientjs';
+import { ODatabaseSession, OStatement } from 'orientjs';
 import { tap, switchMap, take } from 'rxjs/operators';
 import { Logger } from '@nestjs/common';
 import { LiveQueryOperation } from './rx/orientjs-rx';
@@ -32,13 +32,6 @@ describe('OrientService', () => {
   afterAll(async () => {
     await module.close();
   });
-
-  // beforeEach(async () => {
-  //   session = await orientService.acquire()
-  // });
-  // afterEach(async () => {
-  //   await session.close();
-  // });
 
   describe('Connection', () => {
     it('should be OrientService instance', () => {
@@ -81,6 +74,81 @@ describe('OrientService', () => {
       expect(spy2).toBeCalledTimes(1);
       spy.mockRestore();
       spy2.mockRestore();
+    });
+  });
+  describe('QueryBuilder on SessionQuery', () => {
+
+    test('SELECT by .observable()', async () => {
+      const count = jest.fn();
+      await session.select()
+        .from('Log')
+        .limit(2)
+        .observable()
+        .pipe(
+          tap(res => {
+            expect(typeof res['@version']).toBe('number')
+            count()
+          })
+        ).toPromise()
+
+      expect(count).toHaveBeenCalledTimes(2);
+
+    });
+    test('SELECT by .one$()', async () => {
+      const count = jest.fn();
+      await session.select()
+        .from('Log')
+        .limit(2)
+        .one$()
+        .pipe(
+          tap(res => {
+            expect(typeof res['@version']).toBe('number')
+            count()
+          })
+        ).toPromise()
+
+      expect(count).toHaveBeenCalledTimes(1);
+
+    });
+    test('SELECT by .all$()', async () => {
+      const count = jest.fn();
+      await session.select()
+        .from('Log')
+        .limit(2)
+        .all$()
+        .pipe(
+          tap(res => {
+            expect(typeof res[0]['@version']).toBe('number')
+            expect(typeof res[1]['@version']).toBe('number')
+            count()
+          })
+        ).toPromise()
+
+      expect(count).toHaveBeenCalledTimes(1);
+
+    });
+    test('INSERT by .observable()', async () => {
+      const test = 'test log with QueryBuilder'
+      await session.insert()
+        .into('Log')
+        .set({ test })
+        .observable()
+        .pipe(
+          tap(res => {
+            expect(typeof res['@version']).toBe('number')
+          })
+        ).toPromise()
+    });
+    test('INSERT by .one()', async () => {
+      const test = 'test log with QueryBuilder'
+      await session
+        .insert()
+        .into('Log')
+        .set({ test })
+        .one()
+        .then(res => {
+          expect(typeof res['@version']).toBe('number')
+        })
     });
   });
 
