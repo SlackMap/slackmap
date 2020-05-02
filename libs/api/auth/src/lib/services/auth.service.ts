@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayloadModel } from '../models';
+import { UserService } from '@slackmap/api/orient';
 
 @Injectable()
 export class AuthService {

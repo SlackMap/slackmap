@@ -27,7 +27,7 @@ export class AuthController {
    * Register by facebook
    */
   @Post(AUTH_PATHS.registerByFacebook())
-  registerByFacebook(@Body() data: AuthRegisterByFacebookRequestDto): Observable<AuthRegisterByFacebookDto> {
+  registerByFacebook(@Body() data: AuthRegisterByFacebookRequestDto): Promise<AuthRegisterByFacebookDto> {
     const usecase = this.module.get(AuthRegisterByFacebookUseCase);
     return usecase.process(data);
   }

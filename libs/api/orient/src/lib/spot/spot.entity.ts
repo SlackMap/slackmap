@@ -1,7 +1,7 @@
 import { PoiInterface } from '../item/poi.interface';
 import { ItemInterface } from '../item/item.interface';
 import { Position, Geometry } from '@slackmap/gis';
-import { LocationPathEntity } from './location-path.entity';
+import { LocationPathEntity } from '../location/location-path.entity';
 
 export class SpotEntity implements ItemInterface {
   // // item

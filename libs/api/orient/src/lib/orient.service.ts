@@ -1,12 +1,11 @@
 import { Injectable, Logger, OnApplicationShutdown } from '@nestjs/common';
-import "./rx/orientjs-rx";
+import "./utils/orientjs-rx";
 import { OrientConfig } from './orient.config';
-import { OrientDBClient, ODatabaseSession, QueryOptions, ODatabaseSessionPool } from 'orientjs';
+import { OrientDBClient, ODatabaseSession, QueryOptions, ODatabaseSessionPool, LiveQueryEvent } from 'orientjs';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrientConnection } from './orient.interfaces';
-import { LiveQueryEvent } from './rx/orientjs-rx';
-import { switchTo, acquire } from './operators';
+import { switchTo, acquire } from './utils';
 
 @Injectable()
 export class OrientService implements OnApplicationShutdown {

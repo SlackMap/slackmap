@@ -1,4 +1,5 @@
 import { OResult, ODatabaseSession, QueryOptions, LiveQuery, OQuery, ORID } from "orientjs";
+import * as orientjs from "orientjs";
 import { Observable } from 'rxjs';
 import { reduce, take, map } from 'rxjs/operators';
 const DatabaseSession = require('orientjs/lib/client/database/database');
@@ -12,6 +13,13 @@ const Query = require('orientjs/lib/db/query');
  *
  * Unsubscribe should work as expected and will close the connection
  */
+// @ts-ignore
+orientjs.LiveQueryOperation = {
+  INSERT: 1,
+  UPDATE: 2,
+  DELETE: 3,
+};
+
 declare module "orientjs" {
   // export interface OStatement {
   //   transform<T>(transformer: (item: ORecord) => T): OStatement;
@@ -19,13 +27,37 @@ declare module "orientjs" {
   export interface QueryParams {
     [key: string]: any
   }
+  export interface ORow {
+    '@rid': ORID,
+    '@class': string,
+    '@version': number,
+    '@type'?: 'd' | 'b';
+  }
+  export enum LiveQueryOperation {
+    INSERT = 1,
+    UPDATE = 2,
+    DELETE = 3,
+  }
+  export interface LiveQueryEvent<R> {
+    monitorId: number,
+    operation: LiveQueryOperation,
+    data: R
+    before?: R
+  }
+  export interface ODatabaseSession {
+    query$: <R>(query: string, options?: QueryOptions) => Observable<R>;
+    queryOne$: <R>(query: string, options?: QueryOptions) => Observable<R>;
+    queryAll$: <R>(query: string, options?: QueryOptions) => Observable<R[]>;
+    liveQuery$: <R>(query: string, options?: QueryOptions) => Observable<LiveQueryEvent<R>>;
+    command$: <R>(command: string, options?: QueryOptions) => Observable<R>;
+  }
   export interface OQuery<T> {
     observable: (params?: QueryParams) => Observable<T>;
     one$: (params?: QueryParams) => Observable<T>;
     all$: (params?: QueryParams) => Observable<T[]>;
 
     // fix to get the value from Query definition
-    transform<R = T>(transformer: (item: ORecord) => R): OQuery<R>;
+    transform<R = T>(transformer: (item: ORow) => R): OQuery<R>;
     column(name: string): OQuery<T>;
     defaults(defaults: any): OQuery<T>;
     one<R = T>(params?: any): Promise<R>;
@@ -36,12 +68,12 @@ declare module "orientjs" {
 }
 
 Query.prototype.observable = function <R>(params?): Observable<R> {
-// console.log('DB', this.db.name)
+  // console.log('DB', this.db.name)
   return new Observable<R>(subscriber => {
     if (params) {
       this.addParams(params);
     }
-    const stream =  this.db.batch(this.buildStatement(), this.buildOptions())
+    const stream = this.db.batch(this.buildStatement(), this.buildOptions())
 
     stream.on("data", (data: any) => subscriber.next(data))
     stream.once('error', (err) => subscriber.error(err))
@@ -112,22 +144,6 @@ Result.prototype.one$ = function <R>(): Observable<R> {
  * And unsubscribe as well
  */
 
-export interface OrientRow {
-  '@rid': ORID,
-  '@class': string,
-  '@version': number
-}
-export enum LiveQueryOperation {
-  INSERT = 1,
-  UPDATE = 2,
-  DELETE = 3,
-}
-export interface LiveQueryEvent<R> {
-  monitorId: number,
-  operation: LiveQueryOperation,
-  data: R
-  before?: R
-}
 
 declare module "orientjs" {
   export interface ODatabaseSession {

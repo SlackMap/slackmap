@@ -26,6 +26,7 @@
       "@slackmap/ui/pwa": ["libs/ui/pwa/src/index.ts"],
       "@slackmap/ui/map": ["libs/ui/map/src/index.ts"],
       "@slackmap/api/orient": ["libs/api/orient/src/index.ts"],
+      "@slackmap/api/orient/testing": ["libs/api/orient/src/testing/index.ts"],
       "@slackmap/api/common": ["libs/api/common/src/index.ts"],
       "@slackmap/api/clusters": ["libs/api/clusters/src/index.ts"],
       "@slackmap/api/clusters/dto": ["libs/api/clusters/src/dto.ts"],

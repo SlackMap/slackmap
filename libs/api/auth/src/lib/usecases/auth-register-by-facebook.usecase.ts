@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Observable, of, throwError } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '../dto';
-import { UserService, AuthService } from '../services';
+import { AuthService } from '../services';
 import { JwtPayloadModel, UserModel } from '../models';
 import { ValidationError, Syslog } from '@slackmap/api/common';
-import { userEntity2model, UserRepository } from '@slackmap/api/orient';
+import { UserRepository, UserService, UserEntity } from '@slackmap/api/orient';
 
 /**
  *
@@ -15,75 +15,108 @@ export class AuthRegisterByFacebookUseCase {
   constructor(
     private authService: AuthService,
     private userRepository: UserRepository,
+    private userService: UserService,
   ) { }
   async process(request: AuthRegisterByFacebookRequestDto): Promise<AuthRegisterByFacebookDto> {
-        /**
-         * This token comes from connect-facebook-usecase, and contains only facbookUser property
-         * lets take the data we need
-         */
-        let {facebookUser: {id: facebookId, email}} = this.authService.verify(request.token);
+    
+    // TODO get and merge data from the form from the reuest DTO
 
-        // no possibility to login with no fb id
-        if (!facebookId) {
-            // ctx.log.debug({status: 422, fb_id: profile.id, fb_name: profile.name}, 'no fb id');
-            throw new ValidationError({
-              title: `We can't get id of your facebook profile :(`
-            });
-        }
+    /**
+     * This token comes from connect-facebook-usecase, and contains only facbookUser property
+     * lets take the data we need
+     */
+    const { facebookUser } = this.authService.verify(request.token);
 
-        // if permissions was not granted, email is empty, lets use fake one
-        // TODO change db schema and remove email as required field in User class
-        // TODO if no email from facebook, ask for it during registration and sand verification email
-        if (!email) {
-            // quick fix to allow no email logins, later we will fix this by authenticating the emails
-            email = 'fb-'+facebookId+'@slackmap.com';
-            // ctx.log.debug({status: 422, fb_id: profile.id, fb_name: profile.name}, 'no fb email');
+    // no possibility to login with no fb id
+    if (!facebookUser.id) {
+      // ctx.log.debug({status: 422, fb_id: profile.id, fb_name: profile.name}, 'no fb id');
+      throw new ValidationError({
+        title: `We can't get id of your facebook profile :(`
+      });
+    }
+    let email = facebookUser.email;
+    // if permissions was not granted, email is empty, lets use fake one
+    // TODO change db schema and remove email as required field in User class
+    // TODO if no email from facebook, ask for it during registration and sand verification email
+    if (!email) {
+      // quick fix to allow no email logins, later we will fix this by authenticating the emails
+      email = 'fb-' + facebookUser.id + '@slackmap.com';
+      // ctx.log.debug({status: 422, fb_id: profile.id, fb_name: profile.name}, 'no fb email');
 
-            // no possibility to login with no emails
-            // throw new ValidationError('20160229090722', `We can't get email from your facebook profile :(`, {rerequest: true});
-        }
+      // no possibility to login with no emails
+      // throw new ValidationError('20160229090722', `We can't get email from your facebook profile :(`, {rerequest: true});
+    }
 
-        /**
-         * find user in database by facebook_id
-         */
-        let user = await this.userRepository.findOne({'facebook_id': facebookId});
-console.log(user)
-        /**
-         * if no user by fb id,
-         * find it by email
-         */
-        if (!user) {
+    /**
+     * find user in database by facebook_id
+     */
+    let user = await this.userRepository.findOne({ 'facebook_id': facebookUser.id });
 
-            user = await this.userRepository.findOne({email: email});
+    /**
+     * if no user by fb id,
+     * find it by email
+     */
+    if (!user) {
 
-            /**
-             * and connect with fb id
-             */
-            if (user) {
-                // user = await this.userService.update(user.id, {facebook_id: facebookId});
-            }
-        }
+      user = await this.userRepository.findOne({ email: email });
 
-        /**
-         * if no user
-         * create new one
-         */
-        // if (!user) {
-        //     let userData = fbProfile2UserEntity(profile);
-        //     user = await this.userService.create(userData);
-        // }
+      /**
+       * and connect with fb id
+       */
+      if (user) {
+        user = await this.userService.update(user.rid, { facebookId: facebookUser.id });
+      }
+    }
 
-        /**
-         * login the user and create it's session
-         */
-        // await ctx.login(user);
+    /**
+     * if no user
+     * create new one
+     */
+    if (!user) {
+      const userData: Partial<UserEntity> = {
+        name: facebookUser.name || '',
+        firstName: facebookUser.first_name || '',
+        lastName: facebookUser.last_name || '',
+        email: email,
+        facebookId: facebookUser.id
+      };
+      user = await this.userService.create(userData);
+    }
 
-        /**
-         * update login stamp
-         */
-        // this.userService.logLoginAction(user);
+    // // set default location
+    // try {
+    //   await this.setLocation(user.rid, ItemRids.WORLD)
+    // } catch (err) {
+    //   console.error('set location error: 20170309215943', err);
+    // }
 
-        // return userEntity2model<UserModel>(user);
-        return null;
+    // // create post on user wall
+    // try {
+    //   // await this.postService.upsertPostOnUser(PostSubtype.USER, user, user)
+    // } catch (err) {
+    //   console.error('create user post on registration: 20170310201036', err);
+    // }
+    /**
+     * login the user and create it's session
+     */
+    // await ctx.login(user);
+
+    /**
+     * update login stamp
+     */
+    // this.userService.logLoginAction(user);
+
+    // return userEntity2model<UserModel>(user);
+
+    const apiToken = this.authService.sign({
+      facebookUser,
+      user,
+      users: [user]
+    });
+    return {
+      apiToken,
+      user,
+      users: [user]
+    };
   }
 }

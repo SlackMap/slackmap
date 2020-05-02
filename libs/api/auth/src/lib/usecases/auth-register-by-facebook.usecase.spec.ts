@@ -4,7 +4,7 @@ import { AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '../
 import { ApiAuthModule } from '../api-auth.module';
 import { AuthService } from '../services';
 import { JwtPayloadModel } from '../models';
-import { ApiAuthTestingModule, UserFixture } from '../../testing';
+import { OrientTestingModule, UserFixture } from '@slackmap/api/orient/testing';
 import { Gender } from '@slackmap/core';
 
 describe('AuthRegisterByFacebookUseCase', () => {
@@ -15,7 +15,7 @@ describe('AuthRegisterByFacebookUseCase', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [ApiAuthModule, ApiAuthTestingModule]
+      imports: [ApiAuthModule, OrientTestingModule]
     })
       // .overrideProvider()
       // .useClass()

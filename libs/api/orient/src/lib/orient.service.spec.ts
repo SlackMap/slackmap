@@ -1,12 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrientService } from './orient.service';
 import { OrientConfig } from './orient.config';
-import { ODatabaseSession, OStatement } from 'orientjs';
-import { tap, switchMap, take } from 'rxjs/operators';
+import { ODatabaseSession, LiveQueryOperation } from 'orientjs';
+import { tap, take } from 'rxjs/operators';
 import { Logger } from '@nestjs/common';
-import { LiveQueryOperation } from './rx/orientjs-rx';
-import { of } from 'rxjs';
-import { acquire } from './operators';
 const databaseSession = require('orientjs/lib/client/database/database');
 
 interface LogTestEntity {
@@ -44,9 +41,9 @@ describe('OrientService', () => {
 
     test('OrientService.acquire$ should return ODatabaseSession instance', () => {
       return orientService.acquire$().pipe(
-        tap(session => {
-          expect(session).toBeDefined();
-          expect(session).toBeInstanceOf(databaseSession);
+        tap(sess => {
+          expect(sess).toBeDefined();
+          expect(sess).toBeInstanceOf(databaseSession);
         }),
         take(1)
       ).toPromise();
@@ -54,7 +51,7 @@ describe('OrientService', () => {
 
     it('should close the connection', async () => {
 
-      let spy = jest.spyOn(Logger.prototype, 'log');
+      const spy = jest.spyOn(Logger.prototype, 'log');
 
       const testingModule: TestingModule = await Test.createTestingModule({
         providers: [OrientService, OrientConfig],
@@ -64,8 +61,7 @@ describe('OrientService', () => {
       const db = await service.client();
       expect(db).toBeDefined();
 
-
-      let spy2 = jest.spyOn(db, 'close');
+      const spy2 = jest.spyOn(db, 'close');
 
       await testingModule.close();
 

@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 import { OResult, OQuery } from 'orientjs';
 import { OrientService } from '../orient.service';
-import { User, userRow2entity, UserEntity } from './user.schema';
+import { User, userToEntity, UserEntity } from './user.schema';
 
 
 @Injectable()
@@ -21,10 +21,7 @@ export class UserRepository {
     'location_path',
     'imperial',
     'created_at',
-    '@rid as id',
-    '@version as version'
   ];
-  meSelectQuery = ['imperial', 'email'];
 
   constructor(
     private readonly orientService: OrientService,
@@ -33,10 +30,10 @@ export class UserRepository {
   find(where: Partial<User> | string): Promise<UserEntity[]> {
     return this.orientService.session().then(session =>
       session
-      .select(this.selectQuery.join(','))
+      .select()
       .from(User.name)
       .where(where)
-      .transform(userRow2entity)
+      .transform(userToEntity)
       .all()
     );
   }
