@@ -3,6 +3,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { OrientService } from './orient.service';
 import { OrientConfig } from './orient.config';
 import { CloseInterceptor } from './close.interceptor';
+import { UserRepository } from './user';
 
 @Module({
   providers: [
@@ -11,8 +12,12 @@ import { CloseInterceptor } from './close.interceptor';
     {
       provide: APP_INTERCEPTOR,
       useClass: CloseInterceptor
-    }
+    },
+    UserRepository,
   ],
-  exports: [OrientService],
+  exports: [
+    OrientService,
+    UserRepository,
+  ],
 })
 export class OrientModule {}

@@ -1,5 +1,5 @@
 import { Position, Geometry } from '@slackmap/gis';
-import { LocationPathEntity } from '../location-path.entity';
+import { LocationPathEntity } from '../entities/location-path.entity';
 
 /**
  * Base Item class

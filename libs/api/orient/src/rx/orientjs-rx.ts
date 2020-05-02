@@ -13,6 +13,9 @@ const Query = require('orientjs/lib/db/query');
  * Unsubscribe should work as expected and will close the connection
  */
 declare module "orientjs" {
+  // export interface OStatement {
+  //   transform<T>(transformer: (item: ORecord) => T): OStatement;
+  // }
   export interface QueryParams {
     [key: string]: any
   }
@@ -20,6 +23,15 @@ declare module "orientjs" {
     observable: (params?: QueryParams) => Observable<T>;
     one$: (params?: QueryParams) => Observable<T>;
     all$: (params?: QueryParams) => Observable<T[]>;
+
+    // fix to get the value from Query definition
+    transform<R = T>(transformer: (item: ORecord) => R): OQuery<R>;
+    column(name: string): OQuery<T>;
+    defaults(defaults: any): OQuery<T>;
+    one<R = T>(params?: any): Promise<R>;
+    all<R = T>(params?: any): Promise<R[]>;
+    scalar<R = T>(params?: any): Promise<R>;
+    exec<R = T>(params?: any): Promise<R>;
   }
 }
 

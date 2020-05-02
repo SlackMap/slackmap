@@ -6,7 +6,7 @@ import { Request } from 'express';
   // scope: Scope.REQUEST
 })
 export class Syslog {
-  constructor(@Inject(REQUEST) private request: Request) {
-    console.log('new logger', request.url);
-  }
+  // constructor(@Inject(REQUEST) private request: Request) {
+  //   console.log('new logger', request.url);
+  // }
 }

@@ -1,5 +1,5 @@
-import { PoiInterface } from './interfaces/poi.interface';
-import { ItemInterface } from './interfaces/item.interface';
+import { PoiInterface } from '../item/poi.interface';
+import { ItemInterface } from '../item/item.interface';
 import { Position, Geometry } from '@slackmap/gis';
 import { LocationPathEntity } from './location-path.entity';
 

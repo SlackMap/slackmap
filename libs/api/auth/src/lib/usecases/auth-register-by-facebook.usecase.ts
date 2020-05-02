@@ -5,7 +5,7 @@ import { AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '../
 import { UserService, AuthService } from '../services';
 import { JwtPayloadModel, UserModel } from '../models';
 import { ValidationError, Syslog } from '@slackmap/api/common';
-import { userEntity2model } from '@slackmap/api/orient';
+import { userEntity2model, UserRepository } from '@slackmap/api/orient';
 
 /**
  *
@@ -13,13 +13,10 @@ import { userEntity2model } from '@slackmap/api/orient';
 @Injectable()
 export class AuthRegisterByFacebookUseCase {
   constructor(
-    private log: Syslog,
     private authService: AuthService,
-    private userService: UserService,
+    private userRepository: UserRepository,
   ) { }
-  process(request: AuthRegisterByFacebookRequestDto): Observable<AuthRegisterByFacebookDto> {
-      console.log('LOGGER', this.log);
-      console.log('authService', this.authService);
+  async process(request: AuthRegisterByFacebookRequestDto): Promise<AuthRegisterByFacebookDto> {
         /**
          * This token comes from connect-facebook-usecase, and contains only facbookUser property
          * lets take the data we need
@@ -29,9 +26,9 @@ export class AuthRegisterByFacebookUseCase {
         // no possibility to login with no fb id
         if (!facebookId) {
             // ctx.log.debug({status: 422, fb_id: profile.id, fb_name: profile.name}, 'no fb id');
-            return throwError(new ValidationError({
+            throw new ValidationError({
               title: `We can't get id of your facebook profile :(`
-            }));
+            });
         }
 
         // if permissions was not granted, email is empty, lets use fake one
@@ -49,23 +46,23 @@ export class AuthRegisterByFacebookUseCase {
         /**
          * find user in database by facebook_id
          */
-        // let user:UserEntity = await this.userService.find({'facebook_id': profile.id}).then(users=>users[0]);
-
+        let user = await this.userRepository.findOne({'facebook_id': facebookId});
+console.log(user)
         /**
          * if no user by fb id,
          * find it by email
          */
-        // if (!user) {
+        if (!user) {
 
-        //     user = await this.userService.find({email: profile.email}).then(users=>users[0]);
+            user = await this.userRepository.findOne({email: email});
 
-        //     /**
-        //      * and connect with fb id
-        //      */
-        //     if (user) {
-        //         user = await this.userService.update(user.id, {facebook_id: profile.id});
-        //     }
-        // }
+            /**
+             * and connect with fb id
+             */
+            if (user) {
+                // user = await this.userService.update(user.id, {facebook_id: facebookId});
+            }
+        }
 
         /**
          * if no user
@@ -87,5 +84,6 @@ export class AuthRegisterByFacebookUseCase {
         // this.userService.logLoginAction(user);
 
         // return userEntity2model<UserModel>(user);
+        return null;
   }
 }

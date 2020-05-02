@@ -1,4 +1,6 @@
 export * from './entities';
+export * from './user';
+export * from './item';
 export * from './orient.config';
 export * from './orient.module';
 export * from './orient.service';

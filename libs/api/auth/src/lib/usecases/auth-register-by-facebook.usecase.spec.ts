@@ -29,6 +29,38 @@ describe('AuthRegisterByFacebookUseCase', () => {
     await module.close();
   });
 
+  test('should update existing user', async () => {
+    const payload: JwtPayloadModel = {
+      facebookUser: {
+        email: "pedro.blaszczak@gmail.com",
+        id: "1278937090",
+        name: 'Testo Maniak',
+        first_name: 'Testo',
+        last_name: 'Maniak',
+      },
+      user: null,
+      users: [],
+    };
+    const token = authService.sign(payload);
+    const requestDto: AuthRegisterByFacebookRequestDto = {
+      token,
+      email: '',
+      firstName: '',
+      lastName: '',
+      gender: Gender.MALE
+    };
+    const responseDto: AuthRegisterByFacebookDto = {
+      user: expect.any(Object),
+      users: expect.any(Array),
+      apiToken: expect.any(String)
+    };
+    return usecase
+      .process(requestDto)
+      .then(res => {
+        expect(res).toMatchObject(responseDto);
+      });
+  });
+
   test('should work', async () => {
     const payload: JwtPayloadModel = {
       facebookUser: {
@@ -56,7 +88,6 @@ describe('AuthRegisterByFacebookUseCase', () => {
     };
     return usecase
       .process(requestDto)
-      .toPromise()
       .then(res => {
         expect(res).toMatchObject(responseDto);
       });

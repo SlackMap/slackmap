@@ -80,6 +80,7 @@ describe('OrientService', () => {
 
     test('SELECT by .observable()', async () => {
       const count = jest.fn();
+      session.delete()
       await session.select()
         .from('Log')
         .limit(2)
