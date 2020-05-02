@@ -14,6 +14,8 @@
     "jest": "jest --clearCache",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
+    "migrations": "ts-node --project=libs/api/orient/tsconfig.migrations.json libs/api/orient/src/migrations/cli.ts",
+    "build:migrations": "tsc -p libs/api/orient/tsconfig.migrations.json",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
