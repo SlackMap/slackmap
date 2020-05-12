@@ -98,7 +98,6 @@ export class UserFixture implements OnModuleDestroy {
 
     // with drivine we use test transaction rollback, so all test rollback after finish
 
-    // const db = await this.orient.session();
     // for (const user of this.users) {
     //   if(!user.rid) continue;
     //   await db.batch(`DELETE VERTEX FROM User WHERE @rid = :rid`,{params:{rid: toRid(user.id)}})

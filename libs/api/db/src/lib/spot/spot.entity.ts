@@ -34,22 +34,3 @@ export class SpotEntity implements ItemInterface {
   length_laser?: boolean;
   height_laser?: boolean;
 }
-
-export function spotRow2entity(row: any): SpotEntity {
-  if (row) {
-    if (row.id) {
-      row.id = row.id.toString();
-    } else if (row['@rid']) {
-      row.id = row['@rid'].toString();
-    }
-    delete row['@type'];
-    delete row['@rid'];
-    delete row['@version'];
-  }
-  return row;
-}
-
-export function spotEntity2model<T>(entity: SpotEntity): T {
-  delete entity['id'];
-  return <T>entity;
-}

@@ -40,9 +40,6 @@
     "cli": {
       "tags": []
     },
-    "api-orient": {
-      "tags": ["api"]
-    },
     "api-common": {
       "tags": ["api"]
     },

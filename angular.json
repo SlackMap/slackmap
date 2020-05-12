@@ -465,32 +465,6 @@
         }
       }
     },
-    "api-orient": {
-      "root": "libs/api/orient",
-      "sourceRoot": "libs/api/orient/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/api/orient/tsconfig.lib.json",
-              "libs/api/orient/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/api/orient/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/api/orient/jest.config.js",
-            "tsConfig": "libs/api/orient/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "api-common": {
       "root": "libs/api/common",
       "sourceRoot": "libs/api/common/src",

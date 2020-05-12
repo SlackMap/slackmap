@@ -2,7 +2,6 @@ import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/commo
 import * as Supercluster from 'supercluster';
 import { ItemType, ItemSubtype, RIDS, SportType } from '@slackmap/core';
 import { ClusterCountsModel, ClusterModel } from '../models';
-import { OrientService, SpotEntity } from "@slackmap/api/orient";
 import { superclusterOptions, SuperclusterFeature } from '../models';
 import { map, reduce, takeUntil, take } from 'rxjs/operators';
 import { Observable, of, Subject, ReplaySubject } from 'rxjs';
@@ -16,7 +15,7 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
   destroy$ = new Subject();
 
   constructor(
-    private db: OrientService
+    private spotRepository: SpotRepository
   ) {}
 
   /**
@@ -102,7 +101,7 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
    */
   loadPointFeaturesBySportType(sport: SportType): Observable<SuperclusterFeature[]> {
     // TODO after addding sport property to Spot entity, add it in WHERE section to this SQL query
-    return this.db.query$<SpotEntity>(`SELECT rid, lat, lon, subtype FROM Spot`).pipe(
+    return this.spotRepository.query$<SpotEntity>(`SELECT rid, lat, lon, subtype FROM Spot`).pipe(
       map<SpotEntity, SuperclusterFeature>((spot) => {
         return {
           type: 'Feature',
