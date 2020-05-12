@@ -4,18 +4,20 @@ import { FacebookClient } from '@slackmap/api/facebook';
 import { FacebookClientMock, FacebookFixture } from '@slackmap/api/facebook/testing';
 import { ApiAuthModule } from '../api-auth.module';
 import { AuthConnectFacebookDto } from '../dto';
+import { DbTestingModule, UserFixture } from '@slackmap/api/db/testing';
 
 describe('auth-connect-facebook UseCase', () => {
-  let usecase: AuthConnectFacebookUseCase, module: TestingModule;
+  let usecase: AuthConnectFacebookUseCase, module: TestingModule, userFixture: UserFixture;
   beforeEach(async () => {
     module = await Test.createTestingModule({
-      imports: [ApiAuthModule],
+      imports: [ApiAuthModule, DbTestingModule],
     })
       .overrideProvider(FacebookClient)
       .useClass(FacebookClientMock)
       .compile();
 
     usecase = module.get(AuthConnectFacebookUseCase);
+    userFixture = module.get(UserFixture);
   });
   afterEach(async () => {
     await module.close();
@@ -55,7 +57,9 @@ describe('auth-connect-facebook UseCase', () => {
       }
       );
   });
-  test('should return facebook profile + user', () => {
+  test('should return facebook profile + user', async () => {
+    const facebookUser: any = FacebookFixture.getByToken(FacebookFixture.USER_PROFILE_TOKEN)
+    await userFixture.createFakeUser({facebookId: facebookUser.id})
     const value: AuthConnectFacebookDto = {
       facebookUser: expect.any(Object),
       user: expect.any(Object),

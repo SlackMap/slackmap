@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayloadModel } from '../models';
-import { UserService } from '@slackmap/api/orient';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
+    // private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) { }
 

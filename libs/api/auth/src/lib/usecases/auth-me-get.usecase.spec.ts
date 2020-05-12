@@ -1,12 +1,18 @@
 import { AuthMeGetUseCase } from './auth-me-get.usecase';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ApiAuthModule } from '../api-auth.module';
+// import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+
+// RunWithDrivine({
+//   transaction: {rollback: true}
+// });
 
 describe('auth-user-get UseCase', () => {
   let usecase: AuthMeGetUseCase, module: TestingModule;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      providers: [AuthMeGetUseCase]
+      imports: [ApiAuthModule]
     }).compile();
 
     usecase = module.get(AuthMeGetUseCase);
@@ -19,7 +25,6 @@ describe('auth-user-get UseCase', () => {
     const payload = {user: 'fake data'};
     return usecase
       .process(payload as any)
-      .toPromise()
       .then(
         (res) => {
           expect(res.user).toBe(payload.user);

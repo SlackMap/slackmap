@@ -5,7 +5,7 @@ import { AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '../
 import { AuthService } from '../services';
 import { JwtPayloadModel, UserModel } from '../models';
 import { ValidationError, Syslog } from '@slackmap/api/common';
-import { UserRepository, UserService, UserEntity } from '@slackmap/api/orient';
+import { UserRepository, UserEntity } from '@slackmap/api/db';
 
 /**
  *
@@ -15,7 +15,7 @@ export class AuthRegisterByFacebookUseCase {
   constructor(
     private authService: AuthService,
     private userRepository: UserRepository,
-    private userService: UserService,
+    // private userService: UserService
   ) { }
   async process(request: AuthRegisterByFacebookRequestDto): Promise<AuthRegisterByFacebookDto> {
     
@@ -35,22 +35,16 @@ export class AuthRegisterByFacebookUseCase {
       });
     }
     let email = facebookUser.email;
-    // if permissions was not granted, email is empty, lets use fake one
-    // TODO change db schema and remove email as required field in User class
-    // TODO if no email from facebook, ask for it during registration and sand verification email
+    // if permissions was not granted, email is empty, get it from the registration form
     if (!email) {
-      // quick fix to allow no email logins, later we will fix this by authenticating the emails
-      email = 'fb-' + facebookUser.id + '@slackmap.com';
-      // ctx.log.debug({status: 422, fb_id: profile.id, fb_name: profile.name}, 'no fb email');
-
-      // no possibility to login with no emails
-      // throw new ValidationError('20160229090722', `We can't get email from your facebook profile :(`, {rerequest: true});
+      email = request.email;
+      // TODO send verification email
     }
 
     /**
      * find user in database by facebook_id
      */
-    let user = await this.userRepository.findOne({ 'facebook_id': facebookUser.id });
+    let user = await this.userRepository.findOne({facebookId: facebookUser.id});
 
     /**
      * if no user by fb id,
@@ -58,13 +52,13 @@ export class AuthRegisterByFacebookUseCase {
      */
     if (!user) {
 
-      user = await this.userRepository.findOne({ email: email });
+        user = await this.userRepository.findOne({email});
 
       /**
        * and connect with fb id
        */
       if (user) {
-        user = await this.userService.update(user.rid, { facebookId: facebookUser.id });
+        user = await this.userRepository.update(user.rid, { facebookId: facebookUser.id });
       }
     }
 
@@ -80,7 +74,7 @@ export class AuthRegisterByFacebookUseCase {
         email: email,
         facebookId: facebookUser.id
       };
-      user = await this.userService.create(userData);
+      user = await this.userRepository.create(userData);
     }
 
     // // set default location
@@ -111,12 +105,12 @@ export class AuthRegisterByFacebookUseCase {
     const apiToken = this.authService.sign({
       facebookUser,
       user,
-      users: [user]
+      users: []
     });
     return {
       apiToken,
       user,
-      users: [user]
+      users: []
     };
   }
 }

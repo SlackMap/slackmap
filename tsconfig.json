@@ -35,14 +35,14 @@
       "@slackmap/api/auth/testing": ["libs/api/auth/src/testing/index.ts"],
       "@slackmap/api/facebook": ["libs/api/facebook/src/index.ts"],
       "@slackmap/api/facebook/dto": ["libs/api/facebook/src/dto.ts"],
-      "@slackmap/api/facebook/testing": ["libs/api/facebook/src/testing/index.ts"],
+      "@slackmap/api/facebook/testing": [
+        "libs/api/facebook/src/testing/index.ts"
+      ],
       "@slackmap/api/config": ["libs/api/config/src/index.ts"],
-      "@slackmap/api/config/dto": ["libs/api/config/src/dto.ts"]
+      "@slackmap/api/config/dto": ["libs/api/config/src/dto.ts"],
+      "@slackmap/api/db": ["libs/api/db/src/index.ts"],
+      "@slackmap/api/db/testing": ["libs/api/db/src/testing/index.ts"],
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp",
-    "tools/schematics/**/files/**"
-  ]
+  "exclude": ["node_modules", "tmp", "tools/schematics/**/files/**"]
 }

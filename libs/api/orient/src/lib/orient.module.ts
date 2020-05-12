@@ -4,7 +4,7 @@ import { RidGenerator } from '@slackmap/core';
 import { OrientService } from './orient.service';
 import { OrientConfig } from './orient.config';
 import { CloseInterceptor } from './close.interceptor';
-import { UserRepository, UserService } from './user';
+// import { UserRepositoryOld, UserService } from './user';
 
 @Module({
   providers: [
@@ -14,9 +14,9 @@ import { UserRepository, UserService } from './user';
       provide: APP_INTERCEPTOR,
       useClass: CloseInterceptor
     },
-    UserRepository,
+    // UserRepositoryOld,
     RidGenerator,
-    UserService,
+    // UserService,
     // {
     //   provide: RidGenerator,
     //   useClass: RidGenerator
@@ -24,8 +24,8 @@ import { UserRepository, UserService } from './user';
   ],
   exports: [
     OrientService,
-    UserRepository,
-    UserService,
+    // UserRepositoryOld,
+    // UserService,
   ],
 })
 export class OrientModule {}

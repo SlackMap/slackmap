@@ -4,7 +4,12 @@ import { switchMap, map } from 'rxjs/operators';
 import { AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '../dto';
 import { FacebookClient } from '@slackmap/api/facebook';
 import { AuthService } from '../services';
-import { UserRepository } from '@slackmap/api/orient';
+import { UserRepository } from '@slackmap/api/db';
+import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+
+RunWithDrivine({
+  transaction: {rollback: true}
+});
 
 @Injectable()
 export class AuthConnectFacebookUseCase {
@@ -17,7 +22,7 @@ export class AuthConnectFacebookUseCase {
 
     return this.facebookClient.me(request.accessToken).pipe(
       // TODO search by email if not found by facebook id
-      switchMap(facebookUser => from(this.userRepository.find({facebook_id: facebookUser.id})).pipe(map(users => ({facebookUser, users})))),
+      switchMap(facebookUser => from(this.userRepository.find({facebookId: facebookUser.id})).pipe(map(users => ({facebookUser, users})))),
       map(({facebookUser, users}) => {
         let user = null;
         if (users.length) {

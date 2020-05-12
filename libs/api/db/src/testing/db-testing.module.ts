@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UserFixture } from './fixtures/user.fixture';
-import { OrientModule } from '../lib';
 import { RidGenerator } from '@slackmap/core';
+import { ApiDbModule } from '../lib/api-db.module';
 
 @Module({
-  imports: [OrientModule],
+  imports: [ApiDbModule],
   providers: [
     UserFixture,
     RidGenerator,
-    // {provide: RidGenerator, useClass: RidGenerator},
   ],
   exports: [UserFixture],
 })
-export class OrientTestingModule { }
+export class DbTestingModule { }

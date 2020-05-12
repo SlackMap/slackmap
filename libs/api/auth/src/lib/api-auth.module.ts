@@ -11,9 +11,11 @@ import { AuthConnectFacebookUseCase, AuthMeGetUseCase, AuthRegisterByFacebookUse
 import { ApiFacebookModule } from '@slackmap/api/facebook';
 import { JwtAuthGuard } from './guards';
 import { ApiCommonModule } from '@slackmap/api/common';
+import { ApiDbModule } from '@slackmap/api/db';
 
 @Module({
   imports: [
+    ApiDbModule,
     ApiCommonModule,
     OrientModule,
     ApiFacebookModule,
