@@ -44,7 +44,7 @@ sm-map-view {
     flex-grow: 1;
     height: 100%;
   }
-  .show-map-btn, .show-list-btn {
+  .map-list-switch-btns {
     display: none;
   }
 }
@@ -76,11 +76,19 @@ sm-map-view {
     z-index: 3;
     width: 100%;
     box-shadow: 2px 0 5px rgba(0,0,0,.2);
-    .show-map-btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      z-index: 1;
+  }
+  .map-list-switch-btns {
+    display: block;
+    position: absolute;
+    bottom: 70px;
+    right: 0px;
+    left: 0px;
+    text-align: center;
+    z-index: 10;
+    background-color: rgb(0,0,0,.3);
+    padding: 5px 0;
+    button {
+      margin-right: 10px;
     }
   }
   sm-map-view {
