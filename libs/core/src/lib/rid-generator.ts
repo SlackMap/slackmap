@@ -2,9 +2,7 @@ import { ItemType, ItemSubtype } from './item-type';
 import { ItemRidPrefix } from './item-rid';
 import * as getSlug from 'speakingurl';
 import { v4 as uuid } from 'uuid';
-import { Injectable } from '@nestjs/common';
 
-@Injectable()
 export class RidGenerator {
   public enableLogs = false;
   public logs: string[] = [];

@@ -1,11 +1,11 @@
 import { AuthMeGetUseCase } from './auth-me-get.usecase';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApiAuthModule } from '../api-auth.module';
-// import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
 
-// RunWithDrivine({
-//   transaction: {rollback: true}
-// });
+RunWithDrivine({
+  transaction: {rollback: true}
+});
 
 describe('auth-user-get UseCase', () => {
   let usecase: AuthMeGetUseCase, module: TestingModule;

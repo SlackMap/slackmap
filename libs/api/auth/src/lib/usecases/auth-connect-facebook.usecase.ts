@@ -5,11 +5,6 @@ import { AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '../dto';
 import { FacebookClient } from '@slackmap/api/facebook';
 import { AuthService } from '../services';
 import { UserRepository } from '@slackmap/api/db';
-import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
-
-RunWithDrivine({
-  transaction: {rollback: true}
-});
 
 @Injectable()
 export class AuthConnectFacebookUseCase {

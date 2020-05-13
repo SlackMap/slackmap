@@ -1,19 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClustersService } from './clusters.service';
-import { OrientModule } from '@slackmap/api/orient';
-import { SportType, ItemType } from '@slackmap/core';
+import { SportType, ItemType, ItemSubtype } from '@slackmap/core';
+import { ApiClustersModule } from '../api-clusters.module';
+import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+import { DbTestingModule, SpotFixture } from "@slackmap/api/db/testing";
+
+RunWithDrivine({
+  transaction: {rollback: true},
+});
 
 describe('ClusterService', () => {
   let service: ClustersService;
+  let spotFixture: SpotFixture;
   let module: TestingModule;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [OrientModule],
-      providers: [ClustersService],
+      imports: [ApiClustersModule, DbTestingModule],
+      providers: [],
     }).compile();
 
-    service = module.get<ClustersService>(ClustersService);
+    service = module.get(ClustersService);
+    spotFixture = module.get(SpotFixture);
   });
 
   afterAll(async () => {
@@ -22,17 +30,23 @@ describe('ClusterService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    expect(spotFixture).toBeDefined();
   });
 
-  it('should return array of spots', async () => {
-    let bbox = [-180, -90, 180, 90];
-    let zoom = 16
-    let sport = SportType.SLACKLINE;
+  it('should return array of clusters', async () => {
+    const bbox = [-180, -90, 180, 90];
+    const zoom = 16
+    const sport = SportType.SLACKLINE;
+    const data = await spotFixture.createFakeSpots([
+      {lat: 55, lon: 20, sport, subtype: ItemSubtype.SPOT_HIGHLINE},
+      {lat: 15, lon: 14, sport, subtype: ItemSubtype.SPOT_HIGHLINE},
+      {lat: 0, lon: 0, sport: SportType.DIVING, subtype: ItemSubtype.SPOT_DIVING_POOL},
+    ]);
 
     const clusters = await service.query(sport, bbox, zoom).toPromise();
 
     expect(clusters instanceof Array).toBeTruthy();
-    expect(clusters.length).toBeGreaterThan(0);
+    expect(clusters.length).toBe(2);
     expect(clusters[0].type).toBe(ItemType.CLUSTER);
   });
 });

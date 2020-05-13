@@ -5,10 +5,11 @@ import {
   ClustersClustersGetDto,
   ClustersSpotsGetRequestDto,
   ClustersSpotsGetDto,
-} from '@slackmap/api-client';
-import { SpotsService, ClustersService } from '../services';
+} from '../dto';
+import { ClustersService } from '../services';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { SpotRepository } from '@slackmap/api/db';
 
 /**
  * query map clusters
@@ -16,7 +17,7 @@ import { map, catchError } from 'rxjs/operators';
 @Controller()
 export class ClustersController {
   constructor(
-    private spotService: SpotsService,
+    private spotRepository: SpotRepository,
     private clusterService: ClustersService,
   ) {}
 
@@ -41,7 +42,8 @@ export class ClustersController {
    */
   @Get(CLUSTERS_PATHS.spotsGet())
   @UsePipes(ValidationPipe)
-  clustersSpotsGet(@Query() request: ClustersSpotsGetRequestDto): Observable<ClustersSpotsGetDto> {
-    return this.spotService.getByHash(request);
+  async clustersSpotsGet(@Query() request: ClustersSpotsGetRequestDto): Promise<ClustersSpotsGetDto> {
+    const spots =  await this.spotRepository.getByGeohash(request.hash, request.sport);
+    return {spots}
   }
 }

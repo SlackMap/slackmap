@@ -3,8 +3,11 @@ import * as Supercluster from 'supercluster';
 import { ItemType, ItemSubtype, RIDS, SportType } from '@slackmap/core';
 import { ClusterCountsModel, ClusterModel } from '../models';
 import { superclusterOptions, SuperclusterFeature } from '../models';
-import { map, reduce, takeUntil, take } from 'rxjs/operators';
-import { Observable, of, Subject, ReplaySubject } from 'rxjs';
+import { map, reduce, takeUntil, take, switchMap } from 'rxjs/operators';
+import { Observable, of, Subject, ReplaySubject, from } from 'rxjs';
+import { SpotRepository, SpotEntity } from '@slackmap/api/db';
+import { fromStream } from '@slackmap/api/common';
+
 const logger = new Logger('ClustersService');
 
 @Injectable()
@@ -100,8 +103,9 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
    * @param sport SportType
    */
   loadPointFeaturesBySportType(sport: SportType): Observable<SuperclusterFeature[]> {
-    // TODO after addding sport property to Spot entity, add it in WHERE section to this SQL query
-    return this.spotRepository.query$<SpotEntity>(`SELECT rid, lat, lon, subtype FROM Spot`).pipe(
+
+    return from(this.spotRepository.getForClustering(sport)).pipe(
+      switchMap(cursor => fromStream<SpotEntity>(cursor.asStream())),
       map<SpotEntity, SuperclusterFeature>((spot) => {
         return {
           type: 'Feature',

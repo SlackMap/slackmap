@@ -1,22 +1,16 @@
-import { PoiInterface } from '../item/poi.interface';
-import { ItemInterface } from '../item/item.interface';
 import { Position, Geometry } from '@slackmap/gis';
 import { LocationPathEntity } from '../location/location-path.entity';
+import { ItemType, SpotSubtype, SportType } from '@slackmap/core';
 
-export class SpotEntity implements ItemInterface {
-  // // item
-  id?: string;
+export class SpotEntity {
+  // item
   rid?: string;
-  type?: number;
-  subtype?: number;
-  user?: string;
-  photo?: string;
+  type?: ItemType;
+  subtype?: SpotSubtype;
+  sport?: SportType;
   name?: string;
   description?: string;
-  privacy?: number;
-  _version?: number;
-  created_at?: string;
-  updated_at?: string;
+  createdAt?: string;
 
   // poi
   location_path?: LocationPathEntity;
@@ -31,6 +25,6 @@ export class SpotEntity implements ItemInterface {
   access?: number;
   climbing?: number;
   exposure?: number;
-  length_laser?: boolean;
-  height_laser?: boolean;
+  lengthLaser?: boolean;
+  heightLaser?: boolean;
 }

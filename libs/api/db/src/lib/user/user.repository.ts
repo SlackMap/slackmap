@@ -10,7 +10,7 @@ import { now, createWhere, WhereOperator } from '../db-utils';
 @Injectable()
 export class UserRepository {
     constructor(
-        @InjectPersistenceManager() 
+        @InjectPersistenceManager()
         private persistenceManager: PersistenceManager,
         private ridGenerator: RidGenerator,
     ) {}
@@ -48,9 +48,6 @@ export class UserRepository {
         );
     }
 
-    /**
-     * create new user
-     */
     @Transactional()
     async create(data: Partial<UserEntity>): Promise<UserEntity> {
         const user: UserEntity = {
@@ -78,9 +75,7 @@ export class UserRepository {
 
     }
 
-    /**
-     * update user entity
-     */
+    @Transactional()
     async update(rid: string, data: Partial<UserEntity>): Promise<UserEntity> {
         const user: Partial<UserEntity> = {
             subtype: data.subtype,

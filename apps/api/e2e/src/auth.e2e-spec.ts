@@ -2,8 +2,13 @@ import { TestBed } from "./test-bed";
 import { FacebookFixture } from '@slackmap/api/facebook/testing';
 import { AuthConnectFacebookRequestDto, AUTH_PATHS, AuthConnectFacebookDto, AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto, JwtPayloadModel } from '@slackmap/api/auth/dto';
 import { Gender } from '@slackmap/core';
-import { UserFixture } from '@slackmap/api/auth/testing';
+import { UserFixture } from '@slackmap/api/db/testing';
 import { AuthService } from '@slackmap/api/auth';
+import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+
+RunWithDrivine({
+  transaction: {rollback: true}
+});
 
 let app: TestBed;
 let authService: AuthService;
@@ -100,7 +105,7 @@ describe('Auth: Register By Facebook', () => {
         .send(requestDto)
         .then(res => {
           expect(res.body).toMatchObject(responseDto);
-          expect(res).toHaveProperty('statusCode', 422);
+          expect(res).toHaveProperty('statusCode', 201);
         });
     });
 

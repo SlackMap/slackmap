@@ -6,6 +6,7 @@ import { InjectPersistenceManager } from '@liberation-data/drivine/DrivineInject
 import { QuerySpecification } from '@liberation-data/drivine/query/QuerySpecification';
 import { Transactional } from '@liberation-data/drivine/transaction/Transactional';
 import { now } from '../../lib/db-utils';
+import * as faker from 'faker';
 
 @Injectable()
 export class UserFixture implements OnModuleDestroy {
@@ -22,7 +23,8 @@ export class UserFixture implements OnModuleDestroy {
   }
 
   static fakeEmail() {
-    return Math.random().toString().split('.')[1] + '@test.slackmap.com';
+    return faker.internet.email(undefined, undefined, 'test.slackmap.com')
+    // return Math.random().toString().split('.')[1] + '@test.slackmap.com';
   }
 
   static fakeName() {

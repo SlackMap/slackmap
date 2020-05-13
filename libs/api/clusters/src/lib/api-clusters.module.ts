@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClustersController } from './controllers/clusters.controller';
-import { ClustersService, SpotsService } from './services';
+import { ClustersService } from './services';
+import { ApiDbModule } from '@slackmap/api/db';
 
 @Module({
-  imports: [],
+  imports: [ApiDbModule],
   controllers: [ClustersController],
-  providers: [ClustersService, SpotsService],
+  providers: [ClustersService],
   exports: []
 })
 export class ApiClustersModule {}
