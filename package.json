@@ -1,6 +1,6 @@
 {
   "name": "slackmap",
-  "version": "0.5.0-next.5",
+  "version": "0.5.0-next.6",
   "license": "MIT",
   "bin": {
     "sm": "./apps/cli/src/sm"
@@ -37,15 +37,17 @@
     "serve:pwa": "http-server -p 8080 -c-1 dist/apps/web/browser",
     "prerender": "ng run web:prerender",
     "build:all": "ng build api --prod && npm run build:ssr",
-    "bump:test": "standard-version --prerelease next -t '' --skip.tag=true",
+    "bump:next": "standard-version --prerelease next -t '' --skip.tag=true",
     "bump:prod": "standard-version --no-verify -t '' --message 'chore(release): %s [skip ci]'",
-    "copy-assets:test": "node ./tools/scripts/copy-assets.js",
+    "copy-assets:next": "node ./tools/scripts/copy-assets.js",
     "copy-assets:prod": "node ./tools/scripts/copy-assets.js",
-    "build:test": "npm run build:all && npm run bump:test && npm run copy-assets:test",
+    "build:next": "npm run build:all && npm run bump:next && npm run copy-assets:next",
     "build:prod": "npm run build:all && npm run bump:prod && npm run copy-assets:prod",
-    "deploy:test": "shipit test deploy",
+    "deploy:next": "shipit next deploy",
     "deploy:prod": "shipit prod deploy",
-    "bd:test": "npm run build:test && npm run deploy:test",
+    "rollback:next": "shipit next rollback",
+    "rollback:prod": "shipit prod rollback",
+    "bd:next": "npm run build:next && npm run deploy:next",
     "bd:prod": "npm run build:prod && npm run deploy:prod"
   },
   "private": true,
