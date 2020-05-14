@@ -105,9 +105,9 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
   loadPointFeaturesBySportType(sport: SportType): Observable<SuperclusterFeature[]> {
 
     return from(this.spotRepository.getForClustering(sport)).pipe(
-      switchMap(cursor => fromStream<SpotEntity>(cursor.asStream())),
-      map<SpotEntity, SuperclusterFeature>((spot) => {
-        return {
+      // switchMap(cursor => fromStream<SpotEntity>(cursor.asStream())),
+      map<SpotEntity[], SuperclusterFeature[]>((spots) => {
+        return spots.map(spot => ({
           type: 'Feature',
           properties: {
             rid: spot.rid || 's0',
@@ -117,13 +117,13 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
             type: 'Point',
             coordinates: [spot.lon || 0, spot.lat || 0]
           }
-        };
+        }));
       }
       ),
-      reduce<SuperclusterFeature, SuperclusterFeature[]>((acc, v) => {
-        acc.push(v);
-        return acc;
-      }, []),
+      // reduce<SuperclusterFeature, SuperclusterFeature[]>((acc, v) => {
+      //   acc.push(v);
+      //   return acc;
+      // }, []),
     )
   }
 

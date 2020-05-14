@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -33,6 +33,8 @@ import { DrawControlComponent } from './components/map/draw-control/draw-control
 import { SpotsLayerComponent } from './components/map/spots-layer/spots-layer.component';
 import { DrawHandlerComponent } from './components/map/draw-handler/draw-handler.component';
 import { LoginDialog } from './dialogs/login/login.dialog';
+import { UiAppConfig } from './ui-app-config';
+import { ConfigModel } from '@slackmap/api-client';
 
 export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -64,6 +66,21 @@ export const uiCoreRoutes: Route[] = [
     EffectsModule.forFeature([SpotEffects])
   ],
   providers: [
+    UiAppConfig,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: function(config: UiAppConfig, document: Document) {
+        return async function() {
+          let conf: ConfigModel = {} as any;
+          if(document.defaultView.fetch) {
+            conf = await fetch('/config.json').then(res => res.json()).catch(err => ({}));
+          }
+          Object.assign(config, conf);
+        }
+      },
+      deps: [UiAppConfig, DOCUMENT],
+      multi: true
+    },
     CoreFacade,
     {
       provide: ItemUtils,

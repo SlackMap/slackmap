@@ -26,8 +26,8 @@ import { JwtTokenInterceptor } from './jwt-token.interceptor';
           case 'stage.slackmap.com':
             return 'https://stage-api.slackmap.com';
             break;
-          case 'test.slackmap.com':
-            return 'https://test-api.slackmap.com';
+          case 'next.slackmap.com':
+            return 'https://next-api.slackmap.com';
             break;
 
           default:

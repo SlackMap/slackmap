@@ -1,10 +1,9 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Plugins } from '@capacitor/core';
-import { Router, NavigationExtras } from '@angular/router';
-import { registerWebPlugin } from '@capacitor/core';
-import { FacebookLogin } from '@rdlabo/capacitor-facebook-login';
 import { UiApiService } from '@slackmap/ui/api';
+import { UiAppConfig } from '../../ui-app-config';
+// import { Plugins, registerWebPlugin } from '@capacitor/core';
+// import { FacebookLogin } from '@rdlabo/capacitor-facebook-login';
 
 @Component({
   selector: 'sm-login',
@@ -15,22 +14,23 @@ export class LoginDialog implements OnInit {
 
   constructor(
     private api: UiApiService,
+    private config: UiAppConfig,
     @Inject(PLATFORM_ID) private platformId: any,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
   ngOnInit(): void {
+    console.log('CONFIG LOADED', this.config);
     if(isPlatformBrowser(this.platformId)) {
-      registerWebPlugin(FacebookLogin as any);
+      // registerWebPlugin(FacebookLogin as any);
       //@ts-ignore
       if(!this.document.defaultView.fbAsyncInit) {
 
         //@ts-ignore
-        this.document.defaultView.fbAsyncInit = function() {
+        this.document.defaultView.fbAsyncInit = () => {
           //@ts-ignore
           FB.init({
-            // appId: '235127536543011', // prod
-            appId: '306418119377317', // localhost
+            appId: this.config.FACEBOOK_APP_ID,
             cookie: true, // enable cookies to allow the server to access the session
             xfbml: false, // parse social plugins on this page
             version: 'v2.8' // use graph api version
@@ -54,20 +54,13 @@ export class LoginDialog implements OnInit {
 
   }
   async signIn(): Promise<void> {
-    const FACEBOOK_PERMISSIONS = ['public_profile', 'email'];
 
-    const result = await Plugins.FacebookLogin.login({ permissions: FACEBOOK_PERMISSIONS });
+    const result = await this.fbLogin(this.config.FACEBOOK_SCOPE);
     if (result && result.accessToken) {
-      let user = { token: result.accessToken.token, userId: result.accessToken.userId }
-      let navigationExtras: NavigationExtras = {
-        queryParams: {
-          userinfo: JSON.stringify(user)
-        }
-      };
-      console.log('RES', result, navigationExtras);
-      this.api.authConnectFacebook({accessToken: result.accessToken.token}).subscribe({
+      console.log('FB RESPONSE', result);
+      this.api.authConnectFacebook({accessToken: result.accessToken}).subscribe({
         next: data => {
-          console.log('TOKEN', data)
+          console.log('LOGIN API RESPONSE', data)
           this.api.setToken(data.apiToken);
           this.api.authMe().subscribe({
             next: u => {
@@ -81,21 +74,27 @@ export class LoginDialog implements OnInit {
       // this.router.navigate(["/home"], navigationExtras);
     }
   }
-  async getCurrentState() {
-    const result = await Plugins.FacebookLogin.getCurrentAccessToken();
-    try {
-      console.log(result);
-      if (result && result.accessToken) {
-        let user = { token: result.accessToken.token, userId: result.accessToken.userId }
-        let navigationExtras: NavigationExtras = {
-          queryParams: {
-            userinfo: JSON.stringify(user)
-          }
-        };
-        // this.router.navigate(["/home"], navigationExtras);
-      }
-    } catch (e) {
-      console.log(e)
-    }
+
+  fbLogin(scope: string[]): Promise<{accessToken: string}> {
+    // FB SDK
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      FB.login(function(response) {
+        if (response.authResponse) {
+            resolve({
+              accessToken: response.authResponse.accessToken
+          });
+        } else {
+            reject({
+                detail: 'login aborted or not authorized',
+                data: response
+            });
+
+        }
+    }, {scope: scope.join(',')});
+    });
+
+    // capacitor
+    // return Plugins.FacebookLogin.login({ permissions: scope }).then(result => ({accessToken: result.accessToken.token}))
   }
 }

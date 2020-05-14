@@ -12,6 +12,7 @@
         "files": [
           "/favicon.ico",
           "/index.html",
+          "/config.json",
           "/manifest.webmanifest",
           "/*.css",
           "/*.js"

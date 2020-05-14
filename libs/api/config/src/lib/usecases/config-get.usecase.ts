@@ -10,14 +10,14 @@ export class ConfigGetUseCase {
     private appConfig: AppConfig,
     private facebookConfig: FacebookConfig
   ) { }
-  process(): Observable<ConfigGetDto> {
-    return of({
+  async process(): Promise<ConfigGetDto> {
+    return {
       config: {
-        appHost: this.appConfig.APP_HOST,
-        apiHost: this.appConfig.API_HOST,
-        facebookAppId: this.facebookConfig.FACEBOOK_APP_ID,
-        facebookScope: this.facebookConfig.FACEBOOK_SCOPE
+        APP_HOST: this.appConfig.APP_HOST,
+        API_HOST: this.appConfig.API_HOST,
+        FACEBOOK_APP_ID: this.facebookConfig.FACEBOOK_APP_ID,
+        FACEBOOK_SCOPE: this.facebookConfig.FACEBOOK_SCOPE
       }
-    });
+    };
   }
 }

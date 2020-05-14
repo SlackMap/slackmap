@@ -1,4 +1,8 @@
 import 'zone.js/dist/zone-node';
+const result = require('dotenv').config()
+if (result.error) {
+  throw result.error
+}
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
@@ -6,6 +10,7 @@ import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
+import { ConfigModel } from '@slackmap/api/config/dto';
 import { existsSync } from 'fs';
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -21,6 +26,17 @@ export function app() {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+
+  // config.js
+  server.get('/config.json', (req, res) => {
+    const config: ConfigModel = {
+      APP_HOST: process.env.APP_HOST,
+      API_HOST: process.env.API_HOST,
+      FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID,
+      FACEBOOK_SCOPE: (process.env.FACEBOOK_SCOPE || '').split(','),
+    };
+    res.json(config);
+  });
 
   // Example Express Rest API endpoints
   // app.get('/api/**', (req, res) => { });

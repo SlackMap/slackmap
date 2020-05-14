@@ -1,4 +1,5 @@
 export * from './lib/services';
+export * from './lib/ui-app-config';
 export * from './lib/ui-core.module';
 import * as CoreActions from './lib/+core/core.actions';
 import * as CoreFeature from './lib/+core/core.reducer';

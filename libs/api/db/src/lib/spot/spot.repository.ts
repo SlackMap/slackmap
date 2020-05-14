@@ -104,6 +104,7 @@ export class SpotRepository {
   /**
    * @param bbox [minlat, minlon, maxlat, maxlon]
    */
+  @Transactional()
   findByBBox(bbox: BBox, sport: SportType): Promise<SpotEntity[]> {
     const params = [
       bbox[0], //minlat
@@ -125,12 +126,14 @@ export class SpotRepository {
     );
   }
 
+  @Transactional()
   getByGeohash(hash: string, sport: SportType): Promise<SpotEntity[]> {
     const bbox = geohash.decode_bbox(hash);
     return this.findByBBox(bbox, sport);
   }
 
-  getForClustering(sport: SportType): Promise<Cursor<SpotEntity>> {
+  @Transactional()
+  getForClustering(sport: SportType): Promise<SpotEntity[]> {
     const params = [
       sport
     ]
@@ -139,7 +142,7 @@ export class SpotRepository {
         WHERE u.sport = $1
         RETURN u {.rid, .lat, .lon, .subtype}
     `;
-    return this.persistenceManager.openCursor(
+    return this.persistenceManager.query(
       new CursorSpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)

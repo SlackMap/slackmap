@@ -15,7 +15,7 @@ module.exports = function (shipit) {
       rsync: '--del',
       ignores: ['node_modules']
     },
-    test: {
+    next: {
       deployTo: `/home/${user}/test`,
       servers: `${user}@${host}`
     },
@@ -35,6 +35,7 @@ module.exports = function (shipit) {
     const deployTo = this.config.deployTo;
     const releaseDir = `${this.releasePath}`;
     await shipit.remote(`ln -s ${deployTo}/.env ${releaseDir}/apps/api/.env`);
+    await shipit.remote(`ln -s ${deployTo}/.env ${releaseDir}/apps/web/server/.env`);
 
     // npm install
     await shipit.remote(`cd ${shipit.releasePath} && npm install --production`);
