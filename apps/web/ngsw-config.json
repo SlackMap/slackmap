@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "appData": {
-    "version": "0.0.0"
+    "version": "0.0.0-dev"
   },
   "assetGroups": [
     {
@@ -12,10 +12,10 @@
         "files": [
           "/favicon.ico",
           "/index.html",
-          "/config.json",
           "/manifest.webmanifest",
           "/*.css",
-          "/*.js"
+          "/*.js",
+          "/*.json"
         ]
       }
     }, {
@@ -25,7 +25,7 @@
       "resources": {
         "files": [
           "/assets/**",
-          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani|json)"
         ]
       }
     }

@@ -1,15 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { InjectPersistenceManager } from '@liberation-data/drivine/DrivineInjectionDecorators';
-import { Transactional } from '@liberation-data/drivine/transaction/Transactional';
-import { QuerySpecification } from '@liberation-data/drivine/query/QuerySpecification';
-import { PersistenceManager } from '@liberation-data/drivine/manager/PersistenceManager';
 import { RidGenerator, ItemType, ItemSubtype, SportType } from '@slackmap/core';
 import { now, createWhere, WhereOperator } from '../db-utils';
 import { SpotEntity } from './spot.entity';
 import * as geohash from 'ngeohash';
 import { BBox } from '@slackmap/gis';
-import { Cursor } from '@liberation-data/drivine/cursor/Cursor';
-import { CursorSpecification } from '@liberation-data/drivine/cursor/CursorSpecification';
+import { PersistenceManager, QuerySpecification, Transactional, InjectPersistenceManager, CursorSpecification } from '@liberation-data/drivine';
 
 @Injectable()
 export class SpotRepository {

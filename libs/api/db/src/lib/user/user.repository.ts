@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InjectPersistenceManager } from '@liberation-data/drivine/DrivineInjectionDecorators';
-import { Transactional } from '@liberation-data/drivine/transaction/Transactional';
-import { QuerySpecification } from '@liberation-data/drivine/query/QuerySpecification';
-import { PersistenceManager } from '@liberation-data/drivine/manager/PersistenceManager';
+import { PersistenceManager, QuerySpecification, Transactional, InjectPersistenceManager } from '@liberation-data/drivine';
 import { RidGenerator, ItemType, ItemSubtype } from '@slackmap/core';
 import { UserEntity } from './user.entity';
 import { now, createWhere, WhereOperator } from '../db-utils';

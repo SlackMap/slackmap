@@ -1,7 +1,7 @@
 import { AuthMeGetUseCase } from './auth-me-get.usecase';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApiAuthModule } from '../api-auth.module';
-import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+import { RunWithDrivine } from '@liberation-data/drivine';
 
 RunWithDrivine({
   transaction: {rollback: true}

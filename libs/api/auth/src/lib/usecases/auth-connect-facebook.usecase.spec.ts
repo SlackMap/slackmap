@@ -5,6 +5,11 @@ import { FacebookClientMock, FacebookFixture } from '@slackmap/api/facebook/test
 import { ApiAuthModule } from '../api-auth.module';
 import { AuthConnectFacebookDto } from '../dto';
 import { DbTestingModule, UserFixture } from '@slackmap/api/db/testing';
+import { RunWithDrivine } from '@liberation-data/drivine';
+
+RunWithDrivine({
+  transaction: {rollback: true}
+});
 
 describe('auth-connect-facebook UseCase', () => {
   let usecase: AuthConnectFacebookUseCase, module: TestingModule, userFixture: UserFixture;

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RidGenerator, ItemType, ItemSubtype, SportType } from '@slackmap/core';
 import { SpotFixture, DbTestingModule } from '../../testing';
-import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+import { RunWithDrivine } from '@liberation-data/drivine';
 import { SpotRepository } from './spot.repository';
 import { SpotEntity } from './spot.entity';
 
@@ -132,7 +132,7 @@ describe('SpotRepository', () => {
     });
   });
 
-  describe.only('.getForClustering()', () => {
+  describe('.getForClustering()', () => {
     it('should return cursor of spots', async () => {
       const data = await spotFixture.createFakeSpots([
         {lat: 55, lon: 20, sport: SportType.SLACKLINE, subtype: ItemSubtype.SPOT_HIGHLINE},

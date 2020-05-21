@@ -51,6 +51,14 @@ module.exports = function (shipit) {
     await shipit.remote(`pm2 startOrGracefulReload ${deployTo}/pm2.json`);
   });
 
+  shipit.blTask('rollback', [
+    'rollback:init',
+    'deploy:publish',
+    'deploy:clean',
+    'rollback:finish',
+    'pm2:reload',
+  ])
+
   // currentPath: '/home/[user]/test/current',
   // releasesPath: '/home/[user]/test/releases',
   // workspace: './dist',

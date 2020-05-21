@@ -3,7 +3,7 @@ import { RidGenerator, ItemType, ItemSubtype } from '@slackmap/core';
 import { UserFixture, DbTestingModule } from '../../testing';
 import { UserRepository } from './user.repository';
 import { UserEntity } from './user.entity';
-import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+import { RunWithDrivine } from '@liberation-data/drivine';
 
 
 RunWithDrivine({

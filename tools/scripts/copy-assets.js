@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const { sha1 } = require('./sha1');
 const sh = require('shelljs');
 const fs = require('fs');
 
@@ -37,16 +38,25 @@ sh.cp(
   resolve(BASE_DIR, 'dist/CHANGELOG.md'),
 );
 
-// service worker version update
-console.log('Update: ngsw-config.json set current version');
-const ngswFile = './dist/apps/web/browser/ngsw.json';
-const ngsw = JSON.parse(fs.readFileSync(ngswFile, { encoding: 'utf8' }));
-ngsw.appData.version = version;
-fs.writeFileSync(ngswFile, JSON.stringify(ngsw, null, 2));
-
 // index.html version update
 console.log('Update: index.html set current version');
 const indexFile = './dist/apps/web/browser/index.html';
 let index = fs.readFileSync(indexFile, { encoding: 'utf8' });
+console.log('Old index.html hash', sha1(index));
 index = index.replace('0.0.0-dev', version);
 fs.writeFileSync(indexFile, index);
+
+// udpate hash
+const indexHash = sha1(index);
+console.log('New index.html hash', indexHash);
+
+// service worker version & index.html hash update
+console.log('Update: ngsw-config.json set current version');
+const ngswFile = './dist/apps/web/browser/ngsw.json';
+const ngsw = JSON.parse(fs.readFileSync(ngswFile, { encoding: 'utf8' }));
+ngsw.appData.version = version;
+ngsw.hashTable["/index.html"] = indexHash;
+fs.writeFileSync(ngswFile, JSON.stringify(ngsw, null, 2));
+
+
+

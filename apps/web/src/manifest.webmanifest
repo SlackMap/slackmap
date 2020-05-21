@@ -1,6 +1,6 @@
 {
   "name": "SlackMap",
-  "short_name": "SM",
+  "short_name": "SlackMap",
   "theme_color": "#3d3d3e",
   "background_color": "#000000",
   "display": "standalone",

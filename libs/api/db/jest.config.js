@@ -7,4 +7,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
   coverageDirectory: '../../../coverage/libs/api/db',
+  setupFiles: ["./jest-setup.ts"],
 };

@@ -23,8 +23,8 @@ export class UserFixture implements OnModuleDestroy {
   }
 
   static fakeEmail() {
-    return faker.internet.email(undefined, undefined, 'test.slackmap.com')
-    // return Math.random().toString().split('.')[1] + '@test.slackmap.com';
+    return faker.internet.email(undefined, undefined, 'next.slackmap.com')
+    // return Math.random().toString().split('.')[1] + '@next.slackmap.com';
   }
 
   static fakeName() {
@@ -51,7 +51,7 @@ export class UserFixture implements OnModuleDestroy {
     const rid = this.ridGenerator.forItem(ItemType.USER);
     return {
       rid,
-      email: rid + '@test.slackmap.com',
+      email: rid + '@next.slackmap.com',
       name: 'test-user-name',
       firstName: 'firstname',
       lastName: 'test-lastname',
