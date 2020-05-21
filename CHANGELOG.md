@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0-next.8](https://github.com/SlackMap/slackmap/compare/0.1.1-next.0...0.5.0-next.8) (2020-05-21)
+
+
+### Features
+
+* **api:** Added parsing .env config files ([1e89953](https://github.com/SlackMap/slackmap/commit/1e899535d683b612146af28384da8b5eb5e0b117))
+* **api-auth:** Added FB login ([8b073fd](https://github.com/SlackMap/slackmap/commit/8b073fdc98fe6fee8822171a878331a6879ac607))
+* **api-auth:** JwtGuard & token endpoints authentication ([02cab5f](https://github.com/SlackMap/slackmap/commit/02cab5f6a104c32a9d22f57c83065f712b66f77f))
+* **api-auth:** Migrate to Neo4j ([c94c322](https://github.com/SlackMap/slackmap/commit/c94c322922f2064792d296e6aef612013eaad8fc))
+* **api-auth:** register by facebook usecase ([09b6339](https://github.com/SlackMap/slackmap/commit/09b6339e9b9c3400fc50684bae50f5de3076039e))
+* **api-clusters:** Add supercluster models & typings ([19935a2](https://github.com/SlackMap/slackmap/commit/19935a270b65e45a6b9e381936b7e1cff3da37d7))
+* **api-clusters:** Added serwer side clustering ([e17f3c5](https://github.com/SlackMap/slackmap/commit/e17f3c55558be3501ff9c9bf4f032413ab1c45c8))
+* **api-config:** Load config from env for ui ([af5a569](https://github.com/SlackMap/slackmap/commit/af5a56991ed2b6e4c234244296d3d41b8a31f0ce))
+* **api-e2e:** Adding end to end testing for API ([ebeb5e5](https://github.com/SlackMap/slackmap/commit/ebeb5e5371dfab4d4bce866ec6e72a41d18d92d2))
+* **api-orient:** added automated migrations of database schema ([91092ea](https://github.com/SlackMap/slackmap/commit/91092eac539296bc2910906923a2512534e04706))
+* **api-orient:** Added orientjs based on rxjs ([f6db497](https://github.com/SlackMap/slackmap/commit/f6db497b8557e8317a845c8f05f18842ad01c7fd))
+* **api-orient:** Remove OrientDB  HELL YEAH \m/ ([0346be5](https://github.com/SlackMap/slackmap/commit/0346be56563d1dd00ddf857a3ff874e258593882))
+* **db:** OrientDB instalation and deployment CLI added ([7c91b03](https://github.com/SlackMap/slackmap/commit/7c91b038272d9d2a042e65c7bea5b53f5e40c3e6))
+* **ui:** Display spots on map ([c04367b](https://github.com/SlackMap/slackmap/commit/c04367b4ddb7564f9dc61071b4b65cb08856a78a))
+* **ui-core:** Added ui core module lib ([d9652e9](https://github.com/SlackMap/slackmap/commit/d9652e92e1d76991f5fbdd2abe7510a5d151efaf))
+* **ui-core:** Basic responsive layout ([53580fd](https://github.com/SlackMap/slackmap/commit/53580fd6a39caeb5b300c3976e9f0e18c0ed95ee))
+* **ui-core:** Created NgRx states for map & spots ([781b3d7](https://github.com/SlackMap/slackmap/commit/781b3d7dc9a93198706b1e72d48d3698acab33fb))
+* **ui-core:** display and filter slackline spots ([9787f5e](https://github.com/SlackMap/slackmap/commit/9787f5e62c6bec3c8049ba69daf558742dd07aed))
+* **ui-core:** Home page ([2824a7c](https://github.com/SlackMap/slackmap/commit/2824a7c4274564777af3d37f380e5f5ac7d14e51))
+* **ui-core:** Leaflet draw handler ([b36d45f](https://github.com/SlackMap/slackmap/commit/b36d45f9a9cd6002536a08272ec7fbf8b8343097))
+* **ui-map:** Leaflet map on typescript ([b0bad48](https://github.com/SlackMap/slackmap/commit/b0bad48ecd580415f4ace3af93302613bdd7c874))
+* **web:** config.json as initial app config from api ([a219b55](https://github.com/SlackMap/slackmap/commit/a219b55a428ac7b3cabc5244ac923b7501c9ef97))
+* **web:** lazy load leaflet map component + icons ([859a3e0](https://github.com/SlackMap/slackmap/commit/859a3e096d827b4d38f76768a8815d6c4174852b))
+
+
+### Bug Fixes
+
+* **ui-pwa:** works offline with dynamic app config ([59d59eb](https://github.com/SlackMap/slackmap/commit/59d59ebe1b74cb1e3457d7a49b7a67e71f91f72b))
+* **web:** Fix views paths for SSR ([eb77e19](https://github.com/SlackMap/slackmap/commit/eb77e196b1105f58f80f0bbcc0a95dabf3c101a8))
+* **web-ssr:** leaflet rendering & ionic/storage on ssr ([bc3896e](https://github.com/SlackMap/slackmap/commit/bc3896ef3696b39c01a47ee27e96ba6e1b88e649))
+
 ## [0.5.0-next.7](https://github.com/SlackMap/slackmap/compare/0.1.1-next.0...0.5.0-next.7) (2020-05-14)
 
 
