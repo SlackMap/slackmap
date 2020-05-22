@@ -740,6 +740,38 @@
           }
         }
       }
+    },
+    "ui-config": {
+      "projectType": "library",
+      "root": "libs/ui/config",
+      "sourceRoot": "libs/ui/config/src",
+      "prefix": "slackmap",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/config/tsconfig.lib.json",
+              "libs/ui/config/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/config/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/config/jest.config.js",
+            "tsConfig": "libs/ui/config/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/config/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

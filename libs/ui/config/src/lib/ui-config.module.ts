@@ -1,0 +1,35 @@
+import { NgModule, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { UiConfig } from './ui-config';
+import { ConfigModel } from '@slackmap/api-client';
+
+@NgModule({
+
+})
+export class UiConfigModule {
+  static forRoot(options: {production: boolean}): ModuleWithProviders {
+    return {
+      ngModule: UiConfigModule,
+      providers: [
+        UiConfig,
+        {
+          provide: APP_INITIALIZER,
+          useFactory: function(config: UiConfig, document: Document) {
+
+            config.isProduction = options.production;
+
+            return async function() {
+              let conf: ConfigModel = {} as any;
+              if(document.defaultView.fetch) {
+                conf = await fetch('/config.json').then(res => res.json()).catch(err => ({}));
+              }
+              Object.assign(config, conf);
+            }
+          },
+          deps: [UiConfig, DOCUMENT],
+          multi: true
+        },
+      ]
+    }
+  }
+}

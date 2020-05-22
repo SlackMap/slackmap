@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { UiApiService } from '@slackmap/ui/api';
-import { UiAppConfig } from '../../ui-app-config';
+import { UiConfig } from '@slackmap/ui/config';
 // import { Plugins, registerWebPlugin } from '@capacitor/core';
 // import { FacebookLogin } from '@rdlabo/capacitor-facebook-login';
 
@@ -14,14 +14,13 @@ export class LoginDialog implements OnInit {
 
   constructor(
     private api: UiApiService,
-    private config: UiAppConfig,
-    @Inject(PLATFORM_ID) private platformId: any,
+    private config: UiConfig,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
   ngOnInit(): void {
     console.log('CONFIG LOADED', this.config);
-    if(isPlatformBrowser(this.platformId)) {
+    if(this.config.isBrowser) {
       // registerWebPlugin(FacebookLogin as any);
       //@ts-ignore
       if(!this.document.defaultView.fbAsyncInit) {

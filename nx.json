@@ -66,6 +66,9 @@
     },
     "api-db": {
       "tags": ["api"]
+    },
+    "ui-config": {
+      "tags": []
     }
   }
 }

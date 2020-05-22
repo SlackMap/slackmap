@@ -37,6 +37,7 @@
     "build:ssr": "ng build web --prod && ng run web:server:production",
     "bs:ssr": "npm run build:ssr && npm run copy-assets:next && npm run serve:ssr",
     "serve:pwa": "http-server -p 8080 -c-1 dist/apps/web/browser",
+    "serve:api": "node dist/apps/api/main.js",
     "prerender": "ng run web:prerender",
     "build:all": "ng build api --prod && npm run build:ssr",
     "bump:next": "standard-version --prerelease next -t '' --skip.tag=true",

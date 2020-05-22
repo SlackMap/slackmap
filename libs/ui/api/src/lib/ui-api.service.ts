@@ -1,19 +1,21 @@
-import { Inject, Injectable} from '@angular/core';
+import { Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_HOST } from './ui-api-tokens';
 import { Observable } from 'rxjs';
+import { UiConfig } from "@slackmap/ui/config";
 import { CONFIG_PATHS, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetDto, AUTH_PATHS, AuthConnectFacebookRequestDto, AuthConnectFacebookDto, AuthMeGetDto } from '@slackmap/api-client';
 
 @Injectable({ providedIn: 'root' })
 export class UiApiService {
 
   private token: string;
-
   constructor(
-    protected httpClient: HttpClient,
-    @Inject(API_HOST) protected basePath,
+    private httpClient: HttpClient,
+    private config: UiConfig,
   ) {}
 
+  get basePath() {
+    return this.config.API_HOST;
+  }
   public getToken() {
     return this.token;
   }

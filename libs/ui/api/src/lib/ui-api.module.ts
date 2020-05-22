@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { API_HOST } from './ui-api-tokens';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtTokenInterceptor } from './jwt-token.interceptor';
 
@@ -15,28 +14,6 @@ import { JwtTokenInterceptor } from './jwt-token.interceptor';
       multi: true,
       useClass: JwtTokenInterceptor
     },
-    {
-      provide: API_HOST,
-      useFactory: (document) => {
-        const host = document.location.hostname;
-        switch (host) {
-          case 'slackmap.com':
-            return 'https://api.slackmap.com';
-            break;
-          case 'stage.slackmap.com':
-            return 'https://stage-api.slackmap.com';
-            break;
-          case 'next.slackmap.com':
-            return 'https://next-api.slackmap.com';
-            break;
-
-          default:
-            return 'http://localhost:3333';
-            break;
-        }
-      },
-      deps: [DOCUMENT]
-    }
   ],
   exports: []
 })

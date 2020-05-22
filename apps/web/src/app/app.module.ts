@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { UiPwaModule } from '@slackmap/ui/pwa';
 import { UiCoreModule } from '@slackmap/ui/core';
+import { UiConfigModule } from '@slackmap/ui/config';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -27,6 +28,7 @@ import { IonicStorageModule } from '@ionic/storage';
       enabled: environment.production,
       registrationStrategy: 'registerImmediately'
     }),
+    UiConfigModule.forRoot({production: environment.production}),
     UiPwaModule.forRoot({ enabled: environment.production }),
     BrowserAnimationsModule,
     StoreModule.forRoot(
