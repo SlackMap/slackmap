@@ -13,6 +13,9 @@ export class AppComponent {
     icons: MatIconRegistry, sanitizer: DomSanitizer,
     private el: ElementRef,
   ) {
+    // SlackMap icons example usage
+    // <mat-icon svgIcon="icon-facebook-square"></mat-icon>
+    // list: http://localhost:4200/assets/icons/demo.html
     icons.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl('/assets/icons/icons.svg'));
   }
 

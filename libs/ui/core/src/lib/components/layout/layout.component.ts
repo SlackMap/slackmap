@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { CoreFacade } from '../../+core/core.facade';
+import { AuthService } from '../../auth';
 
 @Component({
   selector: 'sm-layout',
@@ -29,10 +30,18 @@ export class LayoutComponent implements AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private app: ApplicationRef,
     private injector: Injector,
-    private coreFacade: CoreFacade
+    private coreFacade: CoreFacade,
+    private authService: AuthService
   ) { }
 
+  onLogin() {
+    this.authService.login().subscribe(
+      user => console.log('login success', user),
+      err => console.log('login error', err),
+    );
+  }
   ngAfterViewInit(): void {
+    this.onLogin()
     // get version from root element (AppComponent)
     const version = this.injector.get(this.app.componentTypes[0]).version;
     this.coreFacade.dispatch(this.coreFacade.actions.version({version}))

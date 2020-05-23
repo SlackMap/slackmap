@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field class="email-field">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Email" formControlName="email">
+  </mat-form-field>
+  <div class="names">
+    <mat-form-field class="first-name-field">
+      <mat-label>First name</mat-label>
+      <input matInput placeholder="First name" formControlName="firstName">
+    </mat-form-field>
+    <mat-form-field class="last-name-field">
+      <mat-label>Last name</mat-label>
+      <input matInput placeholder="Last name" formControlName="lastName">
+    </mat-form-field>
+  </div>
+  <mat-radio-group class="gender-field" formControlName="gender">
+    <mat-radio-button [value]="gender.value" *ngFor="let gender of genderOptions">{{gender.label}}</mat-radio-button>
+  </mat-radio-group>
+  <button type="submit" mat-raised-button color="primary" class="register-btn" [disabled]="form.invalid">Sign Up</button>
+</form>

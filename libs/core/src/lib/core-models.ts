@@ -1,7 +1,7 @@
 export enum Gender {
-  MALE = 'm',
-  FEMALE = 'f',
-  CUSTOM = 'c',
+  MALE = 'male',
+  FEMALE = 'female',
+  CUSTOM = 'custom',
 }
 export interface GenderOption {
   value: Gender,

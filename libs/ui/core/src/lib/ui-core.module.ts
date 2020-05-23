@@ -32,13 +32,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DrawControlComponent } from './components/map/draw-control/draw-control.component';
 import { SpotsLayerComponent } from './components/map/spots-layer/spots-layer.component';
 import { DrawHandlerComponent } from './components/map/draw-handler/draw-handler.component';
-import { LoginDialog } from './dialogs/login/login.dialog';
 import { UiConfig } from '@slackmap/ui/config';
+import { UiAuthModule } from './auth';
 
 export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
   { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
-  { path: 'x', component: XPage},
+  { path: 'x', component: XPage },
 ];
 
 @NgModule({
@@ -62,7 +62,8 @@ export const uiCoreRoutes: Route[] = [
     StoreModule.forFeature(fromMap.MAP_FEATURE_KEY, fromMap.reducer),
     EffectsModule.forFeature([MapEffects]),
     StoreModule.forFeature(fromSpots.SPOT_FEATURE_KEY, fromSpots.reducer),
-    EffectsModule.forFeature([SpotEffects])
+    EffectsModule.forFeature([SpotEffects]),
+    UiAuthModule
   ],
   providers: [
     CoreFacade,
@@ -73,12 +74,21 @@ export const uiCoreRoutes: Route[] = [
         utils.setHost(config.APP_HOST);
         return utils;
       },
-      deps: [UiConfig]
+      deps: [UiConfig],
     },
     MapFacade,
-    SpotFacade
+    SpotFacade,
   ],
-  declarations: [LayoutComponent, MapComponent, HomePage, XPage, LayerFiltersComponent, DrawControlComponent, SpotsLayerComponent, DrawHandlerComponent, LoginDialog],
-  exports: [LayoutComponent]
+  declarations: [
+    LayoutComponent,
+    MapComponent,
+    HomePage,
+    XPage,
+    LayerFiltersComponent,
+    DrawControlComponent,
+    SpotsLayerComponent,
+    DrawHandlerComponent,
+  ],
+  exports: [LayoutComponent],
 })
 export class UiCoreModule {}

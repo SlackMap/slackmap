@@ -9,6 +9,6 @@ export class UiConfig extends ConfigModel {
   isServer = isPlatformServer(this.platformId)
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: any,
+    @Inject(PLATFORM_ID) public platformId: any,
   ) { super() }
 };
