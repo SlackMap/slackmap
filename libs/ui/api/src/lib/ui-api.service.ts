@@ -2,7 +2,7 @@ import { Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UiConfig } from "@slackmap/ui/config";
-import { CONFIG_PATHS, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetDto, AUTH_PATHS, AuthConnectFacebookRequestDto, AuthConnectFacebookDto, AuthMeGetDto } from '@slackmap/api-client';
+import { CONFIG_PATHS, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetDto, AUTH_PATHS, AuthSignInByFacebookRequestDto, AuthSignInByFacebookDto, AuthMeGetDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '@slackmap/api-client';
 
 @Injectable({ providedIn: 'root' })
 export class UiApiService {
@@ -53,10 +53,17 @@ export class UiApiService {
   }
 
   /**
-   * query clusters by bbox
+   * Sign In By FB
    */
-  public authConnectFacebook(data: AuthConnectFacebookRequestDto): Observable<AuthConnectFacebookDto> {
-    return this.httpClient.post<AuthConnectFacebookDto>(`${this.basePath}/${AUTH_PATHS.connectFacebook()}`, data);
+  public authSignInByFacebook(data: AuthSignInByFacebookRequestDto): Observable<AuthSignInByFacebookDto> {
+    return this.httpClient.post<AuthSignInByFacebookDto>(`${this.basePath}/${AUTH_PATHS.singInByFacebook()}`, data);
+  }
+
+  /**
+   * Sign In By FB
+   */
+  public authSignUpByFacebook(data: AuthSignUpByFacebookRequestDto): Observable<AuthSignUpByFacebookDto> {
+    return this.httpClient.post<AuthSignUpByFacebookDto>(`${this.basePath}/${AUTH_PATHS.singInByFacebook()}`, data);
   }
 
   /**

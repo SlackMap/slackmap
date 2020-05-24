@@ -1,9 +1,9 @@
-import { AuthConnectFacebookUseCase } from './auth-connect-facebook.usecase';
+import { AuthSignInByFacebookUseCase } from './auth-sign-in-by-facebook.usecase';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FacebookClient } from '@slackmap/api/facebook';
 import { FacebookClientMock, FacebookFixture } from '@slackmap/api/facebook/testing';
 import { ApiAuthModule } from '../api-auth.module';
-import { AuthConnectFacebookDto } from '../dto';
+import { AuthSignInByFacebookDto } from '../dto';
 import { DbTestingModule, UserFixture } from '@slackmap/api/db/testing';
 import { RunWithDrivine } from '@liberation-data/drivine';
 
@@ -11,8 +11,8 @@ RunWithDrivine({
   transaction: {rollback: true}
 });
 
-describe('auth-connect-facebook UseCase', () => {
-  let usecase: AuthConnectFacebookUseCase, module: TestingModule, userFixture: UserFixture;
+describe('auth-sign-in-by-facebook UseCase', () => {
+  let usecase: AuthSignInByFacebookUseCase, module: TestingModule, userFixture: UserFixture;
   beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [ApiAuthModule, DbTestingModule],
@@ -21,7 +21,7 @@ describe('auth-connect-facebook UseCase', () => {
       .useClass(FacebookClientMock)
       .compile();
 
-    usecase = module.get(AuthConnectFacebookUseCase);
+    usecase = module.get(AuthSignInByFacebookUseCase);
     userFixture = module.get(UserFixture);
   });
   afterEach(async () => {
@@ -29,7 +29,7 @@ describe('auth-connect-facebook UseCase', () => {
   });
 
   test('should return fb profile', () => {
-    const value: AuthConnectFacebookDto = {
+    const value: AuthSignInByFacebookDto = {
       facebookUser: expect.any(Object),
       user: null,
       users: expect.any(Array),
@@ -65,7 +65,7 @@ describe('auth-connect-facebook UseCase', () => {
   test('should return facebook profile + user', async () => {
     const facebookUser: any = FacebookFixture.getByToken(FacebookFixture.USER_PROFILE_TOKEN)
     await userFixture.createFakeUser({facebookId: facebookUser.id})
-    const value: AuthConnectFacebookDto = {
+    const value: AuthSignInByFacebookDto = {
       facebookUser: expect.any(Object),
       user: expect.any(Object),
       users: expect.any(Array),

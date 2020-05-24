@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthRegisterByFacebookUseCase } from './auth-register-by-facebook.usecase';
-import { AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '../dto';
+import { AuthSignUpByFacebookUseCase } from './auth-sign-up-by-facebook.usecase';
+import { AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '../dto';
 import { ApiAuthModule } from '../api-auth.module';
 import { AuthService } from '../services';
 import { JwtPayloadModel } from '../models';
@@ -12,9 +12,9 @@ RunWithDrivine({
   transaction: {rollback: true}
 });
 
-describe('AuthRegisterByFacebookUseCase', () => {
+describe('auth-sign-up-by-facebook UseCase', () => {
   let module: TestingModule;
-  let usecase: AuthRegisterByFacebookUseCase;
+  let usecase: AuthSignUpByFacebookUseCase;
   let authService: AuthService;
   let userFixture: UserFixture;
 
@@ -25,7 +25,7 @@ describe('AuthRegisterByFacebookUseCase', () => {
       // .overrideProvider()
       // .useClass()
       .compile();
-    usecase = module.get(AuthRegisterByFacebookUseCase);
+    usecase = module.get(AuthSignUpByFacebookUseCase);
     authService = module.get(AuthService);
     userFixture = module.get(UserFixture);
   });
@@ -47,14 +47,14 @@ describe('AuthRegisterByFacebookUseCase', () => {
       users: [],
     };
     const token = authService.sign(payload);
-    const requestDto: AuthRegisterByFacebookRequestDto = {
+    const requestDto: AuthSignUpByFacebookRequestDto = {
       token,
       email: '',
       firstName: '',
       lastName: '',
       gender: Gender.MALE
     };
-    const responseDto: AuthRegisterByFacebookDto = {
+    const responseDto: AuthSignUpByFacebookDto = {
       user: expect.any(Object),
       users: expect.any(Array),
       apiToken: expect.any(String)
@@ -82,14 +82,14 @@ describe('AuthRegisterByFacebookUseCase', () => {
   //     users: [],
   //   };
   //   const token = authService.sign(payload);
-  //   const requestDto: AuthRegisterByFacebookRequestDto = {
+  //   const requestDto: AuthSignUpByFacebookRequestDto = {
   //     token,
   //     email: '',
   //     firstName: '',
   //     lastName: '',
   //     gender: Gender.MALE
   //   };
-  //   const responseDto: AuthRegisterByFacebookDto = {
+  //   const responseDto: AuthSignUpByFacebookDto = {
   //     user: expect.any(Object),
   //     users: expect.any(Array),
   //     apiToken: expect.any(String)

@@ -6,7 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthConfig } from './api-auth.config';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { AuthConnectFacebookUseCase, AuthMeGetUseCase, AuthRegisterByFacebookUseCase } from './usecases';
+import { AuthSignInByFacebookUseCase, AuthMeGetUseCase, AuthSignUpByFacebookUseCase } from './usecases';
 import { ApiFacebookModule } from '@slackmap/api/facebook';
 import { JwtAuthGuard } from './guards';
 import { ApiCommonModule } from '@slackmap/api/common';
@@ -35,9 +35,9 @@ import { ApiDbModule } from '@slackmap/api/db';
     AuthConfig,
     JwtStrategy,
     JwtAuthGuard,
-    AuthConnectFacebookUseCase,
+    AuthSignInByFacebookUseCase,
     AuthMeGetUseCase,
-    AuthRegisterByFacebookUseCase
+    AuthSignUpByFacebookUseCase
   ],
   controllers: [AuthController],
   exports: [AuthConfig],

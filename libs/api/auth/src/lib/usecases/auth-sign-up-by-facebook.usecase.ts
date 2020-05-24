@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, of, throwError } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto } from '../dto';
+import { AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '../dto';
 import { AuthService } from '../services';
 import { JwtPayloadModel, UserModel } from '../models';
 import { ValidationError, Syslog } from '@slackmap/api/common';
@@ -11,13 +11,13 @@ import { UserRepository, UserEntity } from '@slackmap/api/db';
  *
  */
 @Injectable()
-export class AuthRegisterByFacebookUseCase {
+export class AuthSignUpByFacebookUseCase {
   constructor(
     private authService: AuthService,
     private userRepository: UserRepository,
     // private userService: UserService
   ) { }
-  async process(request: AuthRegisterByFacebookRequestDto): Promise<AuthRegisterByFacebookDto> {
+  async process(request: AuthSignUpByFacebookRequestDto): Promise<AuthSignUpByFacebookDto> {
 
     // TODO get and merge data from the form from the reuest DTO
 

@@ -29,7 +29,7 @@ export class AuthEffects {
   connectByFacebook$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.fbLoginSuccess),
-      switchMap((token) => this.api.authConnectFacebook(token).pipe(
+      switchMap((token) => this.api.authSignInByFacebook(token).pipe(
         map((response) => {
           if(response.user) {
             return AuthActions.signInByFacebookSuccess(response);

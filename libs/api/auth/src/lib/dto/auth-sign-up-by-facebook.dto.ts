@@ -2,14 +2,14 @@ import { Gender } from "@slackmap/core";
 import { FacebookUserModel } from '@slackmap/api/facebook/dto';
 import { UserModel } from '../models';
 
-export class AuthRegisterByFacebookRequestDto {
+export class AuthSignUpByFacebookRequestDto {
   token: string;
   email: string;
   firstName: string;
   lastName: string;
   gender: Gender;
 }
-export class AuthRegisterByFacebookDto {
+export class AuthSignUpByFacebookDto {
   facebookUser?: FacebookUserModel;
   apiToken: string;
   user: UserModel;

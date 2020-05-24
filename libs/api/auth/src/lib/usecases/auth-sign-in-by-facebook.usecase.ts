@@ -1,19 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, from } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { AuthConnectFacebookRequestDto, AuthConnectFacebookDto } from '../dto';
+import { AuthSignInByFacebookRequestDto, AuthSignInByFacebookDto } from '../dto';
 import { FacebookClient } from '@slackmap/api/facebook';
 import { AuthService } from '../services';
 import { UserRepository } from '@slackmap/api/db';
+import { Transactional } from '@liberation-data/drivine';
 
 @Injectable()
-export class AuthConnectFacebookUseCase {
+export class AuthSignInByFacebookUseCase {
   constructor(
     private facebookClient: FacebookClient,
     private userRepository: UserRepository,
     private authService: AuthService,
   ) { }
-  process(request: AuthConnectFacebookRequestDto): Observable<AuthConnectFacebookDto> {
+  // @Transactional()
+  process(request: AuthSignInByFacebookRequestDto): Observable<AuthSignInByFacebookDto> {
 
     return this.facebookClient.me(request.accessToken).pipe(
       // TODO search by email if not found by facebook id

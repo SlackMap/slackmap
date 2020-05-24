@@ -1,6 +1,6 @@
 import { TestBed } from "./test-bed";
 import { FacebookFixture } from '@slackmap/api/facebook/testing';
-import { AuthConnectFacebookRequestDto, AUTH_PATHS, AuthConnectFacebookDto, AuthRegisterByFacebookRequestDto, AuthRegisterByFacebookDto, JwtPayloadModel } from '@slackmap/api/auth/dto';
+import { AuthSignInByFacebookRequestDto, AUTH_PATHS, AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto, JwtPayloadModel } from '@slackmap/api/auth/dto';
 import { Gender } from '@slackmap/core';
 import { UserFixture } from '@slackmap/api/db/testing';
 import { AuthService } from '@slackmap/api/auth';
@@ -23,12 +23,12 @@ afterAll(async () => {
   if(app) await app.close();
 });
 
-describe('Auth: Connect Facebook', () => {
-  const url = '/' + AUTH_PATHS.connectFacebook();
+describe('Auth: Sign In By Facebook', () => {
+  const url = '/' + AUTH_PATHS.singInByFacebook();
 
   describe(`POST ${url}`, () => {
     it('should have validation error', () => {
-      const req: AuthConnectFacebookRequestDto = {
+      const req: AuthSignInByFacebookRequestDto = {
         accessToken: FacebookFixture.INVALID_PROFILE_TOKEN
       };
       const resBody = {
@@ -48,10 +48,10 @@ describe('Auth: Connect Facebook', () => {
     });
 
     it('should login with facebook account', () => {
-      const req: AuthConnectFacebookRequestDto = {
+      const req: AuthSignInByFacebookRequestDto = {
         accessToken: FacebookFixture.USER_PROFILE_TOKEN
       };
-      const resBody: AuthConnectFacebookDto = {
+      const resBody: AuthSignInByFacebookDto = {
         apiToken: expect.any(String),
         users: expect.any(Array),
         user: expect.any(Object),
@@ -69,8 +69,8 @@ describe('Auth: Connect Facebook', () => {
   });
 });
 
-describe('Auth: Register By Facebook', () => {
-  const url = '/' + AUTH_PATHS.registerByFacebook();
+describe('Auth: Sign Up By Facebook', () => {
+  const url = '/' + AUTH_PATHS.signUpByFacebook();
 
   describe(`POST ${url}`, () => {
     it('should create and return new user', () => {
@@ -86,14 +86,14 @@ describe('Auth: Register By Facebook', () => {
         user: null,
         users: [],
       };
-      const requestDto: AuthRegisterByFacebookRequestDto = {
+      const requestDto: AuthSignUpByFacebookRequestDto = {
         token: authService.sign(payload),
         email: '',
         firstName: '',
         lastName: '',
         gender: Gender.MALE
       };
-      const responseDto: AuthRegisterByFacebookDto = {
+      const responseDto: AuthSignUpByFacebookDto = {
         apiToken: expect.any(String),
         user: expect.any(Object),
         users: expect.any(Array),

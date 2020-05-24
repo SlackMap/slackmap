@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthConnectFacebookDto, AuthRegisterByFacebookRequestDto } from '@slackmap/api-client';
+import { AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto } from '@slackmap/api-client';
 import { AuthFacade } from '../../+auth/auth.facade';
 
 @Component({
@@ -9,7 +9,7 @@ import { AuthFacade } from '../../+auth/auth.facade';
 })
 export class LoginDialog implements OnInit {
 
-  public fbConnectData: AuthConnectFacebookDto;
+  public fbConnectData: AuthSignInByFacebookDto;
 
   constructor(
     public auth: AuthFacade,
@@ -21,7 +21,7 @@ export class LoginDialog implements OnInit {
   async signUpByFacebookCancel(): Promise<void> {
     this.auth.dispatch(this.auth.actions.signUpByFacebookCancel());
   }
-  async signUpByFacebook(data: AuthRegisterByFacebookRequestDto): Promise<void> {
+  async signUpByFacebook(data: AuthSignUpByFacebookRequestDto): Promise<void> {
     this.auth.dispatch(this.auth.actions.signUpByFacebook(data));
     console.log('Sign UP', data)
   }

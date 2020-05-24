@@ -1,6 +1,6 @@
 
 export const AUTH_PATHS = {
-  connectFacebook: () => 'auth/connect-facebook',
-  registerByFacebook: () => 'auth/register-by-facebook',
+  singInByFacebook: () => 'auth/sign-in-by-facebook',
+  signUpByFacebook: () => 'auth/sign-up-by-facebook',
   me: () => 'auth/me',
 }
