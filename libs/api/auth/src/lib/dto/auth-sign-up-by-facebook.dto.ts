@@ -3,7 +3,7 @@ import { FacebookUserModel } from '@slackmap/api/facebook/dto';
 import { UserModel } from '../models';
 
 export class AuthSignUpByFacebookRequestDto {
-  token: string;
+  apiToken: string;
   email: string;
   firstName: string;
   lastName: string;

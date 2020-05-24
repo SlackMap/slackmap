@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthFacade {
-  actions = actions;
+  user$ = this.store.pipe(select(AuthSelectors.getUser));
   signUpByFacebook$ = this.store.pipe(select(AuthSelectors.getSignUpByFacebook));
 
   constructor(

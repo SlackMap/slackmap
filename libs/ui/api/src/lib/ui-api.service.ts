@@ -56,14 +56,14 @@ export class UiApiService {
    * Sign In By FB
    */
   public authSignInByFacebook(data: AuthSignInByFacebookRequestDto): Observable<AuthSignInByFacebookDto> {
-    return this.httpClient.post<AuthSignInByFacebookDto>(`${this.basePath}/${AUTH_PATHS.singInByFacebook()}`, data);
+    return this.httpClient.post<AuthSignInByFacebookDto>(`${this.basePath}/${AUTH_PATHS.signInByFacebook()}`, data);
   }
 
   /**
    * Sign In By FB
    */
   public authSignUpByFacebook(data: AuthSignUpByFacebookRequestDto): Observable<AuthSignUpByFacebookDto> {
-    return this.httpClient.post<AuthSignUpByFacebookDto>(`${this.basePath}/${AUTH_PATHS.singInByFacebook()}`, data);
+    return this.httpClient.post<AuthSignUpByFacebookDto>(`${this.basePath}/${AUTH_PATHS.signUpByFacebook()}`, data);
   }
 
   /**

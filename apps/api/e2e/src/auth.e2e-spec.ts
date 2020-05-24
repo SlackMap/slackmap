@@ -24,7 +24,7 @@ afterAll(async () => {
 });
 
 describe('Auth: Sign In By Facebook', () => {
-  const url = '/' + AUTH_PATHS.singInByFacebook();
+  const url = '/' + AUTH_PATHS.signInByFacebook();
 
   describe(`POST ${url}`, () => {
     it('should have validation error', () => {
@@ -87,7 +87,7 @@ describe('Auth: Sign Up By Facebook', () => {
         users: [],
       };
       const requestDto: AuthSignUpByFacebookRequestDto = {
-        token: authService.sign(payload),
+        apiToken: authService.sign(payload),
         email: '',
         firstName: '',
         lastName: '',

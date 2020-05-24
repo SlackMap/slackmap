@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto } from '@slackmap/api-client';
+import { AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '@slackmap/api-client';
 
 export const fbLogin = createAction(
   '[Auth] Fb Login',
@@ -35,9 +35,19 @@ export const signUpByFacebookRequired = createAction(
 
 export const signUpByFacebook = createAction(
   '[Auth] Sign Up By Facebook',
-  props<AuthSignUpByFacebookRequestDto>()
+  props<{payload: AuthSignUpByFacebookRequestDto}>()
 );
 
 export const signUpByFacebookCancel = createAction(
   '[Auth] Sign Up By Facebook Cancel',
+);
+
+export const signUpByFacebookSuccess = createAction(
+  '[Auth] Sign Up By Facebook Success',
+  props<{payload: AuthSignUpByFacebookDto}>()
+);
+
+export const signUpByFacebookFailure = createAction(
+  '[Auth] Sign Up By Facebook Failure',
+  props<{error: any}>()
 );

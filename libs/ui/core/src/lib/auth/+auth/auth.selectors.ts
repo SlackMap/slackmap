@@ -14,3 +14,7 @@ export const getSignUpByFacebook = createSelector(
   getAuthState,
   state => state.signUpByFacebook
 )
+export const getUser = createSelector(
+  getAuthState,
+  state => state.user
+)

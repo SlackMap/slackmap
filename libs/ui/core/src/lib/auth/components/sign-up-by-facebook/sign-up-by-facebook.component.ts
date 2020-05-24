@@ -15,6 +15,7 @@ export class SignUpByFacebookComponent implements OnInit {
 
   public genderOptions = GENDER_OPTIONS;
   public form = this.fb.group({
+    apiToken: ['', Validators.required],
     email: ['', Validators.required],
     firstName: [],
     lastName: [],
@@ -22,6 +23,12 @@ export class SignUpByFacebookComponent implements OnInit {
   });
   constructor(private fb: FormBuilder) { }
 
+  @Input()
+  set apiToken(apiToken: string) {
+    this.form.patchValue({
+      apiToken
+    });
+  }
   @Input()
   set facebookUser(user: FacebookUserModel) {
     this.form.patchValue({

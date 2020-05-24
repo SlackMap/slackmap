@@ -18,8 +18,8 @@ export class AuthController {
   /**
    * Login to SlackMap with Facebook accessToken
    */
-  @Post(AUTH_PATHS.singInByFacebook())
-  public connectFacebook(@Body() data: AuthSignInByFacebookRequestDto): Observable<AuthSignInByFacebookDto> {
+  @Post(AUTH_PATHS.signInByFacebook())
+  public signIntByFacebook(@Body() data: AuthSignInByFacebookRequestDto): Observable<AuthSignInByFacebookDto> {
     return this.connectFacebookUseCase.process(data);
   }
 
@@ -27,7 +27,7 @@ export class AuthController {
    * Register by facebook
    */
   @Post(AUTH_PATHS.signUpByFacebook())
-  registerByFacebook(@Body() data: AuthSignUpByFacebookRequestDto): Promise<AuthSignUpByFacebookDto> {
+  signUpByFacebook(@Body() data: AuthSignUpByFacebookRequestDto): Promise<AuthSignUpByFacebookDto> {
     const usecase = this.module.get(AuthSignUpByFacebookUseCase);
     return usecase.process(data);
   }

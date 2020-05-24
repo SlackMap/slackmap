@@ -48,7 +48,7 @@ describe('auth-sign-up-by-facebook UseCase', () => {
     };
     const token = authService.sign(payload);
     const requestDto: AuthSignUpByFacebookRequestDto = {
-      token,
+      apiToken: token,
       email: '',
       firstName: '',
       lastName: '',

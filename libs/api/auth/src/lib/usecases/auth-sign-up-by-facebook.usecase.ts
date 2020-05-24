@@ -25,7 +25,7 @@ export class AuthSignUpByFacebookUseCase {
      * This token comes from connect-facebook-usecase, and contains only facbookUser property
      * lets take the data we need
      */
-    const { facebookUser } = this.authService.verify(request.token);
+    const { facebookUser } = this.authService.verify(request.apiToken);
 
     // no possibility to login with no fb id
     if (!facebookUser.id) {

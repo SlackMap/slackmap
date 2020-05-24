@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 
 import * as fromAuth from './auth.reducer';
-import * as AuthActions from './auth.actions';
+import * as authActions from './auth.actions';
 import { AuthService } from '../services';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { UiConfig } from '@slackmap/ui/config';
 import { UiApiService } from '@slackmap/ui/api';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
@@ -16,9 +17,9 @@ export class AuthEffects {
    */
   fbLogin$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.fbLogin),
+      ofType(authActions.fbLogin),
       switchMap(() => this.authService.fbLogin(this.config.FACEBOOK_SCOPE).pipe(
-        map((res) => AuthActions.fbLoginSuccess(res))
+        map((res) => authActions.fbLoginSuccess(res))
       ))
     )
   );
@@ -26,15 +27,15 @@ export class AuthEffects {
   /**
    * step 2 - use accessToken from step 1 & try to login
    */
-  connectByFacebook$ = createEffect(() =>
+  signInByFacebook$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.fbLoginSuccess),
+      ofType(authActions.fbLoginSuccess),
       switchMap((token) => this.api.authSignInByFacebook(token).pipe(
         map((response) => {
           if(response.user) {
-            return AuthActions.signInByFacebookSuccess(response);
+            return authActions.signInByFacebookSuccess(response);
           } else {
-            return AuthActions.signUpByFacebookRequired(response)
+            return authActions.signUpByFacebookRequired(response)
           }
         })
       ))
@@ -44,6 +45,15 @@ export class AuthEffects {
   /**
    * step 3 - if user does not exist & we have to sign up
    */
+  signUpByFacebook$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.signUpByFacebook),
+      switchMap(({payload}) => this.api.authSignUpByFacebook(payload).pipe(
+        map((response) => authActions.signUpByFacebookSuccess({payload: response})),
+        catchError((error) => of(authActions.signUpByFacebookFailure({error})))
+      ))
+    )
+  );
 
   constructor(
     private actions$: Actions,
