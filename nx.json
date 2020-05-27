@@ -72,6 +72,9 @@
     },
     "ui-common-loader": {
       "tags": ["ui"]
+    },
+    "ui-common-errors": {
+      "tags": ["ui"]
     }
   }
 }

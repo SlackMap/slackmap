@@ -35,6 +35,7 @@ import { DrawHandlerComponent } from './components/map/draw-handler/draw-handler
 import { UiConfig } from '@slackmap/ui/config';
 import { UiAuthModule } from './auth';
 import { LoaderModule } from '@slackmap/ui/common/loader';
+import { ErrorsModule } from '@slackmap/ui/common/errors';
 
 export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -66,6 +67,7 @@ export const uiCoreRoutes: Route[] = [
     EffectsModule.forFeature([SpotEffects]),
     UiAuthModule,
     LoaderModule,
+    ErrorsModule,
   ],
   providers: [
     CoreFacade,

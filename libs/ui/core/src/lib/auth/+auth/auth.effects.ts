@@ -11,6 +11,7 @@ import { of, Observable, EMPTY } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialog } from '../dialogs';
+import { ErrorService } from '@slackmap/ui/common/errors';
 
 @Injectable()
 export class AuthEffects {
@@ -108,7 +109,7 @@ export class AuthEffects {
         authActions.signUpByFacebookFailure,
       ),
       switchMap(({error}) => {
-
+        this.errorService.show({error})
         return EMPTY
       })
     )
@@ -121,5 +122,6 @@ export class AuthEffects {
     private api: UiApiService,
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
+    private errorService: ErrorService,
   ) {}
 }

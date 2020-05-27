@@ -804,6 +804,38 @@
           "style": "scss"
         }
       }
+    },
+    "ui-common-errors": {
+      "projectType": "library",
+      "root": "libs/ui/common/errors",
+      "sourceRoot": "libs/ui/common/errors/src",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/common/errors/tsconfig.lib.json",
+              "libs/ui/common/errors/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/common/errors/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/common/errors/jest.config.js",
+            "tsConfig": "libs/ui/common/errors/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/common/errors/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {
