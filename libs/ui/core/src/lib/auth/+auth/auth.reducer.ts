@@ -29,6 +29,7 @@ export const initialState: AuthState = {
 
 const authReducer = createReducer(
   initialState,
+  on(AuthActions.signInByFacebookSuccess, (state, {payload}) => ({ ...state, ...payload, signUpByFacebook: null })),
   on(AuthActions.signUpByFacebookRequired, (state, signUpByFacebook) => ({ ...state, signUpByFacebook })),
   on(AuthActions.signUpByFacebookCancel, (state) => ({ ...state, signUpByFacebook: null })),
   on(AuthActions.signUpByFacebookSuccess, (state, {payload}) => ({ ...state, ...payload, signUpByFacebook: null })),

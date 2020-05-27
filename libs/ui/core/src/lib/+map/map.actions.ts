@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { MapViewChangeData } from './map.models';
-import { ArrayDiff } from '../utils';
+import { ArrayDiff } from '../common';
 import { SportType, ItemSubtype } from '@slackmap/core';
 import { ItemModel } from '@slackmap/api-client';
 

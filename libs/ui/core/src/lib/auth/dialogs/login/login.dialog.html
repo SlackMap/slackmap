@@ -11,7 +11,6 @@
       <sm-sign-up-by-facebook [facebookUser]="signUp.facebookUser" [apiToken]="signUp.apiToken" (signUp)="signUpByFacebook($event)"></sm-sign-up-by-facebook>
 
       <button (click)="signUpByFacebookCancel()" mat-button class="cancel-btn"><mat-icon>arrow_back</mat-icon></button>
-
     </mat-dialog-content>
     <mat-dialog-actions>
       <p>
@@ -37,12 +36,11 @@
         Facebook is the only option for now.<br>
         But it's the fastest & the safest!
       </p>
-
-      <button (click)="fbLogin()" mat-raised-button color="primary" class="login-fb-btn">
+      <button (click)="signInByFacebook()" [disabled]="loader.isLoading" mat-raised-button color="primary" class="login-fb-btn">
         <mat-icon svgIcon="icon-facebook-square"></mat-icon>
         Log in with Facebook
       </button>
-      <button mat-button mat-dialog-close  class="close-btn" alt="close">
+      <button mat-button (click)="signInCancel()" class="close-btn" alt="close">
         <mat-icon>close</mat-icon>
       </button>
     </mat-dialog-content>

@@ -6,7 +6,7 @@ import * as MapActions from './map.actions';
 import * as SpotActions from '../+spot/spot.actions';
 import { map, distinctUntilChanged, mergeMap, switchMap } from 'rxjs/operators';
 import { MAP_ZOOM_THRESHOLD } from '@slackmap/api-client';
-import { arrayDiff, ArrayDiff } from '../utils';
+import { arrayDiff, ArrayDiff } from '../common';
 import { from, of } from 'rxjs';
 import { SportType } from '@slackmap/core';
 import { SpotService } from '../services/spot.service';

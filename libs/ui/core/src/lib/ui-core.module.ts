@@ -34,6 +34,7 @@ import { SpotsLayerComponent } from './components/map/spots-layer/spots-layer.co
 import { DrawHandlerComponent } from './components/map/draw-handler/draw-handler.component';
 import { UiConfig } from '@slackmap/ui/config';
 import { UiAuthModule } from './auth';
+import { LoaderModule } from '@slackmap/ui/common/loader';
 
 export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -63,7 +64,8 @@ export const uiCoreRoutes: Route[] = [
     EffectsModule.forFeature([MapEffects]),
     StoreModule.forFeature(fromSpots.SPOT_FEATURE_KEY, fromSpots.reducer),
     EffectsModule.forFeature([SpotEffects]),
-    UiAuthModule
+    UiAuthModule,
+    LoaderModule,
   ],
   providers: [
     CoreFacade,

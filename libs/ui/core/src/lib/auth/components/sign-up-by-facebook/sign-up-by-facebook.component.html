@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field class="email-field">
     <mat-label>Email</mat-label>
-    <input matInput placeholder="Email" formControlName="email">
+    <input matInput placeholder="Email" formControlName="email" [readonly]="user?.email">
   </mat-form-field>
   <div class="names">
     <mat-form-field class="first-name-field">

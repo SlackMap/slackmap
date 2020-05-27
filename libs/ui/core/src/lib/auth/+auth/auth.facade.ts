@@ -8,20 +8,47 @@ import * as AuthSelectors from './auth.selectors';
 import { UiConfig } from '@slackmap/ui/config';
 import { UiApiService } from '@slackmap/ui/api';
 import { Observable } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
+import { Dispatcher } from '../../common';
+import { AuthSignUpByFacebookRequestDto } from '@slackmap/api-client';
 
 @Injectable()
 export class AuthFacade {
+  loading$: Observable<void>;
   user$ = this.store.pipe(select(AuthSelectors.getUser));
   signUpByFacebook$ = this.store.pipe(select(AuthSelectors.getSignUpByFacebook));
 
   constructor(
-    private api: UiApiService,
-    private config: UiConfig,
+    private actions$: Actions,
+    private dsipatcher: Dispatcher,
     private store: Store<fromAuth.AuthPartialState>
   ) {}
 
   dispatch(action: Action) {
     this.store.dispatch(action);
+  }
+
+  signIn(): Observable<void> {
+    return this.dsipatcher.run(actions.signIn(), [
+      actions.signInCancel,
+      actions.signInSuccess,
+    ])
+  }
+  signInByFacebook(): Observable<void> {
+    return this.dsipatcher.run(actions.signInByFacebook(), [
+      actions.fbLoginSuccess,
+      actions.fbLoginFailure,
+      actions.signInByFacebookFailure,
+      actions.signInByFacebookSuccess,
+      actions.signUpByFacebookRequired,
+    ])
+  }
+  signUpByFacebook(payload: AuthSignUpByFacebookRequestDto): Observable<void> {
+    return this.dsipatcher.run(actions.signUpByFacebook({payload}), [
+      actions.signUpByFacebookFailure,
+      actions.signUpByFacebookSuccess,
+      actions.signUpByFacebookCancel,
+    ])
   }
 
 }

@@ -5,7 +5,7 @@ export interface Subscription {
   unsubscribe(): void;
 }
 export interface Observable {
-  subscribe(): Subscription;
+  subscribe(options: any): Subscription;
 }
 export class SubSink {
 
@@ -16,7 +16,9 @@ export class SubSink {
   }
 
   set subscribe(observable: Observable) {
-    this.subscriptions.push(observable.subscribe());
+    this.subscriptions.push(observable.subscribe({
+      error: () => {}
+    }));
   }
 
   unsubscribe(): void {

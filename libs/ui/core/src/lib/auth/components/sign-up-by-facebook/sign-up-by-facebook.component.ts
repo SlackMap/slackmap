@@ -12,14 +12,15 @@ export class SignUpByFacebookComponent implements OnInit {
 
   @Output()
   signUp = new EventEmitter<any>();
+  user: FacebookUserModel;
 
   public genderOptions = GENDER_OPTIONS;
   public form = this.fb.group({
     apiToken: ['', Validators.required],
     email: ['', Validators.required],
-    firstName: [],
-    lastName: [],
-    gender: [],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    gender: ['', Validators.required],
   });
   constructor(private fb: FormBuilder) { }
 
@@ -31,11 +32,11 @@ export class SignUpByFacebookComponent implements OnInit {
   }
   @Input()
   set facebookUser(user: FacebookUserModel) {
+    this.user = user;
     this.form.patchValue({
       firstName: user.first_name,
       lastName: user.last_name,
       email: user.email,
-      gender: Gender.FEMALE
     });
   }
 

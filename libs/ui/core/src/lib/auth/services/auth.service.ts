@@ -1,9 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserModel } from '@slackmap/api-client';
-import { MatDialog } from "@angular/material/dialog";
-import { LoginDialog } from '../dialogs';
-import { BreakpointState, Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { UiConfig } from '@slackmap/ui/config';
 import { DOCUMENT } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
@@ -22,7 +18,6 @@ declare global {
   providedIn: 'root'
 })
 export class AuthService {
-  isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
   FB$ = new Observable<FB>(subscriber => {
 
@@ -75,35 +70,9 @@ export class AuthService {
   })
 
   constructor(
-    private config: UiConfig,
-    private breakpointObserver: BreakpointObserver,
-    private dialog: MatDialog,
+    public config: UiConfig,
     @Inject(DOCUMENT) private document: Document
-  ) {
-
-  }
-
-  login(): Observable<UserModel> {
-    const dialogRef = this.dialog.open(LoginDialog, {
-      disableClose: true,
-      width: '50%',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-    });
-    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
-      if (size.matches) {
-        dialogRef.updateSize('100%', '100%');
-      } else {
-        dialogRef.updateSize();
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      smallDialogSubscription.unsubscribe();
-    });
-
-    return dialogRef.afterClosed();
-  }
+  ) {}
 
   /**
    * Use Facebook JS SDK to get the accessToken

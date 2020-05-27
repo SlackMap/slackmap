@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { CoreFacade } from '../../+core/core.facade';
-import { AuthService } from '../../auth';
+import { AuthFacade, AuthActions } from '../../auth';
 
 @Component({
   selector: 'sm-layout',
@@ -31,14 +31,11 @@ export class LayoutComponent implements AfterViewInit {
     private app: ApplicationRef,
     private injector: Injector,
     private coreFacade: CoreFacade,
-    private authService: AuthService
+    private authFacade: AuthFacade
   ) { }
 
   onLogin() {
-    this.authService.login().subscribe(
-      user => console.log('login success', user),
-      err => console.log('login error', err),
-    );
+    this.authFacade.dispatch(AuthActions.signIn());
   }
   ngAfterViewInit(): void {
     this.onLogin()
