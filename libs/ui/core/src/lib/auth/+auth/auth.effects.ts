@@ -1,22 +1,44 @@
 import { Injectable } from '@angular/core';
-import { createEffect, Actions, ofType } from '@ngrx/effects';
+import { createEffect, Actions, ofType, OnInitEffects } from '@ngrx/effects';
 
 import * as fromAuth from './auth.reducer';
 import * as authActions from './auth.actions';
 import { AuthService } from '../services';
-import { switchMap, map, catchError, takeUntil } from 'rxjs/operators';
-import { UiConfig } from '@slackmap/ui/config';
+import { switchMap, map, catchError, takeUntil, startWith, exhaustMap, mergeMap } from 'rxjs/operators';
+import { UiConfig, appConfigInit } from '@slackmap/ui/config';
 import { UiApiService } from '@slackmap/ui/api';
 import { of, Observable, EMPTY } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialog } from '../dialogs';
 import { ErrorService } from '@slackmap/ui/common/errors';
+import { Action } from '@ngrx/store';
+const AUTH_INIT_ACTION = '[AuthEffects] Init';
 
 @Injectable()
-export class AuthEffects {
+export class AuthEffects implements OnInitEffects {
 
   isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+
+
+  /**
+   * if apiToken exists, fetch the user session
+   */
+  fetchUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.fetchUser, appConfigInit),
+      switchMap(() => {
+        const apiToken = this.api.getToken();
+        if(apiToken) {
+          return this.api.authMe().pipe(
+            map((response) => authActions.signInByFacebookSuccess({payload: {apiToken, ...response}})),
+            catchError(error => of(authActions.signInByFacebookFailure({error}))),
+          )
+        }
+        return EMPTY;
+      })
+    )
+  );
 
   /**
    * step 0 - open sign in dialog
@@ -24,7 +46,7 @@ export class AuthEffects {
   signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(authActions.signIn),
-      switchMap(() => {
+      exhaustMap(() => {
         return new Observable<never>(subscriber => {
           const dialogRef = this.dialog.open(LoginDialog, {
             disableClose: true,
@@ -99,6 +121,22 @@ export class AuthEffects {
   );
 
   /**
+   * save apiToken as session
+   */
+  saveApiToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        authActions.signInByFacebookSuccess,
+        authActions.signUpByFacebookSuccess,
+      ),
+      switchMap(({payload}) => {
+        this.api.setToken(payload.apiToken)
+        return EMPTY
+      })
+    )
+  );
+
+  /**
    * handle errors
    */
   errors$ = createEffect(() =>
@@ -108,7 +146,7 @@ export class AuthEffects {
         authActions.signInByFacebookFailure,
         authActions.signUpByFacebookFailure,
       ),
-      switchMap(({error}) => {
+      mergeMap(({error}) => {
         this.errorService.show({error})
         return EMPTY
       })
@@ -124,4 +162,8 @@ export class AuthEffects {
     private dialog: MatDialog,
     private errorService: ErrorService,
   ) {}
+
+  ngrxOnInitEffects(): Action {
+    return { type: AUTH_INIT_ACTION };
+  }
 }

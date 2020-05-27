@@ -35,7 +35,7 @@ export class AuthController {
   /**
    * Get current profile
    */
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get(AUTH_PATHS.me())
   me(@JwtPayload() payload: JwtPayloadModel) {
     return this.meGetUseCase.process(payload);

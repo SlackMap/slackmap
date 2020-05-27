@@ -17,7 +17,7 @@ export class SignUpByFacebookComponent implements OnInit {
   public genderOptions = GENDER_OPTIONS;
   public form = this.fb.group({
     apiToken: ['', Validators.required],
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     gender: ['', Validators.required],

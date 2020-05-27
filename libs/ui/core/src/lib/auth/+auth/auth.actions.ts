@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '@slackmap/api-client';
 
+export const fetchUser = createAction(
+  '[Auth] Fetch User',
+);
+
 export const signIn = createAction(
   '[Auth] Sign In',
 );

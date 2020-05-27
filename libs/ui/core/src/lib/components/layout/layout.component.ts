@@ -31,14 +31,14 @@ export class LayoutComponent implements AfterViewInit {
     private app: ApplicationRef,
     private injector: Injector,
     private coreFacade: CoreFacade,
-    private authFacade: AuthFacade
+    public authFacade: AuthFacade
   ) { }
 
   onLogin() {
     this.authFacade.dispatch(AuthActions.signIn());
   }
   ngAfterViewInit(): void {
-    this.onLogin()
+    // this.onLogin()
     // get version from root element (AppComponent)
     const version = this.injector.get(this.app.componentTypes[0]).version;
     this.coreFacade.dispatch(this.coreFacade.actions.version({version}))

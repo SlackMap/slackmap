@@ -14,5 +14,7 @@ export class AuthSignInByFacebookDto {
 }
 
 export class AuthMeGetDto {
+  facebookUser: FacebookUserModel;
   user: UserModel;
+  users: UserModel[];
 }
