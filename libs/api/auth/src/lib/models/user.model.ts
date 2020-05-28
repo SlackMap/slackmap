@@ -8,4 +8,5 @@ export class UserModel {
   name?: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
 }

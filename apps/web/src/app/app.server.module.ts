@@ -3,7 +3,8 @@ import { ServerModule } from '@angular/platform-server';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
-import { StorageService, StorageMockService, UiAppConfig } from '@slackmap/ui/core';
+import { StorageService, StorageMockService } from '@slackmap/ui/core';
+import { UiConfig } from '@slackmap/ui/config';
 import { ConfigModel } from '@slackmap/api-client';
 
 
@@ -23,7 +24,7 @@ const config: ConfigModel = {
     provide: StorageService,
     useClass: StorageMockService,
   },{
-    provide: UiAppConfig,
+    provide: UiConfig,
     useValue: config,
   }],
   bootstrap: [AppComponent],

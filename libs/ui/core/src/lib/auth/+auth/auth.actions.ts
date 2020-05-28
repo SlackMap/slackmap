@@ -9,6 +9,10 @@ export const signIn = createAction(
   '[Auth] Sign In',
 );
 
+export const signOut = createAction(
+  '[Auth] Sign Out',
+);
+
 export const signInSuccess = createAction(
   '[Auth] Sign In Success',
 );

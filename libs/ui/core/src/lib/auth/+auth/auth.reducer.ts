@@ -33,6 +33,7 @@ const authReducer = createReducer(
   on(AuthActions.signUpByFacebookRequired, (state, signUpByFacebook) => ({ ...state, signUpByFacebook })),
   on(AuthActions.signUpByFacebookCancel, (state) => ({ ...state, signUpByFacebook: null })),
   on(AuthActions.signUpByFacebookSuccess, (state, {payload}) => ({ ...state, ...payload, signUpByFacebook: null })),
+  on(AuthActions.signOut, (state, {}) => ({ ...state, user: null, users: [], apiToken: null, signUpByFacebook: null })),
 );
 
 export function reducer(state: AuthState | undefined, action: Action) {

@@ -26,6 +26,7 @@ import { IonicStorageModule } from '@ionic/storage';
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
+      // enabled: false,
       registrationStrategy: 'registerImmediately'
     }),
     UiConfigModule.forRoot({production: environment.production}),
@@ -44,7 +45,8 @@ import { IonicStorageModule } from '@ionic/storage';
       }
     ),
     EffectsModule.forRoot([]),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    // !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreDevtoolsModule.instrument(),
     StoreRouterConnectingModule.forRoot(),
     UiCoreModule,
     IonicStorageModule.forRoot(),

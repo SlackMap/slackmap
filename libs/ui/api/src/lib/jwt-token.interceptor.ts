@@ -17,13 +17,15 @@ export class JwtTokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const apiToken = this.apiService.getToken();
+    const headers: any = {
+      'ngsw-bypass': ''
+    };
     if(apiToken) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${apiToken}`
-        }
-      });
+      headers.Authorization = `Bearer ${apiToken}`;
     }
+    request = request.clone({
+      setHeaders: headers
+    });
     return next.handle(request);
   }
 }

@@ -19,13 +19,17 @@ export class UiApiService {
     return this.config.API_HOST;
   }
   public getToken() {
-    return localStorage.getItem(API_TOKEN_STORAGE_KEY);
+    if(this.config.isBrowser) {
+      return localStorage.getItem(API_TOKEN_STORAGE_KEY);
+    }
   }
   public setToken(token: string | null) {
-    if(token) {
-      localStorage.setItem(API_TOKEN_STORAGE_KEY, token);
-    } else {
-      localStorage.removeItem(API_TOKEN_STORAGE_KEY);
+    if(this.config.isBrowser) {
+      if(token) {
+        localStorage.setItem(API_TOKEN_STORAGE_KEY, token);
+      } else {
+        localStorage.removeItem(API_TOKEN_STORAGE_KEY);
+      }
     }
     return this.token = token;
   }

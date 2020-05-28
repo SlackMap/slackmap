@@ -26,6 +26,11 @@ export class AuthService {
       return;
     }
 
+    if (!this.config.FACEBOOK_APP_ID) {
+      subscriber.error(`Application "FACEBOOK_APP_ID" configuration not availabke, please reload the page`);
+      return;
+    }
+
     // if FB already exists return it
     if (this.document.defaultView['FB']) {
       //@ts-ignore
@@ -41,7 +46,7 @@ export class AuthService {
           appId: this.config.FACEBOOK_APP_ID,
           cookie: true, // enable cookies to allow the server to access the session
           xfbml: false, // parse social plugins on this page
-          version: 'v2.8' // use graph api version
+          version: 'v6.0' // use graph api version
         });
 
         //@ts-ignore
@@ -94,7 +99,7 @@ export class AuthService {
           });
 
         }
-      }, { scope: scope.join(',') });
+      }, { scope: (scope || []).join(',') });
     })));
   }
 

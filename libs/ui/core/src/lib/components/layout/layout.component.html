@@ -9,48 +9,68 @@ class="sidenav-container"
       [attr.role]="'dialog'"
       [mode]="'over'"
       [opened]="false">
-    <mat-toolbar  color="primary"><span>SlackMap</span></mat-toolbar>
+    <mat-toolbar  color="primary">
+      <img class="logotyp" src="/assets/logo-hor-sub.svg" alt="SlackMap"/>
+    </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+
+      <ng-container *ngIf="authFacade.user$ | async as user; else menuSignInTpl">
+        <mat-list-item >
+          <img matListAvatar [src]="'https://graph.facebook.com/'+user.facebookId+'/picture?type=square'" [alt]="user.name">
+          <h3 matLine> {{user.name}} </h3>
+          <p matLine>
+            <span> {{user.email}} </span>
+          </p>
+        </mat-list-item>
+      </ng-container>
+      <ng-template #menuSignInTpl>
+        <mat-list-item (click)="onSignIn()">
+          <mat-icon matListIcon>exit_to_app</mat-icon>
+          <h3 matLine> Sign In </h3>
+        </mat-list-item>
+      </ng-template>
+
+      <mat-list-item>
+        <mat-icon matListIcon>settings</mat-icon>
+        <h3 matLine>Settings</h3>
+      </mat-list-item>
+
+      <mat-list-item (click)="onSignOut()" *ngIf="authFacade.user$ | async as user">
+        <mat-icon matListIcon svgIcon="icon-power-off"></mat-icon>
+        <h3 matLine> Sign Out </h3>
+      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="side-menu">
       <mat-list>
+
+        <ng-container *ngIf="authFacade.user$ | async as user; else menuIcon">
+          <mat-list-item>
+            <button mat-icon-button (click)="drawer.toggle()">
+              <img *ngIf="user.facebookId" [src]="'https://graph.facebook.com/'+user.facebookId+'/picture?type=square'" style="margin: auto; width: 30px; border-radius: 50%;" />
+            </button>
+          </mat-list-item>
+        </ng-container>
+        <ng-template #menuIcon>
+          <mat-list-item>
+              <button mat-icon-button (click)="drawer.toggle()">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+              </button>
+          </mat-list-item>
+        </ng-template>
+
         <mat-list-item>
-          <button mat-icon-button (click)="drawer.toggle()">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-        </mat-list-item>
-        <mat-list-item>
-          <button mat-icon-button>
+          <button mat-icon-button routerLink="/x">
             <mat-icon matListIcon>explore</mat-icon>
           </button>
         </mat-list-item>
         <mat-list-item>
-          <button mat-icon-button>
+          <button mat-icon-button routerLink="/">
             <mat-icon matListIcon>add_circle_outline</mat-icon>
           </button>
         </mat-list-item>
-        <mat-list-item>
-          <ng-container *ngIf="authFacade.user$ | async as user; else elseTemplate">
-            <!-- <mat-icon matListIcon>account_box</mat-icon> -->
-            <img *ngIf="user.facebookId" [src]="'https://graph.facebook.com/'+user.facebookId+'/picture?type=square'" style="margin: auto; width: 30px; border-radius: 50%;" />
-          </ng-container>
-          <ng-template #elseTemplate>
-            <button mat-icon-button (click)="onLogin()">
-              <mat-icon matListIcon>exit_to_app</mat-icon>
-            </button>
-          </ng-template>
 
-        </mat-list-item>
-        <mat-list-item>
-          <button mat-icon-button>
-            <mat-icon matListIcon>settings</mat-icon>
-          </button>
-        </mat-list-item>
       </mat-list>
     </div>
     <div class="content">

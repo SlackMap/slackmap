@@ -34,8 +34,11 @@ export class LayoutComponent implements AfterViewInit {
     public authFacade: AuthFacade
   ) { }
 
-  onLogin() {
+  onSignIn() {
     this.authFacade.dispatch(AuthActions.signIn());
+  }
+  onSignOut() {
+    this.authFacade.dispatch(AuthActions.signOut());
   }
   ngAfterViewInit(): void {
     // this.onLogin()

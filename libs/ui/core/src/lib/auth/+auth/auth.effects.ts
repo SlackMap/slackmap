@@ -126,11 +126,16 @@ export class AuthEffects implements OnInitEffects {
   saveApiToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
+        authActions.signOut,
         authActions.signInByFacebookSuccess,
         authActions.signUpByFacebookSuccess,
       ),
-      switchMap(({payload}) => {
-        this.api.setToken(payload.apiToken)
+      switchMap((action) => {
+        if(action.type === authActions.signOut.type) {
+          this.api.setToken(null)
+        } else {
+          this.api.setToken(action.payload.apiToken)
+        }
         return EMPTY
       })
     )

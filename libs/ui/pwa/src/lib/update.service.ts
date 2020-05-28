@@ -29,7 +29,7 @@ export class UpdateService {
         console.log('update activated', event);
       });
 
-      interval(6 * 60 * 60).subscribe(() => swUpdate.checkForUpdate());
+      interval(10 * 60 * 1000).subscribe(() => swUpdate.checkForUpdate());
     }
     // this.openDialog(<any>{});
   }
