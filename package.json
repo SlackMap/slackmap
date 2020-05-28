@@ -1,6 +1,6 @@
 {
   "name": "slackmap",
-  "version": "0.5.0-next.8",
+  "version": "0.5.0-next.9",
   "license": "MIT",
   "bin": {
     "sm": "./apps/cli/src/sm"
@@ -44,10 +44,10 @@
     "bump:prod": "standard-version --no-verify -t '' --message 'chore(release): %s [skip ci]'",
     "copy-assets:next": "node ./tools/scripts/copy-assets.js",
     "copy-assets:prod": "node ./tools/scripts/copy-assets.js",
-    "build:next": "npm run build:all && npm run bump:next && npm run copy-assets:next",
-    "build:prod": "npm run build:all && npm run bump:prod && npm run copy-assets:prod",
-    "deploy:next": "shipit next deploy",
-    "deploy:prod": "shipit prod deploy",
+    "build:next": "npm run build:all && npm run copy-assets:next",
+    "build:prod": "npm run build:all && npm run copy-assets:prod",
+    "deploy:next": "npm run bump:next && npm run copy-assets:next && shipit next deploy",
+    "deploy:prod": "npm run bump:prod && npm run copy-assets:prod && shipit prod deploy",
     "rollback:next": "shipit next rollback",
     "rollback:prod": "shipit prod rollback",
     "bd:next": "npm run build:next && npm run deploy:next",
