@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { CoreFacade } from '../../+core/core.facade';
-import { AuthFacade, AuthActions } from '../../auth';
+import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
 
 @Component({
   selector: 'sm-layout',

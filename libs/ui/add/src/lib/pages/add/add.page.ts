@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthFacade } from '@slackmap/ui/auth';
 
 @Component({
   selector: 'add-add',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddPage implements OnInit {
 
-  constructor() { }
+  user$ = this.authFacade.user$;
+  
+  constructor(
+    public authFacade: AuthFacade
+  ) { }
 
   ngOnInit(): void {
   }

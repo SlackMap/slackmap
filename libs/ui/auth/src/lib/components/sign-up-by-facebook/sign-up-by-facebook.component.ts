@@ -4,7 +4,7 @@ import { GENDER_OPTIONS, Gender } from '@slackmap/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'sm-sign-up-by-facebook',
+  selector: 'auth-sign-up-by-facebook',
   templateUrl: './sign-up-by-facebook.component.html',
   styleUrls: ['./sign-up-by-facebook.component.scss']
 })

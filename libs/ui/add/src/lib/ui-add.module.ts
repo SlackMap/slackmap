@@ -7,11 +7,12 @@ import * as fromAdd from './+add/add.reducer';
 import { AddEffects } from './+add/add.effects';
 import { AddFacade } from './+add/add.facade';
 import { AddPage } from './pages/add/add.page';
+import { UiAuthModule } from '@slackmap/ui/auth';
 
 @NgModule({
   imports: [
     CommonModule,
-
+    UiAuthModule,
     RouterModule.forChild([
       {path: '', pathMatch: 'full', component: AddPage}
     ]),

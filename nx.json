@@ -78,6 +78,12 @@
     },
     "ui-add": {
       "tags": ["ui"]
+    },
+    "ui-auth": {
+      "tags": ["ui"]
+    },
+    "ui-common-dispatcher": {
+      "tags": ["ui"]
     }
   }
 }

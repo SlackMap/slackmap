@@ -1,1 +1,7 @@
-<p>add works!</p>
+<ng-container *ngIf="user$ | async as user; else loginTemplate">
+  choose sport
+</ng-container>
+<ng-template #loginTemplate>
+  Login
+</ng-template>
+

@@ -33,7 +33,7 @@ import { DrawControlComponent } from './components/map/draw-control/draw-control
 import { SpotsLayerComponent } from './components/map/spots-layer/spots-layer.component';
 import { DrawHandlerComponent } from './components/map/draw-handler/draw-handler.component';
 import { UiConfig, UiConfigModule } from '@slackmap/ui/config';
-import { UiAuthModule } from './auth';
+import { UiAuthModule } from '@slackmap/ui/auth';
 import { LoaderModule } from '@slackmap/ui/common/loader';
 import { ErrorsModule } from '@slackmap/ui/common/errors';
 

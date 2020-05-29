@@ -8,7 +8,7 @@
       <img mat-card-image src="/assets/logotyp.svg" alt="SlackMap Logo">
       <i>New account</i>
 
-      <sm-sign-up-by-facebook [facebookUser]="signUp.facebookUser" [apiToken]="signUp.apiToken" (signUp)="signUpByFacebook($event)"></sm-sign-up-by-facebook>
+      <auth-sign-up-by-facebook [facebookUser]="signUp.facebookUser" [apiToken]="signUp.apiToken" (signUp)="signUpByFacebook($event)"></auth-sign-up-by-facebook>
 
       <button (click)="signUpByFacebookCancel()" mat-button class="cancel-btn"><mat-icon>arrow_back</mat-icon></button>
     </mat-dialog-content>

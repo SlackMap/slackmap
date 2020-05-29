@@ -21,6 +21,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
 import { SignUpByFacebookComponent } from './components/sign-up-by-facebook/sign-up-by-facebook.component';
+
 export const uiAuthRoutes: Route[] = [
 
 ];

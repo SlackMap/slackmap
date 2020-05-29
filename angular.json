@@ -868,6 +868,70 @@
           "style": "scss"
         }
       }
+    },
+    "ui-auth": {
+      "projectType": "library",
+      "root": "libs/ui/auth",
+      "sourceRoot": "libs/ui/auth/src",
+      "prefix": "auth",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/auth/tsconfig.lib.json",
+              "libs/ui/auth/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/auth/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/auth/jest.config.js",
+            "tsConfig": "libs/ui/auth/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/auth/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "ui-common-dispatcher": {
+      "projectType": "library",
+      "root": "libs/ui/common/dispatcher",
+      "sourceRoot": "libs/ui/common/dispatcher/src",
+      "prefix": "dispatcher",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/common/dispatcher/tsconfig.lib.json",
+              "libs/ui/common/dispatcher/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/common/dispatcher/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/common/dispatcher/jest.config.js",
+            "tsConfig": "libs/ui/common/dispatcher/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/common/dispatcher/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

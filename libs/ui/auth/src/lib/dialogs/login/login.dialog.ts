@@ -7,7 +7,7 @@ import { Loader } from '@slackmap/ui/common/loader';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'sm-login',
+  selector: 'auth-login',
   templateUrl: './login.dialog.html',
   styleUrls: ['./login.dialog.scss']
 })

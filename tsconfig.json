@@ -43,7 +43,11 @@
       "@slackmap/api/db/testing": ["libs/api/db/src/testing/index.ts"],
       "@slackmap/ui/common/loader": ["libs/ui/common/loader/src/index.ts"],
       "@slackmap/ui/common/errors": ["libs/ui/common/errors/src/index.ts"],
-      "@slackmap/ui/add": ["libs/ui/add/src/index.ts"]
+      "@slackmap/ui/add": ["libs/ui/add/src/index.ts"],
+      "@slackmap/ui/auth": ["libs/ui/auth/src/index.ts"],
+      "@slackmap/ui/common/dispatcher": [
+        "libs/ui/common/dispatcher/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp", "tools/schematics/**/files/**"]
