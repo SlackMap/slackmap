@@ -41,6 +41,7 @@ export const uiCoreRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
   { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
   { path: 'x', component: XPage },
+  { path: 'add', loadChildren: () => import('@slackmap/ui/add').then(m => m.UiAddModule) },
 ];
 
 @NgModule({
