@@ -32,7 +32,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DrawControlComponent } from './components/map/draw-control/draw-control.component';
 import { SpotsLayerComponent } from './components/map/spots-layer/spots-layer.component';
 import { DrawHandlerComponent } from './components/map/draw-handler/draw-handler.component';
-import { UiConfig } from '@slackmap/ui/config';
+import { UiConfig, UiConfigModule } from '@slackmap/ui/config';
 import { UiAuthModule } from './auth';
 import { LoaderModule } from '@slackmap/ui/common/loader';
 import { ErrorsModule } from '@slackmap/ui/common/errors';
@@ -68,6 +68,7 @@ export const uiCoreRoutes: Route[] = [
     UiAuthModule,
     LoaderModule,
     ErrorsModule,
+    UiConfigModule,
   ],
   providers: [
     CoreFacade,

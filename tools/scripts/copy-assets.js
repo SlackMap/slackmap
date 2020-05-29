@@ -43,7 +43,7 @@ console.log('Update: index.html set current version');
 const indexFile = './dist/apps/web/browser/index.html';
 let index = fs.readFileSync(indexFile, { encoding: 'utf8' });
 console.log('Old index.html hash', sha1(index));
-index = index.replace('0.0.0-dev', version);
+index = index.replace(/data-sm-version="([^"]+)/, `data-sm-version="${version}"`);
 fs.writeFileSync(indexFile, index);
 
 // udpate hash

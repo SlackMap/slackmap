@@ -35,10 +35,13 @@ class="sidenav-container"
         <h3 matLine>Settings</h3>
       </mat-list-item>
 
-      <mat-list-item (click)="onSignOut()" *ngIf="authFacade.user$ | async as user">
-        <mat-icon matListIcon svgIcon="icon-power-off"></mat-icon>
-        <h3 matLine> Sign Out </h3>
-      </mat-list-item>
+      <ng-container *ngIf="authFacade.user$ | async as user">
+        <mat-list-item></mat-list-item>
+        <mat-list-item (click)="onSignOut()">
+          <mat-icon matListIcon svgIcon="icon-power-off"></mat-icon>
+          <h3 matLine> Sign Out </h3>
+        </mat-list-item>
+      </ng-container>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
