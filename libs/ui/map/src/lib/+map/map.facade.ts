@@ -10,12 +10,8 @@ import { SportType } from '@slackmap/core';
 export class MapFacade {
   actions = MapActions;
   view$ = this.store.pipe(select(MapSelectors.getMapView));
-  sportsEnabled$ = this.store.select(MapSelectors.getMapSportsEnabled);
-  subtypesEnabled$ = this.store.select(MapSelectors.getMapSubtypesEnabled);
 
   constructor(private store: Store<fromMap.MapPartialState>) {}
-
-  getSportFilteredSpots = (sport: SportType) => this.store.select(MapSelectors.getMapSportFilteredSpots(sport));
 
   dispatch(action: Action) {
     this.store.dispatch(action);

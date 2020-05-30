@@ -79,10 +79,7 @@ class="sidenav-container"
     <div class="content">
       <router-outlet></router-outlet>
     </div>
-    <sm-map-view>
-      <!-- <sm-leaflet-map></sm-leaflet-map> -->
-      <ng-container #mapContainer></ng-container>
-    </sm-map-view>
+    <map-map></map-map>
     <div class="map-list-switch-btns">
       <button class="show-list-btn" mat-raised-button color="primary" (click)="showMap = false" [disabled]="!showMap">List</button>
       <button class="show-map-btn" mat-raised-button color="primary" (click)="showMap = true" [disabled]="showMap">Map</button>

@@ -14,13 +14,13 @@ import * as SpotsSelectors from './spot.selectors';
 import * as SpotsActions from './spot.actions';
 import {
   SPOT_FEATURE_KEY,
-  State,
+  SpotState,
   initialState,
   reducer
 } from './spot.reducer';
 
 interface TestSchema {
-  spots: State;
+  spots: SpotState;
 }
 
 describe('SpotsFacade', () => {

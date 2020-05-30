@@ -1,4 +1,4 @@
-import { State, initialState } from './spot.reducer';
+import { SpotState, initialState } from './spot.reducer';
 import * as SpotsSelectors from './spot.selectors';
 
 describe('Spots Selectors', () => {

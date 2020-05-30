@@ -1,4 +1,4 @@
-import { State, initialState } from './core.reducer';
+import { CoreState, initialState } from './core.reducer';
 import * as CoreSelectors from './core.selectors';
 
 describe('Core Selectors', () => {

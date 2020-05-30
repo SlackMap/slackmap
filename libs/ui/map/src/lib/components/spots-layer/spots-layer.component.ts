@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '@slackmap/ui/map';
+import { MapService } from '../../map.service';
 
 @Component({
   selector: 'sm-map-spots-layer',

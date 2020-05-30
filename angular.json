@@ -553,7 +553,7 @@
       "projectType": "library",
       "root": "libs/ui/map",
       "sourceRoot": "libs/ui/map/src",
-      "prefix": "sm",
+      "prefix": "map",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -924,6 +924,38 @@
             "tsConfig": "libs/ui/common/dispatcher/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/ui/common/dispatcher/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "ui-common-utils": {
+      "projectType": "library",
+      "root": "libs/ui/common/utils",
+      "sourceRoot": "libs/ui/common/utils/src",
+      "prefix": "utils",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/common/utils/tsconfig.lib.json",
+              "libs/ui/common/utils/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/common/utils/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/common/utils/jest.config.js",
+            "tsConfig": "libs/ui/common/utils/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/common/utils/src/test-setup.ts"
           }
         }
       },

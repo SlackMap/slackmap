@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { SportType } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';
+import { ArrayDiff } from '@slackmap/ui/common/utils';
 
 /**
  * fired to init the loading
@@ -57,4 +58,10 @@ export const hashClear = createAction(
 export const hashNoConnection = createAction(
   '[Spot] Hash No Connection',
   props<{ hash: string, layer: SportType }>()
+);
+
+// calculate new hashes based on the map view change
+export const viewHashesChange = createAction(
+  '[Spot] View Hashes Change',
+  props<{ data: ArrayDiff<string> }>()
 );

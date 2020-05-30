@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject, Observable } from 'rxjs';
-import { MapComponent, MapViewChangeData, DrawType, DrawShape, DrawHandler } from './ui-map.models';
+import { MapComponent, MapViewChangeData, DrawType, DrawShape, DrawHandler } from './+map';
 import { switchMap, debounceTime } from 'rxjs/operators';
 
 @Injectable({

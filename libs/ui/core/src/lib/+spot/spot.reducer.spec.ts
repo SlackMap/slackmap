@@ -1,5 +1,5 @@
 import * as SpotsActions from './spot.actions';
-import { State, initialState, reducer } from './spot.reducer';
+import { SpotState, initialState, reducer } from './spot.reducer';
 
 describe('Spots Reducer', () => {
 

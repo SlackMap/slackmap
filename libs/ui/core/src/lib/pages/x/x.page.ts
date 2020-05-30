@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MapService, DrawType } from '@slackmap/ui/map';
 import { SubSink, SportType } from '@slackmap/core';
-import { MapFacade } from '../../+map/map.facade';
+import { MapActions } from '@slackmap/ui/map';
+import { CoreFacade , CoreActions} from '../../+core';
 import { debounceTime, switchMap, tap } from 'rxjs/operators';
-import * as MapActions from '../../+map/map.actions';
 
 @Component({
   selector: 'sm-x',
@@ -16,19 +16,16 @@ export class XPage implements OnInit, OnDestroy {
 
   constructor(
     private mapService: MapService,
-    private mapFacade: MapFacade,
+    private coreFacade: CoreFacade,
   ) { }
 
   ngOnInit(): void {
 
-    this.subSink.subscribe = this.mapService.spotsLayer(this.mapFacade.getSportFilteredSpots(SportType.SLACKLINE));
+    this.subSink.subscribe = this.mapService.spotsLayer(this.coreFacade.getSportFilteredSpots(SportType.SLACKLINE));
 
     this.subSink.subscribe = this.mapService.viewChange$.pipe(
-      tap(view => this.mapFacade.dispatch(MapActions.viewChange({view})))
+      tap(view => this.coreFacade.dispatch(MapActions.viewChange({view})))
     )
-    // this.subSink.add = this.mapService.drawHandler(DrawType.LINE).subscribe(handler => {
-    //   console.log('handler', handler)
-    // })
   }
 
   ngOnDestroy() {

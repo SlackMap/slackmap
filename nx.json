@@ -84,6 +84,9 @@
     },
     "ui-common-dispatcher": {
       "tags": ["ui"]
+    },
+    "ui-common-utils": {
+      "tags": ["ui"]
     }
   }
 }

@@ -1,6 +1,6 @@
 import { CoreEntity } from './core.models';
 import * as CoreActions from './core.actions';
-import { State, initialState, reducer } from './core.reducer';
+import { CoreState, initialState, reducer } from './core.reducer';
 
 describe('Core Reducer', () => {
   const createCoreEntity = (id: string, name = '') =>

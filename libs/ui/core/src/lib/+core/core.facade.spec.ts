@@ -13,10 +13,10 @@ import { CoreFacade } from './core.facade';
 
 import * as CoreSelectors from './core.selectors';
 import * as CoreActions from './core.actions';
-import { CORE_FEATURE_KEY, State, initialState, reducer } from './core.reducer';
+import { CORE_FEATURE_KEY, CoreState, initialState, reducer } from './core.reducer';
 
 interface TestSchema {
-  core: State;
+  core: CoreState;
 }
 
 describe('CoreFacade', () => {

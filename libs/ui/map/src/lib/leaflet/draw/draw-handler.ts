@@ -1,6 +1,6 @@
 import * as L from "leaflet";
 import "./draw-customs";
-import { DrawType, DrawData, DrawHandler } from "../../ui-map.models";
+import { DrawType, DrawData, DrawHandler } from "../../+map";
 import { Observable, ReplaySubject } from 'rxjs';
 
 /**

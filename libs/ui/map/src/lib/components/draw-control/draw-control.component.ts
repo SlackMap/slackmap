@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'sm-draw-handler',
+  selector: 'map-draw-control',
   template: `
     <p>
-      draw-handler works!
+      draw-control works!
     </p>
   `,
   styles: [
-  ]
+  ],
 })
-export class DrawHandlerComponent implements OnInit {
+export class DrawControlComponent implements OnInit {
 
   constructor() { }
 

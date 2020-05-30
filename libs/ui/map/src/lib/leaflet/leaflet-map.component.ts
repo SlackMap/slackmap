@@ -14,7 +14,7 @@ import { merge, fromEvent, Observable, Subject, combineLatest } from 'rxjs';
 import { map, takeUntil, startWith, debounceTime, share } from 'rxjs/operators';
 import { MAP_ZOOM_THRESHOLD } from '@slackmap/api-client';
 import * as geohash from 'ngeohash';
-import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawShape } from '../ui-map.models';
+import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawShape } from '../+map';
 
 restoreView();
 leafletCustoms();

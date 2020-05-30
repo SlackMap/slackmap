@@ -5,15 +5,15 @@ import { LoadHashResponse } from './spot.models';
 
 export const SPOT_FEATURE_KEY = 'spot';
 
-export interface State  {
+export interface SpotState  {
   layers: {[key in SportType]: {[key: string]: LoadHashResponse}}; // layers spots as hash of arrays, key is geohash
 }
 
 export interface SpotPartialState {
-  readonly [SPOT_FEATURE_KEY]: State;
+  readonly [SPOT_FEATURE_KEY]: SpotState;
 }
 
-export const initialState: State = {
+export const initialState: SpotState = {
   layers: {
     [SportType.SLACKLINE]: {},
     [SportType.TRAMPOLINE]: {},
@@ -47,7 +47,7 @@ const spotReducer = createReducer(
     }
   })),
   on(SpotActions.hashClear, (state, action) => {
-    const newState: State = {
+    const newState: SpotState = {
       ...state,
       layers: {
         ...state.layers,
@@ -62,6 +62,6 @@ const spotReducer = createReducer(
   }),
 );
 
-export function reducer(state: State | undefined, action: Action) {
+export function reducer(state: SpotState | undefined, action: Action) {
   return spotReducer(state, action);
 }

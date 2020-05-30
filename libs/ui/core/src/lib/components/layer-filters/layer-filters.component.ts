@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SportType, SUBTYPE_OPTIONS, SPORT_OPTIONS, ItemSubtype } from '@slackmap/core';
-import { MapFacade } from '../../+map/map.facade';
+import { CoreFacade, CoreActions } from '../../+core';
 import { of } from 'rxjs';
 
 @Component({
@@ -14,11 +14,11 @@ export class LayerFiltersComponent implements OnInit {
   sports$ = of(SPORT_OPTIONS);
   subtypes$ = of(SUBTYPE_OPTIONS.filter(t => t.color));
 
-  sportsEnabled$ = this.map.sportsEnabled$;
-  subtypesEnabled$ = this.map.subtypesEnabled$;
+  sportsEnabled$ = this.coreFacade.sportsEnabled$;
+  subtypesEnabled$ = this.coreFacade.subtypesEnabled$;
 
   constructor(
-    private map: MapFacade,
+    private coreFacade: CoreFacade,
   ) { }
 
   ngOnInit() {
@@ -26,11 +26,11 @@ export class LayerFiltersComponent implements OnInit {
   }
 
   onSportChange(sportsEnabled: SportType[]) {
-    this.map.dispatch(this.map.actions.sportsEnabledChange({ sportsEnabled }));
+    this.coreFacade.dispatch(CoreActions.sportsEnabledChange({ sportsEnabled }));
   }
 
   onSubtypeChange(subtypesEnabled: ItemSubtype[]) {
-    this.map.dispatch(this.map.actions.subtypesEnabledChange({ subtypesEnabled }));
+    this.coreFacade.dispatch(CoreActions.subtypesEnabledChange({ subtypesEnabled }));
   }
 
 }

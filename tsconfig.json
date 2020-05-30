@@ -47,7 +47,8 @@
       "@slackmap/ui/auth": ["libs/ui/auth/src/index.ts"],
       "@slackmap/ui/common/dispatcher": [
         "libs/ui/common/dispatcher/src/index.ts"
-      ]
+      ],
+      "@slackmap/ui/common/utils": ["libs/ui/common/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "tools/schematics/**/files/**"]
