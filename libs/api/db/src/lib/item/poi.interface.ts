@@ -1,14 +1,14 @@
-import { Position, Geometry } from '@slackmap/gis';
+import { GeoJSON } from '@slackmap/gis';
 import { LocationPathEntity } from '../location/location-path.entity';
 
 /**
  * Base Item class
  * Others extends this
  */
-export interface PoiInterface {
+export class PoiInterface {
   location_path?: LocationPathEntity;
-  coordinates?: Position;
-  shape?: Geometry;
+  coordinates?: GeoJSON.Point;
+  shape?: GeoJSON.Geometry;
   lat?: number;
   lon?: number;
 }

@@ -1,5 +1,5 @@
 import { LocationPathModel } from './location-path.model';
-import { Geometry, Position } from '@slackmap/gis';
+import { GeoJSON } from '@slackmap/gis';
 import { Item, ItemType, ItemSubtype, Rid } from '@slackmap/core';
 
 export class ItemModel implements Item {
@@ -13,8 +13,8 @@ export class ItemModel implements Item {
     location_path?: Array<LocationPathModel>;
     length?: number;
     access?: number;
-    coordinates: Position;
-    shape: Geometry;
+    coordinates: GeoJSON.Point;
+    shape: GeoJSON.Geometry;
     viewport?: any;
     code?: string;
     _version?: number;

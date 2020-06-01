@@ -4,7 +4,7 @@ import { catchError, tap, share, startWith, merge, map, shareReplay, switchMap }
 import { Observable, of, Subject, merge as mergeObservables, EMPTY } from 'rxjs';
 import { SportType, ItemType, Rid, ItemSubtype } from '@slackmap/core';
 import { CLUSTERS_PATHS, ClusterModel, ClustersClustersGetDto } from '@slackmap/api-client';
-import { BBox } from '@slackmap/gis';
+import { GeoJSON } from '@slackmap/gis';
 import Supercluster from 'supercluster';
 import { UiApiService } from '@slackmap/ui/api';
 import { ResponseSource, LoadHashResponse } from '../+spot/spot.models';
@@ -173,10 +173,10 @@ export class SpotService {
 
   /**
    *
-   * @param bbox BBox
+   * @param bbox geojson.BBox
    * @param zoom
    */
-  getClusters(layer: SportType, bbox: BBox, zoom: number): Observable<LoadHashResponse> {
+  getClusters(layer: SportType, bbox: GeoJSON.BBox, zoom: number): Observable<LoadHashResponse> {
     return <any>this.supercluster$.pipe(
       map((scluster) => {
         const clusters = scluster.getClusters(bbox, zoom).map(cluster => {

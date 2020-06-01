@@ -1,4 +1,5 @@
 import * as leaflet from 'leaflet';
+import { GeoJSON } from '@slackmap/gis';
 
 declare module "leaflet" {
   export interface Map {
@@ -7,7 +8,7 @@ declare module "leaflet" {
   }
   export interface LatLngBounds {
     toArray(): [[number, number], [number, number]];
-    toGeoJSON(): any;
+    toGeoJSON(): GeoJSON.BBox;
     logSize(label): void;
     max(maxHeight, maxWidth): void;
     min(minHeight, minWidth): void;
@@ -16,7 +17,7 @@ declare module "leaflet" {
   }
   export interface LatLng {
     toArray(): any[];
-    toGeoJSON(): any;
+    toGeoJSON(): GeoJSON.Feature<GeoJSON.Point>;
     limit(): LatLng;
   }
 }

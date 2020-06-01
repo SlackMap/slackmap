@@ -271,7 +271,7 @@
       "projectType": "library",
       "root": "libs/ui/api",
       "sourceRoot": "libs/ui/api/src",
-      "prefix": "sm",
+      "prefix": "api",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -325,7 +325,7 @@
       "projectType": "library",
       "root": "libs/ui/pwa",
       "sourceRoot": "libs/ui/pwa/src",
-      "prefix": "sm",
+      "prefix": "pwa",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -745,7 +745,7 @@
       "projectType": "library",
       "root": "libs/ui/config",
       "sourceRoot": "libs/ui/config/src",
-      "prefix": "sm",
+      "prefix": "config",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",

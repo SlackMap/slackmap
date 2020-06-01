@@ -1,5 +1,5 @@
-import {ItemRids, ItemType} from '@slackmap/core';
-import {BBox} from '@slackmap/gis';
+import { ItemRids, ItemType } from '@slackmap/core';
+import { GeoJSON } from '@slackmap/gis';
 
 /**
  * converts array of latlng's to string
@@ -55,7 +55,7 @@ import {BBox} from '@slackmap/gis';
  * @param item
  * @returns BBox
  */
-export function getItemBounds(item: any): BBox {
+export function getItemBounds(item: any): GeoJSON.BBox {
   const data: any = {};
   if (item.rid === ItemRids.WORLD) {
     return [-180, -90, 180, 90];
@@ -122,9 +122,9 @@ export function getItemBounds(item: any): BBox {
 /**
  * get bbox from array of bbox
  */
-export function bboxes2bbox(bboxes: BBox[]) {
+export function bboxes2bbox(bboxes: GeoJSON.BBox[]) {
   const bbox = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY,
-  Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, ];
+  Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY,];
   return bboxes.reduce(function (prev, box) {
     return [
       Math.min(box[0], prev[0]),
@@ -140,10 +140,10 @@ export function bboxes2bbox(bboxes: BBox[]) {
  */
 export function getBBox(gj) {
   let coords, bbox;
-  if (!gj.hasOwnProperty('type')) {return; }
+  if (!gj.hasOwnProperty('type')) { return; }
   coords = getCoordinatesDump(gj);
   bbox = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY,
-  Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, ];
+  Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY,];
   return coords.reduce(function (prev, coord) {
     return [
       Math.min(coord[0], prev[0]),

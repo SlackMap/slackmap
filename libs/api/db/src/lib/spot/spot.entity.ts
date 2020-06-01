@@ -1,6 +1,6 @@
-import { Position, Geometry } from '@slackmap/gis';
 import { LocationPathEntity } from '../location/location-path.entity';
 import { ItemType, SpotSubtype, SportType } from '@slackmap/core';
+import { GeoJSON } from '@slackmap/gis';
 
 export class SpotEntity {
   // item
@@ -14,8 +14,8 @@ export class SpotEntity {
 
   // poi
   location_path?: LocationPathEntity;
-  coordinates?: Position;
-  shape?: Geometry;
+  coordinates?: GeoJSON.Point;
+  shape?: GeoJSON.Geometry;
   lat?: number;
   lon?: number;
 

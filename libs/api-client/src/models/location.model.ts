@@ -1,6 +1,6 @@
 import { LocationPathModel } from './location-path.model';
 import {ViewportModel} from './viewport.model';
-import { Point, GeometryObject } from '@slackmap/gis';
+import { GeoJSON } from '@slackmap/gis';
 
 export class LocationModel {
     id?: string;
@@ -12,10 +12,10 @@ export class LocationModel {
     description?: string;
     location_path?: LocationPathModel;
     privacy?: number;
-    coordinates?: Point;
+    coordinates?: GeoJSON.Point;
     lat?: number;
     lon?: number;
-    shape?: GeometryObject;
+    shape?: GeoJSON.Geometry;
     viewport?: ViewportModel;
     code?: string;
 

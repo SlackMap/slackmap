@@ -3,7 +3,8 @@ import { RidGenerator, ItemType, ItemSubtype, SportType } from '@slackmap/core';
 import { now, createWhere, WhereOperator } from '../db-utils';
 import { SpotEntity } from './spot.entity';
 import * as geohash from 'ngeohash';
-import { BBox } from '@slackmap/gis';
+import { GeoJSON } from '@slackmap/gis';
+
 import { PersistenceManager, QuerySpecification, Transactional, InjectPersistenceManager, CursorSpecification } from '@liberation-data/drivine';
 
 @Injectable()
@@ -100,7 +101,7 @@ export class SpotRepository {
    * @param bbox [minlat, minlon, maxlat, maxlon]
    */
   @Transactional()
-  findByBBox(bbox: BBox, sport: SportType): Promise<SpotEntity[]> {
+  findByBBox(bbox: GeoJSON.BBox, sport: SportType): Promise<SpotEntity[]> {
     const params = [
       bbox[0], //minlat
       bbox[2], //maxlat
