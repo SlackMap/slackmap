@@ -1,25 +1,38 @@
 import * as L from "leaflet";
 import "./draw-customs";
-import { DrawType, DrawData, DrawHandler } from "../../+map";
+import { DrawType, DrawData, DrawHandler, DrawGeometry } from "../../+map";
 import { Observable, ReplaySubject } from 'rxjs';
+import { GeoJSON } from '@slackmap/gis';
+
+interface DrawLayer extends L.Layer {
+  getLatLngs: () => L.LatLng[] | L.LatLng[][] | L.LatLng[][][];
+  getBounds: () => L.LatLngBounds;
+  toGeoJSON: () => GeoJSON.Feature<any>;
+}
 
 /**
   * handler for drawing or editing shapes on map
   *
   * @param {*} map L.Map
-  * @param {*} type SpotCategory
-  * @param {*} shape geojson shape to edit
+  * @param {*} type DrawType
+  * @param {*} geometry supported geojson Geometry to edit
   */
-export function drawHandler(map: L.Map, type: DrawType, shape): Observable<DrawHandler> {
+export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler> {
   return new Observable<DrawHandler>(subscriber => {
-    const data$ = new ReplaySubject<DrawData>(1);
+    if(!map) {
+      return subscriber.error(new Error('drawHandler(map, type, geometry) requires L.Map to be provided'));
+    }
+    if(!type) {
+      return subscriber.error(new Error('drawHandler(map, type, geometry) requires DrawType to be provided'));
+    }
+
     let vertexCount = 0,
       distance = 0,
-      layer;
+      layer: DrawLayer;
 
     // from leaflet-draw-customs.js
     // blocks middle marker on line drawing
-    L.Edit.noMiddleMarker = type === DrawType.LINE ? true : false;
+    L.Edit.noMiddleMarker = (type === DrawType.LINE) ? true : false;
 
     // hide draw toolbar
     map._container.classList.add('hide-draw-toolbar');
@@ -54,26 +67,26 @@ export function drawHandler(map: L.Map, type: DrawType, shape): Observable<DrawH
      * start the process of draw/edit
      */
     function start() {
-      if (shape && shape.coordinates) {
+      if (geometry && geometry.coordinates) {
         /**
          * edit existing shape
          */
-        if (type === DrawType.AREA) {
-          layer = L.GeoJSON.geometryToLayer(shape);
+        if (type === DrawType.POLYGON) {
+          layer = L.GeoJSON.geometryToLayer({type: 'Feature', geometry, properties: {}}) as L.Polygon;
         } else {
-          // @ts-ignore
-          layer = new L.Polyline(L.GeoJSON.coordsToLatLngs(shape.coordinates), L.Draw.Polyline.prototype.options.shapeOptions);
+          layer = new L.Polyline(L.GeoJSON.coordsToLatLngs(geometry.coordinates));
         }
         features.addLayer(layer);
 
         map.on(L.Draw.Event.EDITVERTEX, onEdited);
         drawControl._toolbars.edit._modes.edit.handler.enable();
         // fitBounds(); moved outside
+        // fireChange();
       } else {
         /**
          * draw new shape
          */
-        if (type === DrawType.AREA) {
+        if (type === DrawType.POLYGON) {
           drawControl._toolbars.draw._modes.polygon.handler.enable();
         } else {
           drawControl._toolbars.draw._modes.polyline.handler.enable();
@@ -91,7 +104,9 @@ export function drawHandler(map: L.Map, type: DrawType, shape): Observable<DrawH
         features.removeLayer(layer);
         layer = null;
       }
-      (vertexCount = 0), (distance = 0), drawControl._toolbars.draw._modes.polygon.handler.disable();
+      vertexCount = 0;
+      distance = 0;
+      drawControl._toolbars.draw._modes.polygon.handler.disable();
       drawControl._toolbars.draw._modes.polyline.handler.disable();
       map.off(L.Draw.Event.CREATED, onCreated);
       map.off(L.Draw.Event.DRAWVERTEX, onProgress);
@@ -135,41 +150,55 @@ export function drawHandler(map: L.Map, type: DrawType, shape): Observable<DrawH
 
     // fire change
     function fireChange() {
-      let newShape = null,
-        coordinates = null;
+      let newGeometry: DrawGeometry = null,
+        bbox: GeoJSON.BBox = null,
+        center: GeoJSON.Point = null;
       if (layer) {
-        vertexCount = layer.getLatLngs().length;
-        newShape = layer.toGeoJSON().geometry;
+        if (type === DrawType.POLYGON) {
+          vertexCount = (layer.getLatLngs() as L.LatLng[][])[0].length;
+        } else {
+          vertexCount = (layer.getLatLngs() as L.LatLng[]).length;
+        }
+        newGeometry = layer.toGeoJSON().geometry;
 
         // this is leaflet or leaflet-draw bug
         // bounds does not update when the shape is edited, but layer shape is correct
         // so we have to transform it to get the coordinates
-        let l;
-        if (type === DrawType.AREA) {
-          l = L.GeoJSON.geometryToLayer(newShape);
+        let l: DrawLayer;
+        if (type === DrawType.POLYGON) {
+          l = L.GeoJSON.geometryToLayer({type: 'Feature', geometry: newGeometry, properties: {}}) as L.Polyline;
         } else {
-          // @ts-ignore
-          l = new L.Polyline(L.GeoJSON.coordsToLatLngs(newShape.coordinates), L.Draw.Polyline.prototype.options.shapeOptions);
+          l = new L.Polyline(L.GeoJSON.coordsToLatLngs(newGeometry.coordinates));
         }
-        coordinates = l
+        center = l
           .getBounds()
           .getCenter()
           .toGeoJSON().geometry;
+        bbox = l
+          .getBounds()
+          .toGeoJSON();
 
         // calculate line length
         if (type === DrawType.LINE) {
-          const latlngs = layer.getLatLngs();
-          distance = latlngs[0].distanceTo(latlngs[1]).toFixed(2);
+          const latlngs = layer.getLatLngs() as L.LatLng[];
+          distance = Number(latlngs[0].distanceTo(latlngs[1]).toFixed(2));
         }
       }
 
-      data$.next({
+      subscriber.next({
         type,
-        vertexCount: vertexCount,
-        distance: distance,
-        coordinates: coordinates,
-        shape: newShape
-      });
+        undo,
+        completeShape,
+        reset,
+        data: {
+          type,
+          vertexCount,
+          distance,
+          bbox,
+          center,
+          geometry: newGeometry
+        },
+      })
     }
 
     function undo() {
@@ -189,17 +218,10 @@ export function drawHandler(map: L.Map, type: DrawType, shape): Observable<DrawH
       start();
       fireChange();
     }
-
-    subscriber.next({
-      undo,
-      completeShape,
-      reset,
-      data$: data$.asObservable()
-    });
+    setTimeout(() => fireChange(), 0)
 
     return () => {
       stop();
-      data$.complete()
       map.removeLayer(features);
       map.removeControl(drawControl);
     }

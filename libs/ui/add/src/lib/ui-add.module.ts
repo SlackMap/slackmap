@@ -8,6 +8,7 @@ import { AddEffects } from './+add/add.effects';
 import { AddFacade } from './+add/add.facade';
 import { AddPage } from './pages/add/add.page';
 import { UiAuthModule } from '@slackmap/ui/auth';
+import { UiMapModule } from '@slackmap/ui/map';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { UiAuthModule } from '@slackmap/ui/auth';
     ]),
     StoreModule.forFeature(fromAdd.ADD_FEATURE_KEY, fromAdd.reducer),
     EffectsModule.forFeature([AddEffects]),
+    UiMapModule,
   ],
   providers: [AddFacade],
   declarations: [AddPage],

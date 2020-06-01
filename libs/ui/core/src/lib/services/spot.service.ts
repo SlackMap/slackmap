@@ -94,10 +94,7 @@ export class SpotService {
             expansion_zoom: _cluster.expansion_zoom,
             rid: _cluster.rid
           },
-          geometry: {
-            type: 'Point',
-            coordinates: _cluster.coordinates
-          }
+          geometry: _cluster.coordinates
         };
       });
 

@@ -1,9 +1,9 @@
-import {BBox} from '@slackmap/gis';
+import { GeoJSON } from '@slackmap/gis';
 import { Observable } from 'rxjs';
 
 export interface MapViewChangeData {
   bounds: [[number, number], [number, number]];
-  bbox: BBox;
+  bbox: GeoJSON.BBox;
   zoom: number;
   hashes?: string[];
 }
@@ -12,7 +12,7 @@ export interface MapComponent {
   viewChange$: Observable<MapViewChangeData>;
   itemClick$: Observable<{item: any}>;
   spotsLayer(spots$: Observable<any>): Observable<void>;
-  drawHandler(type: DrawType, shape?: DrawShape): Observable<DrawHandler>;
+  drawHandler(type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler>;
 }
 
 /**
@@ -20,25 +20,27 @@ export interface MapComponent {
  */
 export enum DrawType {
   LINE = 'LINE',
-  AREA = 'AREA'
+  POLYGON = 'POLYGON',
 }
 
 /**
  * draw handler will emit this data
  */
 export interface DrawData {
-  shape: DrawShape;
-  coordinates: any;
+  geometry: DrawGeometry;
+  center: GeoJSON.Point;
+  bbox: GeoJSON.BBox;
   distance: number;
   vertexCount: number;
   type: DrawType;
 }
 
 export interface DrawHandler {
+  type: DrawType;
   undo: () => void,
   reset: () => void,
   completeShape: () => void,
-  data$: Observable<DrawData>
+  data: DrawData
 }
 
-export type DrawShape = any;
+export type DrawGeometry = GeoJSON.Point | GeoJSON.LineString | GeoJSON.Polygon;

@@ -4,4 +4,11 @@
 <ng-template #loginTemplate>
   Login
 </ng-template>
+<button (click)="type = DrawType.LINE; geometry = null">LINE</button>
+<button (click)="type = DrawType.POLYGON; geometry = null">POLYGON</button>
+<button (click)="geometry = geometryLine">LINE Geometry</button>
+<button (click)="geometry = geometryPolygon">LINE Polygon</button>
 
+<map-draw-control [type]="type" [geometry]="geometry" (geometryChange)="edited = $event"></map-draw-control>
+
+<pre>Edited: {{edited | json}}</pre>

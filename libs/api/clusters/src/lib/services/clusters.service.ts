@@ -49,7 +49,7 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
             rid: cluster.properties.rid || '',
             type: ItemType.CLUSTER,
             subtype: !!cluster.properties.cluster ? ItemSubtype.CLUSTER_CLUSTER : ItemSubtype.CLUSTER_SPOT,
-            coordinates: cluster.geometry.coordinates,
+            coordinates: cluster.geometry,
             expansion_zoom,
             spot_count: cluster.properties.point_count || 1,
             cluster_id: cluster.properties.cluster_id || 0,

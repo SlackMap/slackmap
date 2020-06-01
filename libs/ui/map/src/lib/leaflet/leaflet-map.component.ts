@@ -14,13 +14,13 @@ import { merge, fromEvent, Observable, Subject, combineLatest } from 'rxjs';
 import { map, takeUntil, startWith, debounceTime, share } from 'rxjs/operators';
 import { MAP_ZOOM_THRESHOLD } from '@slackmap/api-client';
 import * as geohash from 'ngeohash';
-import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawShape } from '../+map';
+import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawGeometry } from '../+map';
 
 restoreView();
 leafletCustoms();
 
 @Component({
-  selector: 'sm-leaflet-map',
+  selector: 'map-leaflet-map',
   template: `
     <div #mapContainer class="map-container">
       <!-- <span class="map-loader" *ngIf="!map">Loading map...</span> -->
@@ -137,8 +137,8 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
     );
   }
 
-  drawHandler(type: DrawType, shape?: DrawShape): Observable<DrawHandler> {
-    return drawHandler(this.map, type, shape)
+  drawHandler(type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler> {
+    return drawHandler(this.map, type, geometry)
   }
 
   ngOnDestroy() {

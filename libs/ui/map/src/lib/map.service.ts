@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject, Observable } from 'rxjs';
-import { MapComponent, MapViewChangeData, DrawType, DrawShape, DrawHandler } from './+map';
+import { MapComponent, MapViewChangeData, DrawType, DrawHandler, DrawGeometry } from './+map';
 import { switchMap, debounceTime } from 'rxjs/operators';
 
 @Injectable({
@@ -26,9 +26,9 @@ export class MapService implements MapComponent {
     );
   }
 
-  drawHandler(type: DrawType, shape?: DrawShape): Observable<DrawHandler> {
+  drawHandler(type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler> {
     return this.map$.pipe(
-      switchMap(map => map.drawHandler(type, shape))
+      switchMap(map => map.drawHandler(type, geometry))
     );
   }
 
