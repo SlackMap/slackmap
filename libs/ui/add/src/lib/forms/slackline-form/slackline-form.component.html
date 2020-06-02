@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <button mat-button (click)="reset()">
+    <mat-icon >arrow_back</mat-icon>
+  </button>
+  <span>Slackline spot</span>
+</mat-toolbar>
+
+<mat-button-toggle-group class="draw-type-select" [value]="drawType$ | async" (change)="drawTypeChange($event.source.value)">
+  <mat-button-toggle [value]="DrawType.LINE">Line Spot</mat-button-toggle>
+  <mat-button-toggle [value]="DrawType.POLYGON">Slack Area</mat-button-toggle>
+</mat-button-toggle-group>
+
+<ng-container *ngIf="drawType$ | async as drawType">
+  <map-draw-control [type]="drawType" (drawData)="onDrawData($event)"></map-draw-control>
+</ng-container>
+
+<pre>
+  {{drawData$ | async | json}}
+</pre>

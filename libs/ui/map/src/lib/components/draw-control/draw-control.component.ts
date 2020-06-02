@@ -23,7 +23,7 @@ export class DrawControlComponent implements AfterViewInit, OnChanges {
   geometry: DrawGeometry;
 
   @Output()
-  geometryChange = new EventEmitter<DrawData>();
+  drawData = new EventEmitter<DrawData>();
 
   constructor(
     private mapService: MapService
@@ -33,7 +33,7 @@ export class DrawControlComponent implements AfterViewInit, OnChanges {
     this.handler$ = combineLatest([this.type$$, this.geometry$$]).pipe(
       switchMap(([type, geometry]) => this.mapService.drawHandler(type, geometry)),
       tap({
-        next: handler => this.geometryChange.next(handler.data)
+        next: handler => this.drawData.next(handler.data)
       })
     );
   }

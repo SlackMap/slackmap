@@ -6,7 +6,7 @@
   //margin: 30px 0 40px 0;
   overflow: visible;
   //height: 50px;
-  // text-align: center;
+  text-align: center;
   i {
       color: gray;
       font-style: italic;
@@ -20,5 +20,11 @@
   .btn {
       margin-top: 6px;
   }
-
+  .distance-btn {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .draw-info-text {
+    text-align: center;
+  }
 }

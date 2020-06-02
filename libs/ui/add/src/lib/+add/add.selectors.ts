@@ -1,43 +1,24 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   ADD_FEATURE_KEY,
-  State,
+  AddState,
   AddPartialState,
-  addAdapter,
 } from './add.reducer';
 
-// Lookup the 'Add' feature state managed by NgRx
-export const getAddState = createFeatureSelector<AddPartialState, State>(
+export const getAddState = createFeatureSelector<AddPartialState, AddState>(
   ADD_FEATURE_KEY
 );
 
-const { selectAll, selectEntities } = addAdapter.getSelectors();
-
-export const getAddLoaded = createSelector(
+export const getSport = createSelector(
   getAddState,
-  (state: State) => state.loaded
+  (state: AddState) => state.sport
 );
-
-export const getAddError = createSelector(
+export const getDrawType = createSelector(
   getAddState,
-  (state: State) => state.error
+  (state: AddState) => state.drawType
 );
-
-export const getAllAdd = createSelector(getAddState, (state: State) =>
-  selectAll(state)
-);
-
-export const getAddEntities = createSelector(getAddState, (state: State) =>
-  selectEntities(state)
-);
-
-export const getSelectedId = createSelector(
+export const getDrawData = createSelector(
   getAddState,
-  (state: State) => state.selectedId
+  (state: AddState) => state.drawData
 );
 
-export const getSelected = createSelector(
-  getAddEntities,
-  getSelectedId,
-  (entities, selectedId) => selectedId && entities[selectedId]
-);

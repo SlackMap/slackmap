@@ -1,0 +1,12 @@
+<ng-container *ngLet="sport$ | async as sport">
+  <mat-toolbar color="primary">
+    <mat-icon class="toolbar-icon-left" >add_circle_outline</mat-icon>
+    <span>Add new spot</span>
+  </mat-toolbar>
+  <mat-toolbar class="toolbar-center">
+    <span>Choose sport</span>
+  </mat-toolbar>
+  <ng-container *ngFor="let option of options">
+    <mat-card (click)="onSportSelect(option)">{{option.label}}</mat-card>
+  </ng-container>
+</ng-container>

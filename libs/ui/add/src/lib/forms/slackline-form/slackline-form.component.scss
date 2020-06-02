@@ -1,0 +1,8 @@
+.draw-type-select {
+  flex-wrap: wrap;
+  width: 100%;
+  mat-button-toggle {
+    flex-grow: 1;
+    text-align: center;
+  }
+}

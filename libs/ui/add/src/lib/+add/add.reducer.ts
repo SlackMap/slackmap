@@ -1,39 +1,35 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as AddActions from './add.actions';
-import { AddEntity } from './add.models';
+import { SportType, ItemType } from '@slackmap/core';
+import { DrawType, DrawData } from '@slackmap/ui/map';
 
 export const ADD_FEATURE_KEY = 'add';
 
-export interface State extends EntityState<AddEntity> {
-  selectedId?: string | number; // which Add record has been selected
-  loaded: boolean; // has the Add list been loaded
-  error?: string | null; // last none error (if any)
+export interface AddState {
+  sport: SportType;
+  drawType: DrawType;
+  drawData: DrawData;
 }
 
 export interface AddPartialState {
-  readonly [ADD_FEATURE_KEY]: State;
+  readonly [ADD_FEATURE_KEY]: AddState;
 }
 
-export const addAdapter: EntityAdapter<AddEntity> = createEntityAdapter<
-  AddEntity
->();
-
-export const initialState: State = addAdapter.getInitialState({
-  // set initial required properties
-  loaded: false,
-});
+export const initialState: AddState = {
+  sport: SportType.SLACKLINE,
+  drawType: null,
+  drawData: null,
+};
 
 const addReducer = createReducer(
   initialState,
-  on(AddActions.loadAdd, (state) => ({ ...state, loaded: false, error: null })),
-  on(AddActions.loadAddSuccess, (state, { add }) =>
-    addAdapter.addAll(add, { ...state, loaded: true })
-  ),
-  on(AddActions.loadAddFailure, (state, { error }) => ({ ...state, error }))
+  on(AddActions.reset, (state) => ({ ...initialState, sport: null })),
+  on(AddActions.setSport, (state, { sport }) => ({ ...state, sport })),
+  on(AddActions.setDrawType, (state, { drawType }) => ({ ...state, drawType })),
+  on(AddActions.setDrawData, (state, { drawData }) => ({ ...state, drawData })),
 );
 
-export function reducer(state: State | undefined, action: Action) {
+export function reducer(state: AddState | undefined, action: Action) {
   return addReducer(state, action);
 }

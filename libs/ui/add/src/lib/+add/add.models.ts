@@ -1,6 +1,10 @@
+import { DrawType } from '@slackmap/ui/map';
+import { SportType } from '@slackmap/core';
+
 /**
- * Interface for the 'Add' data
+ * Model for update action
  */
-export interface AddEntity {
-  id: string | number; // Primary ID
+export interface AddStateModel {
+  sport: SportType;
+  drawType: DrawType;
 }

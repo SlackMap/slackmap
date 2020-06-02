@@ -1,14 +1,22 @@
 import { createAction, props } from '@ngrx/store';
-import { AddEntity } from './add.models';
+import { SportType } from '@slackmap/core';
+import { DrawType, DrawData } from '@slackmap/ui/map';
 
-export const loadAdd = createAction('[Add] Load Add');
 
-export const loadAddSuccess = createAction(
-  '[Add] Load Add Success',
-  props<{ add: AddEntity[] }>()
+export const reset = createAction(
+  '[Add] Reset'
+);
+export const setSport = createAction(
+  '[Add] Set Sport',
+  props<{ sport: SportType }>()
 );
 
-export const loadAddFailure = createAction(
-  '[Add] Load Add Failure',
-  props<{ error: any }>()
+export const setDrawType = createAction(
+  '[Add] Set DrawType',
+  props<{ drawType: DrawType }>()
 );
+export const setDrawData = createAction(
+  '[Add] Set DrawData',
+  props<{ drawData: DrawData }>()
+);
+

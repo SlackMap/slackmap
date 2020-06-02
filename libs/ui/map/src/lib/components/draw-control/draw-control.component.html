@@ -5,10 +5,9 @@
   <button mat-stroked-button class="reset-btn" *ngIf="handler.type == DrawType.POLYGON && !handler.data.geometry && handler.data.vertexCount" [disabled]="handler.data.vertexCount < 2" (click)="handler.undo()">undo</button>
   <button mat-stroked-button class="complete-btn" *ngIf="handler.type == DrawType.POLYGON && !handler.data.geometry && handler.data.vertexCount" [disabled]="handler.data.vertexCount < 3" (click)="handler.completeShape()">complete</button>
 
-  <span class="draw-info-text" *ngIf="!handler.data?.vertexCount">
+  <p class="draw-info-text" *ngIf="!handler.data?.vertexCount">
       zoom to location & click on map to draw
-  </span>
-  <pre>{{handler.data | json}}</pre>
+  </p>
 </ng-container>
 
 

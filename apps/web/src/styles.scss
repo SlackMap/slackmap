@@ -2,3 +2,17 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.toolbar-icon-right {
+  padding: 0 0 0 14px;
+}
+.toolbar-icon-left {
+  padding: 0 14px 0 0;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+.toolbar-center {
+  justify-content: center;
+}
