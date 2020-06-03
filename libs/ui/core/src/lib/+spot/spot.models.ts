@@ -1,5 +1,5 @@
 import {SportType} from '@slackmap/core';
-import { ClustersSpotsGetDto } from '@slackmap/api-client';
+import { ClustersSpotsGetDto } from '@slackmap/api/clusters/dto';
 
 /**
  * success response from cache or request

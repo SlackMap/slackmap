@@ -4,7 +4,7 @@ import { MapFeature } from '@slackmap/ui/map';
 import { getSpotLayer } from '../+spot/spot.selectors';
 import { SportType, ItemType, ItemSubtype } from '@slackmap/core';
 import { LoadHashResponse } from '../+spot/spot.models';
-import { ClusterModel, SpotModel } from '@slackmap/api-client';;
+import { ClusterModel } from '@slackmap/api/clusters/dto';
 
 export const getCoreState = createFeatureSelector<CoreFeature.CorePartialState, CoreFeature.CoreState>(
   CoreFeature.CORE_FEATURE_KEY

@@ -20,7 +20,6 @@
       "@app/api/*": ["apps/api/src/app/*"],
       "@slackmap/core": ["libs/core/src/index.ts"],
       "@slackmap/gis": ["libs/gis/src/index.ts"],
-      "@slackmap/api-client": ["libs/api-client/src/index.ts"],
       "@slackmap/ui/api": ["libs/ui/api/src/index.ts"],
       "@slackmap/ui/config": ["libs/ui/config/src/index.ts"],
       "@slackmap/ui/core": ["libs/ui/core/src/index.ts"],

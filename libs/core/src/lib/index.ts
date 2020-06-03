@@ -14,3 +14,4 @@ export * from './rid-generator';
 export * from './spot-access';
 export * from './spot-shape-type';
 export * from './sub-sink';
+export * from './interfaces';

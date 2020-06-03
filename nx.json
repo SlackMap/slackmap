@@ -27,9 +27,6 @@
     "ui-api": {
       "tags": ["ui"]
     },
-    "api-client": {
-      "tags": ["api", "ui"]
-    },
     "ui-pwa": {
       "tags": ["ui"]
     },

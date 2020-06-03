@@ -1,30 +1,28 @@
-import { LocationPathEntity } from '../location/location-path.entity';
-import { ItemType, SpotSubtype, SportType } from '@slackmap/core';
+import { ItemType, SpotSubtype, SportType, Poi, Item } from '@slackmap/core';
 import { GeoJSON } from '@slackmap/gis';
 
-export class SpotEntity {
+export class SpotEntity implements Poi, Item {
   // item
-  rid?: string;
-  type?: ItemType;
-  subtype?: SpotSubtype;
-  sport?: SportType;
-  name?: string;
-  description?: string;
-  createdAt?: string;
+  rid: string;
+  type: ItemType.SPOT;
+  subtype: SpotSubtype;
 
   // poi
-  location_path?: LocationPathEntity;
-  coordinates?: GeoJSON.Point;
-  shape?: GeoJSON.Geometry;
-  lat?: number;
-  lon?: number;
+  center: GeoJSON.Point;
+  lat: number;
+  lon: number;
+  geometry: GeoJSON.Geometry;
+  bbox: GeoJSON.BBox;
 
   // spot
+  sport: SportType;
+  name?: string;
   length?: number;
   height?: number;
+  lengthLaser?: boolean;
+  heightLaser?: boolean;
   access?: number;
   climbing?: number;
   exposure?: number;
-  lengthLaser?: boolean;
-  heightLaser?: boolean;
+  createdAt?: string;
 }

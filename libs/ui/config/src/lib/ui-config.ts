@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { ConfigModel } from '@slackmap/api-client';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { ConfigModel } from '@slackmap/api/config/dto';
 
 @Injectable()
 export class UiConfig extends ConfigModel {

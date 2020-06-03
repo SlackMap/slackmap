@@ -1,8 +1,9 @@
 import { Measure } from './measure';
-import { ItemType, Item } from './item-type';
+import { ItemType } from './item-type';
 import { TypeOption, SubtypeOption, SUBTYPE_OPTIONS, TYPE_OPTIONS } from './item-type-options';
 import { SpotShapeType } from './spot-shape-type';
 import { isNumber, isObject } from './helpers';
+import { Item } from './interfaces';
 
 
 export function getSpotSubtypeOptions(shapeType: SpotShapeType, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption[] {

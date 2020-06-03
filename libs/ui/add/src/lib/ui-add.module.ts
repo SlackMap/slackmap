@@ -17,7 +17,9 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { SportSelectComponent } from './components/sport-select/sport-select.component';
 import { NgLetModule } from '@ngrx-utils/store';
-import { SlacklineFormComponent } from './forms/slackline-form/slackline-form.component';
+import { SlacklineForm } from './forms/slackline/slackline.form';
+import { SlacklineAreaForm } from './forms/slackline-area/slackline-area.form';
+import { SlacklineLineForm } from './forms/slackline-line/slackline-line.form';
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import { SlacklineFormComponent } from './forms/slackline-form/slackline-form.co
   declarations: [
     AddPage,
     SportSelectComponent,
-    SlacklineFormComponent,
+    SlacklineForm,
+    SlacklineAreaForm,
+    SlacklineLineForm,
   ],
 })
 export class UiAddModule {}

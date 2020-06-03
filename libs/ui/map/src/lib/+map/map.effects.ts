@@ -4,7 +4,6 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import * as fromMap from './map.reducer';
 import * as MapActions from './map.actions';
 import { map, distinctUntilChanged, mergeMap, switchMap } from 'rxjs/operators';
-import { MAP_ZOOM_THRESHOLD } from '@slackmap/api-client';
 import { arrayDiff, ArrayDiff } from '@slackmap/ui/common/utils';
 import { from, of } from 'rxjs';
 import { SportType } from '@slackmap/core';

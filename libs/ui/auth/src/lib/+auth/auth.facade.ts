@@ -10,7 +10,7 @@ import { UiApiService } from '@slackmap/ui/api';
 import { Observable } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 import { Dispatcher } from '@slackmap/ui/common/dispatcher';
-import { AuthSignUpByFacebookRequestDto } from '@slackmap/api-client';
+import { AuthSignUpByFacebookRequestDto } from '@slackmap/api/auth/dto';
 
 @Injectable()
 export class AuthFacade {

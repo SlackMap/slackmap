@@ -4,10 +4,10 @@ import { DrawType, DrawData } from '@slackmap/ui/map';
 
 @Component({
   selector: 'add-slackline-form',
-  templateUrl: './slackline-form.component.html',
-  styleUrls: ['./slackline-form.component.scss']
+  templateUrl: './slackline.form.html',
+  styleUrls: ['./slackline.form.scss']
 })
-export class SlacklineFormComponent implements OnInit {
+export class SlacklineForm implements OnInit {
 
   DrawType = DrawType;
   drawType$ = this.addFacade.drawType$;

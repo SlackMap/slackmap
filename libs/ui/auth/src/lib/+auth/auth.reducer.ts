@@ -1,7 +1,8 @@
 import { createReducer, on, Action } from '@ngrx/store';
 
 import * as AuthActions from './auth.actions';
-import { UserModel, FacebookUserModel } from '@slackmap/api-client';
+import { UserModel } from '@slackmap/api/auth/dto';
+import { FacebookUserModel } from '@slackmap/api/facebook/dto';
 
 export const AUTH_FEATURE_KEY = 'auth';
 

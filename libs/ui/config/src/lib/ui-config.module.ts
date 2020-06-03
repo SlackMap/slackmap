@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { UiConfig } from './ui-config';
-import { ConfigModel } from '@slackmap/api-client';
+import { ConfigModel } from '@slackmap/api/config/dto';
 import { Store, createAction, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromConfig from './+config/config.reducer';

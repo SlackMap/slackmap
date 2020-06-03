@@ -1,11 +1,5 @@
 export type Rid = string;
 
-export interface Item {
-  rid: Rid;
-  type: ItemType;
-  subtype: ItemSubtype;
-}
-
 export enum ItemType {
   SPOT = 1,
   USER = 4,

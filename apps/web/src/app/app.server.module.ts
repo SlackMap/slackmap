@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { StorageService, StorageMockService } from '@slackmap/ui/core';
 import { UiConfig } from '@slackmap/ui/config';
-import { ConfigModel } from '@slackmap/api-client';
+import { ConfigModel } from '@slackmap/api/config/dto';
 
 
 const config: ConfigModel = {

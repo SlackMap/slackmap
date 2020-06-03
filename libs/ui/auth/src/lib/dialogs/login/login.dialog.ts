@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto } from '@slackmap/api-client';
+import { AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto } from '@slackmap/api/auth/dto';
 import { AuthFacade } from '../../+auth/auth.facade';
 import * as actions from '../../+auth/auth.actions';
 import { SubSink } from '@slackmap/core';

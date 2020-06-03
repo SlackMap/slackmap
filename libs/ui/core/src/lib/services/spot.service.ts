@@ -3,14 +3,12 @@ import { CacheService } from './cache.service';
 import { catchError, tap, share, startWith, merge, map, shareReplay, switchMap } from 'rxjs/operators';
 import { Observable, of, Subject, merge as mergeObservables, EMPTY } from 'rxjs';
 import { SportType, ItemType, Rid, ItemSubtype } from '@slackmap/core';
-import { CLUSTERS_PATHS, ClusterModel, ClustersClustersGetDto } from '@slackmap/api-client';
+import { CLUSTERS_PATHS, ClusterModel, ClustersClustersGetDto, ClusterCountsModel } from '@slackmap/api/clusters/dto';
 import { GeoJSON } from '@slackmap/gis';
 import Supercluster from 'supercluster';
 import { UiApiService } from '@slackmap/ui/api';
 import { ResponseSource, LoadHashResponse } from '../+spot/spot.models';
-
 import { Options, ClusterProperties, PointFeature } from 'supercluster';
-import { ClusterCountsModel } from '@slackmap/api-client';
 
 export interface SuperclusterProps {
   spot_count: number;

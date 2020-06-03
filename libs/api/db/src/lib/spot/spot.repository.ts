@@ -58,6 +58,9 @@ export class SpotRepository {
       name: data.name,
       lat: data.lat,
       lon: data.lon,
+      center: data.center,
+      geometry: data.geometry,
+      bbox: data.bbox,
       createdAt: now(),
     };
     const statement = `

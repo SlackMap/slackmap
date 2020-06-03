@@ -1,8 +1,10 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UiConfig } from "@slackmap/ui/config";
-import { CONFIG_PATHS, CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto, ConfigGetDto, AUTH_PATHS, AuthSignInByFacebookRequestDto, AuthSignInByFacebookDto, AuthMeGetDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '@slackmap/api-client';
+import { AUTH_PATHS, AuthSignInByFacebookRequestDto, AuthSignInByFacebookDto, AuthMeGetDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '@slackmap/api/auth/dto';
+import { CONFIG_PATHS, ConfigGetDto } from '@slackmap/api/config/dto';
+import { CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto } from '@slackmap/api/clusters/dto';
 
 const API_TOKEN_STORAGE_KEY = 'apiToken';
 
@@ -13,19 +15,19 @@ export class UiApiService {
   constructor(
     private httpClient: HttpClient,
     private config: UiConfig,
-  ) {}
+  ) { }
 
   get basePath() {
     return this.config.API_HOST;
   }
   public getToken() {
-    if(this.config.isBrowser) {
+    if (this.config.isBrowser) {
       return localStorage.getItem(API_TOKEN_STORAGE_KEY);
     }
   }
   public setToken(token: string | null) {
-    if(this.config.isBrowser) {
-      if(token) {
+    if (this.config.isBrowser) {
+      if (token) {
         localStorage.setItem(API_TOKEN_STORAGE_KEY, token);
       } else {
         localStorage.removeItem(API_TOKEN_STORAGE_KEY);

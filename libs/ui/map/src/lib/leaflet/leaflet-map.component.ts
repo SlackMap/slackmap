@@ -7,12 +7,11 @@ import { drawHandler } from './draw/draw-handler';
 import { mapTileLayer } from './layers/map.tile.layer';
 import { satelliteGoogleTileLayer } from './layers/satellite.google.tile.layer';
 import { SpotsLayer } from './layers/spots.layer';
-import { ItemUtils, SubSink } from '@slackmap/core';
+import { ItemUtils, SubSink, MAP_ZOOM_THRESHOLD } from '@slackmap/core';
 import { clusters } from '../clusters';
 import { MapService } from '../map.service';
 import { merge, fromEvent, Observable, Subject, combineLatest } from 'rxjs';
 import { map, takeUntil, startWith, debounceTime, share } from 'rxjs/operators';
-import { MAP_ZOOM_THRESHOLD } from '@slackmap/api-client';
 import * as geohash from 'ngeohash';
 import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawGeometry } from '../+map';
 

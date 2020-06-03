@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { MapViewChangeData } from './map.models';
-import { ItemModel } from '@slackmap/api-client';
+import { PoiItem } from '@slackmap/core';
 
 // fired when user moves the map, or the viewport changes
 export const viewChange = createAction(
@@ -11,11 +11,11 @@ export const viewChange = createAction(
 // when you click item on the map
 export const itemClick = createAction(
   '[Map] Item Click',
-  props<{ item: ItemModel }>()
+  props<{ item: PoiItem }>()
 );
 
 // fire it if you want to zoom map to items, map will react to it
 export const zoomItems = createAction(
   '[Map] Zoom Items',
-  props<{ items: ItemModel[] }>()
+  props<{ items: PoiItem[] }>()
 );

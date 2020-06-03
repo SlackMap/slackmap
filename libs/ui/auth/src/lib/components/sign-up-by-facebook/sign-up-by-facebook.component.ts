@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FacebookUserModel } from '@slackmap/api-client';
+import { FacebookUserModel } from '@slackmap/api/facebook/dto';
 import { GENDER_OPTIONS, Gender } from '@slackmap/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
