@@ -1,5 +1,5 @@
 
-export enum SpotAccess {
+export enum AccessType {
   OPEN = 1,
   RESTRICTED = 2,
   FORBIDDEN = 3,
@@ -7,28 +7,28 @@ export enum SpotAccess {
 }
 
 export interface AccessOption {
-  id: SpotAccess;
+  id: AccessType;
   name: string;
   label: string;
   cls: string;
 }
 
 export const ACCESS_OPTIONS: AccessOption[] = [
-  {id: SpotAccess.OPEN, name: 'open', label: 'Open', cls: 'success'},
+  {id: AccessType.OPEN, name: 'open', label: 'Open', cls: 'success'},
   {
-    id: SpotAccess.RESTRICTED,
+    id: AccessType.RESTRICTED,
     name: 'restricted',
     label: 'Restricted',
     cls: 'warning'
   },
   {
-    id: SpotAccess.FORBIDDEN,
+    id: AccessType.FORBIDDEN,
     name: 'forbidden',
     label: 'Forbidden',
     cls: 'danger'
   },
   {
-    id: SpotAccess.UNKNOWN,
+    id: AccessType.UNKNOWN,
     name: 'unknown',
     label: `I don't know`,
     cls: 'default'

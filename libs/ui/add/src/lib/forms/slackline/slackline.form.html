@@ -6,18 +6,18 @@
 </mat-toolbar>
 <ng-container *ngIf="addState$ | async as state">
 
-  <mat-button-toggle-group class="draw-type-select" [value]="state.drawType" (change)="drawTypeChange($event.source.value)">
+  <mat-button-toggle-group *ngIf="!state.drawData?.geometry" class="draw-type-select" [value]="state.drawType" (change)="drawTypeChange($event.source.value)">
     <mat-button-toggle [value]="DrawType.LINE">Line Spot</mat-button-toggle>
     <mat-button-toggle [value]="DrawType.POLYGON">Slack Area</mat-button-toggle>
   </mat-button-toggle-group>
 
-  <map-draw-control [type]="state.drawType" (drawData)="onDrawData($event)"></map-draw-control>
+  <map-draw-control [type]="state.drawType" [geometry]="state.spot?.geometry" (drawData)="onDrawData($event)"></map-draw-control>
 
-  <form [formGroup]="form" class="container" *ngIf="state.drawType == DrawType.LINE">
+  <form [formGroup]="form" class="container" *ngIf="state.drawData?.geometry">
     <div class="row">
       <div class="col">
         <mat-form-field>
-          <mat-label>Line Type</mat-label>
+          <mat-label>{{state.drawType === DrawType.LINE ? 'Line Type' : 'Area Type'}}</mat-label>
           <mat-select formControlName="subtype">
             <mat-option *ngFor="let option of subtypeOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
           </mat-select>
@@ -35,7 +35,7 @@
         <mat-form-field>
           <mat-label>Status</mat-label>
           <mat-select formControlName="access">
-            <mat-option *ngFor="let option of accessOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
+            <mat-option *ngFor="let option of statusOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -48,7 +48,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="state.drawType === DrawType.LINE">
       <div class="col">
         <mat-form-field>
           <mat-label>Length</mat-label>
@@ -65,12 +65,17 @@
       </div>
     </div>
 
-
-
+    <button (click)="onSave(state)" color="accent" mat-raised-button class="save-btn" [disabled]="form.invalid">
+      <mat-icon>save</mat-icon><Br>
+      Save in public database
+    </button>
   </form>
 
-  <pre>
-    {{state.spotData | json}}
-    <!-- {{state.drawData | json}} -->
+
+
+<pre>
+<!-- {{state.spotData | json}} -->
+
+<!-- {{state.drawData | json}} -->
   </pre>
 </ng-container>

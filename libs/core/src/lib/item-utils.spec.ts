@@ -1,5 +1,5 @@
 import {ItemUtils, getSpotSubtypeOptions} from './item-utils';
-import { SpotAccess } from './spot-access';
+import { AccessType } from './spot-access';
 import { ItemType } from '.';
 import { DrawType } from './spot-shape-type';
 

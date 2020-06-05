@@ -1,4 +1,4 @@
-import { rid2type, ItemType, SpotAccess, PhotoSize, DislikeReason, ItemRidPrefix, parseRid, ItemSubtype } from ".";
+import { rid2type, ItemType, AccessType, PhotoSize, DislikeReason, ItemRidPrefix, parseRid, ItemSubtype } from ".";
 
 describe('@slackmap/core/item.ts', () => {
   describe('rid2type(rid:string)', () => {
@@ -27,7 +27,7 @@ describe('@slackmap/core/item.ts', () => {
   });
   describe('SpotAccess', () => {
     test('should return open access', () => {
-      expect(SpotAccess.OPEN).toBe(1);
+      expect(AccessType.OPEN).toBe(1);
     });
   });
   describe('PhotoSize', () => {

@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AddFacade, AddActions } from '../../+add';
+import { AddFacade, AddActions, AddState } from '../../+add';
 import { DrawData } from '@slackmap/ui/map';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { untilDestroy } from '@ngrx-utils/store';
-import { filter } from 'rxjs/operators';
-import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType } from '@slackmap/core';
+import { filter, map } from 'rxjs/operators';
+import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS } from '@slackmap/core';
 import { of } from 'rxjs';
 
 @Component({
@@ -17,11 +17,12 @@ export class SlacklineForm implements OnInit, OnDestroy {
   DrawType = DrawType;
   addState$ = this.addFacade.addState$;
   accessOptions$ = of(ACCESS_OPTIONS);
+  statusOptions$ = of(STATUS_OPTIONS);
   subtypeOptions$ = this.addFacade.subtypeOptions$;
 
 
   form = this.fb.group({
-    subtype: [],
+    subtype: [null, [Validators.required]],
     access: [],
     name: [],
     length: [],
@@ -44,6 +45,14 @@ export class SlacklineForm implements OnInit, OnDestroy {
       untilDestroy(this),
       filter(v => !!v)
       ).subscribe(spot => this.form.patchValue(spot))
+
+    // update forms length value if the map drawData
+    this.addFacade.drawData$.pipe(
+      untilDestroy(this),
+      filter(v => !!v),
+      filter(v => !this.form.value.lengthLaser),
+      map(data => data.distance)
+      ).subscribe(length => this.form.patchValue({length}))
   }
   reset() {
     this.addFacade.dispatch(AddActions.reset())
@@ -53,6 +62,10 @@ export class SlacklineForm implements OnInit, OnDestroy {
   }
   onDrawData(drawData: DrawData) {
     this.addFacade.dispatch(AddActions.setDrawData({drawData}))
+  }
+  onSave(state: AddState) {
+    console.log('state', state)
+    this.addFacade.dispatch(AddActions.save({}))
   }
   ngOnDestroy() {}
 }

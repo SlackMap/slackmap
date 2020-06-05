@@ -28,4 +28,8 @@ export const setSpotData = createAction(
   '[Add] Set SpotData',
   props<{ spotData: Partial<SpotModel> }>()
 );
+export const save = createAction(
+  '[Add] Save',
+  props<{  }>()
+);
 
