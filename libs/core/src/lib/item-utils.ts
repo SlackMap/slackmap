@@ -1,12 +1,12 @@
 import { Measure } from './measure';
 import { ItemType } from './item-type';
 import { TypeOption, SubtypeOption, SUBTYPE_OPTIONS, TYPE_OPTIONS } from './item-type-options';
-import { SpotShapeType } from './spot-shape-type';
+import { DrawType } from './spot-shape-type';
 import { isNumber, isObject } from './helpers';
 import { Item } from './interfaces';
 
 
-export function getSpotSubtypeOptions(shapeType: SpotShapeType, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption[] {
+export function getSpotSubtypeOptions(shapeType: DrawType, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption[] {
   const options = subtypeOptions.filter((t) => t.type === ItemType.SPOT && t.order && t.shape === shapeType);
   return options.sort(function (a, b) {
     return a.order - b.order;

@@ -18,3 +18,7 @@ export const getUser = createSelector(
   getAuthState,
   state => state.user
 )
+export const getSettings = createSelector(
+  getAuthState,
+  state => state.settings
+)

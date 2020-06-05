@@ -18,8 +18,12 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { SportSelectComponent } from './components/sport-select/sport-select.component';
 import { NgLetModule } from '@ngrx-utils/store';
 import { SlacklineForm } from './forms/slackline/slackline.form';
-import { SlacklineAreaForm } from './forms/slackline-area/slackline-area.form';
-import { SlacklineLineForm } from './forms/slackline-line/slackline-line.form';
+import { SubtypeInput } from './inputs/subtype/subtype.input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DistanceInput } from './inputs/distance/distance.input';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   imports: [
@@ -38,14 +42,19 @@ import { SlacklineLineForm } from './forms/slackline-line/slackline-line.form';
     MatToolbarModule,
     MatIconModule,
     MatButtonToggleModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatInputModule,
+    MatCheckboxModule,
   ],
   providers: [AddFacade],
   declarations: [
     AddPage,
     SportSelectComponent,
     SlacklineForm,
-    SlacklineAreaForm,
-    SlacklineLineForm,
+    SubtypeInput,
+    DistanceInput,
   ],
 })
 export class UiAddModule {}

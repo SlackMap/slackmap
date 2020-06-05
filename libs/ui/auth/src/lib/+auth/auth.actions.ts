@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '@slackmap/api/auth/dto';
+import { SettingsModel } from '@slackmap/api/config/dto';
 
 export const fetchUser = createAction(
   '[Auth] Fetch User',
@@ -71,3 +72,12 @@ export const signUpByFacebookFailure = createAction(
   '[Auth] Sign Up By Facebook Failure',
   props<{error: any}>()
 );
+
+/**
+ * Settings
+ */
+export const updateSettings = createAction(
+  '[Auth] Update Settings',
+  props<{settings: Partial<SettingsModel>}>()
+);
+

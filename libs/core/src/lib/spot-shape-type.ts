@@ -1,5 +1,5 @@
 
-export enum SpotShapeType {
+export enum DrawType {
   LINE = 'LINE',
-  AREA = 'AREA',
+  POLYGON = 'AREA',
 }

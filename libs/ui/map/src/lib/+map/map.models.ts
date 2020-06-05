@@ -1,4 +1,5 @@
 import { GeoJSON } from '@slackmap/gis';
+import { DrawType } from '@slackmap/core';
 import { Observable } from 'rxjs';
 
 export interface MapViewChangeData {
@@ -18,10 +19,7 @@ export interface MapComponent {
 /**
  * Draw Handler drawing shapes types
  */
-export enum DrawType {
-  LINE = 'LINE',
-  POLYGON = 'POLYGON',
-}
+export {DrawType}
 
 /**
  * draw handler will emit this data

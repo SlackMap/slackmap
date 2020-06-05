@@ -1,13 +1,13 @@
 import {ItemUtils, getSpotSubtypeOptions} from './item-utils';
 import { SpotAccess } from './spot-access';
 import { ItemType } from '.';
-import { SpotShapeType } from './spot-shape-type';
+import { DrawType } from './spot-shape-type';
 
 describe('ItemUtils', () => {
   const itemUtils = new ItemUtils();
 
   test('getSpotSubtypeOptions(SpotCategory.AREA)', () => {
-    const options = getSpotSubtypeOptions(SpotShapeType.AREA);
+    const options = getSpotSubtypeOptions(DrawType.POLYGON);
     expect(options[0].order < options[1].order).toBe(true);
   });
   // test('getType(ItemType.SPOT)', () => {

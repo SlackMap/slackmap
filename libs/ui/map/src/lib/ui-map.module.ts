@@ -9,6 +9,7 @@ import { SpotsLayerComponent } from './components/spots-layer/spots-layer.compon
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { MatButtonModule } from '@angular/material/button';
+import { UiAuthModule } from '@slackmap/ui/auth';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
     StoreModule.forFeature(fromMap.MAP_FEATURE_KEY, fromMap.reducer),
     EffectsModule.forFeature([MapEffects]),
     MatButtonModule,
+    UiAuthModule,
   ],
   declarations: [
     MapComponent,
