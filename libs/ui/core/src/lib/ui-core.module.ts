@@ -18,6 +18,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { UiMapModule } from '@slackmap/ui/map';
 import { ItemUtils } from '@slackmap/core';
 import { UiApiModule } from '@slackmap/ui/api';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 import * as fromSpots from './+spot/spot.reducer';
 import { SpotEffects } from './+spot/spot.effects';
@@ -62,6 +64,7 @@ export const uiCoreRoutes: Route[] = [
     LoaderModule,
     ErrorsModule,
     UiConfigModule,
+    MatCheckboxModule,
   ],
   providers: [
     CoreFacade,

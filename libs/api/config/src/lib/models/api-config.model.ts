@@ -25,3 +25,7 @@ export class ConfigModel {
    */
   FACEBOOK_SCOPE: string[];
 }
+
+export class SettingsModel {
+  imperial: boolean;
+}

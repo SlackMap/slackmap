@@ -31,9 +31,12 @@ class="sidenav-container"
       </ng-template>
 
       <mat-list-item>
+        <mat-checkbox (change)="onImperialChange($event)" [value]="imperial$ | async">imperial</mat-checkbox>
+      </mat-list-item>
+      <!-- <mat-list-item>
         <mat-icon matListIcon>settings</mat-icon>
         <h3 matLine>Settings</h3>
-      </mat-list-item>
+      </mat-list-item> -->
 
       <ng-container *ngIf="authFacade.user$ | async as user">
         <mat-list-item></mat-list-item>

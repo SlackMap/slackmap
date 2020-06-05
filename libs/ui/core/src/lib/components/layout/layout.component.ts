@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { CoreFacade } from '../../+core/core.facade';
 import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'sm-layout',
@@ -12,6 +13,7 @@ import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
 })
 export class LayoutComponent implements AfterViewInit {
 
+  imperial$ = this.authFacade.settings$.pipe(map(settings => settings.imperial))
   showMap = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall])
@@ -33,6 +35,9 @@ export class LayoutComponent implements AfterViewInit {
   }
   onSignOut() {
     this.authFacade.dispatch(AuthActions.signOut());
+  }
+  onImperialChange(event: MatCheckboxChange) {
+    this.authFacade.dispatch(AuthActions.updateSettings({settings:{imperial: event.checked}}));
   }
   ngAfterViewInit(): void {
     // this.onLogin()
