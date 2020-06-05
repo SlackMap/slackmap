@@ -84,6 +84,9 @@
     },
     "ui-common-utils": {
       "tags": ["ui"]
+    },
+    "api-spot-dto": {
+      "tags": ["api", "ui"]
     }
   }
 }
