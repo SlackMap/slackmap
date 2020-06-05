@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+}
+
+input {
+  width: 100%;
+  opacity: 0;
+  transition: opacity 200ms;
+  border: none;
+  background: none;
+  padding: 0;
+  outline: none;
+  font: inherit;
+}
+
+span {
+  opacity: 0;
+  transition: opacity 200ms;
+  width: 20px;
+  display: block;
+  padding: 0 13px;
+}
+
+:host.is-floating .el {
+  opacity: 1;
+}
