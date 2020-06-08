@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ItemType, ItemSubtype, RidGenerator } from '@slackmap/core';
-import { UserEntity } from '../../lib/user';
+import { UserEntity, rowToUserEntity } from '../../lib/user';
 import { PersistenceManager } from '@liberation-data/drivine/manager/PersistenceManager';
 import { InjectPersistenceManager } from '@liberation-data/drivine/DrivineInjectionDecorators';
 import { QuerySpecification } from '@liberation-data/drivine/query/QuerySpecification';
@@ -88,8 +88,7 @@ export class UserFixture implements OnModuleDestroy {
         .withStatement(statement)
         .bind([user])
         .limit(1)
-        .map(r => r.u)
-        // .transform(UserEntity)
+        .map(rowToUserEntity)
     );
   }
 

@@ -6,9 +6,7 @@ import { UserFixture } from '@slackmap/api/db/testing';
 import { AuthService } from '@slackmap/api/auth';
 import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
 
-RunWithDrivine({
-  transaction: {rollback: true}
-});
+RunWithDrivine({rollback: true});
 
 let app: TestBed;
 let authService: AuthService;

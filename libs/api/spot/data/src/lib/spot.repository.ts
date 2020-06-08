@@ -23,8 +23,6 @@ export function rowToSpotEntity(row: any): SpotEntity {
   return row;
 }
 
-const map = (r => rowToSpotEntity(r.u));
-
 @Injectable()
 export class SpotRepository {
   constructor(
@@ -45,7 +43,7 @@ export class SpotRepository {
         .withStatement(statement)
         .bind(params)
         .limit(1)
-        .map(map)
+        .map(rowToSpotEntity)
     ).then(rows => rows[0] ? rows[0] : null);
   }
 
@@ -61,7 +59,7 @@ export class SpotRepository {
       new QuerySpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)
-        .map(map)
+        .map(rowToSpotEntity)
     );
   }
 
@@ -78,7 +76,7 @@ export class SpotRepository {
         .withStatement(statement)
         .bind([row])
         .limit(1)
-        .map(map)
+        .map(rowToSpotEntity)
     );
 
   }
@@ -99,7 +97,7 @@ export class SpotRepository {
         .withStatement(statement)
         .bind([rid, row])
         .limit(1)
-        .map(map)
+        .map(rowToSpotEntity)
     );
   }
 
@@ -124,7 +122,7 @@ export class SpotRepository {
       new QuerySpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)
-        .map(map)
+        .map(rowToSpotEntity)
     );
   }
 
@@ -148,7 +146,7 @@ export class SpotRepository {
       new CursorSpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)
-        .map(map)
+        // .map(rowToSpotEntity)
     );
   }
 }

@@ -7,9 +7,7 @@ import { AuthSignInByFacebookDto } from '../dto';
 import { DbTestingModule, UserFixture } from '@slackmap/api/db/testing';
 import { RunWithDrivine } from '@liberation-data/drivine';
 
-RunWithDrivine({
-  transaction: {rollback: true}
-});
+RunWithDrivine({rollback: true});
 
 describe('auth-sign-in-by-facebook UseCase', () => {
   let usecase: AuthSignInByFacebookUseCase, module: TestingModule, userFixture: UserFixture;

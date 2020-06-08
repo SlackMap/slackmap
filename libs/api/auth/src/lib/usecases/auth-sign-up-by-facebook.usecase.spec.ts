@@ -8,9 +8,7 @@ import { DbTestingModule, UserFixture } from '@slackmap/api/db/testing';
 import { Gender } from '@slackmap/core';
 import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
 
-RunWithDrivine({
-  transaction: {rollback: true}
-});
+RunWithDrivine({rollback: true});
 
 describe('auth-sign-up-by-facebook UseCase', () => {
   let module: TestingModule;

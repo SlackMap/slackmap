@@ -4,6 +4,10 @@ import { RidGenerator, ItemType, ItemSubtype } from '@slackmap/core';
 import { UserEntity } from './user.entity';
 import { now, createWhere, WhereOperator } from '../db-utils';
 
+export function rowToUserEntity(row: any): UserEntity {
+  return row;
+}
+
 @Injectable()
 export class UserRepository {
     constructor(
@@ -25,7 +29,7 @@ export class UserRepository {
                 .withStatement(statement)
                 .bind(params)
                 .limit(1)
-                .map(r => r.u)
+                .map(rowToUserEntity)
         ).then(rows => rows[0] ? rows[0] : null);
     }
 
@@ -41,7 +45,7 @@ export class UserRepository {
             new QuerySpecification<UserEntity>()
                 .withStatement(statement)
                 .bind(params)
-                .map(r => r.u)
+                .map(rowToUserEntity)
         );
     }
 
@@ -67,7 +71,7 @@ export class UserRepository {
                 .withStatement(statement)
                 .bind([user])
                 .limit(1)
-                .map(r => r.u)
+                .map(rowToUserEntity)
         );
 
     }
@@ -93,7 +97,7 @@ export class UserRepository {
                 .withStatement(statement)
                 .bind([rid, user])
                 .limit(1)
-                .map(r => r.u)
+                .map(rowToUserEntity)
         );
     }
 }

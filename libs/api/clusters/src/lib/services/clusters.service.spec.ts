@@ -5,9 +5,7 @@ import { ApiClustersModule } from '../api-clusters.module';
 import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
 import { ApiSpotTestingModule, SpotFixture } from "@slackmap/api/spot/testing";
 
-RunWithDrivine({
-  transaction: {rollback: true},
-});
+RunWithDrivine({rollback: true});
 
 describe('ClusterService', () => {
   let service: ClustersService;
@@ -36,7 +34,7 @@ describe('ClusterService', () => {
   it('should return array of clusters', async () => {
     const bbox = [-180, -90, 180, 90];
     const zoom = 16
-    const sport = SportType.SLACKLINE;
+    const sport: SportType.SLACKLINE = 123123123;
     const data = await spotFixture.createFakeSpots([
       {lat: 55, lon: 20, sport, subtype: ItemSubtype.SPOT_HIGHLINE},
       {lat: 15, lon: 14, sport, subtype: ItemSubtype.SPOT_HIGHLINE},

@@ -5,10 +5,8 @@ import { UserRepository } from './user.repository';
 import { UserEntity } from './user.entity';
 import { RunWithDrivine } from '@liberation-data/drivine';
 
+RunWithDrivine({rollback: true});
 
-RunWithDrivine({
-  transaction: {rollback: true},
-});
 describe('UserRepository', () => {
   let userRepository: UserRepository;
   let userFixture: UserFixture;

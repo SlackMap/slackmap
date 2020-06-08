@@ -5,9 +5,8 @@ import { RunWithDrivine } from '@liberation-data/drivine';
 import { SpotRepository } from './spot.repository';
 import { SpotEntity } from './spot.entity';
 
-RunWithDrivine({
-  transaction: { rollback: true },
-});
+RunWithDrivine({rollback: true});
+
 describe('SpotRepository', () => {
   let spotRepository: SpotRepository;
   let spotFixture: SpotFixture;
@@ -115,17 +114,18 @@ describe('SpotRepository', () => {
 
   describe('.getByGeohash()', () => {
     it('should return array of spots', async () => {
+      const sportType: SportType.SLACKLINE = 123123123;
       const name = 'my spot'
       const data = await spotFixture.createFakeSpots([
-        {lat: 52.212524415, lon: 20.9948730469, name},
-        {lat: 55, lon: 44},
+        {lat: 52.212524415, lon: 20.9948730469, name, sport: sportType},
+        {lat: 55, lon: 44, sport: sportType},
       ]);
       const hash = 'u3qcjc'; // Pole Mokotowskie, Warsaw, Poland
       // Lat (λ)min	52.2125244140625
       // Lat (λ)max	52.218017578125
       // Lng (φ)min	20.994873046875
       // Lng (φ)max	21.005859375
-      const spots = await spotRepository.getByGeohash(hash, SportType.SLACKLINE);
+      const spots = await spotRepository.getByGeohash(hash, sportType);
       expect(spots instanceof Array).toBeTruthy();
       expect(spots.length).toBe(1);
       expect(spots[0].name).toBe(name);
@@ -134,12 +134,13 @@ describe('SpotRepository', () => {
 
   describe('.getForClustering()', () => {
     it('should return cursor of spots', async () => {
+      const sportType: SportType.SLACKLINE = 123123123;
       const data = await spotFixture.createFakeSpots([
-        {lat: 55, lon: 20, sport: SportType.SLACKLINE, subtype: ItemSubtype.SPOT_HIGHLINE},
-        {lat: 55, lon: 44, sport: SportType.SLACKLINE, subtype: ItemSubtype.SPOT_HIGHLINE},
+        {lat: 55, lon: 20, sport: sportType, subtype: ItemSubtype.SPOT_HIGHLINE},
+        {lat: 55, lon: 44, sport: sportType, subtype: ItemSubtype.SPOT_HIGHLINE},
         {lat: 0, lon: 0, sport: SportType.DIVING, subtype: ItemSubtype.SPOT_DIVING_POOL},
       ]);
-      const cursor = await spotRepository.getForClustering(SportType.SLACKLINE);
+      const cursor = await spotRepository.getForClustering(sportType);
       const count = jest.fn();
       for await (const spot of cursor) {
           expect(spot.lat).toBe(55);

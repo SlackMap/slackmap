@@ -87,7 +87,7 @@ export class SpotFixture {
         .withStatement(statement)
         .bind([row])
         .limit(1)
-        .map(r => rowToSpotEntity(r.u))
+        .map(rowToSpotEntity)
     );
   }
 
