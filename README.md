@@ -1,6 +1,6 @@
-# SlackMap
-
 <a href="https://next.slackmap.com" target="_blank"><img src="https://next.slackmap.com/assets/logo-hor-sub.svg" style="max-height: 200px;display: block;margin: auto;"></a>
+
+# SlackMap
 
 The place where you can share you sport activity, dicover new people and places to train.
 
