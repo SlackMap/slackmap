@@ -17,7 +17,7 @@
       loadSidebar: 'sidebar.md',
       subMaxLevel: 2,
       auto2top: true,
-      basePath: '/',
+      basePath: location.hostname === 'localhost' ? '/' : '/slackmap/',
       logo: 'https://next.slackmap.com/assets/logo-hor-sub.svg',
       name: 'SlackMap DevGuide',
       nameLink: '/',
