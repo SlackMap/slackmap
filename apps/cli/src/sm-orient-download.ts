@@ -1,100 +1,158 @@
-import * as program from "commander";
+import { readJSON, pathExists, writeJSON } from "fs-extra";
+import program from 'commander';
+import inquirer from 'inquirer';
+import chalk from 'chalk';
+import { Env } from './utils/get-env';
+import { listDirs } from './utils/list-dirs';
+import { download } from './utils/download';
+import { untargz } from './utils/unpack';
+const axios = require('axios');
 
-const inquirer = require('inquirer');
 
 const sh = require('shelljs');
 const path = require('path');
-const fs = require('fs-extra');
-const { askForEnv } = require('./utils/ask-for-env')
+const { getEnv } = require('./utils/get-env');
 
 program
-  .arguments('[version]')
-  .action(downloadAction)
-  .parse(process.argv);
+  .command('orient:download [version]')
+  .option('-t, --tp3', 'Download TinkerPop 3 version')
+  .description('Download new OrientDB version')
+  .action(action)
 
-/**
- *
- * @param {string} version
- */
-async function downloadAction(version) {
+async function action(version: string, options: {tp3: boolean}) {
+  const { ENV, baseDir } = await getEnv(Env.DEV);
+  const dir = path.resolve(baseDir, 'db');
+  const releasesDir = `${dir}/releases`;
 
-  const { ENV, BASE_DIR } = await askForEnv('dev');
+  const downloaded = listDirs(releasesDir).map(v => {
+    const parts = v.split('-');
+    return parts[parts.length-1];
+  });
 
-  let tp3 = '';
+  const toOptions = (v, i) => ({
+    value: v.tag_name,
+    short: v.tag_name,
+    name: 'v'+v.tag_name + ((options.tp3) ? ' TP3':'') + ' (' + v.published_at.substring(0, 10)+ ')' + ((i===0) ? ' Latest':'') + ((downloaded.includes(v.tag_name)) ? ' EXISTS': '')
+  });
+
+  const versions: any = await axios.get('https://api.github.com/repos/orientechnologies/orientdb/releases').then(data => data.data.map(toOptions))
+
   if (!version) {
-    const inputs = await inquirer.prompt([{
-      type: 'input',
-      name: 'version',
-      default: '3.0.10',
-      message: 'What version to dwonload?',
-      validate: (val, inputs2) => !!val
-    }, {
-      type: 'confirm',
-      name: 'tp3',
-      default: false,
-      message: 'Use TinkerPop 3 version?'
-    }]);
+    const inputs: {version: string, tp3: string} = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'version',
+        default: versions[0],
+        message: 'What version to download?',
+        choices: versions,
+        validate: (val, inputs2) => !!val,
+      }
+    ]);
     version = inputs.version;
-    if (inputs.tp3) {
-      tp3 = '-tp3'
-    }
   }
 
-  const dir = path.resolve(BASE_DIR, 'infra/db');
+  // optionally use tinker pop 3 integrated version
+  let tp3 = '';
+  if (options.tp3) {
+    tp3 = '-tp3';
+  }
 
-  const localFile = `${dir}/downloads/orientdb${tp3}-${version}.tar.gz`;
+  const localFile = `${dir}/releases/orientdb${tp3}-${version}.tar.gz`;
   const remoteFile = `https://s3.us-east-2.amazonaws.com/orientdb3/releases/${version}/orientdb${tp3}-${version}.tar.gz`;
-  // const remoteFile = `https://s3.us-east-2.amazonaws.com/orientdb3/releases/3.0.10/orientdb-3.0.10.tar.gz`;
-  // const remoteFile = `https://s3.us-east-2.amazonaws.com/orientdb3/releases/3.0.10/orientdb-tp3-3.0.10.tar.gz`;
-  const releasesDir = `${dir}/releases`;
   const releaseDir = `${dir}/releases/orientdb${tp3}-${version}`;
+
+
+  console.log(chalk.green('?'), 'downloading', chalk.green(remoteFile));
+  console.log(chalk.green('?'), 'to', chalk.green(localFile));
 
   /**
    * DOWNLOAD
    */
-  let download = true;
-  if(await fs.exists(localFile)) {
-    download = await inquirer.prompt({
-      type: 'confirm',
-      name: 'download',
-      default: false,
-      message: 'File already exists, download it again?'
-    }).then(inputs=>inputs.download);
+  let shouldDownload = true;
+  if (await pathExists(localFile)) {
+    shouldDownload = await inquirer
+      .prompt({
+        type: 'confirm',
+        name: 'download',
+        default: false,
+        message: 'File already exists, download it again?',
+      })
+      .then((inputs: {download: boolean}) => inputs.download);
+
+
+    // remove existing download
+    if(shouldDownload) {
+      console.log(chalk.green('?'), 'remove local file', chalk.green(localFile));
+      await sh.rm('-rf', localFile);
+    }
   }
-  console.log('redown', download)
-  if(download) {
-    await sh.exec(`wget "--output-document=${localFile}" "${remoteFile}"`)
+
+  if (shouldDownload) {
+    console.log(chalk.green('?'), 'downloading', chalk.green(remoteFile));
+    // await sh.exec(`wget "--output-document=${localFile}" "${remoteFile}"`);
+    await download(remoteFile, localFile).then(() => console.log('DOWNLOADED')).catch(err => console.log(err));
   }
+
+  console.log(chalk.green('?'), 'UNZIP', chalk.green(localFile), 'to', releaseDir);
 
   /**
    * UNZIP
    */
   let replace = true;
-  if(await fs.exists(releaseDir)) {
-    replace = await inquirer.prompt({
-      type: 'confirm',
-      name: 'replace',
-      default: false,
-      message: 'Release already exists, remove and extract it again?'
-    }).then(inputs=>inputs.replace);
+  if (await pathExists(releaseDir)) {
+    replace = await inquirer
+      .prompt({
+        type: 'confirm',
+        name: 'replace',
+        default: false,
+        message: 'Release already exists, remove and extract it again?',
+      })
+      .then((inputs: {replace: boolean}) => inputs.replace);
+
+    // remove existing download
+    if(replace) {
+      console.log(chalk.green('?'), 'remove databases dir', chalk.green(releaseDir));
+      await sh.rm('-rf', releaseDir);
+    }
   }
-  console.log('replace', replace)
-  if(replace) {
-    await sh.exec(`tar -zxf "${localFile}" -C "${releasesDir}"`);
+
+  if (replace) {
+    console.log(chalk.green('?'), 'UNZIP to ', chalk.green(releaseDir));
+    // await sh.exec(`tar -zxf "${localFile}" -C "${releasesDir}"`);
+    await untargz(localFile, releasesDir);
   }
-  // return;
-  // // download spatial plugin
-  // // in version 3.x we probably don't need this
-  // await shipit.local(`wget "--output-document=${releaseDir}/lib/${spatialName}" "http://central.maven.org/maven2/com/orientechnologies/orientdb-spatial/${spatialVersion}/${spatialName}"`);
 
-  // // remove databases & config.xml
-  // await shipit.local(`rm -Rf "${releaseDir}/databases"`);
-  // await shipit.local(`rm -Rf "${releaseDir}/config/orientdb-server-config.xml"`);
+  console.log(chalk.green('?'), chalk.green('DONE !!!'));
 
-  // // symlink databases & config.xml
-  // await shipit.local(`ln -s "${dir}/databases" "${releaseDir}/databases"`);
-  // await shipit.local(`ln -s "${baseDir}/config/orientdb-server-config.xml" "${releaseDir}/config/orientdb-server-config.xml"`);
+  const databasesDir = `${releaseDir}/databases`;
+  const configFile = `${releaseDir}/config/orientdb-server-config.xml`;
+  const configTplFile = `${releaseDir}/config/orientdb-server-config.xml.tpl`;
+  const sourceDatabasesDir = `${dir}/databases`;
+  const sourceConfigFile = `${dir}/orientdb-server-config.xml`;
 
-  // // place package.json with version
-  // await fs.writeJson(releaseDir + '/package.json', { version: version })
+  // remove databases directory
+  console.log(chalk.green('?'), 'remove databases dir', chalk.green(databasesDir));
+  await sh.rm('-rf', databasesDir);
+
+  // remove orientdb-server-config.xml and copy it to orientdb-server-config.xml.tpl
+  if (await pathExists(configTplFile)) {
+    console.log(chalk.green('?'), 'remove config file', chalk.green(configFile));
+    await sh.rm('-rf', configFile);
+  } else {
+    console.log(chalk.green('?'), 'move config file', chalk.green(configFile), 'to', chalk.green(configTplFile));
+    await sh.mv(configFile, configTplFile);
+  }
+  // await sh.rm('-rf', configFile);
+
+  // symlink databases
+  console.log(chalk.green('?'), 'symlink databases dir', sourceDatabasesDir, ' to ', chalk.green(databasesDir));
+  await sh.ln(`-s`, sourceDatabasesDir, databasesDir);
+
+  // & config.xml
+  console.log(chalk.green('?'), 'symlink config file', sourceConfigFile, ' to ', chalk.green(configFile));
+  // await sh.ln(`-sf`, sourceConfigFile, configFile);
+  await sh.exec(`ln -sf ${sourceConfigFile} ${configFile}`);
+
+  // place package.json with version
+  await writeJSON(releaseDir + '/package.json', { version: version })
 }

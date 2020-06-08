@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "jest"],
+    "target": "es2017",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["**/*.ts"]
+}

@@ -1,0 +1,49 @@
+form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+.email-field {
+  width: 100%;
+}
+.names {
+  overflow: auto;
+  clear: both;
+}
+.first-name-field {
+  width: 49%;
+  float: left;
+}
+.last-name-field {
+  width: 49%;
+  float:right;
+}
+.gender-field {
+  clear: both;
+  margin: 10px 0 25px 0;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.register-btn {
+  width: 100%;
+}

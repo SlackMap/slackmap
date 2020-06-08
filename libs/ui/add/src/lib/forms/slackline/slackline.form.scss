@@ -1,0 +1,19 @@
+.draw-type-select {
+  flex-wrap: wrap;
+  width: 100%;
+  mat-button-toggle {
+    flex-grow: 1;
+    text-align: center;
+  }
+}
+mat-form-field {
+  width: 100%;
+}
+form {
+  padding: 10px;
+  display: block;
+}
+.save-btn {
+  width: 100%;
+  margin: 40px 0;
+}

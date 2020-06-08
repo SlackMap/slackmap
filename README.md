@@ -1,47 +1,55 @@
-# Slackmap
-**Hello!**
-Welcome to SlackMap project, this monorepo contains backend and frontend code. Angular + NestJS + OrientDB.
+# SlackMap
 
-We use [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
+<a href="https://next.slackmap.com" target="_blank"><img src="https://next.slackmap.com/assets/logo-hor-sub.svg" style="max-height: 200px;display: block;margin: auto;"></a>
 
-<a href="https://slackmap.com" target="_blank"><img src="https://slackmap.com/assets/logo.svg"></a>
+The place where you can share you sport activity, dicover new people and places to train.
 
+## Infractructure
 
-## Nrwl Extensions for Angular (Nx)
+### Production
 
-Nx is an open source toolkit for enterprise Angular applications.
+[slackmap.com](https://slackmap.com) is production domain serving first version of the app based on AngularJS + Express + OrientDb, this is private code.
 
-Nx is designed to help you create and build enterprise grade Angular applications. It provides an opinionated approach to application project structure and patterns.
+Use it and share your SlackLine spots with others, this is productiona database.
 
-## Quick Start & Documentation
+### Development
 
-[Watch a 5-minute video on how to get started with Nx.](http://nrwl.io/nx)
+[next.slackmap.com](https://next.slackmap.com) is development version with fake test database, you can play and do what you want here.
 
-## Generate your first application
+## Production vs Development
 
-Run `ng generate app myapp` to generate an application. When using Nx, you can create multiple applications and libraries in the same CLI workspace. Read more [here](http://nrwl.io/nx).
+Production code is private and is no longer maintained and will be dropped when Development of new version will be out.
 
-## Development server
+This monorepo contains backend and frontend code for the new version.
 
-Run `ng serve --project=myapp` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## OpenSource
 
-## Code scaffolding
+We OpenSourced the project so you can fork us: [https://github.com/SlackMap/slackmap](https://github.com/SlackMap/slackmap)
 
-Run `ng generate component component-name --project=myapp` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Use [develop](https://github.com/SlackMap/slackmap/tree/develop) branch for now to see current codebase.
 
-## Build
+The [master](https://github.com/SlackMap/slackmap/tree/develop) branch is waiting for the `develop` branch to be ready for production. Don't use it for now!
 
-Run `ng build --project=myapp` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Next Version
 
-## Running unit tests
+New version is full code rewrite with technology updates: 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* `JavaScript` >>> **TypeScript**, 
+* `AngularJS` >>> **Angular**, 
+* `Redux + redux-observable` >>> **NgRx**, 
+* `Express + TSOA` >>> **NestJS**
+* `OrientDB` >>> **Neo4j**
+* `Multiple repositories` >>> **Nx Workspaces monorepo**
+* `Private code base` >>> **OpenSource**
+* `SlackLine only` >>> **Multiple Sports**
 
-## Running end-to-end tests
+We use [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx Workspace](https://nrwl.io/nx).
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+## Developer Guide
 
-## Further help
+[slackmap.github.io/slackmap](https://slackmap.github.io/slackmap)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## License
+
+This code is distributed under [ GNU GPLv3](LICENSE)
+

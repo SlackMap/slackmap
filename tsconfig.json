@@ -1,22 +1,58 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es5",
-    "module": "es2015",
+    "target": "es2015",
+    "module": "esnext",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
     "paths": {
-      "orientjs": ["@types/orientjs.d.ts"],
-      "@slackmap/api/orient": ["libs/api/orient/src/index.ts"],
-      "@slackmap/core": ["libs/core/src/index.ts"]
+      "@app/api/*": ["apps/api/src/app/*"],
+      "@slackmap/core": ["libs/core/src/index.ts"],
+      "@slackmap/gis": ["libs/gis/src/index.ts"],
+      "@slackmap/ui/api": ["libs/ui/api/src/index.ts"],
+      "@slackmap/ui/config": ["libs/ui/config/src/index.ts"],
+      "@slackmap/ui/core": ["libs/ui/core/src/index.ts"],
+      "@slackmap/ui/pwa": ["libs/ui/pwa/src/index.ts"],
+      "@slackmap/ui/map": ["libs/ui/map/src/index.ts"],
+      "@slackmap/api/common": ["libs/api/common/src/index.ts"],
+      "@slackmap/api/clusters": ["libs/api/clusters/src/index.ts"],
+      "@slackmap/api/clusters/dto": ["libs/api/clusters/src/dto.ts"],
+      "@slackmap/api/auth": ["libs/api/auth/src/index.ts"],
+      "@slackmap/api/auth/dto": ["libs/api/auth/src/dto.ts"],
+      "@slackmap/api/auth/testing": ["libs/api/auth/src/testing/index.ts"],
+      "@slackmap/api/facebook": ["libs/api/facebook/src/index.ts"],
+      "@slackmap/api/facebook/dto": ["libs/api/facebook/src/dto.ts"],
+      "@slackmap/api/facebook/testing": [
+        "libs/api/facebook/src/testing/index.ts"
+      ],
+      "@slackmap/api/config": ["libs/api/config/src/index.ts"],
+      "@slackmap/api/config/dto": ["libs/api/config/src/dto.ts"],
+      "@slackmap/api/db": ["libs/api/db/src/index.ts"],
+      "@slackmap/api/db/testing": ["libs/api/db/src/testing/index.ts"],
+      "@slackmap/ui/common/loader": ["libs/ui/common/loader/src/index.ts"],
+      "@slackmap/ui/common/errors": ["libs/ui/common/errors/src/index.ts"],
+      "@slackmap/ui/add": ["libs/ui/add/src/index.ts"],
+      "@slackmap/ui/auth": ["libs/ui/auth/src/index.ts"],
+      "@slackmap/ui/common/dispatcher": [
+        "libs/ui/common/dispatcher/src/index.ts"
+      ],
+      "@slackmap/ui/common/utils": ["libs/ui/common/utils/src/index.ts"],
+      "@slackmap/api/spot/dto": ["libs/api/spot/dto/src/index.ts"],
+      "@slackmap/api/spot/domain": ["libs/api/spot/domain/src/index.ts"],
+      "@slackmap/api/spot/data": ["libs/api/spot/data/src/index.ts"],
+      "@slackmap/api/spot/testing": ["libs/api/spot/testing/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "tools/schematics/**/files/**"]
 }

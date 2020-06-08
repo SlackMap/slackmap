@@ -1,0 +1,50 @@
+
+<!--
+  REGISTER
+-->
+<ng-container *ngIf="auth.signUpByFacebook$ | async as signUp; else loginTpl">
+  <div class="register">
+    <mat-dialog-content>
+      <img mat-card-image src="/assets/logotyp.svg" alt="SlackMap Logo">
+      <i>New account</i>
+
+      <auth-sign-up-by-facebook [facebookUser]="signUp.facebookUser" [apiToken]="signUp.apiToken" (signUp)="signUpByFacebook($event)"></auth-sign-up-by-facebook>
+
+      <button (click)="signUpByFacebookCancel()" mat-button class="cancel-btn"><mat-icon>arrow_back</mat-icon></button>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <p>
+        By clicking Sign Up, you agree to our <a target="_blank" href="https://blog.slackmap.com/terms/">Terms</a>.
+        Learn how we collect and use your data in our <a target="_blank" href="https://blog.slackmap.com/privacy/">Data Policy</a>
+        and how we use cookies and similar technology in our <a target="_blank" href="https://blog.slackmap.com/cookies/">Cookies Policy</a>.
+        You may receive Email Notifications from us and can opt out any time.
+      </p>
+
+    </mat-dialog-actions>
+  </div>
+</ng-container>
+
+<!--
+  LOGIN
+-->
+<ng-template #loginTpl>
+  <div class="login">
+    <mat-dialog-content>
+      <img mat-card-image src="/assets/sygnet.svg" alt="SlackMap Logo" >
+      <h2>Join SlackMap</h2>
+      <p>
+        Facebook is the only option for now.<br>
+        But it's the fastest & the safest!
+      </p>
+      <button (click)="signInByFacebook()" [disabled]="loader.isLoading" mat-raised-button color="primary" class="login-fb-btn">
+        <mat-icon svgIcon="icon-facebook-square"></mat-icon>
+        Log in with Facebook
+      </button>
+      <button mat-button (click)="signInCancel()" class="close-btn" alt="close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-content>
+    <!-- <mat-dialog-actions>
+    </mat-dialog-actions> -->
+  </div>
+</ng-template>

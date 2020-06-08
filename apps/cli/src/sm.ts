@@ -1,30 +1,23 @@
-#!/usr/bin/env node
+import program from 'commander';
 
-const program = require('commander');
 const chalk = require('chalk');
 const clear = require('clear');
 const figlet = require('figlet');
 
-import { rename } from "fs";
-
-console.log('r', rename);
-
-
-clear();
-console.log('')
-console.log(chalk.yellow(figlet.textSync('SlackMap', { horizontalLayout: 'full' })));
 program
-    .version('0.0.1', '--version')
-    .description('Mange the infrastructure of SlackMap... ')
-    .command('orient', 'manage OrientDB database')
-    .command('deploy', 'manage orientdb backups')
-    .command('stats', 'display system stats', { isDefault: false });
+  .version('0.0.1', '-v, --version')
+  .description('Mange SlackMap infrastructure. ')
 
+import "./sm-help";
+import './sm-orient-download';
+import './sm-orient-switch';
+import './sm-orient-start';
 
-// allow commander to parse `process.argv`
+if(process.argv.length <= 2) {
+  clear();
+  console.log('');
+  console.log(chalk.yellow(figlet.textSync('SlackMap CLI', { horizontalLayout: 'full' })));
+}
+
 program.parse(process.argv);
 
-// if no command display help info
-if (program.args.length === 0) {
-  program.help();
-}

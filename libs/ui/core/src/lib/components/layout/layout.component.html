@@ -1,0 +1,93 @@
+<mat-sidenav-container
+class="sidenav-container"
+[ngClass]="{
+  handset: isHandset$ | async,
+  desktop: !(isHandset$ | async),
+  'map-view': showMap
+}">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="'dialog'"
+      [mode]="'over'"
+      [opened]="false">
+    <mat-toolbar  color="primary">
+      <img class="logotyp" src="/assets/logo-hor-sub.svg" alt="SlackMap"/>
+    </mat-toolbar>
+    <mat-nav-list>
+
+      <ng-container *ngIf="authFacade.user$ | async as user; else menuSignInTpl">
+        <mat-list-item >
+          <img matListAvatar [src]="'https://graph.facebook.com/'+user.facebookId+'/picture?type=square'" [alt]="user.name">
+          <h3 matLine> {{user.name}} </h3>
+          <p matLine>
+            <span> {{user.email}} </span>
+          </p>
+        </mat-list-item>
+      </ng-container>
+      <ng-template #menuSignInTpl>
+        <mat-list-item (click)="onSignIn()">
+          <mat-icon matListIcon>exit_to_app</mat-icon>
+          <h3 matLine> Sign In </h3>
+        </mat-list-item>
+      </ng-template>
+
+      <mat-list-item>
+        <mat-checkbox (change)="onImperialChange($event)" [value]="imperial$ | async">imperial</mat-checkbox>
+      </mat-list-item>
+      <!-- <mat-list-item>
+        <mat-icon matListIcon>settings</mat-icon>
+        <h3 matLine>Settings</h3>
+      </mat-list-item> -->
+
+      <ng-container *ngIf="authFacade.user$ | async as user">
+        <mat-list-item></mat-list-item>
+        <mat-list-item (click)="onSignOut()">
+          <mat-icon matListIcon svgIcon="icon-power-off"></mat-icon>
+          <h3 matLine> Sign Out </h3>
+        </mat-list-item>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="side-menu">
+      <mat-list>
+
+        <ng-container *ngIf="authFacade.user$ | async as user; else menuIcon">
+          <mat-list-item>
+            <button mat-icon-button (click)="drawer.toggle()">
+              <img *ngIf="user.facebookId" [src]="'https://graph.facebook.com/'+user.facebookId+'/picture?type=square'" style="margin: auto; width: 30px; border-radius: 50%;" />
+            </button>
+          </mat-list-item>
+        </ng-container>
+        <ng-template #menuIcon>
+          <mat-list-item>
+              <button mat-icon-button (click)="drawer.toggle()">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+              </button>
+          </mat-list-item>
+        </ng-template>
+
+        <mat-list-item>
+          <button mat-icon-button routerLink="/x">
+            <mat-icon matListIcon>explore</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item>
+          <button mat-icon-button routerLink="/add">
+            <mat-icon matListIcon>add_circle_outline</mat-icon>
+          </button>
+        </mat-list-item>
+
+      </mat-list>
+    </div>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <map-map></map-map>
+    <div class="map-list-switch-btns">
+      <button class="show-list-btn" mat-raised-button color="primary" (click)="showMap = false" [disabled]="!showMap">List</button>
+      <button class="show-map-btn" mat-raised-button color="primary" (click)="showMap = true" [disabled]="showMap">Map</button>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<sm-loader-overlay></sm-loader-overlay>

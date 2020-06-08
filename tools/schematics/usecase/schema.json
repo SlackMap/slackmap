@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "usecase",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Project name (lib or app)",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "name": {
+      "type": "string",
+      "description": "Use Case name",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      }
+    }
+  },
+  "required": ["project", "name"]
+}

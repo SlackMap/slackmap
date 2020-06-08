@@ -1,0 +1,38 @@
+<ng-container *ngIf="user$ | async as user; else loginTemplate">
+  <!-- User is signed in -->
+  <ng-container *ngIf="addFacade.sport$ | async as sport; else sportTemplate">
+    <!-- Sport is selected -->
+
+    <span [ngSwitch]="sport">
+    <!--
+      Slackline Form
+    -->
+    <p *ngSwitchCase="sport === SportType.SLACKLINE">
+      <add-slackline-form></add-slackline-form>
+    </p>
+    <!--
+      Default form for not supported sports
+    -->
+    <p *ngSwitchDefault>
+      <mat-toolbar color="primary">
+        <button mat-button (click)="reset()">
+          <mat-icon >arrow_back</mat-icon>
+        </button>
+      </mat-toolbar>
+      <b>{{sport}}</b> is not supported
+    </p>
+    </span>
+  </ng-container>
+</ng-container>
+<!-- choose sport -->
+<ng-template #sportTemplate>
+  <add-sport-select></add-sport-select>
+</ng-template>
+<!-- sign in -->
+<ng-template #loginTemplate>
+  <p>
+    In order to add new spots
+    <button mat-raised-button color="primary" authSignIn>Sign In</button>
+  </p>
+</ng-template>
+

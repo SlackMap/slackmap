@@ -1,23 +1,20 @@
+const result = require('dotenv').config()
+if (result.error) {
+  throw result.error
+}
+import { Logger } from '@nestjs/common';
+Logger.overrideLogger(['error'])
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 
-const PORT = process.env.PORT || 3333;
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
-  await app.listen(PORT, () => {
-    console.log(`Listening at http://localhost:${PORT}`);
+  const app = await NestFactory.create(AppModule);
+  app.enableCors();
+  app.enableShutdownHooks();
+  const port = process.env.PORT || 3333;
+  await app.listen(port, () => {
+    console.log('Listening at http://localhost:' + port);
   });
-
-  process.on('SIGTERM', closeHandler);
-  process.on('SIGINT', closeHandler);
-  async function closeHandler() {
-    console.log('');
-    console.log('Shutdown the server gracefully...');
-    await app.close();
-    console.log('...shutdown success.');
-    process.exit();
-  }
 }
 
 bootstrap();

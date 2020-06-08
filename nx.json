@@ -2,29 +2,100 @@
   "npmScope": "slackmap",
   "implicitDependencies": {
     "angular.json": "*",
-    "package.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.json": "*",
     "tslint.json": "*",
     "nx.json": "*"
   },
   "projects": {
-    "api": {
-      "tags": ["api"]
+    "web": {
+      "tags": ["ui"]
     },
-    "api-orient": {
+    "web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["web"]
+    },
+    "api": {
       "tags": ["api"]
     },
     "core": {
       "tags": ["api", "ui"]
     },
-    "cli": {
-      "tags": ["api", "cli"]
-    },
-    "web": {
+    "ui-api": {
       "tags": ["ui"]
     },
-    "web-e2e": {
+    "ui-pwa": {
+      "tags": ["ui"]
+    },
+    "ui-pwa-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ui-pwa"]
+    },
+    "cli": {
       "tags": []
+    },
+    "api-common": {
+      "tags": ["api"]
+    },
+    "api-clusters": {
+      "tags": ["api"]
+    },
+    "ui-core": {
+      "tags": ["ui"]
+    },
+    "ui-map": {
+      "tags": ["ui"]
+    },
+    "gis": {
+      "tags": ["ui", "api"]
+    },
+    "api-auth": {
+      "tags": ["api"]
+    },
+    "api-facebook": {
+      "tags": ["api"]
+    },
+    "api-config": {
+      "tags": ["api"]
+    },
+    "api-db": {
+      "tags": ["api"]
+    },
+    "ui-config": {
+      "tags": []
+    },
+    "ui-common-loader": {
+      "tags": ["ui"]
+    },
+    "ui-common-errors": {
+      "tags": ["ui"]
+    },
+    "ui-add": {
+      "tags": ["ui"]
+    },
+    "ui-auth": {
+      "tags": ["ui"]
+    },
+    "ui-common-dispatcher": {
+      "tags": ["ui"]
+    },
+    "ui-common-utils": {
+      "tags": ["ui"]
+    },
+    "api-spot-dto": {
+      "tags": ["api", "ui"]
+    },
+    "api-spot-domain": {
+      "tags": ["api"]
+    },
+    "api-spot-data": {
+      "tags": ["api"]
+    },
+    "api-spot-testing": {
+      "tags": ["api"]
     }
   }
 }

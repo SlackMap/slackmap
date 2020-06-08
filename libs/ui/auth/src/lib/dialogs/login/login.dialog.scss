@@ -1,0 +1,70 @@
+:host {
+  position: relative;
+  display: block;
+  text-align: center;
+}
+
+.content-right {
+  text-align: right;
+}
+.close-btn {
+  position: absolute;
+  top: -5px;
+  right: -15px;
+}
+.login-fb-btn {
+  display: block;
+  width: 100%;
+}
+.beta {
+  background-color: #ff5151;
+  color: white;
+  display: inline-block;
+  border-radius: 13px;
+  padding: 0px 10px;
+  font-style: italic;
+  font-size: 10px;
+}
+.login {
+  max-width: 350px;
+  margin:auto;
+  img {
+    max-width: 100px;
+    margin: auto;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+}
+.register {
+  position: relative;
+  max-width: 350px;
+  margin:auto;
+  img {
+    max-width: 180px;
+    margin: auto;
+    display: block;
+  }
+  i {
+    font-size: 18px;
+    margin-top: 5px;
+    display: block;
+  }
+  .cancel-btn {
+    position: absolute;
+    top: 0px;
+    left: -20px;
+  }
+
+  p {
+    margin-top: 10px;
+    color: rgba(var(--f52,142,142,142),1);
+    font-size: 12px;
+    line-height: 16px;
+    a {
+      color: rgba(var(--f52,142,142,142),1);
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+}

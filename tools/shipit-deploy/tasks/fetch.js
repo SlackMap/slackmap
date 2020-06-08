@@ -3,7 +3,7 @@
  * @param options {name: 'deploy-dir'} pass custom name if you want to avoid overwriting default deploy tasks
  */
 module.exports = function(shipit, options) {
-  if(!options) {
+  if (!options) {
     options = {};
   }
   const name = options.name || 'deploy';
@@ -11,7 +11,7 @@ module.exports = function(shipit, options) {
   /**
    * overwrite default task, default task will work only with git (yes, there is still bug)
    */
-  shipit.task(name+':fetch', async function () {
+  shipit.task(name + ':fetch', async function() {
     // configure workspace
     shipit.workspace = shipit.config.workspace;
     console.log('Set workspace path to:', shipit.workspace);

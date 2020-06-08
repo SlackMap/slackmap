@@ -1,0 +1,24 @@
+<mat-form-field >
+  <mat-label>Sport</mat-label>
+  <mat-select class="fill-remaining-space" placeholder="select sport..." multiple [ngModel]="sportsEnabled$ | async"
+    (ngModelChange)="onSportChange($event)" name="sports">
+    <!-- <mat-select-trigger>
+      {{ (sportsEnabled$ | async).join(', ')}}
+      <mat-icon (click)="$event.stopPropagation();onSportChange([])">close</mat-icon>
+    </mat-select-trigger> -->
+    <mat-option *ngFor="let sport of sports$ | async" [value]="sport.id">{{sport.label}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <mat-select class="fill-remaining-space" placeholder="filter spots" multiple [ngModel]="subtypesEnabled$ | async"
+    (ngModelChange)="onSubtypeChange($event)" name="subtypes">
+    <!-- <mat-select-trigger>
+      {{ (subtypesEnabled$ | async).join(', ')}}
+      <mat-icon (click)="$event.stopPropagation();onSubtypeChange([])">close</mat-icon>
+    </mat-select-trigger> -->
+    <mat-option *ngFor="let option of subtypes$ | async" [value]="option.id">{{option.label}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<!-- <pre>{{sports$ | async | json}}</pre> -->

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Error</h2>
+<mat-dialog-content>
+  <h3>{{data.error.message}}</h3>
+  <pre>
+    {{data.error | json}}
+  </pre>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()" class="close-btn" alt="close">
+    Close
+  </button>
+</mat-dialog-actions>

@@ -1,13 +1,18 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { AppService } from './app.service';
-
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
 
+  count = 0;
+
+  constructor() {}
+
+  /**
+   * API Main Page
+   */
   @Get()
-  getData(): string {
-    return this.appService.getData();
+  main() {
+    this.count++;
+    return {message: 'SlackMap API is working', count: this.count}
   }
 }

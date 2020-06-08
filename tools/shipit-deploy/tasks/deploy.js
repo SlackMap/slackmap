@@ -3,7 +3,7 @@
  * @param options {name: 'deploy-dir'} pass custom name if you want to avoid overwriting default deploy tasks
  */
 module.exports = function(shipit, options) {
-  if(!options) {
+  if (!options) {
     options = {};
   }
   const name = options.name || 'deploy';

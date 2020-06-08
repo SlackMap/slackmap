@@ -1,8 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
     "target": "es2017",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "lib": ["es6", "es2017", "dom"],
     "types": [
       "node",
       "jest"
