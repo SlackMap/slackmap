@@ -1,5 +1,5 @@
 # Slackmap
-
+**Hello!**
 Welcome to SlackMap project, this monorepo contains backend and frontend code. Angular + NestJS + OrientDB.
 
 We use [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
