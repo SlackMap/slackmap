@@ -30,7 +30,7 @@ export const addInitialState: AddState = {
   spotData: null,
 };
 addInitialState.drawType = DrawType.LINE;
-// initialState.spot.subtype = ItemSubtype.SPOT_HIGHLINE;
+addInitialState.spot.subtype = ItemSubtype.SPOT_HIGHLINE;
 addInitialState.spot.length = 100;
 addInitialState.spot.geometry = {
   "type": "LineString",

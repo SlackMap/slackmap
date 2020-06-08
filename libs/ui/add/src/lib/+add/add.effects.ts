@@ -5,27 +5,26 @@ import { fetch } from '@nrwl/angular';
 import * as fromAdd from './add.reducer';
 import * as AddActions from './add.actions';
 import { DrawGeometry } from '@slackmap/ui/map';
+import { UiApiService } from '@slackmap/ui/api';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AddEffects {
-  // loadAdd$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(AddActions.loadAdd),
-  //     fetch({
-  //       run: (action) => {
-  //         // Your custom service 'load' logic goes here. For now just return a success action...
-  //         return AddActions.loadAddSuccess({ add: [] });
-  //       },
+  save$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AddActions.save),
+      switchMap(action => this.api.spotSave({spot: action.spot}).pipe(
+        map(response => AddActions.saveSuccess({ response })),
+        catchError(error => of(AddActions.saveFailure({ error }))),
+      ))
+    )
+  );
 
-  //       onError: (action, error) => {
-  //         console.error('Error', error);
-  //         return AddActions.loadAddFailure({ error });
-  //       },
-  //     })
-  //   )
-  // );
-
-  constructor(private actions$: Actions) {}
+  constructor(
+    private actions$: Actions,
+    private api: UiApiService,
+    ) {}
 }
 const geometryLine: DrawGeometry = {
   "type": "LineString",

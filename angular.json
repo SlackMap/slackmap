@@ -27,7 +27,7 @@
               "apps/web/src/manifest.webmanifest"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/leaflet/dist/leaflet.css",
               "./node_modules/leaflet-draw/dist/leaflet.draw.css",
               "apps/web/src/styles.scss"
@@ -960,6 +960,84 @@
           "options": {
             "jestConfig": "libs/api/spot/dto/jest.config.js",
             "tsConfig": "libs/api/spot/dto/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-spot-domain": {
+      "root": "libs/api/spot/domain",
+      "sourceRoot": "libs/api/spot/domain/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api/spot/domain/tsconfig.lib.json",
+              "libs/api/spot/domain/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api/spot/domain/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api/spot/domain/jest.config.js",
+            "tsConfig": "libs/api/spot/domain/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-spot-data": {
+      "root": "libs/api/spot/data",
+      "sourceRoot": "libs/api/spot/data/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api/spot/data/tsconfig.lib.json",
+              "libs/api/spot/data/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api/spot/data/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api/spot/data/jest.config.js",
+            "tsConfig": "libs/api/spot/data/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-spot-testing": {
+      "root": "libs/api/spot/testing",
+      "sourceRoot": "libs/api/spot/testing/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api/spot/testing/tsconfig.lib.json",
+              "libs/api/spot/testing/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api/spot/testing/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api/spot/testing/jest.config.js",
+            "tsConfig": "libs/api/spot/testing/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

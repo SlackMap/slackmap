@@ -3,7 +3,7 @@ import { DrivineModule, DrivineModuleOptions } from '@liberation-data/drivine/Dr
 import { DatabaseRegistry } from '@liberation-data/drivine/connection/DatabaseRegistry';
 import { UserRepository } from './user';
 import { RidGenerator } from '@slackmap/core';
-import { SpotRepository } from './spot';
+
 
 @Module({
   imports:[
@@ -15,11 +15,9 @@ import { SpotRepository } from './spot';
   providers: [
     RidGenerator,
     UserRepository,
-    SpotRepository,
   ],
   exports: [
     UserRepository,
-    SpotRepository,
   ],
 })
 export class ApiDbModule {}

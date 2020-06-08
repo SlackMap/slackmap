@@ -5,7 +5,7 @@ import { ClusterCountsModel, ClusterModel } from '../models';
 import { superclusterOptions, SuperclusterFeature } from '../models';
 import { map, reduce, takeUntil, take, switchMap } from 'rxjs/operators';
 import { Observable, of, Subject, ReplaySubject, from } from 'rxjs';
-import { SpotRepository, SpotEntity } from '@slackmap/api/db';
+import { SpotRepository, SpotEntity } from '@slackmap/api/spot/data';
 import { fromStream } from '@slackmap/api/common';
 
 const logger = new Logger('ClustersService');

@@ -8,11 +8,11 @@ export class SpotModel {
   subtype: SpotSubtype;
 
   // poi
-  center: GeoJSON.Point;
   lat: number;
   lon: number;
   geometry: GeoJSON.Geometry;
   bbox: GeoJSON.BBox;
+  geohash: string;
 
   // spot
   sport: SportType;

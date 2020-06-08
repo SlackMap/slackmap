@@ -58,7 +58,10 @@
           "@slackmap/api/clusters/dto",
           "@slackmap/api/auth/dto",
           "@slackmap/api/config/dto",
-          "@slackmap/api/spot/dto"
+          "@slackmap/api/spot/dto",
+          "@slackmap/api/spot/data",
+          "@slackmap/api/spot/domain",
+          "@slackmap/api/spot/testing"
         ],
         "depConstraints": [
           {

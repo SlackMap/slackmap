@@ -7,15 +7,16 @@ export interface Item {
   rid: string;
   type: ItemType;
   subtype: ItemSubtype;
+  version: number;
 }
 
 /**
  * Implement this interface if your entity want's to be indexed as map POI
  */
 export interface Poi {
-  center: GeoJSON.Point;
   lat: number;
   lon: number;
+  geohash: string;
   geometry: GeoJSON.Geometry;
   bbox: GeoJSON.BBox;
 }

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClustersController } from './controllers/clusters.controller';
 import { ClustersService } from './services';
-import { ApiDbModule } from '@slackmap/api/db';
+import { ApiSpotDataModule } from '@slackmap/api/spot/data';
 
 @Module({
-  imports: [ApiDbModule],
+  imports: [ApiSpotDataModule],
   controllers: [ClustersController],
   providers: [ClustersService],
   exports: []

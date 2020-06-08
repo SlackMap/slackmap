@@ -1,23 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { RidGenerator, ItemType, ItemSubtype, SportType } from '@slackmap/core';
-import { now, createWhere, WhereOperator } from '../db-utils';
+import { now, createWhere, WhereOperator } from '@slackmap/api/db';
 import { SpotEntity } from './spot.entity';
 import * as geohash from 'ngeohash';
 import { GeoJSON } from '@slackmap/gis';
-
 import { PersistenceManager, QuerySpecification, Transactional, InjectPersistenceManager, CursorSpecification } from '@liberation-data/drivine';
+
+export function spotEntityToRow(spot: Partial<SpotEntity>): any {
+  const row: any = {
+    ...spot
+  };
+  if(spot.geometry) {
+    row.geometry = JSON.stringify(spot.geometry);
+  }
+  return row;
+}
+
+export function rowToSpotEntity(row: any): SpotEntity {
+  if(row.geometry) {
+    row.geometry = JSON.parse(row.geometry);
+  }
+  return row;
+}
+
+const map = (r => rowToSpotEntity(r.u));
 
 @Injectable()
 export class SpotRepository {
   constructor(
     @InjectPersistenceManager()
     private persistenceManager: PersistenceManager,
-    private ridGenerator: RidGenerator,
   ) { }
 
   @Transactional()
-  async findOne(user: Partial<SpotEntity>, operator: WhereOperator = WhereOperator.AND): Promise<SpotEntity | null> {
-    const { where, params } = createWhere(user, operator);
+  async findOne(spot: Partial<SpotEntity>, operator: WhereOperator = WhereOperator.AND): Promise<SpotEntity | null> {
+    const { where, params } = createWhere(spotEntityToRow(spot), operator);
     const statement = `
             MATCH (u:Spot)
             WHERE ${where}
@@ -28,13 +45,13 @@ export class SpotRepository {
         .withStatement(statement)
         .bind(params)
         .limit(1)
-        .map(r => r.u)
+        .map(map)
     ).then(rows => rows[0] ? rows[0] : null);
   }
 
   @Transactional()
-  async find(user: Partial<SpotEntity>, operator: WhereOperator = WhereOperator.AND): Promise<SpotEntity[]> {
-    const { where, params } = createWhere(user, operator);
+  async find(spot: Partial<SpotEntity>, operator: WhereOperator = WhereOperator.AND): Promise<SpotEntity[]> {
+    const { where, params } = createWhere(spotEntityToRow(spot), operator);
     const statement = `
             MATCH (u:Spot)
             WHERE ${where}
@@ -44,25 +61,14 @@ export class SpotRepository {
       new QuerySpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)
-        .map(r => r.u)
+        .map(map)
     );
   }
 
   @Transactional()
-  async create(data: Partial<SpotEntity>): Promise<SpotEntity> {
-    const user: SpotEntity = {
-      rid: this.ridGenerator.forItem(ItemType.SPOT),
-      type: ItemType.SPOT,
-      subtype: data.subtype,
-      sport: data.sport,
-      name: data.name,
-      lat: data.lat,
-      lon: data.lon,
-      center: data.center,
-      geometry: data.geometry,
-      bbox: data.bbox,
-      createdAt: now(),
-    };
+  async create(spot: Partial<SpotEntity>): Promise<SpotEntity> {
+    const row = spotEntityToRow(spot);
+    row.version = 1;
     const statement = `
             CREATE (u:Spot $1)
             RETURN u {.*}
@@ -70,33 +76,30 @@ export class SpotRepository {
     return this.persistenceManager.getOne(
       new QuerySpecification<SpotEntity>()
         .withStatement(statement)
-        .bind([user])
+        .bind([row])
         .limit(1)
-        .map(r => r.u)
+        .map(map)
     );
 
   }
 
   @Transactional()
-  async update(rid: string, data: Partial<SpotEntity>): Promise<SpotEntity> {
-    const user: Partial<SpotEntity> = {
-      subtype: data.subtype,
-      name: data.name,
-      lat: data.lat,
-      lon: data.lon,
-    };
+  async update(rid: string, spot: Partial<SpotEntity>): Promise<SpotEntity> {
+    const row = spotEntityToRow(spot);
+    delete row.version;
 
     const statement = `
             MATCH (u:Spot {rid: $1})
             SET u += $2
+            SET u.version = u.version+1
             RETURN u
         `;
     return this.persistenceManager.getOne(
       new QuerySpecification<SpotEntity>()
         .withStatement(statement)
-        .bind([rid, user])
+        .bind([rid, row])
         .limit(1)
-        .map(r => r.u)
+        .map(map)
     );
   }
 
@@ -121,7 +124,7 @@ export class SpotRepository {
       new QuerySpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)
-        .map(r => r.u)
+        .map(map)
     );
   }
 
@@ -145,7 +148,7 @@ export class SpotRepository {
       new CursorSpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)
-        .map(r => r.u)
+        .map(map)
     );
   }
 }

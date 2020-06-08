@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RidGenerator, ItemType, ItemSubtype, SportType } from '@slackmap/core';
-import { SpotFixture, DbTestingModule } from '../../testing';
+import { SpotFixture, ApiSpotTestingModule } from '@slackmap/api/spot/testing';
 import { RunWithDrivine } from '@liberation-data/drivine';
 import { SpotRepository } from './spot.repository';
 import { SpotEntity } from './spot.entity';
@@ -16,7 +16,7 @@ describe('SpotRepository', () => {
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
-        DbTestingModule,
+        ApiSpotTestingModule,
       ],
       providers: [
         SpotRepository,
@@ -49,7 +49,7 @@ describe('SpotRepository', () => {
 
       const data = spotFixture.generateFakeSpotData();
       const user = await spotRepository.create(data);
-      const res: SpotEntity = {
+      const res: Partial<SpotEntity> = {
         rid: expect.any(String),
         type: ItemType.SPOT,
         name: expect.stringMatching(data.name),
@@ -66,7 +66,7 @@ describe('SpotRepository', () => {
       const name = 'new name'
       const updated = await spotRepository.update(data.rid, { name });
 
-      const res: SpotEntity = {
+      const res: Partial<SpotEntity> = {
         rid: expect.any(String),
         type: ItemType.SPOT,
         name: expect.stringMatching(name),

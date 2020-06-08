@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { SportType } from '@slackmap/core';
 import { DrawType, DrawData } from '@slackmap/ui/map';
-import { SpotModel } from '@slackmap/api/spot/dto';
+import { SpotModel, SpotSaveRequestDto, SpotSaveDto } from '@slackmap/api/spot/dto';
 
 
 export const reset = createAction(
@@ -30,6 +30,14 @@ export const setSpotData = createAction(
 );
 export const save = createAction(
   '[Add] Save',
-  props<{  }>()
+  props<SpotSaveRequestDto>()
+);
+export const saveSuccess = createAction(
+  '[Add] Save Success',
+  props<{ response: SpotSaveDto }>()
+);
+export const saveFailure = createAction(
+  '[Add] Save Failure',
+  props<{ error: any }>()
 );
 

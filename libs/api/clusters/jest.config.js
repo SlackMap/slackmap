@@ -5,5 +5,6 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest'
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
-  coverageDirectory: '../../../coverage/libs/api/clusters'
+  coverageDirectory: '../../../coverage/libs/api/clusters',
+  setupFiles: ["./jest-setup.ts"],
 };

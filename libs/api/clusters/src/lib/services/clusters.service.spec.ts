@@ -3,7 +3,7 @@ import { ClustersService } from './clusters.service';
 import { SportType, ItemType, ItemSubtype } from '@slackmap/core';
 import { ApiClustersModule } from '../api-clusters.module';
 import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
-import { DbTestingModule, SpotFixture } from "@slackmap/api/db/testing";
+import { ApiSpotTestingModule, SpotFixture } from "@slackmap/api/spot/testing";
 
 RunWithDrivine({
   transaction: {rollback: true},
@@ -16,12 +16,12 @@ describe('ClusterService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [ApiClustersModule, DbTestingModule],
+      imports: [ApiClustersModule, ApiSpotTestingModule],
       providers: [],
     }).compile();
 
     service = module.get(ClustersService);
-    spotFixture = module.get(SpotFixture);
+    spotFixture = module.select(ApiSpotTestingModule).get(SpotFixture);
   });
 
   afterAll(async () => {

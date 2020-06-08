@@ -1,3 +1,3 @@
 export * from './lib/user';
-export * from './lib/spot';
+export * from './lib/db-utils';
 export * from './lib/api-db.module';

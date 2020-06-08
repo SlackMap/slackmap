@@ -9,7 +9,7 @@ import {
 import { ClustersService } from '../services';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { SpotRepository } from '@slackmap/api/db';
+import { SpotRepository } from '@slackmap/api/spot/data';
 
 /**
  * query map clusters

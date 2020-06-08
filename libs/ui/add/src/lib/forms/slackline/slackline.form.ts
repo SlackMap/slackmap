@@ -4,8 +4,9 @@ import { DrawData } from '@slackmap/ui/map';
 import { FormBuilder, Validators } from '@angular/forms';
 import { untilDestroy } from '@ngrx-utils/store';
 import { filter, map } from 'rxjs/operators';
-import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS } from '@slackmap/core';
+import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS, SportType } from '@slackmap/core';
 import { of } from 'rxjs';
+import { SpotModel } from '@slackmap/api/spot/dto';
 
 @Component({
   selector: 'add-slackline-form',
@@ -65,7 +66,17 @@ export class SlacklineForm implements OnInit, OnDestroy {
   }
   onSave(state: AddState) {
     console.log('state', state)
-    this.addFacade.dispatch(AddActions.save({}))
+    const spot: SpotModel = {
+      ...state.spotData,
+      rid: ''+Date.now(),
+      sport: state.sport,
+      type: ItemType.SPOT,
+      lat: state.drawData.center.coordinates[1],
+      lon: state.drawData.center.coordinates[0],
+      geometry: state.drawData.geometry,
+      bbox: state.drawData.bbox,
+    }
+    this.addFacade.dispatch(AddActions.save({spot}))
   }
   ngOnDestroy() {}
 }

@@ -87,6 +87,15 @@
     },
     "api-spot-dto": {
       "tags": ["api", "ui"]
+    },
+    "api-spot-domain": {
+      "tags": ["api"]
+    },
+    "api-spot-data": {
+      "tags": ["api"]
+    },
+    "api-spot-testing": {
+      "tags": ["api"]
     }
   }
 }

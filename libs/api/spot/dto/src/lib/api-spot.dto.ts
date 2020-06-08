@@ -1,3 +1,12 @@
+import { SpotModel } from './api-spot.model';
 
-export class SpotSlacklineAddRequestDto {}
-export class SpotSlacklineAddDto {}
+export const SPOT_PATHS = {
+  save: () => 'spot/save'
+}
+
+export class SpotSaveRequestDto {
+  spot: SpotModel;
+}
+export class SpotSaveDto {
+  spot: SpotModel;
+}

@@ -6,11 +6,12 @@ export class SpotEntity implements Poi, Item {
   rid: string;
   type: ItemType.SPOT;
   subtype: SpotSubtype;
+  version: number;
 
   // poi
-  center: GeoJSON.Point;
   lat: number;
   lon: number;
+  geohash: string;
   geometry: GeoJSON.Geometry;
   bbox: GeoJSON.BBox;
 
