@@ -3,7 +3,7 @@ if (result.error) {
   throw result.error
 }
 import { Logger } from '@nestjs/common';
-Logger.overrideLogger(['error'])
+// Logger.overrideLogger(['error'])
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 

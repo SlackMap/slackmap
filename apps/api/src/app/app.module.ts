@@ -1,19 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ApiClustersModule } from '@slackmap/api/clusters';
-import { ApiAuthModule } from '@slackmap/api/auth';
+import { ApiAuthDomainModule } from '@slackmap/api/auth/domain';
 import { ApiConfigModule } from '@slackmap/api/config';
 import { ApiSpotDomainModule } from '@slackmap/api/spot/domain';
 
-import { AppController } from './app.controller';
-
 @Module({
   imports: [
-    ApiClustersModule,
-    ApiAuthModule,
     ApiConfigModule,
+    ApiAuthDomainModule,
     ApiSpotDomainModule,
+    ApiClustersModule,
   ],
-  controllers: [AppController],
-  providers: []
 })
 export class AppModule {}

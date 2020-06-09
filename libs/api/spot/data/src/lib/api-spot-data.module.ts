@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SpotRepository } from './spot.repository';
-// import { SpotRepository } from './spot';
+import { ApiDbModule } from '@slackmap/api/db';
+
 @Module({
-  controllers: [],
+  imports: [
+    ApiDbModule,
+  ],
   providers: [
     SpotRepository
   ],

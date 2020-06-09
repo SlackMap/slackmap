@@ -72,7 +72,8 @@ export class AuthEffects implements OnInitEffects {
           authActions.signUpByFacebookSuccess,
           ))));
       })
-    )
+    ),
+    { dispatch: false }
   );
 
   /**
@@ -138,7 +139,8 @@ export class AuthEffects implements OnInitEffects {
         }
         return EMPTY
       })
-    )
+    ),
+    { dispatch: false }
   );
 
   /**
@@ -155,7 +157,8 @@ export class AuthEffects implements OnInitEffects {
         this.errorService.show({error})
         return EMPTY
       })
-    )
+    ),
+    { dispatch: false }
   );
 
   constructor(

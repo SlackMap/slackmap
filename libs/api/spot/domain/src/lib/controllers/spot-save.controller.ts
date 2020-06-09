@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
 import { Transactional } from '@liberation-data/drivine';
 import { SPOT_PATHS, SpotSaveRequestDto, SpotSaveDto } from '@slackmap/api/spot/dto';
 import { SpotRepository } from '@slackmap/api/spot/data';
@@ -12,7 +12,7 @@ export class SpotSaveController {
 
   @Post(SPOT_PATHS.save())
   @Transactional()
-  async process(@Body() data: SpotSaveRequestDto): Promise<SpotSaveDto> {
+  async process(@Body(ValidationPipe) data: SpotSaveRequestDto): Promise<SpotSaveDto> {
 
     const spot = await this.spotRepository.create(data.spot)
 

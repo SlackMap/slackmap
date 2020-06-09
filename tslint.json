@@ -56,12 +56,17 @@
         "enforceBuildableLibDependency": true,
         "allow": [
           "@slackmap/api/clusters/dto",
-          "@slackmap/api/auth/dto",
           "@slackmap/api/config/dto",
+
           "@slackmap/api/spot/dto",
           "@slackmap/api/spot/data",
           "@slackmap/api/spot/domain",
-          "@slackmap/api/spot/testing"
+          "@slackmap/api/spot/testing",
+
+          "@slackmap/api/auth/dto",
+          "@slackmap/api/auth/data",
+          "@slackmap/api/auth/domain",
+          "@slackmap/api/auth/testing"
         ],
         "depConstraints": [
           {

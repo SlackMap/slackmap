@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import * as Supercluster from 'supercluster';
-import { ItemType, ItemSubtype, RIDS, SportType } from '@slackmap/core';
+import { ItemType, ItemSubtype, RIDS, SportType, ClusterSubtype } from '@slackmap/core';
 import { ClusterCountsModel, ClusterModel } from '../models';
 import { superclusterOptions, SuperclusterFeature } from '../models';
 import { map, reduce, takeUntil, take, switchMap } from 'rxjs/operators';
@@ -48,7 +48,7 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
           const c: ClusterModel = {
             rid: cluster.properties.rid || '',
             type: ItemType.CLUSTER,
-            subtype: !!cluster.properties.cluster ? ItemSubtype.CLUSTER_CLUSTER : ItemSubtype.CLUSTER_SPOT,
+            subtype: !!cluster.properties.cluster ? ClusterSubtype.CLUSTER : ClusterSubtype.SPOT,
             coordinates: cluster.geometry,
             expansion_zoom,
             spot_count: cluster.properties.point_count || 1,

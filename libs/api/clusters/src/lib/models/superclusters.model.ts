@@ -1,4 +1,4 @@
-import { ItemSubtype, Rid } from '@slackmap/core';
+import { Rid, ItemSubtypes } from '@slackmap/core';
 import { Options, ClusterProperties, PointFeature } from 'supercluster';
 import { ClusterCountsModel } from '../models';
 
@@ -8,7 +8,7 @@ export interface SuperclusterProps {
 
 export interface SuperclusterFeatureProps {
   rid: Rid;
-  subtype: ItemSubtype;
+  subtype: ItemSubtypes;
 };
 
 export type SuperclusterFeature = PointFeature<SuperclusterFeatureProps & Partial<ClusterProperties>>;

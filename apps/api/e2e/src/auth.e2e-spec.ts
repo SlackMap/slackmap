@@ -2,9 +2,9 @@ import { TestBed } from "./test-bed";
 import { FacebookFixture } from '@slackmap/api/facebook/testing';
 import { AuthSignInByFacebookRequestDto, AUTH_PATHS, AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto, JwtPayloadModel } from '@slackmap/api/auth/dto';
 import { Gender } from '@slackmap/core';
-import { UserFixture } from '@slackmap/api/db/testing';
-import { AuthService } from '@slackmap/api/auth';
-import { RunWithDrivine } from '@liberation-data/drivine/utils/TestUtils';
+import { UserFixture } from '@slackmap/api/auth/testing';
+import { AuthService } from '@slackmap/api/auth/domain';
+import { RunWithDrivine } from '@liberation-data/drivine';
 
 RunWithDrivine({rollback: true});
 

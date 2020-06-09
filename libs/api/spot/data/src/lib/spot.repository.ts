@@ -10,14 +10,14 @@ export function spotEntityToRow(spot: Partial<SpotEntity>): any {
   const row: any = {
     ...spot
   };
-  if(spot.geometry) {
+  if (spot.geometry) {
     row.geometry = JSON.stringify(spot.geometry);
   }
   return row;
 }
 
 export function rowToSpotEntity(row: any): SpotEntity {
-  if(row.geometry) {
+  if (row.geometry) {
     row.geometry = JSON.parse(row.geometry);
   }
   return row;
@@ -146,7 +146,7 @@ export class SpotRepository {
       new CursorSpecification<SpotEntity>()
         .withStatement(statement)
         .bind(params)
-        // .map(rowToSpotEntity)
+      // .map(rowToSpotEntity)
     );
   }
 }

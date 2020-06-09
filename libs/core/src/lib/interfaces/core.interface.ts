@@ -1,4 +1,4 @@
-import { ItemType, ItemSubtype } from '../item-type';
+import { ItemType, ItemSubtypes } from '../item-type';
 import { GeoJSON } from '@slackmap/gis';
 
 export const MAP_ZOOM_THRESHOLD = 16;
@@ -6,7 +6,7 @@ export const MAP_ZOOM_THRESHOLD = 16;
 export interface Item {
   rid: string;
   type: ItemType;
-  subtype: ItemSubtype;
+  subtype: ItemSubtypes;
   version: number;
 }
 

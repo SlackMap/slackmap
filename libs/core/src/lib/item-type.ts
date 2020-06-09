@@ -71,26 +71,24 @@ export enum ItemSubtype {
   MAP_MAP = 650,
 };
 
-export type SpotSubtype =
-  ItemSubtype.SPOT_HIGHLINE |
-  ItemSubtype.SPOT_MIDLINE |
-  ItemSubtype.SPOT_HIGHLINE |
-  ItemSubtype.SPOT_MIDLINE |
-  ItemSubtype.SPOT_LONGLINE |
-  ItemSubtype.SPOT_WATERLINE |
-  ItemSubtype.SPOT_RODEOLINE |
-  ItemSubtype.SPOT_SLACKLINE |
-  ItemSubtype.SPOT_TRICKLINE |
-  ItemSubtype.SPOT_SPACELINE |
-  ItemSubtype.SPOT_AREA |
-  ItemSubtype.SPOT_PARK |
-  ItemSubtype.SPOT_GYM |
-  ItemSubtype.SPOT_URBAN |
-  ItemSubtype.SPOT_MOUNTAIN |
-  ItemSubtype.SPOT_WATERLINE_AREA |
-  ItemSubtype.SPOT_HIGHLINE_AREA |
-  ItemSubtype.SPOT_DIVING_POOL;
-
+export enum SpotSubtype {
+  SPOT_HIGHLINE = ItemSubtype.SPOT_HIGHLINE,
+  SPOT_MIDLINE = ItemSubtype.SPOT_MIDLINE,
+  SPOT_LONGLINE = ItemSubtype.SPOT_LONGLINE,
+  SPOT_WATERLINE = ItemSubtype.SPOT_WATERLINE,
+  SPOT_RODEOLINE = ItemSubtype.SPOT_RODEOLINE,
+  SPOT_SLACKLINE = ItemSubtype.SPOT_SLACKLINE,
+  SPOT_TRICKLINE = ItemSubtype.SPOT_TRICKLINE,
+  SPOT_SPACELINE = ItemSubtype.SPOT_SPACELINE,
+  SPOT_AREA = ItemSubtype.SPOT_AREA,
+  SPOT_PARK = ItemSubtype.SPOT_PARK,
+  SPOT_GYM = ItemSubtype.SPOT_GYM,
+  SPOT_URBAN = ItemSubtype.SPOT_URBAN,
+  SPOT_MOUNTAIN = ItemSubtype.SPOT_MOUNTAIN,
+  SPOT_WATERLINE_AREA = ItemSubtype.SPOT_WATERLINE_AREA,
+  SPOT_HIGHLINE_AREA = ItemSubtype.SPOT_HIGHLINE_AREA,
+  SPOT_DIVING_POOL = ItemSubtype.SPOT_DIVING_POOL,
+}
 
 export type LocationSubtype =
   ItemSubtype.LOCATION_WORLD |
@@ -103,7 +101,10 @@ export type LocationSubtype =
   ItemSubtype.LOCATION_REGION |
   ItemSubtype.LOCATION_STREET;
 
-export type ClusterSubtype = ItemSubtype.CLUSTER_CLUSTER | ItemSubtype.CLUSTER_SPOT;
+export enum ClusterSubtype {
+  CLUSTER = ItemSubtype.CLUSTER_CLUSTER,
+  SPOT    = ItemSubtype.CLUSTER_SPOT,
+}
 
 export type ContentSubtype =
   ItemSubtype.CONTENT_ACCESS |
@@ -115,10 +116,10 @@ export type ContentSubtype =
 export type CommentSubtype = ItemSubtype.COMMENT_COMMENT | ItemSubtype.COMMENT_REPLY;
 
 export type PostSubtype =
-ItemSubtype.POST_TEXT |
-ItemSubtype.POST_PHOTO |
-ItemSubtype.POST_SPOT |
-ItemSubtype.POST_USER;
+  ItemSubtype.POST_TEXT |
+  ItemSubtype.POST_PHOTO |
+  ItemSubtype.POST_SPOT |
+  ItemSubtype.POST_USER;
 
 export type UserSubtype = ItemSubtype.USER_USER | ItemSubtype.USER_ADMIN;
 
@@ -126,3 +127,4 @@ export type PhotoSubtype = ItemSubtype.PHOTO_PHOTO;
 
 export type MapSubtype = ItemSubtype.MAP_MAP;
 
+export type ItemSubtypes = ItemSubtype | SpotSubtype | ClusterSubtype;

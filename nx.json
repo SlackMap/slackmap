@@ -52,9 +52,6 @@
     "gis": {
       "tags": ["ui", "api"]
     },
-    "api-auth": {
-      "tags": ["api"]
-    },
     "api-facebook": {
       "tags": ["api"]
     },
@@ -95,6 +92,18 @@
       "tags": ["api"]
     },
     "api-spot-testing": {
+      "tags": ["api"]
+    },
+    "api-auth-domain": {
+      "tags": ["api"]
+    },
+    "api-auth-testing": {
+      "tags": ["api"]
+    },
+    "api-auth-dto": {
+      "tags": ["api", "ui"]
+    },
+    "api-auth-data": {
       "tags": ["api"]
     }
   }
