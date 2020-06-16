@@ -7,6 +7,6 @@ import { ApiSpotDataModule } from '@slackmap/api/spot/data';
   imports: [ApiSpotDataModule],
   controllers: [ClustersController],
   providers: [ClustersService],
-  exports: []
+  exports: [ClustersService]
 })
 export class ApiClustersModule {}

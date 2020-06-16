@@ -8,6 +8,8 @@ import { DrawGeometry } from '@slackmap/ui/map';
 import { UiApiService } from '@slackmap/ui/api';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { ErrorService } from '@slackmap/ui/common/errors';
+import { SpotService } from '../../../../core/src/lib/services';
 
 @Injectable()
 export class AddEffects {
@@ -15,8 +17,14 @@ export class AddEffects {
     this.actions$.pipe(
       ofType(AddActions.save),
       switchMap(action => this.api.spotSave({spot: action.spot}).pipe(
-        map(response => AddActions.saveSuccess({ response })),
-        catchError(error => of(AddActions.saveFailure({ error }))),
+        map(response => {
+          this.spotService.reloadSupercluster();
+          return AddActions.saveSuccess({ response });
+        }),
+        catchError(response => {
+          this.errorService.show({error: response.error})
+          return of(AddActions.saveFailure({ error: response.error }));
+        }),
       ))
     )
   );
@@ -24,6 +32,8 @@ export class AddEffects {
   constructor(
     private actions$: Actions,
     private api: UiApiService,
+    private errorService: ErrorService,
+    private spotService: SpotService,
     ) {}
 }
 const geometryLine: DrawGeometry = {

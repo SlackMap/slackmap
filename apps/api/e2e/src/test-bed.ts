@@ -7,6 +7,7 @@ import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app/app.module';
 import { ApiAuthTestingModule } from '@slackmap/api/auth/testing';
+import { ApiSpotTestingModule } from '@slackmap/api/spot/testing';
 import { FacebookClient } from '@slackmap/api/facebook';
 import { FacebookClientMock } from '@slackmap/api/facebook/testing';
 
@@ -24,7 +25,8 @@ export class TestBed {
     const module = await Test.createTestingModule({
       imports: [
         AppModule,
-        ApiAuthTestingModule
+        ApiAuthTestingModule,
+        ApiSpotTestingModule,
       ]
     })
       .overrideProvider(FacebookClient)

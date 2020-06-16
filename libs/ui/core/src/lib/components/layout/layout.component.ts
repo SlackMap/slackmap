@@ -1,17 +1,20 @@
-import { Component, AfterViewInit, ApplicationRef, Injector } from '@angular/core';
+import { Component, AfterViewInit, ApplicationRef, Injector, OnDestroy } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, of } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { CoreFacade } from '../../+core/core.facade';
 import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MapService, MapActions } from '@slackmap/ui/map';
+import { untilDestroy } from '@ngrx-utils/store';
+import { SportType } from '@slackmap/core';
 
 @Component({
   selector: 'sm-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements AfterViewInit {
+export class LayoutComponent implements AfterViewInit, OnDestroy {
 
   imperial$ = this.authFacade.settings$.pipe(map(settings => settings.imperial))
   showMap = false;
@@ -27,7 +30,8 @@ export class LayoutComponent implements AfterViewInit {
     private app: ApplicationRef,
     private injector: Injector,
     private coreFacade: CoreFacade,
-    public authFacade: AuthFacade
+    public authFacade: AuthFacade,
+    private mapService: MapService,
   ) { }
 
   onSignIn() {
@@ -44,5 +48,13 @@ export class LayoutComponent implements AfterViewInit {
     // get version from root element (AppComponent)
     const version = this.injector.get(this.app.componentTypes[0]).version;
     this.coreFacade.dispatch(this.coreFacade.actions.version({version}))
+
+    this.mapService.spotsLayer(this.coreFacade.getSportFilteredSpots(SportType.SLACKLINE)).subscribe();
+
+    this.mapService.viewChange$.pipe(
+      tap(view => this.coreFacade.dispatch(MapActions.viewChange({view}))),
+      untilDestroy(this),
+    ).subscribe();
   }
+  ngOnDestroy() {}
 }

@@ -1,6 +1,6 @@
 import { ItemType, SportType, Poi, Item, AccessType, StatusType, ItemSubtype, SpotSubtype } from '@slackmap/core';
 import { GeoJSON } from '@slackmap/gis';
-import { IsString, IsEnum, Equals, IsNumber, IsBoolean, IsArray } from 'class-validator';
+import { IsString, IsEnum, Equals, IsNumber, IsBoolean, IsDefined, IsOptional } from 'class-validator';
 
 export class SpotModel {
   // item
@@ -20,6 +20,7 @@ export class SpotModel {
   @IsNumber()
   lon: number;
 
+  @IsDefined()
   geometry: GeoJSON.Geometry;
 
   @IsNumber({}, {each: true})
@@ -33,18 +34,23 @@ export class SpotModel {
   sport: SportType;
 
   @IsString()
+  @IsOptional()
   name?: string;
 
   @IsNumber()
+  @IsOptional()
   length?: number;
 
   @IsNumber()
+  @IsOptional()
   height?: number;
 
   @IsBoolean()
+  @IsOptional()
   lengthLaser?: boolean;
 
   @IsBoolean()
+  @IsOptional()
   heightLaser?: boolean;
 
   @IsEnum(AccessType)
@@ -57,5 +63,6 @@ export class SpotModel {
   exposure?: number;
 
   @IsString()
+  @IsOptional()
   createdAt?: string;
 }

@@ -136,10 +136,11 @@ export class SpotRepository {
   getForClustering(sport: SportType): Promise<SpotEntity[]> {
     const params = [
       sport
-    ]
+    ];
+    console.log('sport', sport, typeof sport)
     const statement = `
         MATCH (u:Spot)
-        WHERE u.sport = $1
+        // WHERE u.sport = 1
         RETURN u {.rid, .lat, .lon, .subtype}
     `;
     return this.persistenceManager.query(

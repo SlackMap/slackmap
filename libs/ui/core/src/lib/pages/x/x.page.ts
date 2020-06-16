@@ -21,11 +21,7 @@ export class XPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.subSink.subscribe = this.mapService.spotsLayer(this.coreFacade.getSportFilteredSpots(SportType.SLACKLINE));
 
-    this.subSink.subscribe = this.mapService.viewChange$.pipe(
-      tap(view => this.coreFacade.dispatch(MapActions.viewChange({view})))
-    )
   }
 
   ngOnDestroy() {

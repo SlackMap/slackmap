@@ -7,6 +7,7 @@ import { filter, map } from 'rxjs/operators';
 import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS, SportType } from '@slackmap/core';
 import { of } from 'rxjs';
 import { SpotModel } from '@slackmap/api/spot/dto';
+import * as geohash from 'ngeohash';
 
 @Component({
   selector: 'add-slackline-form',
@@ -25,6 +26,7 @@ export class SlacklineForm implements OnInit, OnDestroy {
   form = this.fb.group({
     subtype: [null, [Validators.required]],
     access: [],
+    status: [],
     name: [],
     length: [],
     height: [],
@@ -65,18 +67,21 @@ export class SlacklineForm implements OnInit, OnDestroy {
     this.addFacade.dispatch(AddActions.setDrawData({drawData}))
   }
   onSave(state: AddState) {
-    console.log('state', state)
+    const lat = state.drawData.center.coordinates[1];
+    const lon = state.drawData.center.coordinates[0];
+
     const spot: SpotModel = {
       ...state.spotData,
       rid: ''+Date.now(),
       sport: state.sport,
       type: ItemType.SPOT,
-      lat: state.drawData.center.coordinates[1],
-      lon: state.drawData.center.coordinates[0],
+      lat,
+      lon,
+      geohash: geohash.encode(lat, lon, 6),
       geometry: state.drawData.geometry,
       bbox: state.drawData.bbox,
     }
-    this.addFacade.dispatch(AddActions.save({spot}))
+    this.addFacade.dispatch(AddActions.save({spot: spot as any}))
   }
   ngOnDestroy() {}
 }

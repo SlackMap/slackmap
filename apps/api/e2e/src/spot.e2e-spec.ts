@@ -1,39 +1,61 @@
 import { TestBed } from "./test-bed";
 import { FacebookFixture } from '@slackmap/api/facebook/testing';
-import { AuthSignInByFacebookRequestDto, AUTH_PATHS, AuthSignInByFacebookDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto, JwtPayloadModel } from '@slackmap/api/auth/dto';
-import { Gender } from '@slackmap/core';
 import { UserFixture } from '@slackmap/api/auth/testing';
 import { AuthService } from '@slackmap/api/auth/domain';
 import { RunWithDrivine } from '@liberation-data/drivine';
+import { SPOT_PATHS, SpotSaveRequestDto, SpotSaveDto } from '@slackmap/api/spot/dto';
+import { SpotFixture } from '@slackmap/api/spot/testing';
 
 RunWithDrivine({rollback: true});
 
-let app: TestBed;
-let authService: AuthService;
-let userFixture: UserFixture;
+describe('Spot [e2e]', () => {
+  let app: TestBed;
+  let authService: AuthService;
+  let userFixture: UserFixture;
+  let spotFixture: SpotFixture;
 
-beforeAll(async () => {
-  app = await TestBed.createApp();
-  authService = app.get(AuthService);
-  userFixture = app.get(UserFixture);
-});
+  beforeAll(async () => {
+    app = await TestBed.createApp();
+    authService = app.get(AuthService);
+    userFixture = app.get(UserFixture);
+    spotFixture = app.get(SpotFixture);
+  });
 
-afterAll(async () => {
-  if(app) await app.close();
-});
+  afterAll(async () => {
+    if(app) await app.close();
+  });
 
-describe('Auth: Sign In By Facebook', () => {
-  const url = '/' + AUTH_PATHS.signInByFacebook();
+  const url = '/' + SPOT_PATHS.save();
 
   describe(`POST ${url}`, () => {
+
+    // validation error response
+    const errorResponseBody = {
+      name: 'BadRequestException',
+      statusCode: 400,
+      message: {
+        statusCode: 400,
+        error: expect.any(String),
+        message: expect.any(Array),
+      }
+    };
+
+    it('should have validation error for empty request', () => {
+      return app
+        .request()
+        .post(url)
+        .send({})
+        .then(res => {
+          expect(res.body).toMatchObject(errorResponseBody);
+        });
+    });
+
     it('should have validation error', () => {
-      const req: AuthSignInByFacebookRequestDto = {
-        accessToken: FacebookFixture.INVALID_PROFILE_TOKEN
-      };
-      const resBody = {
-        name: 'ValidationError',
-        title: expect.any(String),
-        statusCode: 422
+      const spot = spotFixture.generateFakeSpotData();
+      delete spot.lat;
+      delete spot.lon;
+      const req: SpotSaveRequestDto = {
+        spot
       };
 
       return app
@@ -41,72 +63,33 @@ describe('Auth: Sign In By Facebook', () => {
         .post(url)
         .send(req)
         .then(res => {
-          expect(res.body).toMatchObject(resBody);
-          expect(res).toHaveProperty('statusCode', 422);
+          expect(res.body).toMatchObject(errorResponseBody);
         });
     });
 
-    it('should login with facebook account', () => {
-      const req: AuthSignInByFacebookRequestDto = {
-        accessToken: FacebookFixture.USER_PROFILE_TOKEN
+    it('should create new spot', () => {
+      const spot = spotFixture.generateFakeSpotData();
+      const req: SpotSaveRequestDto = {
+        spot
       };
-      const resBody: AuthSignInByFacebookDto = {
-        apiToken: expect.any(String),
-        users: expect.any(Array),
-        user: expect.any(Object),
-        facebookUser: expect.any(Object)
-      };
+
+    // validation error response
+    const resBody = {
+      spot: {
+        rid: expect.any(String),
+        bbox: expect.any(Array),
+      }
+    };
       return app
         .request()
         .post(url)
         .send(req)
         .then(res => {
+          expect(res.status).toBe(201);
           expect(res.body).toMatchObject(resBody);
-          expect(res).toHaveProperty('statusCode', 201);
-        });
-    });
-  });
-});
-
-describe('Auth: Sign Up By Facebook', () => {
-  const url = '/' + AUTH_PATHS.signUpByFacebook();
-
-  describe(`POST ${url}`, () => {
-    it('should create and return new user', () => {
-      // create fake token with facebook user
-      const payload: JwtPayloadModel = {
-        facebookUser: {
-          email: UserFixture.fakeEmail(),
-          id: UserFixture.fakeFacebookId(),
-          name: 'Testo Maniak',
-          first_name: 'Testo',
-          last_name: 'Maniak',
-        },
-        user: null,
-        users: [],
-      };
-      const requestDto: AuthSignUpByFacebookRequestDto = {
-        apiToken: authService.sign(payload),
-        email: '',
-        firstName: '',
-        lastName: '',
-        gender: Gender.MALE
-      };
-      const responseDto: AuthSignUpByFacebookDto = {
-        apiToken: expect.any(String),
-        user: expect.any(Object),
-        users: expect.any(Array),
-      };
-
-      return app
-        .request()
-        .post(url)
-        .send(requestDto)
-        .then(res => {
-          expect(res.body).toMatchObject(responseDto);
-          expect(res).toHaveProperty('statusCode', 201);
         });
     });
 
   });
+
 });

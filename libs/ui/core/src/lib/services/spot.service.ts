@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
 import { catchError, tap, share, startWith, merge, map, shareReplay, switchMap } from 'rxjs/operators';
 import { Observable, of, Subject, merge as mergeObservables, EMPTY } from 'rxjs';
-import { SportType, ItemType, Rid, ItemSubtype } from '@slackmap/core';
+import { SportType, ItemType, Rid, ItemSubtypes, ClusterSubtype } from '@slackmap/core';
 import { CLUSTERS_PATHS, ClusterModel, ClustersClustersGetDto, ClusterCountsModel } from '@slackmap/api/clusters/dto';
 import { GeoJSON } from '@slackmap/gis';
 import Supercluster from 'supercluster';
@@ -17,7 +17,7 @@ export interface SuperclusterProps {
 
 export interface SuperclusterFeatureProps {
   rid: Rid;
-  subtype: ItemSubtype;
+  subtype: ItemSubtypes;
 };
 
 export type SuperclusterFeature = PointFeature<SuperclusterFeatureProps & Partial<ClusterProperties>>;
@@ -181,7 +181,7 @@ export class SpotService {
           const c: ClusterModel = {
             rid: cluster.properties.rid || '',
             type: ItemType.CLUSTER,
-            subtype: !!cluster.properties.cluster ? ItemSubtype.CLUSTER_CLUSTER : ItemSubtype.CLUSTER_SPOT,
+            subtype: !!cluster.properties.cluster ? ClusterSubtype.CLUSTER : ClusterSubtype.SPOT,
             coordinates: cluster.geometry,
             expansion_zoom: cluster.properties.expansion_zoom || 17,
             spot_count: cluster.properties.spot_count || 1,

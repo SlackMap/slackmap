@@ -4,7 +4,7 @@ import { ItemType, ItemSubtype, RIDS, SportType, ClusterSubtype } from '@slackma
 import { ClusterCountsModel, ClusterModel } from '../models';
 import { superclusterOptions, SuperclusterFeature } from '../models';
 import { map, reduce, takeUntil, take, switchMap } from 'rxjs/operators';
-import { Observable, of, Subject, ReplaySubject, from } from 'rxjs';
+import { Observable, of, Subject, ReplaySubject, from, EMPTY } from 'rxjs';
 import { SpotRepository, SpotEntity } from '@slackmap/api/spot/data';
 import { fromStream } from '@slackmap/api/common';
 
@@ -72,6 +72,13 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
     } else {
       return cluster.properties.counts;
     }
+  }
+
+  reloadCluster(sport: SportType) {
+    if (this.clusters[sport]) {
+      delete this.clusters[sport];
+    }
+    return this.getCluster(sport);
   }
 
   getCluster(sport: SportType): Observable<Supercluster> {

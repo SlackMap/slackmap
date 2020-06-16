@@ -1,4 +1,4 @@
-import { ItemType, SpotSubtype, SportType, Poi, Item } from '@slackmap/core';
+import { ItemType, SpotSubtype, SportType, Poi, Item, AccessType, StatusType } from '@slackmap/core';
 import { GeoJSON } from '@slackmap/gis';
 
 export class SpotEntity implements Poi, Item {
@@ -22,7 +22,8 @@ export class SpotEntity implements Poi, Item {
   height?: number;
   lengthLaser?: boolean;
   heightLaser?: boolean;
-  access?: number;
+  access?: AccessType;
+  status?: StatusType;
   climbing?: number;
   exposure?: number;
   createdAt?: string;

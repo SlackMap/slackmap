@@ -1,5 +1,5 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { ItemType, ItemSubtype, RidGenerator, SportType } from '@slackmap/core';
+import { ItemType, ItemSubtype, RidGenerator, SportType, SpotSubtype, AccessType, StatusType } from '@slackmap/core';
 import { SpotEntity, spotEntityToRow, rowToSpotEntity } from '@slackmap/api/spot/data';
 import { now } from '@slackmap/api/db';
 import { PersistenceManager } from '@liberation-data/drivine/manager/PersistenceManager';
@@ -39,8 +39,14 @@ export class SpotFixture {
       name: faker.name.findName(),
       lat,
       lon,
+      length: 33,
+      height: 10,
+      lengthLaser: true,
+      heightLaser: false,
+      access: AccessType.OPEN,
+      status: StatusType.ACTIVE,
       geohash: geohash.encode(lat, lon),
-      version: 1,
+      version: 0,
       bbox: [lat, lon, lat, lon],
       geometry: {
         "type": "LineString",
@@ -57,7 +63,7 @@ export class SpotFixture {
       },
       rid,
       type: ItemType.SPOT,
-      subtype: ItemSubtype.SPOT_HIGHLINE,
+      subtype: SpotSubtype.HIGHLINE,
       sport: SportType.SLACKLINE,
       createdAt: now(),
     };

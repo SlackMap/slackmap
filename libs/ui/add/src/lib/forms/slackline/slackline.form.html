@@ -11,7 +11,7 @@
     <mat-button-toggle [value]="DrawType.POLYGON">Slack Area</mat-button-toggle>
   </mat-button-toggle-group>
 
-  <map-draw-control [type]="state.drawType" [geometry]="state.spot?.geometry" (drawData)="onDrawData($event)"></map-draw-control>
+  <map-draw-control *ngIf="state.drawType" [type]="state.drawType" [geometry]="state.spot?.geometry" (drawData)="onDrawData($event)"></map-draw-control>
 
   <form [formGroup]="form" class="container" *ngIf="state.drawData?.geometry">
     <div class="row">
@@ -34,7 +34,7 @@
       <div class="col">
         <mat-form-field>
           <mat-label>Status</mat-label>
-          <mat-select formControlName="access">
+          <mat-select formControlName="status">
             <mat-option *ngFor="let option of statusOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
           </mat-select>
         </mat-form-field>
