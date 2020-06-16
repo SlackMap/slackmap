@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CacheService } from './cache.service';
+import { CacheService } from '@slackmap/ui/storage';
 import { catchError, tap, share, startWith, merge, map, shareReplay, switchMap } from 'rxjs/operators';
 import { Observable, of, Subject, merge as mergeObservables, EMPTY } from 'rxjs';
 import { SportType, ItemType, Rid, ItemSubtypes, ClusterSubtype } from '@slackmap/core';

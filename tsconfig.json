@@ -28,16 +28,19 @@
       "@slackmap/ui/auth": ["libs/ui/auth/src/index.ts"],
       "@slackmap/ui/common/loader": ["libs/ui/common/loader/src/index.ts"],
       "@slackmap/ui/common/errors": ["libs/ui/common/errors/src/index.ts"],
-      "@slackmap/ui/common/dispatcher": ["libs/ui/common/dispatcher/src/index.ts"],
+      "@slackmap/ui/common/dispatcher": [
+        "libs/ui/common/dispatcher/src/index.ts"
+      ],
       "@slackmap/ui/common/utils": ["libs/ui/common/utils/src/index.ts"],
-
       "@slackmap/api/db": ["libs/api/db/src/index.ts"],
       "@slackmap/api/common": ["libs/api/common/src/index.ts"],
       "@slackmap/api/config": ["libs/api/config/src/index.ts"],
       "@slackmap/api/config/dto": ["libs/api/config/src/dto.ts"],
       "@slackmap/api/facebook": ["libs/api/facebook/src/index.ts"],
       "@slackmap/api/facebook/dto": ["libs/api/facebook/src/dto.ts"],
-      "@slackmap/api/facebook/testing": ["libs/api/facebook/src/testing/index.ts"],
+      "@slackmap/api/facebook/testing": [
+        "libs/api/facebook/src/testing/index.ts"
+      ],
       "@slackmap/api/clusters": ["libs/api/clusters/src/index.ts"],
       "@slackmap/api/clusters/dto": ["libs/api/clusters/src/dto.ts"],
       "@slackmap/api/spot/dto": ["libs/api/spot/dto/src/index.ts"],
@@ -47,7 +50,8 @@
       "@slackmap/api/auth/dto": ["libs/api/auth/dto/src/index.ts"],
       "@slackmap/api/auth/data": ["libs/api/auth/data/src/index.ts"],
       "@slackmap/api/auth/domain": ["libs/api/auth/domain/src/index.ts"],
-      "@slackmap/api/auth/testing": ["libs/api/auth/testing/src/index.ts"]
+      "@slackmap/api/auth/testing": ["libs/api/auth/testing/src/index.ts"],
+      "@slackmap/ui/storage": ["libs/ui/storage/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "tools/schematics/**/files/**"]

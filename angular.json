@@ -27,6 +27,7 @@
               "apps/web/src/manifest.webmanifest"
             ],
             "styles": [
+              "apps/web/src/styles-bootstrap.scss",
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/leaflet/dist/leaflet.css",
               "./node_modules/leaflet-draw/dist/leaflet.draw.css",
@@ -1118,6 +1119,38 @@
             "tsConfig": "libs/api/auth/data/tsconfig.spec.json",
             "passWithNoTests": true
           }
+        }
+      }
+    },
+    "ui-storage": {
+      "projectType": "library",
+      "root": "libs/ui/storage",
+      "sourceRoot": "libs/ui/storage/src",
+      "prefix": "storage",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/storage/tsconfig.lib.json",
+              "libs/ui/storage/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/storage/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/storage/jest.config.js",
+            "tsConfig": "libs/ui/storage/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/storage/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
         }
       }
     }

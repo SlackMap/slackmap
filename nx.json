@@ -105,6 +105,9 @@
     },
     "api-auth-data": {
       "tags": ["api"]
+    },
+    "ui-storage": {
+      "tags": ["ui"]
     }
   }
 }

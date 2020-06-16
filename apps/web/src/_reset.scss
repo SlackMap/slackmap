@@ -4,7 +4,9 @@
     outline: none !important;  // 1
   }
 }
-
+svg {
+  vertical-align: baseline;
+}
 a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not([mat-list-item]) {
     color: #3f51b5; // 2
   }

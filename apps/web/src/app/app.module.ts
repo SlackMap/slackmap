@@ -15,7 +15,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
-import { IonicStorageModule } from '@ionic/storage';
+import { UiStorageModule } from '@slackmap/ui/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,7 +49,7 @@ import { IonicStorageModule } from '@ionic/storage';
     StoreDevtoolsModule.instrument(),
     StoreRouterConnectingModule.forRoot(),
     UiCoreModule,
-    IonicStorageModule.forRoot(),
+    UiStorageModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

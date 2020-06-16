@@ -1,13 +1,3 @@
-/* Importing Bootstrap SCSS file. */
-@import "variables";
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/alert";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/utilities"; // add css utilities
-@import "reset";
 
 // angular material reset
 html, body { height: 100%; }
