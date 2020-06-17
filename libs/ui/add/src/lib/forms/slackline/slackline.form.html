@@ -11,7 +11,16 @@
     <mat-button-toggle [value]="DrawType.POLYGON">Slack Area</mat-button-toggle>
   </mat-button-toggle-group>
 
-  <map-draw-control *ngIf="state.drawType" [type]="state.drawType" [geometry]="state.spot?.geometry" (drawData)="onDrawData($event)"></map-draw-control>
+  <ng-container *ngIf="state.drawType">
+    <ng-container *smMenu>
+      <button mat-button (click)="reset()">
+        <mat-icon >arrow_back</mat-icon>
+      </button>
+    </ng-container>
+
+    <map-draw-control [type]="state.drawType" [geometry]="state.spot?.geometry" (drawData)="onDrawData($event)"></map-draw-control>
+
+  </ng-container>
 
   <form [formGroup]="form" class="container" *ngIf="state.drawData?.geometry">
     <div class="row">

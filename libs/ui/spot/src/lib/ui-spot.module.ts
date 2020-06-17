@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorsModule } from '@slackmap/ui/common/errors';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UiCoreModule } from '@slackmap/ui/core';
 
 export const uiSpotRoutes: Route[] = [
   { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
@@ -29,6 +30,7 @@ export const uiSpotRoutes: Route[] = [
     FormsModule,
     ReactiveFormsModule,
     ErrorsModule,
+    UiCoreModule,
   ],
   providers: [
     SpotFacade,

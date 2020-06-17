@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  width: 100%;
+}
+.mat-toolbar {
+  background: inherit;
+  text-align: center;
+  border-bottom: 1px solid #d4d4d4;
+  .logotyp {
+    height: 50px;
+    display: block;
+    margin: auto;
+  }
+}
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.fill-space {
+  /* This fills the remaining space, by using flexbox.
+      Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 1;
+}
+

@@ -7,12 +7,14 @@ import { Observable } from 'rxjs';
 import { Actions } from '@ngrx/effects';
 import { Dispatcher } from '@slackmap/ui/common/dispatcher';
 import { AuthSignUpByFacebookRequestDto } from '@slackmap/api/auth/dto';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthFacade {
   loading$: Observable<void>;
   user$ = this.store.pipe(select(AuthSelectors.getUser));
   settings$ = this.store.pipe(select(AuthSelectors.getSettings));
+  imperial$ = this.store.pipe(select(AuthSelectors.getSettings)).pipe(map(settings => settings.imperial));
   signUpByFacebook$ = this.store.pipe(select(AuthSelectors.getSignUpByFacebook));
 
   constructor(

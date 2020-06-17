@@ -6,7 +6,8 @@ import { MapFeature } from '@slackmap/ui/map';
 export const CORE_FEATURE_KEY = 'core';
 
 export interface CoreState {
-
+  isHandset: boolean;
+  showMap: boolean;
 }
 
 export interface CorePartialState {
@@ -15,13 +16,16 @@ export interface CorePartialState {
 }
 
 export const initialState: CoreState = {
-  version: '0.0.0',
-
+  isHandset: false,
+  showMap: false,
 };
 
 const coreReducer = createReducer(
   initialState,
 
+  on(CoreActions.isHandset, (state, { isHandset }) => ({ ...state, isHandset })),
+  on(CoreActions.showMap, (state, { showMap }) => ({ ...state, showMap })),
+  on(CoreActions.showMapToggle, (state) => ({ ...state, showMap: !state.showMap })),
 );
 
 export function reducer(state: CoreState | undefined, action: Action) {

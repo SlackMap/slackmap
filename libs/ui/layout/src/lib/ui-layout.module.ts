@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { MapLayout } from './layouts/map/map.layout';
-import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,6 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LoaderModule } from '@slackmap/ui/common/loader';
 import { HomePage } from './pages';
 import { UiSpotModule } from '@slackmap/ui/spot';
+import { MenuComponent } from './components/menu/menu.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 export const uiLayoutRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -25,7 +26,6 @@ export const uiLayoutRoutes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(uiLayoutRoutes),
-    LayoutModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -40,7 +40,9 @@ export const uiLayoutRoutes: Route[] = [
   ],
   declarations: [
     MapLayout,
-    HomePage
+    HomePage,
+    MenuComponent,
+    SidenavComponent
   ],
   exports: [MapLayout],
 })

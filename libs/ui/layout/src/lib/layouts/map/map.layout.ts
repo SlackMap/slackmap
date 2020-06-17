@@ -9,6 +9,7 @@ import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
 import { MapService, MapActions } from '@slackmap/ui/map';
 import { ConfigFacade, ConfigActions } from '@slackmap/ui/config';
 import { SpotFacade } from '@slackmap/ui/spot';
+import { CoreFacade } from '@slackmap/ui/core';
 
 @Component({
   selector: 'sm-map-layout',
@@ -17,36 +18,20 @@ import { SpotFacade } from '@slackmap/ui/spot';
 })
 export class MapLayout implements AfterViewInit, OnDestroy {
 
-  imperial$ = this.authFacade.settings$.pipe(map(settings => settings.imperial))
-  showMap = false;
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall])
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  showMap$ = this.coreFacade.showMap$;
+  isHandset$ = this.coreFacade.isHandset$;
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private app: ApplicationRef,
     private injector: Injector,
     private configFacade: ConfigFacade,
     private spotFacade: SpotFacade,
     public authFacade: AuthFacade,
+    public coreFacade: CoreFacade,
     private mapService: MapService,
   ) { }
 
-  onSignIn() {
-    this.authFacade.dispatch(AuthActions.signIn());
-  }
-  onSignOut() {
-    this.authFacade.dispatch(AuthActions.signOut());
-  }
-  onImperialChange(event: MatCheckboxChange) {
-    this.authFacade.dispatch(AuthActions.updateSettings({settings:{imperial: event.checked}}));
-  }
   ngAfterViewInit(): void {
-    // this.onLogin()
     // get version from root element (AppComponent)
     const version = this.injector.get(this.app.componentTypes[0]).version;
     this.configFacade.dispatch(ConfigActions.version({version}))

@@ -24,6 +24,7 @@ import {MatInputModule} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DistanceInput } from './inputs/distance/distance.input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { UiCoreModule } from '@slackmap/ui/core';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     EffectsModule.forFeature([AddEffects]),
     UiAuthModule,
     UiMapModule,
+    UiCoreModule,
     MatButtonModule,
     MatExpansionModule,
     MatCardModule,

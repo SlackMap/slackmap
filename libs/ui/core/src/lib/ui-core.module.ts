@@ -9,6 +9,7 @@ import { CoreFacade } from './+core/core.facade';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ItemUtils } from '@slackmap/core';
 import { UiConfig } from '@slackmap/ui/config';
+import { MenuDirective } from './directives/menu.directive';
 
 export const uiCoreRoutes: Route[] = [
 
@@ -34,7 +35,11 @@ export const uiCoreRoutes: Route[] = [
       deps: [UiConfig],
     },
   ],
-  declarations: [],
-  exports: [],
+  declarations: [
+    MenuDirective,
+  ],
+  exports: [
+    MenuDirective
+  ],
 })
 export class UiCoreModule {}

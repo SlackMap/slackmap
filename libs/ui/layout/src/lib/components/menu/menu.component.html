@@ -1,0 +1,32 @@
+<ng-container #container></ng-container>
+
+<mat-list [ngClass]="{  handset: coreFacade.isHandset$ | async }" *ngIf="!hasMenu">
+
+  <ng-container *ngIf="authFacade.user$ | async as user; else menuIcon">
+    <mat-list-item>
+      <button mat-icon-button (click)="drawer.toggle()">
+        <img *ngIf="user.facebookId" [src]="'https://graph.facebook.com/'+user.facebookId+'/picture?type=square'" style="margin: auto; width: 30px; border-radius: 50%;" />
+      </button>
+    </mat-list-item>
+  </ng-container>
+  <ng-template #menuIcon>
+    <mat-list-item>
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+    </mat-list-item>
+  </ng-template>
+
+  <mat-list-item>
+    <button mat-icon-button routerLink="/x" (click)="coreFacade.showMapToggle()">
+      <mat-icon matListIcon *ngIf="coreFacade.showMap$ | async">explore</mat-icon>
+      <mat-icon matListIcon *ngIf="!(coreFacade.showMap$ | async)">map</mat-icon>
+    </button>
+  </mat-list-item>
+  <mat-list-item>
+    <button mat-icon-button routerLink="/add">
+      <mat-icon matListIcon>add_circle_outline</mat-icon>
+    </button>
+  </mat-list-item>
+
+</mat-list>
