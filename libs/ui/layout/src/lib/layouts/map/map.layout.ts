@@ -2,12 +2,13 @@ import { Component, AfterViewInit, ApplicationRef, Injector, OnDestroy } from '@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
-import { CoreFacade } from '@slackmap/ui/core';
-import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MapService, MapActions } from '@slackmap/ui/map';
 import { untilDestroy } from '@ngrx-utils/store';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { SportType } from '@slackmap/core';
+import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
+import { MapService, MapActions } from '@slackmap/ui/map';
+import { ConfigFacade, ConfigActions } from '@slackmap/ui/config';
+import { SpotFacade } from '@slackmap/ui/spot';
 
 @Component({
   selector: 'sm-map-layout',
@@ -29,7 +30,8 @@ export class MapLayout implements AfterViewInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private app: ApplicationRef,
     private injector: Injector,
-    private coreFacade: CoreFacade,
+    private configFacade: ConfigFacade,
+    private spotFacade: SpotFacade,
     public authFacade: AuthFacade,
     private mapService: MapService,
   ) { }
@@ -47,12 +49,12 @@ export class MapLayout implements AfterViewInit, OnDestroy {
     // this.onLogin()
     // get version from root element (AppComponent)
     const version = this.injector.get(this.app.componentTypes[0]).version;
-    this.coreFacade.dispatch(this.coreFacade.actions.version({version}))
+    this.configFacade.dispatch(ConfigActions.version({version}))
 
-    this.mapService.spotsLayer(this.coreFacade.getSportFilteredSpots(SportType.SLACKLINE)).subscribe();
+    this.mapService.spotsLayer(this.spotFacade.getSportFilteredSpots(SportType.SLACKLINE)).subscribe();
 
     this.mapService.viewChange$.pipe(
-      tap(view => this.coreFacade.dispatch(MapActions.viewChange({view}))),
+      tap(view => this.configFacade.dispatch(MapActions.viewChange({view}))),
       untilDestroy(this),
     ).subscribe();
   }

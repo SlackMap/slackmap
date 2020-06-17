@@ -7,9 +7,8 @@ import * as ConfigSelectors from './config.selectors';
 
 @Injectable()
 export class ConfigFacade {
-  loaded$ = this.store.pipe(select(ConfigSelectors.getConfigLoaded));
-  allConfig$ = this.store.pipe(select(ConfigSelectors.getAllConfig));
-  selectedConfig$ = this.store.pipe(select(ConfigSelectors.getSelected));
+  version$ = this.store.pipe(select(ConfigSelectors.getConfigVersion));
+  config$ = this.store.pipe(select(ConfigSelectors.getConfigConfig));
 
   constructor(private store: Store<fromConfig.ConfigPartialState>) {}
 

@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import * as fromSpot from './spot.reducer';
 import * as SpotActions from './spot.actions';
-import { SpotService } from '../services/spot.service';
 import { map, mergeAll, filter, takeUntil, mergeMap, switchMap, distinctUntilChanged } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 import { MapActions } from '@slackmap/ui/map';
 import { SportType, MAP_ZOOM_THRESHOLD } from '@slackmap/core';
 import { arrayDiff, ArrayDiff } from '@slackmap/ui/common/utils';
+import { SpotService } from '../services';
 
 @Injectable()
 export class SpotEffects {

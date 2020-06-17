@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CoreFacade } from '../../+core/core.facade';
+import { ConfigFacade } from '@slackmap/ui/config';
 
 @Component({
   selector: 'sm-home',
@@ -8,10 +8,10 @@ import { CoreFacade } from '../../+core/core.facade';
 })
 export class HomePage implements OnInit {
 
-  version$ = this.core.version$;
+  version$ = this.configFacade.version$;
 
   constructor(
-    private core: CoreFacade
+    private configFacade: ConfigFacade
   ) { }
 
   ngOnInit(): void {

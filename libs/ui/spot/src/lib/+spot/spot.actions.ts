@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { SportType } from '@slackmap/core';
+import { SportType, ItemSubtypes } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';
 import { ArrayDiff } from '@slackmap/ui/common/utils';
 
@@ -64,4 +64,16 @@ export const hashNoConnection = createAction(
 export const viewHashesChange = createAction(
   '[Spot] View Hashes Change',
   props<{ data: ArrayDiff<string> }>()
+);
+
+// fired when layer filters are changed by the user
+export const subtypesEnabledChange = createAction(
+  '[Core] Subtypes Enabled Change',
+  props<{ subtypesEnabled: ItemSubtypes[] }>()
+);
+
+// enable or disable the layer
+export const sportsEnabledChange = createAction(
+  '[Core] Sports Enabled Change',
+  props<{ sportsEnabled: SportType[] }>()
 );

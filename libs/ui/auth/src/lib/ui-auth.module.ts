@@ -23,6 +23,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import { SignUpByFacebookComponent } from './components/sign-up-by-facebook/sign-up-by-facebook.component';
 import { SignInDirective } from './directives/sign-in.directive';
 import { DistancePipe } from './pipes/distance.pipe';
+import { ErrorsModule } from '@slackmap/ui/common/errors';
 
 export const uiAuthRoutes: Route[] = [
 
@@ -44,6 +45,7 @@ export const uiAuthRoutes: Route[] = [
     FormsModule,
     StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),
     EffectsModule.forFeature([AuthEffects]),
+    ErrorsModule,
   ],
   providers: [
     AuthFacade,

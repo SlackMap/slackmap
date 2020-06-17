@@ -9,15 +9,8 @@ import { SportType } from '@slackmap/core';
 
 @Injectable()
 export class CoreFacade {
-  actions = CoreActions;
-  version$ = this.store.pipe(select(CoreSelectors.getCoreVersion));
-
-  sportsEnabled$ = this.store.select(CoreSelectors.getCoreSportsEnabled);
-  subtypesEnabled$ = this.store.select(CoreSelectors.getCoreSubtypesEnabled);
 
   constructor(private store: Store<fromCore.CorePartialState>) {}
-
-  getSportFilteredSpots = (sport: SportType) => this.store.select(CoreSelectors.getMapSportFilteredSpots(sport));
 
   dispatch(action: Action) {
     this.store.dispatch(action);

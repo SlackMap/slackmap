@@ -9,7 +9,7 @@ import { UiApiService } from '@slackmap/ui/api';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ErrorService } from '@slackmap/ui/common/errors';
-import { SpotService } from '../../../../core/src/lib/services';
+import { SpotService } from '@slackmap/ui/spot';
 
 @Injectable()
 export class AddEffects {

@@ -1,1 +1,1 @@
-export * from './lib/ui-spot.module';
+export * from './lib';
