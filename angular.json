@@ -1153,6 +1153,70 @@
           "style": "scss"
         }
       }
+    },
+    "ui-layout": {
+      "projectType": "library",
+      "root": "libs/ui/layout",
+      "sourceRoot": "libs/ui/layout/src",
+      "prefix": "sm",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/layout/tsconfig.lib.json",
+              "libs/ui/layout/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/layout/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/layout/jest.config.js",
+            "tsConfig": "libs/ui/layout/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/layout/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "ui-spot": {
+      "projectType": "library",
+      "root": "libs/ui/spot",
+      "sourceRoot": "libs/ui/spot/src",
+      "prefix": "slackmap",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/spot/tsconfig.lib.json",
+              "libs/ui/spot/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/spot/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/spot/jest.config.js",
+            "tsConfig": "libs/ui/spot/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/spot/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

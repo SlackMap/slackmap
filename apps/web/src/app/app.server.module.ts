@@ -3,7 +3,7 @@ import { ServerModule } from '@angular/platform-server';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
-import { StorageService, StorageMockService } from '@slackmap/ui/core';
+import { StorageService, StorageMockService } from '@slackmap/ui/storage';
 import { UiConfig } from '@slackmap/ui/config';
 import { ConfigModel } from '@slackmap/api/config/dto';
 

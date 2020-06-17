@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ApplicationRef, Injector, OnDestroy } from '@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
-import { CoreFacade } from '../../+core/core.facade';
+import { CoreFacade } from '@slackmap/ui/core';
 import { AuthFacade, AuthActions } from '@slackmap/ui/auth';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MapService, MapActions } from '@slackmap/ui/map';
@@ -10,11 +10,11 @@ import { untilDestroy } from '@ngrx-utils/store';
 import { SportType } from '@slackmap/core';
 
 @Component({
-  selector: 'sm-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  selector: 'sm-map-layout',
+  templateUrl: './map.layout.html',
+  styleUrls: ['./map.layout.scss']
 })
-export class LayoutComponent implements AfterViewInit, OnDestroy {
+export class MapLayout implements AfterViewInit, OnDestroy {
 
   imperial$ = this.authFacade.settings$.pipe(map(settings => settings.imperial))
   showMap = false;

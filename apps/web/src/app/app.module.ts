@@ -1,21 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { UiPwaModule } from '@slackmap/ui/pwa';
-import { UiCoreModule } from '@slackmap/ui/core';
-import { UiConfigModule } from '@slackmap/ui/config';
-
-import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { AppComponent } from './app.component';
+import { UiPwaModule } from '@slackmap/ui/pwa';
+import { UiCoreModule } from '@slackmap/ui/core';
+import { UiConfigModule } from '@slackmap/ui/config';
 import { UiStorageModule } from '@slackmap/ui/storage';
+import { UiLayoutModule } from '@slackmap/ui/layout';
+import { UiAuthModule } from '@slackmap/ui/auth';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,13 +25,6 @@ import { UiStorageModule } from '@slackmap/ui/storage';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // enabled: false,
-      registrationStrategy: 'registerImmediately'
-    }),
-    UiConfigModule.forRoot({production: environment.production}),
-    UiPwaModule.forRoot({ enabled: environment.production }),
     BrowserAnimationsModule,
     StoreModule.forRoot(
       {
@@ -45,11 +39,20 @@ import { UiStorageModule } from '@slackmap/ui/storage';
       }
     ),
     EffectsModule.forRoot([]),
-    // !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StoreDevtoolsModule.instrument(),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    // StoreDevtoolsModule.instrument(),
     StoreRouterConnectingModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // enabled: false,
+      registrationStrategy: 'registerImmediately'
+    }),
+    UiConfigModule.forRoot({production: environment.production}),
+    UiPwaModule.forRoot({ enabled: environment.production }),
     UiCoreModule,
     UiStorageModule,
+    UiLayoutModule,
+    UiAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
