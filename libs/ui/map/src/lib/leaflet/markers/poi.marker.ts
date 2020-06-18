@@ -1,13 +1,15 @@
 import * as L from 'leaflet';
+import { PoiItem } from '@slackmap/core';
 
 export class PoiMarker extends L.Marker {
 
-  shapeLayer: L.GeoJSON<any>;
-  constructor(private item, options?) {
-    super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
+  geometryLayer: L.GeoJSON<any>;
+
+  constructor(private item: PoiItem, options?) {
+    super(L.GeoJSON.coordsToLatLng(item.position as [number, number]), options);
     this.item = item;
-    if (item.shape) {
-      this.shapeLayer = L.geoJSON(item.shape, {
+    if (item.geometry) {
+      this.geometryLayer = L.geoJSON(item.geometry, {
         style: data => {
           return {
             color: 'black',
@@ -30,8 +32,8 @@ export class PoiMarker extends L.Marker {
 
   onAdd(map) {
     L.Marker.prototype.onAdd.apply(this, arguments);
-    if (this.shapeLayer) {
-      this._map.addLayer(this.shapeLayer);
+    if (this.geometryLayer) {
+      this._map.addLayer(this.geometryLayer);
     }
 
     return this;
@@ -39,8 +41,8 @@ export class PoiMarker extends L.Marker {
 
   onRemove(map) {
     // remove the shape
-    if (this.shapeLayer) {
-      this._map.removeLayer(this.shapeLayer);
+    if (this.geometryLayer) {
+      this._map.removeLayer(this.geometryLayer);
     }
     L.Marker.prototype.onRemove.apply(this, arguments);
     return this;

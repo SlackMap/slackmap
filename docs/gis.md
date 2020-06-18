@@ -1,8 +1,12 @@
 # GIS Knowledge Base
 
-## LatLon vs LonLat explained
+## Leaflet.LatLon vs GeoJSON.Position
 
 http://gis.stackexchange.com/questions/54065/leaflet-geojson-coordinate-problem
+
+**Leaflet** uses `[lat, lon]` / `[Y, X]` array representation of points
+
+**GeoJSON** uses `[lon, lat]` / `[X, Y]` array representation of points
 
 When talking about geographic locations, we usually use Lat-long.
 
@@ -42,13 +46,12 @@ The GeoJSON standard says that for any point, the first parameter is the X Coord
 ```text
                north
                90             NE
-               lat
-               Y
+              Y / lat
                 |
                 |
                 |
 west            |                east
---------------------------------
+--------------------------------  X / lon
 -180            |                 180
                 |
                 |

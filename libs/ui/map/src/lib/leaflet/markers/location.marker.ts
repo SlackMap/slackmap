@@ -1,19 +1,26 @@
 import * as L from 'leaflet';
+import { PoiItem } from '@slackmap/core';
+export interface LModel {
+  name: string;
+  code: string;
+  spotsCount: number;
+  usersCount: number;
+}
 
 export class LocationMarker extends L.Marker {
 
-  shapeLayer: L.GeoJSON<any>;
+  geometryLayer: L.GeoJSON<any>;
 
-  constructor(private item, options?) {
-    super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
+  constructor(private item: PoiItem & LModel, options?) {
+    super(L.GeoJSON.coordsToLatLng(item.position as [number, number]), options);
     let html, cls;
     if (item.subtype === 102) {
       html = `
                         <span class="label-mask"></span>
                         <span class="badge">
                             <img src="/assets/uploads/flags/24/${item.code}.png" />
-                            <!-- <i class="icon-pin"></i> ${item.spots_count || 0} -->
-                            <!-- <i class="icon-user"></i> ${item.users_count || 0} -->
+                            <!-- <i class="icon-pin"></i> ${item.spotsCount || 0} -->
+                            <!-- <i class="icon-user"></i> ${item.usersCount || 0} -->
                         </span>
                     `;
       cls = 'item-label item-country-label';
@@ -32,8 +39,8 @@ export class LocationMarker extends L.Marker {
       className: cls
     });
 
-    if (item.shape) {
-      this.shapeLayer = L.geoJSON(item.shape, {
+    if (item.geometry) {
+      this.geometryLayer = L.geoJSON(item.geometry, {
         style: data => {
           return {
             color: 'black',
@@ -78,8 +85,8 @@ export class LocationMarker extends L.Marker {
 
   onAdd(map) {
     L.Marker.prototype.onAdd.apply(this, arguments);
-    if (this.shapeLayer) {
-      this._map.addLayer(this.shapeLayer);
+    if (this.geometryLayer) {
+      this._map.addLayer(this.geometryLayer);
     }
 
     return this;
@@ -87,8 +94,8 @@ export class LocationMarker extends L.Marker {
 
   onRemove(map) {
     // remove the shape
-    if (this.shapeLayer) {
-      this._map.removeLayer(this.shapeLayer);
+    if (this.geometryLayer) {
+      this._map.removeLayer(this.geometryLayer);
     }
     L.Marker.prototype.onRemove.apply(this, arguments);
     return this;

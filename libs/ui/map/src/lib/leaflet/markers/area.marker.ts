@@ -1,4 +1,6 @@
 import * as L from 'leaflet';
+import { AccessType } from '@slackmap/core';
+import { SpotModel } from '@slackmap/api/spot/dto';
 
 /**
  * Area Label
@@ -7,22 +9,21 @@ export class AreaMarker extends L.Marker {
   _latlng: L.LatLng;
   highlighted = false;
   shapeLayer: L.GeoJSON<any>;
-  constructor(private item, private itemUtils, options?) {
-    super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
-
+  constructor(private item: SpotModel<GeoJSON.Polygon>, private itemUtils, options?) {
+    super(L.GeoJSON.coordsToLatLng(item.position as [number, number]), options);
 
     this.options.icon = new L.DivIcon({
       html: '<span></span>',
       className: 'item-label'
     });
-    if (item.shape) {
+    if (item.geometry) {
       let color = 'green';
-      if (item.access === 2) {
+      if (item.access === AccessType.RESTRICTED) {
         color = 'yellow';
-      } else if (item.access === 3) {
+      } else if (item.access === AccessType.FORBIDDEN) {
         color = 'red';
       }
-      this.shapeLayer = L.geoJSON(item.shape, {
+      this.shapeLayer = L.geoJSON(item.geometry, {
         style: () => {
           return {
             color: color,
@@ -42,7 +43,7 @@ export class AreaMarker extends L.Marker {
       });
     }
     L.Util.setOptions(this, options);
-    this._latlng = L.latLng(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates));
+    this._latlng = L.latLng(L.GeoJSON.coordsToLatLng(item.position as [number, number]));
   }
   onAdd(map) {
     L.Marker.prototype.onAdd.apply(this, arguments);

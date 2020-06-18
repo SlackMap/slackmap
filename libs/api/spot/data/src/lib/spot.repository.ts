@@ -106,6 +106,7 @@ export class SpotRepository {
    */
   @Transactional()
   findByBBox(bbox: GeoJSON.BBox, sport: SportType): Promise<SpotEntity[]> {
+    sport = parseInt(sport as any, 10);
     const params = [
       bbox[0], //minlat
       bbox[2], //maxlat
@@ -115,7 +116,7 @@ export class SpotRepository {
     ]
     const statement = `
         MATCH (u:Spot)
-        WHERE $1 <= u.lat <= $2 AND $3 <= u.lon <= $4 AND u.sport = $5
+        WHERE $1 <= u.position[1] <= $2 AND $3 <= u.position[0] <= $4 AND u.sport = $5
         RETURN u
     `;
     return this.persistenceManager.query(
@@ -134,14 +135,14 @@ export class SpotRepository {
 
   @Transactional()
   getForClustering(sport: SportType): Promise<SpotEntity[]> {
+    sport = parseInt(sport as any, 10);
     const params = [
       sport
     ];
-    console.log('sport', sport, typeof sport)
     const statement = `
         MATCH (u:Spot)
-        // WHERE u.sport = 1
-        RETURN u {.rid, .lat, .lon, .subtype}
+        WHERE u.sport = $1
+        RETURN u {.rid, .position, .subtype}
     `;
     return this.persistenceManager.query(
       new CursorSpecification<SpotEntity>()

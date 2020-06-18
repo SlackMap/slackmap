@@ -1,13 +1,14 @@
 import {Marker, Icon, Point, GeoJSON} from 'leaflet';
 import { SUBTYPE_OPTIONS } from '@slackmap/core';
+import { ClusterModel } from '@slackmap/api/clusters/dto';
 
 export class ClusterCountsMarker extends Marker {
-  constructor(private item, options?) {
-    super(GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
+  constructor(private item: ClusterModel, options?) {
+    super(GeoJSON.coordsToLatLng(item.position as [number, number]), options);
 
     this.options.icon = new ClusterIcon({
       counts: item.counts,
-      total: item.spot_count
+      total: item.spotCount
     });
   }
 };

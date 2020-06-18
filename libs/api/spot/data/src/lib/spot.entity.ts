@@ -1,7 +1,7 @@
-import { ItemType, SpotSubtype, SportType, Poi, Item, AccessType, StatusType } from '@slackmap/core';
+import { ItemType, SpotSubtype, SportType, AccessType, StatusType, PoiItem, SpotGeometry } from '@slackmap/core';
 import { GeoJSON } from '@slackmap/gis';
 
-export class SpotEntity implements Poi, Item {
+export class SpotEntity implements PoiItem {
   // item
   rid: string;
   type: ItemType.SPOT;
@@ -9,10 +9,9 @@ export class SpotEntity implements Poi, Item {
   version: number;
 
   // poi
-  lat: number;
-  lon: number;
+  position: GeoJSON.Position;
   geohash: string;
-  geometry: GeoJSON.Geometry;
+  geometry: SpotGeometry;
   bbox: GeoJSON.BBox;
 
   // spot

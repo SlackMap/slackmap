@@ -1,11 +1,14 @@
-import { ItemType, SportType, Poi, Item, AccessType, StatusType, ItemSubtype, SpotSubtype } from '@slackmap/core';
+import { ItemType, SportType, Poi, Item, AccessType, StatusType, ItemSubtype, SpotSubtype, SpotGeometry, PoiItem } from '@slackmap/core';
 import { GeoJSON } from '@slackmap/gis';
 import { IsString, IsEnum, Equals, IsNumber, IsBoolean, IsDefined, IsOptional } from 'class-validator';
 
-export class SpotModel {
+export class SpotModel<G = SpotGeometry> implements PoiItem<G> {
   // item
   @IsString()
   rid: string;
+
+  @IsNumber()
+  version: number;
 
   @Equals(ItemType.SPOT)
   type: ItemType.SPOT;
@@ -14,14 +17,11 @@ export class SpotModel {
   subtype: SpotSubtype;
 
   // poi
-  @IsNumber()
-  lat: number;
-
-  @IsNumber()
-  lon: number;
+  @IsNumber({}, {each: true})
+  position: GeoJSON.Position;
 
   @IsDefined()
-  geometry: GeoJSON.Geometry;
+  geometry: G;
 
   @IsNumber({}, {each: true})
   bbox: GeoJSON.BBox;

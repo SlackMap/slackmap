@@ -25,8 +25,9 @@ export class ClustersController {
    * query cluster by bbox
    */
   @Get(CLUSTERS_PATHS.clustersGet())
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   clustersGet(@Query() request: ClustersClustersGetRequestDto): Observable<ClustersClustersGetDto> {
+    console.log(request)
     const bbox = request.bbox.split(',');
     return this.clusterService.query(request.sport, bbox, request.zoom).pipe(
       catchError((err) => {
@@ -41,7 +42,7 @@ export class ClustersController {
    * Get spots for map by geohash
    */
   @Get(CLUSTERS_PATHS.spotsGet())
-  @UsePipes(ValidationPipe)
+  @UsePipes(new ValidationPipe({transform: true}))
   async clustersSpotsGet(@Query() request: ClustersSpotsGetRequestDto): Promise<ClustersSpotsGetDto> {
     const spots =  await this.spotRepository.getByGeohash(request.hash, request.sport);
     return {spots}

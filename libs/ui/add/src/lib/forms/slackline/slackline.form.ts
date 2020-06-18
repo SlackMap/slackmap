@@ -4,7 +4,7 @@ import { DrawData } from '@slackmap/ui/map';
 import { FormBuilder, Validators } from '@angular/forms';
 import { untilDestroy } from '@ngrx-utils/store';
 import { filter, map } from 'rxjs/operators';
-import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS, SportType } from '@slackmap/core';
+import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS, SportType, AccessType, StatusType } from '@slackmap/core';
 import { of } from 'rxjs';
 import { SpotModel } from '@slackmap/api/spot/dto';
 import * as geohash from 'ngeohash';
@@ -25,13 +25,14 @@ export class SlacklineForm implements OnInit, OnDestroy {
 
   form = this.fb.group({
     subtype: [null, [Validators.required]],
-    access: [],
-    status: [],
+    access: [AccessType.OPEN],
+    status: [StatusType.ACTIVE],
     name: [],
     length: [],
     height: [],
     lengthLaser: [],
     heightLaser: [],
+    version: [0],
   });
 
   constructor(
@@ -75,8 +76,7 @@ export class SlacklineForm implements OnInit, OnDestroy {
       rid: ''+Date.now(),
       sport: state.sport,
       type: ItemType.SPOT,
-      lat,
-      lon,
+      position: [lon, lat],
       geohash: geohash.encode(lat, lon, 6),
       geometry: state.drawData.geometry,
       bbox: state.drawData.bbox,

@@ -61,7 +61,7 @@ export const getMapSportFilteredSpots = function (sport: SportType) {
         };
       }).filter(spot => {
         if (spot.type === ItemType.CLUSTER) {
-          return !!spot.spot_count;
+          return !!spot.spotCount;
         } else {
           return true;
         }

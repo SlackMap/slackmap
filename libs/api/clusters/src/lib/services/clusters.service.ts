@@ -49,10 +49,10 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
             rid: cluster.properties.rid || '',
             type: ItemType.CLUSTER,
             subtype: !!cluster.properties.cluster ? ClusterSubtype.CLUSTER : ClusterSubtype.SPOT,
-            coordinates: cluster.geometry,
-            expansion_zoom,
-            spot_count: cluster.properties.point_count || 1,
-            cluster_id: cluster.properties.cluster_id || 0,
+            position: cluster.geometry.coordinates,
+            expansionZoom: expansion_zoom,
+            spotCount: cluster.properties.point_count || 1,
+            clusterId: cluster.properties.cluster_id || 0,
             counts: this.createCounts(cluster)
           };
 
@@ -118,11 +118,11 @@ export class ClustersService implements OnModuleDestroy, OnModuleInit {
           type: 'Feature',
           properties: {
             rid: spot.rid || 's0',
-            subtype: spot.subtype
+            subtype: spot.subtype,
           },
           geometry: {
             type: 'Point',
-            coordinates: [spot.lon || 0, spot.lat || 0]
+            coordinates: spot.position || [0, 0]
           }
         }));
       }

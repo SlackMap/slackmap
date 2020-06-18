@@ -11,7 +11,7 @@ import { ResponseSource, LoadHashResponse } from '../+spot/spot.models';
 import { Options, ClusterProperties, PointFeature } from 'supercluster';
 
 export interface SuperclusterProps {
-  spot_count: number;
+  spotCount: number;
   counts: ClusterCountsModel;
 };
 
@@ -20,7 +20,7 @@ export interface SuperclusterFeatureProps {
   subtype: ItemSubtypes;
 };
 
-export type SuperclusterFeature = PointFeature<SuperclusterFeatureProps & Partial<ClusterProperties>>;
+export type SuperclusterFeature = PointFeature<SuperclusterFeatureProps & Partial<ClusterProperties> & SuperclusterProps>;
 
 export const superclusterOptions: Partial<Options<SuperclusterFeatureProps, SuperclusterProps>> = {
   radius: 60,
@@ -35,7 +35,7 @@ export const superclusterOptions: Partial<Options<SuperclusterFeatureProps, Supe
         acc.counts[name] += props.counts[name];
       }
     }
-    acc.spot_count += props.spot_count;
+    acc.spotCount += props.spotCount;
   }
 }
 
@@ -88,11 +88,14 @@ export class SpotService {
           properties: {
             counts: _cluster.counts,
             subtype: _cluster.subtype,
-            spot_count: _cluster.spot_count,
-            expansion_zoom: _cluster.expansion_zoom,
+            spotCount: _cluster.spotCount,
+            expansionZoom: _cluster.expansionZoom,
             rid: _cluster.rid
           },
-          geometry: _cluster.coordinates
+          geometry: {
+            type: 'Point',
+            coordinates: _cluster.position,
+          }
         };
       });
 
@@ -174,18 +177,19 @@ export class SpotService {
   getClusters(layer: SportType, bbox: GeoJSON.BBox, zoom: number): Observable<LoadHashResponse> {
     return <any>this.supercluster$.pipe(
       map((scluster) => {
-        const clusters = scluster.getClusters(bbox, zoom).map(cluster => {
+        const clusters = scluster.getClusters(bbox, zoom).map((cluster: SuperclusterFeature) => {
+          let expansionZoom = 17;
           if (cluster.properties.cluster) {
-            cluster.properties.expansion_zoom = scluster.getClusterExpansionZoom(cluster.properties.cluster_id, zoom);
+            expansionZoom = scluster.getClusterExpansionZoom(cluster.properties.cluster_id, zoom);
           }
           const c: ClusterModel = {
             rid: cluster.properties.rid || '',
             type: ItemType.CLUSTER,
             subtype: !!cluster.properties.cluster ? ClusterSubtype.CLUSTER : ClusterSubtype.SPOT,
-            coordinates: cluster.geometry,
-            expansion_zoom: cluster.properties.expansion_zoom || 17,
-            spot_count: cluster.properties.spot_count || 1,
-            cluster_id: cluster.properties.cluster_id || 0,
+            position: cluster.geometry.coordinates,
+            expansionZoom,
+            spotCount: cluster.properties.point_count || 1,
+            clusterId: cluster.properties.cluster_id || 0,
             counts: cluster.properties.counts
           };
 

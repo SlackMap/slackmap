@@ -1,5 +1,6 @@
 import * as L from 'leaflet';
-import { getSubtypeFromItem, getLength } from '@slackmap/core';
+import { getSubtypeFromItem, getLength, PoiItem } from '@slackmap/core';
+import { GeoJSON } from '@slackmap/gis';
 
 /**
  * Line Marker
@@ -7,22 +8,21 @@ import { getSubtypeFromItem, getLength } from '@slackmap/core';
 export class LineMarker extends L.Marker {
   len = 0;
   highlighted = false;
-  shapeLayer: L.GeoJSON<any>;
+  geometryLayer: L.GeoJSON<GeoJSON.LineString>;
   _marker1: L.Marker;
   _marker2: L.Marker;
   _icon: any;
 
-  constructor(private item, private itemUtils, options?) {
-    super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
-
+  constructor(private item: PoiItem<GeoJSON.LineString>, private itemUtils, options?) {
+    super(L.GeoJSON.coordsToLatLng(item.position as [number, number]), options);
 
     this.options.icon = new L.DivIcon({
       html: '0m',
       className: 'item-label item-line-label '
     });
 
-    if (item.shape) {
-      this.shapeLayer = L.geoJSON(item.shape, {
+    if (item.geometry) {
+      this.geometryLayer = L.geoJSON(item.geometry, {
         style: data => {
           return {
             color: (getSubtypeFromItem(this.item) || {}).color,
@@ -46,8 +46,8 @@ export class LineMarker extends L.Marker {
 
   onAdd(map) {
     L.Marker.prototype.onAdd.apply(this, arguments);
-    if (this.shapeLayer) {
-      this._map.addLayer(this.shapeLayer);
+    if (this.geometryLayer) {
+      this._map.addLayer(this.geometryLayer);
     }
     if (this.highlighted) {
       this.highlight();
@@ -61,8 +61,8 @@ export class LineMarker extends L.Marker {
 
   onRemove(map) {
     // remove the shape
-    if (this.shapeLayer) {
-      this._map.removeLayer(this.shapeLayer);
+    if (this.geometryLayer) {
+      this._map.removeLayer(this.geometryLayer);
     }
     this.diminish();
     // this.userWatchHandler();
@@ -87,9 +87,9 @@ export class LineMarker extends L.Marker {
 
   highlight() {
     this.highlighted = true;
-    if (this._map && this.item && this.item.shape && !this._marker1) {
-      this._marker1 = L.marker([this.item.shape.coordinates[0][1], this.item.shape.coordinates[0][0]]).addTo(this._map);
-      this._marker2 = L.marker([this.item.shape.coordinates[1][1], this.item.shape.coordinates[1][0]]).addTo(this._map);
+    if (this._map && this.item && this.item.geometry && !this._marker1) {
+      this._marker1 = L.marker([this.item.geometry.coordinates[0][1], this.item.geometry.coordinates[0][0]]).addTo(this._map);
+      this._marker2 = L.marker([this.item.geometry.coordinates[1][1], this.item.geometry.coordinates[1][0]]).addTo(this._map);
       // this._marker1.bounce(1);
       // this._marker2.bounce(1);
       this.setZIndexOffset(1000);

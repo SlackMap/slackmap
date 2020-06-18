@@ -8,7 +8,8 @@ import { QuerySpecification } from '@liberation-data/drivine/query/QuerySpecific
 import { Transactional } from '@liberation-data/drivine/transaction/Transactional';
 import * as faker from "faker";
 import * as geohash from "ngeohash";
-
+import { randomLineString, bbox, center, length } from "@turf/turf";
+import { GeoJSON } from '@slackmap/gis';
 
 function fakeLat() {
   return faker.random.number(90);
@@ -31,42 +32,36 @@ export class SpotFixture {
    * Used when testing creation of new spot, this data will come from the UI form
    */
   public generateFakeSpotData(): SpotEntity {
-    const lat = fakeLat();
-    const lon = fakeLon();
+
+    const geometry = randomLineString(1, {
+      bbox: [-80, 30, -60, 60],
+      num_vertices: 2,
+    }).features[0].geometry;
+    const position = center(geometry).geometry.coordinates;
+
     const rid = this.ridGenerator.forItem(ItemType.SPOT);
 
-    return {
+    const spot: SpotEntity = {
       name: faker.name.findName(),
-      lat,
-      lon,
-      length: 33,
+      position,
+      length: length(geometry, {units: "meters"}),
       height: 10,
       lengthLaser: true,
       heightLaser: false,
       access: AccessType.OPEN,
       status: StatusType.ACTIVE,
-      geohash: geohash.encode(lat, lon),
+      geohash: geohash.encode(position[1], position[0]),
       version: 0,
-      bbox: [lat, lon, lat, lon],
-      geometry: {
-        "type": "LineString",
-        "coordinates": [
-          [
-            20.848274,
-            52.33492
-          ],
-          [
-            20.858917,
-            52.329045
-          ]
-        ]
-      },
+      bbox: bbox(geometry),
+      geometry,
       rid,
       type: ItemType.SPOT,
       subtype: SpotSubtype.HIGHLINE,
       sport: SportType.SLACKLINE,
       createdAt: now(),
     };
+
+    return spot;
   }
 
   /**

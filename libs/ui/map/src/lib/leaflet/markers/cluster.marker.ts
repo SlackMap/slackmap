@@ -1,19 +1,19 @@
 import * as L from 'leaflet';
+import { ClusterModel } from '@slackmap/api/clusters/dto';
 
 export class ClusterMarker extends L.Marker {
-  shapeLayer: L.GeoJSON<any>;
 
-  constructor(private item, options?) {
-    super(L.GeoJSON.coordsToLatLng(item.coordinates.coordinates), options);
+  constructor(private item: ClusterModel, options?) {
+    super(L.GeoJSON.coordsToLatLng(item.position as [number, number]), options);
 
     this.item = item;
     // cluster icon
     let c = 'marker-cluster-';
     let color = '#64BDE5';
-    if (item.spot_count < 10) {
+    if (item.spotCount < 10) {
       c += 'small';
       color = '#92D664';
-    } else if (item.spot_count < 100) {
+    } else if (item.spotCount < 100) {
       c += 'medium';
       color = '#EECC3B';
     } else {
@@ -22,47 +22,19 @@ export class ClusterMarker extends L.Marker {
     }
 
     this.options.icon = new L.DivIcon({
-      html: '<div><span>' + item.spot_count || 0 + '</span></div>',
+      html: '<div><span>' + item.spotCount || 0 + '</span></div>',
       className: 'marker-cluster ' + c,
       iconSize: new L.Point(40, 40)
     });
 
-    if (item.shape) {
-      this.shapeLayer = L.geoJSON(item.shape, {
-        style: data => {
-          return {
-            color: color,
-            weight: 1,
-            opacity: 1,
-            fill: false,
-            clickable: true
-          };
-        },
-        onEachFeature: (feature, layer) => {
-          layer.on({
-            click: function (e) {
-              this.fire('click', e);
-            }
-          });
-        }
-      });
-    }
   }
 
   onAdd(map) {
     L.Marker.prototype.onAdd.apply(this, arguments);
-    if (this.shapeLayer) {
-      this._map.addLayer(this.shapeLayer);
-    }
-
     return this;
   }
 
   onRemove(map) {
-    // remove the shape
-    if (this.shapeLayer) {
-      this._map.removeLayer(this.shapeLayer);
-    }
     L.Marker.prototype.onRemove.apply(this, arguments);
     return this;
   }
