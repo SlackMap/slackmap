@@ -7,7 +7,7 @@ import { SUBTYPE_OPTIONS, ItemType, DrawType } from "@slackmap/core";
 })
 export class SubtypeInput implements OnInit {
 
-  options = SUBTYPE_OPTIONS.filter(o => (o.type === ItemType.SPOT && o.shape === DrawType.LINE));
+  options = SUBTYPE_OPTIONS.filter(o => (o.type === ItemType.SPOT && o.drawType === DrawType.LINE));
 
   @Input()
   name: string;

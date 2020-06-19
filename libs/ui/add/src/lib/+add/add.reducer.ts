@@ -8,7 +8,7 @@ import { SpotModel } from '@slackmap/api/spot/dto';
 export const ADD_FEATURE_KEY = 'add';
 
 export interface AddState {
-  sport: SportType;
+  sportType: SportType;
   drawType: DrawType;
   drawData: DrawData;
   spot: SpotModel; // read only spot model for edit
@@ -20,7 +20,7 @@ export interface AddPartialState {
 }
 
 export const addInitialState: AddState = {
-  sport: SportType.SLACKLINE,
+  sportType: null,
   drawType: null,
   drawData: null,
   spot: null,
@@ -51,7 +51,7 @@ const addReducer = createReducer(
   addInitialState,
   on(AddActions.reset, (state) => ({ ...addInitialState, sport: null })),
   on(AddActions.saveSuccess, (state) => ({ ...addInitialState })),
-  on(AddActions.setSport, (state, { sport }) => ({ ...state, sport })),
+  on(AddActions.setSport, (state, { sportType }) => ({ ...state, sportType })),
   on(AddActions.setSpot, (state, { spot }) => ({ ...state, spot })),
   on(AddActions.setSpotData, (state, { spotData }) => ({ ...state, spotData })),
   on(AddActions.setDrawType, (state, { drawType }) => ({ ...state, drawType })),

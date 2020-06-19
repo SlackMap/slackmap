@@ -34,6 +34,12 @@ export const SPORT_OPTIONS: SportOption[] = [
   }
 ]
 
-export function getSportName(type: SportType, names = SportName): SportName {
-  return names[SportType[type]];
+export function getSportOptionByType(type: SportType, options = SPORT_OPTIONS): SportOption | null {
+  const option = options.find(o => o.id === type)
+  return option || null;
+}
+
+export function getSportOptionByName(name: SportName, options = SPORT_OPTIONS): SportOption | null {
+  const option = options.find(o => o.name === name)
+  return option || null;
 }

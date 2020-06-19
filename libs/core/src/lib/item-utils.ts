@@ -7,7 +7,7 @@ import { Item } from './interfaces';
 
 
 export function getSpotSubtypeOptions(shapeType: DrawType, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption[] {
-  const options = subtypeOptions.filter((t) => t.type === ItemType.SPOT && t.order && t.shape === shapeType);
+  const options = subtypeOptions.filter((t) => t.type === ItemType.SPOT && t.order && t.drawType === shapeType);
   return options.sort(function (a, b) {
     return a.order - b.order;
   });

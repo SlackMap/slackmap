@@ -7,7 +7,7 @@ describe('ItemUtils', () => {
   const itemUtils = new ItemUtils();
 
   test('getSpotSubtypeOptions(SpotCategory.AREA)', () => {
-    const options = getSpotSubtypeOptions(DrawType.POLYGON);
+    const options = getSpotSubtypeOptions(DrawType.AREA);
     expect(options[0].order < options[1].order).toBe(true);
   });
   // test('getType(ItemType.SPOT)', () => {

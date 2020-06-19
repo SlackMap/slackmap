@@ -12,7 +12,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { AppComponent } from './app.component';
 import { UiPwaModule } from '@slackmap/ui/pwa';
-import { UiCoreModule } from '@slackmap/ui/core';
+import { UiCoreModule, MergedRouterStateSerializer, ROUTER_FEATURE_KEY } from '@slackmap/ui/core';
 import { UiConfigModule } from '@slackmap/ui/config';
 import { UiStorageModule } from '@slackmap/ui/storage';
 import { UiLayoutModule } from '@slackmap/ui/layout';
@@ -28,7 +28,7 @@ import { UiAuthModule } from '@slackmap/ui/auth';
     BrowserAnimationsModule,
     StoreModule.forRoot(
       {
-        router: routerReducer
+        [ROUTER_FEATURE_KEY]: routerReducer
       },
       {
         metaReducers: !environment.production ? [] : [],
@@ -41,7 +41,9 @@ import { UiAuthModule } from '@slackmap/ui/auth';
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     // StoreDevtoolsModule.instrument(),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      serializer: MergedRouterStateSerializer,
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // enabled: false,

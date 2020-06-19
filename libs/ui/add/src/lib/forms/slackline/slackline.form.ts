@@ -17,7 +17,7 @@ import * as geohash from 'ngeohash';
 export class SlacklineForm implements OnInit, OnDestroy {
 
   DrawType = DrawType;
-  addState$ = this.addFacade.addState$;
+  state$ = this.addFacade.state$;
   accessOptions$ = of(ACCESS_OPTIONS);
   statusOptions$ = of(STATUS_OPTIONS);
   subtypeOptions$ = this.addFacade.subtypeOptions$;
@@ -74,7 +74,7 @@ export class SlacklineForm implements OnInit, OnDestroy {
     const spot: SpotModel = {
       ...state.spotData,
       rid: ''+Date.now(),
-      sport: state.sport,
+      sport: state.sportType,
       type: ItemType.SPOT,
       position: [lon, lat],
       geohash: geohash.encode(lat, lon, 6),

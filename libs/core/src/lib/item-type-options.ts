@@ -13,7 +13,7 @@ export interface SubtypeOption {
   name: string;
   label: string;
   sport?: SportType;
-  shape?: DrawType;
+  drawType?: DrawType;
   desc?: string;
   color?: string;
   order?: number;
@@ -37,7 +37,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_HIGHLINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'highline',
     label: 'Highline',
     color: '#DD6363',
@@ -46,7 +46,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_MIDLINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'midline',
     label: 'Midline',
     color: '#dc9e67',
@@ -55,7 +55,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_LONGLINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'longline',
     label: 'Longline',
     color: '#DEDE6E',
@@ -64,7 +64,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_WATERLINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'waterline',
     label: 'Waterline',
     color: '#8F8EFF',
@@ -73,7 +73,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_RODEOLINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'rodeoline',
     label: 'Rodeoline',
     color: '#E787FE',
@@ -82,7 +82,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_SLACKLINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'slackline',
     label: 'Simple Line',
     color: '#BCBCBC',
@@ -91,7 +91,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_TRICKLINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'trickline',
     label: 'Trickline',
     color: '#000000',
@@ -100,7 +100,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_SPACELINE,
     type: ItemType.SPOT,
-    shape: DrawType.LINE,
+    drawType: DrawType.LINE,
     name: 'spaceline',
     label: 'Spaceline',
     color: '#7de5dc'
@@ -109,7 +109,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_AREA,
     type: ItemType.SPOT,
-    shape: DrawType.POLYGON,
+    drawType: DrawType.AREA,
     name: 'area',
     label: 'Slack Area',
     color: '#BCBCBC',
@@ -118,7 +118,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_PARK,
     type: ItemType.SPOT,
-    shape: DrawType.POLYGON,
+    drawType: DrawType.AREA,
     name: 'park',
     label: 'Park',
     color: '#BCBCBC',
@@ -127,7 +127,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_MOUNTAIN,
     type: ItemType.SPOT,
-    shape: DrawType.POLYGON,
+    drawType: DrawType.AREA,
     name: 'mountain',
     label: 'Mountain',
     color: '#BCBCBC',
@@ -136,7 +136,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_GYM,
     type: ItemType.SPOT,
-    shape: DrawType.POLYGON,
+    drawType: DrawType.AREA,
     name: 'gym',
     label: 'Gym',
     color: '#BCBCBC',
@@ -145,7 +145,7 @@ export const SUBTYPE_OPTIONS: SubtypeOption[] = [
   {
     id: ItemSubtype.SPOT_URBAN,
     type: ItemType.SPOT,
-    shape: DrawType.POLYGON,
+    drawType: DrawType.AREA,
     name: 'urban',
     label: 'Urban',
     color: '#BCBCBC',

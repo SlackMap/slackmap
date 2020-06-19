@@ -1,26 +1,28 @@
-<mat-toolbar color="primary">
-  <button mat-button (click)="reset()">
-    <mat-icon >arrow_back</mat-icon>
-  </button>
-  <span>Slackline spot</span>
-</mat-toolbar>
-<ng-container *ngIf="addState$ | async as state">
 
-  <mat-button-toggle-group *ngIf="!state.drawData?.geometry" class="draw-type-select" [value]="state.drawType" (change)="drawTypeChange($event.source.value)">
-    <mat-button-toggle [value]="DrawType.LINE">Line Spot</mat-button-toggle>
-    <mat-button-toggle [value]="DrawType.POLYGON">Slack Area</mat-button-toggle>
-  </mat-button-toggle-group>
+<ng-container *ngIf="state$ | async as state">
 
-  <ng-container *ngIf="state.drawType">
-    <ng-container *smMenu>
-      <button mat-button (click)="reset()">
+  <!-- drawType selected, show form -->
+  <ng-container *ngIf="state.drawType; else selectDrawTypeTpl">
+    <mat-toolbar color="primary">
+      <button mat-button [routerLink]="['..']" *smIfHandset>
         <mat-icon >arrow_back</mat-icon>
       </button>
-    </ng-container>
+      <mat-form-field>
+        <mat-select [value]="state.drawType">
+          <mat-option [routerLink]="['..', DrawType.LINE]"  [value]="DrawType.LINE">Line Spot</mat-option>
+          <mat-option [routerLink]="['..', DrawType.AREA]" [value]="DrawType.AREA">Slack Area</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-toolbar>
+
+    <div *smMenu>
+      <button mat-button  [routerLink]="['..']" *smIfNotHandset>
+        <mat-icon >arrow_back</mat-icon>
+      </button>
+    </div>
 
     <map-draw-control [type]="state.drawType" [geometry]="state.spot?.geometry" (drawData)="onDrawData($event)"></map-draw-control>
 
-  </ng-container>
 
   <form [formGroup]="form" class="container" *ngIf="state.drawData?.geometry">
     <div class="row">
@@ -80,11 +82,19 @@
     </button>
   </form>
 
+</ng-container>
 
+<ng-template #selectDrawTypeTpl>
+  <mat-toolbar color="primary">
+    <button mat-button [routerLink]="['../']" >
+      <mat-icon >arrow_back</mat-icon>
+    </button>
+    <span>Add Slackline Spot</span>
+  </mat-toolbar>
+  <mat-button-toggle-group *ngIf="!state.drawData?.geometry" class="draw-type-select" [value]="state.drawType" (change)="drawTypeChange($event.source.value)">
+    <mat-button-toggle [routerLink]="['./' + DrawType.LINE]">Line Spot</mat-button-toggle>
+    <mat-button-toggle [routerLink]="['./' + DrawType.AREA]">Slack Area</mat-button-toggle>
+  </mat-button-toggle-group>
+</ng-template>
 
-<pre>
-<!-- {{state.spotData | json}} -->
-
-<!-- {{state.drawData | json}} -->
-  </pre>
 </ng-container>

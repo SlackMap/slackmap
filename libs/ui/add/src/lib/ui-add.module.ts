@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Route } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromAdd from './+add/add.reducer';
@@ -26,12 +26,16 @@ import { DistanceInput } from './inputs/distance/distance.input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UiCoreModule } from '@slackmap/ui/core';
 
+const uiAddRoutes: Route[] = [
+  {path: '', pathMatch: 'full', component: AddPage},
+  {path: ':sportName', pathMatch: 'full', component: AddPage},
+  {path: ':sportName/:drawType', pathMatch: 'full', component: AddPage},
+]
+
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {path: '', pathMatch: 'full', component: AddPage}
-    ]),
+    RouterModule.forChild(uiAddRoutes),
     StoreModule.forFeature(fromAdd.ADD_FEATURE_KEY, fromAdd.reducer),
     EffectsModule.forFeature([AddEffects]),
     UiAuthModule,

@@ -71,7 +71,7 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
         /**
          * edit existing shape
          */
-        if (type === DrawType.POLYGON) {
+        if (type === DrawType.AREA) {
           layer = L.GeoJSON.geometryToLayer({type: 'Feature', geometry, properties: {}}) as L.Polygon;
         } else {
           layer = new L.Polyline(L.GeoJSON.coordsToLatLngs(geometry.coordinates));
@@ -86,7 +86,7 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
         /**
          * draw new shape
          */
-        if (type === DrawType.POLYGON) {
+        if (type === DrawType.AREA) {
           drawControl._toolbars.draw._modes.polygon.handler.enable();
         } else {
           drawControl._toolbars.draw._modes.polyline.handler.enable();
@@ -154,7 +154,7 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
         bbox: GeoJSON.BBox = null,
         center: GeoJSON.Point = null;
       if (layer) {
-        if (type === DrawType.POLYGON) {
+        if (type === DrawType.AREA) {
           vertexCount = (layer.getLatLngs() as L.LatLng[][])[0].length;
         } else {
           vertexCount = (layer.getLatLngs() as L.LatLng[]).length;
@@ -165,7 +165,7 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
         // bounds does not update when the shape is edited, but layer shape is correct
         // so we have to transform it to get the coordinates
         let l: DrawLayer;
-        if (type === DrawType.POLYGON) {
+        if (type === DrawType.AREA) {
           l = L.GeoJSON.geometryToLayer({type: 'Feature', geometry: newGeometry, properties: {}}) as L.Polyline;
         } else {
           l = new L.Polyline(L.GeoJSON.coordsToLatLngs(newGeometry.coordinates));

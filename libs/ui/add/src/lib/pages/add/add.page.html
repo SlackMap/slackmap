@@ -1,13 +1,13 @@
 <ng-container *ngIf="user$ | async as user; else loginTemplate">
   <!-- User is signed in -->
-  <ng-container *ngIf="addFacade.sport$ | async as sport; else sportTemplate">
+  <ng-container *ngIf="addFacade.sportType$ | async as sportType; else sportTemplate">
     <!-- Sport is selected -->
 
-    <span [ngSwitch]="sport">
+    <span [ngSwitch]="sportType">
     <!--
       Slackline Form
     -->
-    <p *ngSwitchCase="sport === SportType.SLACKLINE">
+    <p *ngSwitchCase="sportType === SportType.SLACKLINE">
       <add-slackline-form></add-slackline-form>
     </p>
     <!--
@@ -19,7 +19,7 @@
           <mat-icon >arrow_back</mat-icon>
         </button>
       </mat-toolbar>
-      <b>{{sport}}</b> is not supported
+      <b>{{sportType}}</b> is not supported
     </p>
     </span>
   </ng-container>
@@ -28,6 +28,7 @@
 <ng-template #sportTemplate>
   <add-sport-select></add-sport-select>
 </ng-template>
+
 <!-- sign in -->
 <ng-template #loginTemplate>
   <p>

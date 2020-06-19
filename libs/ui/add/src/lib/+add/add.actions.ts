@@ -9,7 +9,7 @@ export const reset = createAction(
 );
 export const setSport = createAction(
   '[Add] Set Sport',
-  props<{ sport: SportType }>()
+  props<{ sportType: SportType }>()
 );
 
 export const setDrawType = createAction(

@@ -4,15 +4,17 @@ import {
   AddState,
   AddPartialState,
 } from './add.reducer';
-import { SUBTYPE_OPTIONS, ItemType } from '@slackmap/core';
+import { SUBTYPE_OPTIONS, ItemType, SportType, DrawType, getSportOptionByName } from '@slackmap/core';
+import { getMergedRoute, MergedRoute } from '@slackmap/ui/core';
+import { AddRouteParams } from './add.models';
 
 export const getAddState = createFeatureSelector<AddPartialState, AddState>(
   ADD_FEATURE_KEY
 );
 
-export const getSport = createSelector(
+export const getSportType = createSelector(
   getAddState,
-  (state: AddState) => state.sport
+  (state: AddState) => state.sportType
 );
 export const getDrawType = createSelector(
   getAddState,
@@ -32,6 +34,6 @@ export const getSpotData = createSelector(
 );
 export const getSubtypeOptions = createSelector(
   getAddState,
-  (state: AddState) => SUBTYPE_OPTIONS.filter(o => (o.type === ItemType.SPOT && o.shape === state.drawType))
+  (state: AddState) => SUBTYPE_OPTIONS.filter(o => (o.type === ItemType.SPOT && o.drawType === state.drawType))
 );
 

@@ -6,8 +6,8 @@ import * as AddActions from './add.actions';
 
 @Injectable()
 export class AddFacade {
-  addState$ = this.store.pipe(select(AddSelectors.getAddState));
-  sport$ = this.store.pipe(select(AddSelectors.getSport));
+  state$ = this.store.pipe(select(AddSelectors.getAddState));
+  sportType$ = this.store.pipe(select(AddSelectors.getSportType));
   drawType$ = this.store.pipe(select(AddSelectors.getDrawType));
   drawData$ = this.store.pipe(select(AddSelectors.getDrawData));
   spot$ = this.store.pipe(select(AddSelectors.getSpot));

@@ -9,7 +9,7 @@ import { SPORT_OPTIONS, SportOption } from "@slackmap/core";
 })
 export class SportSelectComponent implements OnInit {
 
-  sport$ = this.addFacade.sport$;
+  sport$ = this.addFacade.sportType$;
 
   options = SPORT_OPTIONS;
 
@@ -21,7 +21,7 @@ export class SportSelectComponent implements OnInit {
   }
 
   onSportSelect(option: SportOption) {
-    this.addFacade.dispatch(AddActions.setSport({sport: option.id}))
+    this.addFacade.dispatch(AddActions.setSport({sportType: option.id}))
   }
 
 }

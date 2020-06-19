@@ -10,16 +10,12 @@ import { AddFacade, AddActions } from '../../+add';
   styleUrls: ['./add.page.scss']
 })
 export class AddPage implements OnInit, OnDestroy {
-  edited: DrawGeometry;
-  subSink = new SubSink();
+
   user$ = this.authFacade.user$;
-  DrawType = DrawType;
+  state$ = this.addFacade.state$;
   SportType = SportType;
-  type: DrawType = DrawType.LINE;
-  geometry: DrawGeometry;
 
   constructor(
-    private mapService: MapService,
     public authFacade: AuthFacade,
     public addFacade: AddFacade,
   ) { }
@@ -28,9 +24,8 @@ export class AddPage implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
-    this.subSink.unsubscribe();
-  }
+  ngOnDestroy() {}
+
   reset() {
     this.addFacade.dispatch(AddActions.reset())
   }
