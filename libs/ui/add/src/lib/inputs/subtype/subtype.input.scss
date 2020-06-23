@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  overflow: hidden;
+}
+button {
+  float: left;
+  width: 24% !important;
+  margin: 0  2px 2px 0px !important;
+  font-size: 11px;
+  font-weight: normal;
+}
+.area-draw-type {
+
+    button {
+        width: 32% !important;
+    }
+}
+.active {
+    background-color: white;
+    text-decoration: underline;
+}
+button:first-child {
+    height: 74px !important;
+    white-space: normal  !important;
+}

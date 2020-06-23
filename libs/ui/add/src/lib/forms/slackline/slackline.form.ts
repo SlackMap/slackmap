@@ -1,13 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { AddFacade, AddActions, AddState } from '../../+add';
-import { DrawData } from '@slackmap/ui/map';
+import { DrawData, MapActions } from '@slackmap/ui/map';
 import { FormBuilder, Validators } from '@angular/forms';
-import { untilDestroy } from '@ngrx-utils/store';
-import { filter, map } from 'rxjs/operators';
-import { SUBTYPE_OPTIONS, ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS, SportType, AccessType, StatusType } from '@slackmap/core';
+import { ACCESS_OPTIONS, ItemType, DrawType, STATUS_OPTIONS, SportType, AccessType, StatusType, RidGenerator } from '@slackmap/core';
 import { of } from 'rxjs';
 import { SpotModel } from '@slackmap/api/spot/dto';
-import * as geohash from 'ngeohash';
+import { CoreActions } from '@slackmap/ui/core';
 
 @Component({
   selector: 'add-slackline-form',
@@ -16,72 +14,108 @@ import * as geohash from 'ngeohash';
 })
 export class SlacklineForm implements OnInit, OnDestroy {
 
+  @Input()
+  drawType: DrawType;
+
+  _spot: SpotModel;
+
+  @Input()
+  set spot(spot: SpotModel) {
+    // populate form with data for edit
+    if(spot) {
+      this._spot = spot;
+      this.form.patchValue(spot)
+    }
+  };
+  get spot(): SpotModel {
+    return this._spot;
+  }
+
+  @Input()
+  data: SpotModel;
+
   DrawType = DrawType;
-  state$ = this.addFacade.state$;
   accessOptions$ = of(ACCESS_OPTIONS);
   statusOptions$ = of(STATUS_OPTIONS);
   subtypeOptions$ = this.addFacade.subtypeOptions$;
 
 
   form = this.fb.group({
+    rid: [null, [Validators.required]],
+    sport: [SportType.SLACKLINE, [Validators.required]],
+    type: [ItemType.SPOT, [Validators.required]],
     subtype: [null, [Validators.required]],
-    access: [AccessType.OPEN],
-    status: [StatusType.ACTIVE],
+    access: [AccessType.OPEN, [Validators.required]],
+    status: [StatusType.ACTIVE, [Validators.required]],
     name: [],
     length: [],
     height: [],
     lengthLaser: [],
     heightLaser: [],
-    version: [0],
+    version: [0, [Validators.required]],
+    position: [null, [Validators.required]],
+    bbox: [null, [Validators.required]],
+    geohash: [null, [Validators.required]],
+    geometry: [null, [Validators.required]],
   });
 
   constructor(
     public addFacade: AddFacade,
     public fb: FormBuilder,
-  ) { }
+    private ridGenerator: RidGenerator,
+  ) {
+    this.form.patchValue(this.getDefaultData());
+   }
+
+  getDefaultData(): Partial<SpotModel> {
+    return {
+      rid: this.ridGenerator.forItem(ItemType.SPOT),
+      type: ItemType.SPOT,
+      sport: SportType.SLACKLINE,
+      version: 0,
+      access: AccessType.OPEN,
+      status: StatusType.ACTIVE,
+    }
+  }
 
   ngOnInit(): void {
-    // dispatch value changes to store
-    this.form.valueChanges.subscribe(spotData => this.addFacade.dispatch(AddActions.setSpotData({spotData})))
-
-    // populate form with data for edit
-    this.addFacade.spot$.pipe(
-      untilDestroy(this),
-      filter(v => !!v)
-      ).subscribe(spot => this.form.patchValue(spot))
-
-    // update forms length value if the map drawData
-    this.addFacade.drawData$.pipe(
-      untilDestroy(this),
-      filter(v => !!v),
-      filter(v => !this.form.value.lengthLaser),
-      map(data => data.distance)
-      ).subscribe(length => this.form.patchValue({length}))
+    // dispatch form value changes to store
+    this.form.valueChanges.subscribe(data => this.addFacade.dispatch(AddActions.setData({data})))
   }
+
   reset() {
-    this.addFacade.dispatch(AddActions.reset())
+    this.form.reset(this.getDefaultData());
+    this.addFacade.dispatch(AddActions.resetData());
   }
-  drawTypeChange(drawType: DrawType) {
-    this.addFacade.dispatch(AddActions.setDrawType({drawType}))
+  showMap(showMap: boolean) {
+    this.addFacade.dispatch(CoreActions.showMap({showMap}));
   }
-  onDrawData(drawData: DrawData) {
-    this.addFacade.dispatch(AddActions.setDrawData({drawData}))
+  toggleMap(showMap: boolean) {
+    this.addFacade.dispatch(CoreActions.showMapToggle());
   }
-  onSave(state: AddState) {
-    const lat = state.drawData.center.coordinates[1];
-    const lon = state.drawData.center.coordinates[0];
 
-    const spot: SpotModel = {
-      ...state.spotData,
-      rid: ''+Date.now(),
-      sport: state.sportType,
-      type: ItemType.SPOT,
-      position: [lon, lat],
-      geohash: geohash.encode(lat, lon, 6),
-      geometry: state.drawData.geometry,
-      bbox: state.drawData.bbox,
+  onDrawData(drawData: DrawData) {
+
+    if(drawData.geometry) {
+      const data: Partial<SpotModel> = {
+        position: drawData.position,
+        bbox: drawData.bbox,
+        geohash: drawData.geohash,
+        geometry: drawData.geometry,
+      };
+
+      // update length if not lasered
+      if(!this.form.value.lengthLaser) {
+        data.length = drawData.distance;
+      }
+      this.form.patchValue(data)
+    } else {
+      this.reset();
     }
-    this.addFacade.dispatch(AddActions.save({spot: spot as any}))
+  }
+
+  onSave() {
+    this.addFacade.dispatch(AddActions.save({spot: this.data}))
   }
   ngOnDestroy() {}
 }

@@ -6,27 +6,26 @@ class="sidenav-container"
   'show-map': showMap$ | async
 }">
 
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport
-    [attr.role]="'dialog'"
-    [mode]="'over'"
-    [opened]="false">
-
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="'dialog'" [mode]="'over'" [opened]="false">
     <sm-sidenav></sm-sidenav>
   </mat-sidenav>
+
   <mat-sidenav-content>
+
+
+    <div class="center">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+      <map-map>
+        <sm-map-top-menu top></sm-map-top-menu>
+        <sm-map-bottom-menu bottom></sm-map-bottom-menu>
+      </map-map>
+    </div>
 
     <div class="menu">
       <sm-menu [drawer]="drawer"></sm-menu>
     </div>
-
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
-
-    <map-map></map-map>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,0 +1,39 @@
+$icon-font-path: "/assets/fonts/";
+
+$font-family-sans-serif:  "Open Sans", sans-serif !default;
+$font-size-base:          13px !default;
+$font-size-large:         $font-size-base * 1.25 !default; // 16px
+$font-size-larger:        $font-size-base + 1;    // 14px
+$font-size-small:         $font-size-base * 0.85 !default; // 12px
+$font-size-mini:          $font-size-base * 0.75 !default; // 11px
+$font-size-index:         $font-size-base * 0.7 !default; //10px
+$line-height-base:        20px !default;
+$line-height-computed:    $line-height-base !default; // ~20px
+$font-weight-base:        300;
+
+$iconSpritePath:          "../assets/images/glyphicons-halflings.png" !default;
+$iconWhiteSpritePath:     "../assets/images/glyphicons-halflings-white.png" !default;
+
+//Items colors
+
+// SPOT LINE
+$highline-color:    #DD6363;
+$midline-color:     #dc9e67;
+$longline-color:    #DEDE6E;
+$waterline-color:   #8F8EFF;
+$rodeoline-color:   #E787FE;
+$spaceline-color:   #7de5dc;
+$slackline-color:   #BCBCBC;
+$trickline-color:   #000000;
+
+// SPOT AREA
+$gym-color:         #BCBCBC;
+$user-color:        #BCBCBC;
+
+// LOCATION
+$country-color:     #BCBCBC;
+$region-color:      #BCBCBC;
+$city-color:        #BCBCBC;
+
+$item-names:  highline midline longline waterline rodeoline spaceline slackline trickline area    park    gym     urban   mountain;
+$item-colors: #DD6363  #dc9e67 #DEDE6E  #8F8EFF   #E787FE   #7de5dc   #BCBCBC   #848383   #BCBCBC #35e244 #ffe24b #ff8f4b #ddefff;

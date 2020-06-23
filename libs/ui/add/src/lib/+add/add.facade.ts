@@ -9,9 +9,8 @@ export class AddFacade {
   state$ = this.store.pipe(select(AddSelectors.getAddState));
   sportType$ = this.store.pipe(select(AddSelectors.getSportType));
   drawType$ = this.store.pipe(select(AddSelectors.getDrawType));
-  drawData$ = this.store.pipe(select(AddSelectors.getDrawData));
   spot$ = this.store.pipe(select(AddSelectors.getSpot));
-  spotData$ = this.store.pipe(select(AddSelectors.getSpotData));
+  data$ = this.store.pipe(select(AddSelectors.getData));
   subtypeOptions$ = this.store.pipe(select(AddSelectors.getSubtypeOptions));
 
   constructor(private store: Store<fromAdd.AddPartialState>) {}

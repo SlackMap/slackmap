@@ -16,6 +16,8 @@ import { HomePage } from './pages';
 import { UiSpotModule } from '@slackmap/ui/spot';
 import { MenuComponent } from './components/menu/menu.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { MapTopMenuComponent } from './components/map-top-menu/map-top-menu.component';
+import { MapBottomMenuComponent } from './components/map-bottom-menu/map-bottom-menu.component';
 
 export const uiLayoutRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -42,7 +44,9 @@ export const uiLayoutRoutes: Route[] = [
     MapLayout,
     HomePage,
     MenuComponent,
-    SidenavComponent
+    SidenavComponent,
+    MapTopMenuComponent,
+    MapBottomMenuComponent
   ],
   exports: [MapLayout],
 })

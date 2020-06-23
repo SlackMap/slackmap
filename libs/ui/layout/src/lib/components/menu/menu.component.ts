@@ -23,7 +23,7 @@ export class MenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.menuService.vcr = this.container;
+    this.menuService.menuView = this.container;
   }
 
   get hasMenu() {

@@ -25,6 +25,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DistanceInput } from './inputs/distance/distance.input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UiCoreModule } from '@slackmap/ui/core';
+import { SlacklineDrawTypeSelectComponent } from './components/slackline-draw-type-select/slackline-draw-type-select.component';
+import { RidGenerator } from '@slackmap/core';
 
 const uiAddRoutes: Route[] = [
   {path: '', pathMatch: 'full', component: AddPage},
@@ -54,13 +56,17 @@ const uiAddRoutes: Route[] = [
     MatInputModule,
     MatCheckboxModule,
   ],
-  providers: [AddFacade],
+  providers: [
+    AddFacade,
+    {provide: RidGenerator, useValue: new RidGenerator()}
+  ],
   declarations: [
     AddPage,
     SportSelectComponent,
     SlacklineForm,
     SubtypeInput,
     DistanceInput,
+    SlacklineDrawTypeSelectComponent,
   ],
 })
 export class UiAddModule {}

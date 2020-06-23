@@ -1,8 +1,11 @@
-<!-- <mat-form-field>
-  <mat-label>Line Type</mat-label>
-  <mat-select [formControlName]="name">
-    <mat-option *ngFor="let option of options" [value]="option.id">{{option.label}}</mat-option>
-  </mat-select>
-</mat-form-field> -->
 
-<p>NOT IMPLEMENTED</p>
+<div class="line-draw-type" *ngIf="drawType === DrawType.LINE">
+  <ng-container *ngFor="let option of slackLineOptions">
+    <button mat-button (click)="onClick(option.id)" class="item-bg-{{option.name}}">{{option.label}}</button>
+  </ng-container>
+</div>
+<div class="area-draw-type" *ngIf="drawType === DrawType.AREA">
+  <ng-container *ngFor="let option of slackAreaOptions">
+    <button mat-button (click)="onClick(option.id)" class="item-bg-{{option.name}}">{{option.label}}</button>
+  </ng-container>
+</div>

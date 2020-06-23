@@ -1,0 +1,142 @@
+@import 'config';
+.icon-spinner {
+    -webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.icon {
+    position: relative;
+    top: 2px;
+    margin: 0 5px;
+}
+$icon-font: black;
+
+.icon-item {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border: 1px solid black;
+    color: $icon-font;
+    border-radius: 50%;
+    padding: 1px 3px;
+    font-family: 'Inconsolata', monospace;
+    font-size: .8em;
+    line-height: 1em;
+}
+.icon-line, .icon-line:before {
+    content: "0";
+    color: $icon-font;
+    background-color: $slackline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-slackline, .icon-slackline:before {
+    content: "S";
+    color: $icon-font;
+    background-color: $slackline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-highline, .icon-highline:before {
+    content: "H";
+    color: $icon-font;
+    background-color: $highline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-midline, .icon-midline:before {
+    content: "M";
+    color: $icon-font;
+    background-color: $midline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-longline, .icon-longline:before {
+    content: "L";
+    color: $icon-font;
+    background-color: $longline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-waterline, .icon-waterline:before {
+    content: "W";
+    color: $icon-font;
+    background-color: $waterline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-rodeoline, .icon-rodeoline:before {
+    content: "R";
+    color: $icon-font;
+    background-color: $rodeoline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-spaceline, .icon-spaceline:before {
+    content: "S";
+    color: $icon-font;
+    background-color: $spaceline-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-trickline, .icon-trickline:before {
+    content: "T";
+    background-color: $trickline-color;
+    color: white;
+    font-family: 'Inconsolata', monospace !important;
+}
+.icon-gym, .icon-gym:before {
+    content: "G";
+    color: $icon-font;
+    background-color: $gym-color;
+    font-family: 'Inconsolata', monospace !important;
+}
+
+
+.icon-location, .icon-location:before {
+    content: "C";
+    background-color: $country-color;
+}
+.icon-continent, .icon-continent:before {
+    content: "C";
+    background-color: $country-color;
+}
+.icon-country, .icon-country:before {
+    content: "C";
+    background-color: $country-color;
+}
+.icon-region, .icon-region:before {
+    content: "R";
+    background-color: $country-color;
+}
+.icon-county, .icon-county:before {
+    content: "C";
+    background-color: $country-color;
+}
+.icon-city, .icon-city:before {
+    content: "C";
+    background-color: $country-color;
+}
+.icon-district, .icon-district:before {
+    content: "C";
+    background-color: $country-color;
+}
+.icon-street, .icon-street:before {
+    content: "C";
+    background-color: $country-color;
+}
+.icon-slackarea, .icon-slackarea:before {
+    content: "C";
+    background-color: $country-color;
+}
+
+@for $i from 1 through length($item-names) {
+    .item-#{nth($item-names, $i)} {
+        color: nth($item-colors, $i);
+    }
+    .item-bg-#{nth($item-names, $i)} {
+        background-color: nth($item-colors, $i);
+    }
+}
+.item-longline {
+    text-shadow: 1px 1px #a0a0a0;
+}

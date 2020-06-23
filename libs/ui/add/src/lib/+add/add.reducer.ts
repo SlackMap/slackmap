@@ -10,9 +10,8 @@ export const ADD_FEATURE_KEY = 'add';
 export interface AddState {
   sportType: SportType;
   drawType: DrawType;
-  drawData: DrawData;
   spot: SpotModel; // read only spot model for edit
-  spotData: SpotModel; // edited spot model from the form
+  data: SpotModel; // edited spot model from the form
 }
 
 export interface AddPartialState {
@@ -22,17 +21,13 @@ export interface AddPartialState {
 export const addInitialState: AddState = {
   sportType: null,
   drawType: null,
-  drawData: null,
   spot: null,
-  spotData: null,
+  data: null,
 };
-// addInitialState.drawType = DrawType.LINE;
 // addInitialState.spot = {
 //   access: AccessType.OPEN,
 //   status: StatusType.ACTIVE,
 // } as Partial<SpotModel> as SpotModel;
-// addInitialState.spot.subtype = SpotSubtype.HIGHLINE;
-// addInitialState.spot.length = 100;
 // addInitialState.spot.geometry = {
 //   "type": "LineString",
 //   "coordinates": [
@@ -46,16 +41,38 @@ export const addInitialState: AddState = {
 //     ]
 //   ]
 // }
+// addInitialState.spot.geometry = {
+//   type: 'Polygon',
+//   coordinates: [
+//     [
+//       [
+//         20.810852,
+//         52.334815
+//       ],
+//       [
+//         20.811796,
+//         52.33193
+//       ],
+//       [
+//         20.821323,
+//         52.333608
+//       ],
+//       [
+//         20.810852,
+//         52.334815
+//       ]
+//     ]
+//   ]
+// }
 
 const addReducer = createReducer(
   addInitialState,
-  on(AddActions.reset, (state) => ({ ...addInitialState, sport: null })),
-  on(AddActions.saveSuccess, (state) => ({ ...addInitialState })),
-  on(AddActions.setSport, (state, { sportType }) => ({ ...state, sportType })),
+  on(AddActions.setSport, (state, { sportType }) => ({ ...addInitialState, sportType })),
+  on(AddActions.setDrawType, (state, { drawType }) => ({ ...addInitialState, sportType: state.sportType, drawType })),
   on(AddActions.setSpot, (state, { spot }) => ({ ...state, spot })),
-  on(AddActions.setSpotData, (state, { spotData }) => ({ ...state, spotData })),
-  on(AddActions.setDrawType, (state, { drawType }) => ({ ...state, drawType })),
-  on(AddActions.setDrawData, (state, { drawData }) => ({ ...state, drawData })),
+  on(AddActions.setData, (state, { data }) => ({ ...state, data })),
+  on(AddActions.resetData, (state) => ({ ...state, data: null })),
+  on(AddActions.saveSuccess, (state) => ({ ...state, data: null })),
 );
 
 export function reducer(state: AddState | undefined, action: Action) {

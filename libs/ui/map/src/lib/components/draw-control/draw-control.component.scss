@@ -1,12 +1,9 @@
 :host {
   display: block;
-  z-index: 1;
-  position: relative;
-  padding: 10px;
-  //margin: 30px 0 40px 0;
   overflow: visible;
-  //height: 50px;
+  height: 50px;
   text-align: center;
+  padding: 4px 0 0;
   i {
       color: gray;
       font-style: italic;
@@ -24,7 +21,13 @@
     display: inline-block;
     margin-right: 10px;
   }
+  button {
+    margin: 0 5px;
+  }
   .draw-info-text {
     text-align: center;
+    display: inline-block;
+    margin: 0px 5px 0;
+    padding: 8px 10px;
   }
 }

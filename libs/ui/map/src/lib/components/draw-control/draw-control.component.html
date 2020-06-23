@@ -1,13 +1,11 @@
-<ng-container *ngIf="handler$ | async as handler">
-  <span class="distance-btn" *ngIf="handler.data.type === DrawType.LINE && handler.data.distance">distance: <strong [innerHTML]="handler.data.distance | distance"></strong></span>
+<button mat-stroked-button class="distance-btn" *ngIf="_type === DrawType.LINE && distance" >distance: <strong [innerHTML]="distance | distance"></strong></button>
 
-  <button mat-stroked-button class="reset-btn" *ngIf="handler.data.vertexCount" (click)="handler.reset()">reset</button>
-  <button mat-stroked-button class="reset-btn" *ngIf="handler.type == DrawType.AREA && !handler.data.geometry && handler.data.vertexCount" [disabled]="handler.data.vertexCount < 2" (click)="handler.undo()">undo</button>
-  <button mat-stroked-button class="complete-btn" *ngIf="handler.type == DrawType.AREA && !handler.data.geometry && handler.data.vertexCount" [disabled]="handler.data.vertexCount < 3" (click)="handler.completeShape()">complete</button>
+<button mat-stroked-button class="reset-btn" *ngIf="enableReset && vertexCount" (click)="reset()">reset</button>
+<button mat-stroked-button class="reset-btn" *ngIf="_type == DrawType.AREA && !hasGeometry && vertexCount" [disabled]="vertexCount < 2" (click)="undo()">undo</button>
+<button mat-stroked-button class="complete-btn" *ngIf="_type == DrawType.AREA && !hasGeometry && vertexCount" [disabled]="vertexCount < 3" (click)="completeShape()">complete</button>
 
-  <p class="draw-info-text alert alert-info" *ngIf="!handler.data?.vertexCount">
-    zoom to location & click on map to draw
-  </p>
-</ng-container>
+<p class="draw-info-text alert alert-info" *ngIf="!vertexCount">
+  zoom to location & click on map to draw
+</p>
 
 

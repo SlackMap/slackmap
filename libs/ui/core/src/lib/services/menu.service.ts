@@ -5,7 +5,9 @@ import { Injectable, ViewContainerRef } from '@angular/core';
 })
 export class MenuService {
 
-  public vcr: ViewContainerRef;
+  public menuView: ViewContainerRef;
+  public mapTopMenuView: ViewContainerRef;
+  public mapBottomMenuView: ViewContainerRef;
 
   constructor() { }
 }

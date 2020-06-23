@@ -3,25 +3,25 @@
   <ng-container *ngIf="addFacade.sportType$ | async as sportType; else sportTemplate">
     <!-- Sport is selected -->
 
-    <span [ngSwitch]="sportType">
+    <ng-container [ngSwitch]="sportType">
     <!--
       Slackline Form
     -->
-    <p *ngSwitchCase="sportType === SportType.SLACKLINE">
-      <add-slackline-form></add-slackline-form>
-    </p>
+    <ng-container *ngSwitchCase="sportType === SportType.SLACKLINE">
+      <add-slackline-form [drawType]="drawType$ | async" [spot]="spot$ | async" [data]="data$ | async"></add-slackline-form>
+    </ng-container>
     <!--
       Default form for not supported sports
     -->
-    <p *ngSwitchDefault>
+    <ng-container *ngSwitchDefault>
       <mat-toolbar color="primary">
-        <button mat-button (click)="reset()">
+        <button mat-button [routerLink]="['../']">
           <mat-icon >arrow_back</mat-icon>
         </button>
       </mat-toolbar>
       <b>{{sportType}}</b> is not supported
-    </p>
-    </span>
+    </ng-container>
+    </ng-container>
   </ng-container>
 </ng-container>
 <!-- choose sport -->

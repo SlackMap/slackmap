@@ -26,8 +26,9 @@ export {DrawType}
  */
 export interface DrawData {
   geometry: DrawGeometry;
-  center: GeoJSON.Point;
+  position: GeoJSON.Position;
   bbox: GeoJSON.BBox;
+  geohash: string;
   distance: number;
   vertexCount: number;
   type: DrawType;

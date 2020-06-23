@@ -20,17 +20,13 @@ export const getDrawType = createSelector(
   getAddState,
   (state: AddState) => state.drawType
 );
-export const getDrawData = createSelector(
-  getAddState,
-  (state: AddState) => state.drawData
-);
 export const getSpot = createSelector(
   getAddState,
   (state: AddState) => state.spot
 );
-export const getSpotData = createSelector(
+export const getData = createSelector(
   getAddState,
-  (state: AddState) => state.spotData
+  (state: AddState) => state.data
 );
 export const getSubtypeOptions = createSelector(
   getAddState,

@@ -1,8 +1,9 @@
 import * as L from "leaflet";
 import "./draw-customs";
-import { DrawType, DrawData, DrawHandler, DrawGeometry } from "../../+map";
-import { Observable, ReplaySubject } from 'rxjs';
+import { DrawType, DrawHandler, DrawGeometry } from "../../+map";
+import { Observable } from 'rxjs';
 import { GeoJSON } from '@slackmap/gis';
+import * as ngeohash from 'ngeohash';
 
 interface DrawLayer extends L.Layer {
   getLatLngs: () => L.LatLng[] | L.LatLng[][] | L.LatLng[][][];
@@ -152,7 +153,8 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
     function fireChange() {
       let newGeometry: DrawGeometry = null,
         bbox: GeoJSON.BBox = null,
-        center: GeoJSON.Point = null;
+        position: GeoJSON.Position = null,
+        geohash: string = null;
       if (layer) {
         if (type === DrawType.AREA) {
           vertexCount = (layer.getLatLngs() as L.LatLng[][])[0].length;
@@ -170,13 +172,14 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
         } else {
           l = new L.Polyline(L.GeoJSON.coordsToLatLngs(newGeometry.coordinates));
         }
-        center = l
+        position = l
           .getBounds()
           .getCenter()
-          .toGeoJSON().geometry;
+          .toGeoJSON().geometry.coordinates;
         bbox = l
           .getBounds()
           .toGeoJSON();
+        geohash = ngeohash.encode(position[1], position[0], 6);
 
         // calculate line length
         if (type === DrawType.LINE) {
@@ -195,7 +198,8 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
           vertexCount,
           distance,
           bbox,
-          center,
+          geohash,
+          position,
           geometry: newGeometry
         },
       })
@@ -218,7 +222,8 @@ export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry)
       start();
       fireChange();
     }
-    setTimeout(() => fireChange(), 0)
+    setTimeout(() => fireChange(), 2)
+    // fireChange();
 
     return () => {
       stop();

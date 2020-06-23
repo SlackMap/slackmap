@@ -1,100 +1,117 @@
 
-<ng-container *ngIf="state$ | async as state">
-
-  <!-- drawType selected, show form -->
-  <ng-container *ngIf="state.drawType; else selectDrawTypeTpl">
-    <mat-toolbar color="primary">
-      <button mat-button [routerLink]="['..']" *smIfHandset>
-        <mat-icon >arrow_back</mat-icon>
-      </button>
-      <mat-form-field>
-        <mat-select [value]="state.drawType">
-          <mat-option [routerLink]="['..', DrawType.LINE]"  [value]="DrawType.LINE">Line Spot</mat-option>
-          <mat-option [routerLink]="['..', DrawType.AREA]" [value]="DrawType.AREA">Slack Area</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-toolbar>
-
-    <div *smMenu>
-      <button mat-button  [routerLink]="['..']" *smIfNotHandset>
-        <mat-icon >arrow_back</mat-icon>
-      </button>
-    </div>
-
-    <map-draw-control [type]="state.drawType" [geometry]="state.spot?.geometry" (drawData)="onDrawData($event)"></map-draw-control>
-
-
-  <form [formGroup]="form" class="container" *ngIf="state.drawData?.geometry">
-    <div class="row">
-      <div class="col">
-        <mat-form-field>
-          <mat-label>{{state.drawType === DrawType.LINE ? 'Line Type' : 'Area Type'}}</mat-label>
-          <mat-select formControlName="subtype">
-            <mat-option *ngFor="let option of subtypeOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <mat-label>Access</mat-label>
-          <mat-select formControlName="access">
-            <mat-option *ngFor="let option of accessOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <mat-label>Status</mat-label>
-          <mat-select formControlName="status">
-            <mat-option *ngFor="let option of statusOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" />
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row" *ngIf="state.drawType === DrawType.LINE">
-      <div class="col">
-        <mat-form-field>
-          <mat-label>Length</mat-label>
-          <add-distance-input formControlName="length"></add-distance-input>
-        </mat-form-field>
-        <mat-checkbox formControlName="lengthLaser">Lasered</mat-checkbox>
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <mat-label>Height</mat-label>
-          <add-distance-input formControlName="height"></add-distance-input>
-        </mat-form-field>
-        <mat-checkbox formControlName="heightLaser">Lasered</mat-checkbox>
-      </div>
-    </div>
-
-    <button (click)="onSave(state)" color="accent" mat-raised-button class="save-btn" [disabled]="form.invalid">
-      <mat-icon>save</mat-icon><Br>
-      Save in public database
-    </button>
-  </form>
-
-</ng-container>
-
-<ng-template #selectDrawTypeTpl>
+<!-- 1 - SELECT DRAW TYPE -->
+<ng-container *ngIf="!drawType">
   <mat-toolbar color="primary">
     <button mat-button [routerLink]="['../']" >
       <mat-icon >arrow_back</mat-icon>
     </button>
     <span>Add Slackline Spot</span>
   </mat-toolbar>
-  <mat-button-toggle-group *ngIf="!state.drawData?.geometry" class="draw-type-select" [value]="state.drawType" (change)="drawTypeChange($event.source.value)">
+  <mat-button-toggle-group *ngIf="!data?.geometry" class="draw-type-select" [value]="drawType">
     <mat-button-toggle [routerLink]="['./' + DrawType.LINE]">Line Spot</mat-button-toggle>
     <mat-button-toggle [routerLink]="['./' + DrawType.AREA]">Slack Area</mat-button-toggle>
   </mat-button-toggle-group>
-</ng-template>
+</ng-container>
+
+<!-- 2 - DRAW GEOMETRY -->
+<ng-container *ngIf="drawType">
+
+  <!-- NO SUBTYPE & GEOMETRY -->
+  <mat-toolbar color="primary">
+    <button mat-button [routerLink]="['..']" *smIfHandset>
+      <mat-icon >arrow_back</mat-icon>
+    </button>
+    <mat-form-field *ngIf="data?.geometry && !data?.subtype">
+      <mat-select [value]="drawType">
+        <mat-option [routerLink]="['..', DrawType.LINE]"  [value]="DrawType.LINE">Line Spot</mat-option>
+        <mat-option [routerLink]="['..', DrawType.AREA]" [value]="DrawType.AREA">Slack Area</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-toolbar>
+
+  <div *smMenu>
+    <button mat-button  [routerLink]="['..']" *smIfNotHandset>
+      <mat-icon >arrow_back</mat-icon>
+    </button>
+    <ng-container *smIfHandset>
+      <button mat-button (click)="toggleMap()" *ngIf="data?.geometry && data?.subtype">
+        <mat-icon >map</mat-icon>
+      </button>
+
+    </ng-container>
+  </div>
+
+  <form [formGroup]="form">
+
+    <map-draw-control *smMapTopMenu [type]="drawType" [enableReset]="!data?.subtype" (drawData)="onDrawData($event)"></map-draw-control>
+
+    <ng-container *smIfHandset>
+      <div *smMenu>
+        <add-subtype-input formControlName="subtype" [drawType]="drawType" [type]="data?.type"  *ngIf="data?.geometry && !data?.subtype" (typeSelected)="showMap(false)"></add-subtype-input>
+      </div>
+    </ng-container>
+    <ng-container *smIfNotHandset>
+      <add-subtype-input formControlName="subtype" [drawType]="drawType" [type]="data?.type"  *ngIf="data?.geometry && !data?.subtype"></add-subtype-input>
+    </ng-container>
+
+
+    <div class="container" *ngIf="data?.geometry && data?.subtype">
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>{{drawType === DrawType.LINE ? 'Line Type' : 'Area Type'}}</mat-label>
+            <mat-select formControlName="subtype">
+              <mat-option *ngFor="let option of subtypeOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Access</mat-label>
+            <mat-select formControlName="access">
+              <mat-option *ngFor="let option of accessOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let option of statusOptions$ | async" [value]="option.id">{{option.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" *ngIf="drawType === DrawType.LINE">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Length</mat-label>
+            <add-distance-input formControlName="length"></add-distance-input>
+          </mat-form-field>
+          <mat-checkbox formControlName="lengthLaser">Lasered</mat-checkbox>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Height</mat-label>
+            <add-distance-input formControlName="height"></add-distance-input>
+          </mat-form-field>
+          <mat-checkbox formControlName="heightLaser">Lasered</mat-checkbox>
+        </div>
+      </div>
+
+      <button (click)="onSave()" color="accent" mat-raised-button class="save-btn" [disabled]="form.invalid">
+        <mat-icon>save</mat-icon><Br>
+        Save in public database
+      </button>
+    </div>
+  </form>
 
 </ng-container>

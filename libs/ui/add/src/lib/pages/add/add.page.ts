@@ -12,7 +12,10 @@ import { AddFacade, AddActions } from '../../+add';
 export class AddPage implements OnInit, OnDestroy {
 
   user$ = this.authFacade.user$;
-  state$ = this.addFacade.state$;
+  drawType$ = this.addFacade.drawType$;
+  spot$ = this.addFacade.spot$;
+  data$ = this.addFacade.data$;
+
   SportType = SportType;
 
   constructor(
@@ -26,7 +29,4 @@ export class AddPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  reset() {
-    this.addFacade.dispatch(AddActions.reset())
-  }
 }

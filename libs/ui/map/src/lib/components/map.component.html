@@ -1,1 +1,9 @@
-<ng-container #mapContainer></ng-container>
+<div class="top">
+  <ng-content select="[top]"></ng-content>
+</div>
+<div class="map">
+  <ng-container #mapContainer></ng-container>
+</div>
+<div class="bottom">
+  <ng-content select="[bottom]"></ng-content>
+</div>

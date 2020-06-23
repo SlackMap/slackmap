@@ -1,26 +1,41 @@
-import { Component, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
-import { SubSink } from '@slackmap/core';
+import { Component, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit, OnInit } from '@angular/core';
 import { MapService } from '../../map.service';
 import { DrawType, DrawHandler, DrawData, DrawGeometry } from '../../+map';
-import { ReplaySubject, combineLatest, BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { ReplaySubject, combineLatest, BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { switchMap, tap, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'map-draw-control',
   templateUrl: './draw-control.component.html',
   styleUrls: ['./draw-control.component.scss']
 })
-export class DrawControlComponent implements AfterViewInit, OnChanges {
+export class DrawControlComponent implements OnInit, OnDestroy {
+  private handler: DrawHandler;
+  public _type: DrawType;
+  public distance: number;
+  public vertexCount: number;
+  public hasGeometry: boolean;
+
+  private sub: Subscription;
+
   DrawType = DrawType;
-  handler$: Observable<DrawHandler>;
   type$$ = new ReplaySubject<DrawType>(1);
   geometry$$ = new BehaviorSubject<DrawGeometry>(null);
 
   @Input()
-  type: DrawType;
+  enableReset = false;
 
   @Input()
-  geometry: DrawGeometry;
+  set type(type: DrawType) {
+    if(type) {
+      this._type = type;
+      this.type$$.next(type);
+    }
+  }
+  @Input()
+  set geometry(geometry: DrawGeometry) {
+    if(geometry) this.geometry$$.next(geometry);
+  }
 
   @Output()
   drawData = new EventEmitter<DrawData>();
@@ -28,22 +43,29 @@ export class DrawControlComponent implements AfterViewInit, OnChanges {
   constructor(
     private mapService: MapService
   ) { }
-
-  ngAfterViewInit(): void {
-    this.handler$ = combineLatest([this.type$$, this.geometry$$]).pipe(
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+  ngOnInit(): void {
+    this.sub = combineLatest([this.type$$.pipe(delay(2)), this.geometry$$]).pipe(
       switchMap(([type, geometry]) => this.mapService.drawHandler(type, geometry)),
-      tap({
-        next: handler => this.drawData.next(handler.data)
-      })
-    );
+    ).subscribe(handler => {
+      this.drawData.next(handler.data);
+      this.handler = handler;
+      this.vertexCount = handler.data.vertexCount;
+      this.distance = handler.data.distance;
+      this.hasGeometry = !!handler.data.geometry;
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes.type && changes.type.currentValue) {
-      this.type$$.next(changes.type.currentValue);
-    }
-    if(changes.geometry && changes.geometry.currentValue) {
-      this.geometry$$.next(changes.geometry.currentValue);
-    }
+  reset() {
+    return this.handler && this.handler.reset();
   }
+  undo() {
+    return this.handler && this.handler.undo();
+  }
+  completeShape() {
+    return this.handler && this.handler.completeShape();
+  }
+
 }

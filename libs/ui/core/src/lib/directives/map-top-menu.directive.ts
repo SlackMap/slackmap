@@ -2,9 +2,9 @@ import { Directive, TemplateRef, ViewRef, OnInit, OnDestroy } from '@angular/cor
 import { MenuService } from '../services';
 
 @Directive({
-  selector: '[smMenu]'
+  selector: '[smMapTopMenu]'
 })
-export class MenuDirective implements OnInit, OnDestroy {
+export class MapTopMenuDirective implements OnInit, OnDestroy {
   private _viewRef: ViewRef;
 
   constructor(
@@ -13,7 +13,7 @@ export class MenuDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this._viewRef = this.menuService.menuView.createEmbeddedView(this.tpl);
+    this._viewRef = this.menuService.mapTopMenuView.createEmbeddedView(this.tpl);
   }
 
   ngOnDestroy() {
