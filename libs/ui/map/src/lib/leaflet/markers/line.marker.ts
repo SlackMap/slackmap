@@ -1,5 +1,5 @@
 import * as L from 'leaflet';
-import { getSubtypeFromItem, getLength, PoiItem } from '@slackmap/core';
+import { getSubtypeOptionFromItem, getLength, PoiItem } from '@slackmap/core';
 import { GeoJSON } from '@slackmap/gis';
 
 /**
@@ -25,7 +25,7 @@ export class LineMarker extends L.Marker {
       this.geometryLayer = L.geoJSON(item.geometry, {
         style: data => {
           return {
-            color: (getSubtypeFromItem(this.item) || {}).color,
+            color: (getSubtypeOptionFromItem(this.item) || {}).color,
             weight: 3,
             opacity: 0.9,
             clickable: true,
@@ -72,7 +72,7 @@ export class LineMarker extends L.Marker {
 
   updateColor() {
     if (!this.item || !this._icon) { return; }
-    this._icon.style.background = (getSubtypeFromItem(this.item) || {}).color;
+    this._icon.style.background = (getSubtypeOptionFromItem(this.item) || {}).color;
     if (this.item.subtype === 7) {
       this._icon.style.color = 'white';
     } else {

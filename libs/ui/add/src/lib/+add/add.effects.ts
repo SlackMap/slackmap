@@ -7,11 +7,11 @@ import * as fromAdd from './add.reducer';
 import * as AddActions from './add.actions';
 import { DrawGeometry } from '@slackmap/ui/map';
 import { UiApiService } from '@slackmap/ui/api';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of, EMPTY, from } from 'rxjs';
 import { ErrorService } from '@slackmap/ui/common/errors';
 import { SpotService } from '@slackmap/ui/spot';
-import { CoreActions, MergedRoute } from '@slackmap/ui/core';
+import { CoreActions, MergedRoute, CoreFacade } from '@slackmap/ui/core';
 import { AddRouteParams } from './add.models';
 import { getSportOptionByName, SportType, DrawType } from '@slackmap/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -67,9 +67,13 @@ export class AddEffects {
   save$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AddActions.save),
-      switchMap(action => this.api.spotSave({ spot: action.spot }).pipe(
+      withLatestFrom(this.coreFacade.route$),
+      switchMap(([action, route]) => this.api.spotSave({ spot: action.spot }).pipe(
         map(response => {
           this.spotService.reloadSupercluster();
+          const url = (route || {url:'/add'}).url.split('/');
+          url.pop();
+          this.router.navigate([url.join('/')]);
           return AddActions.saveSuccess({ response });
         }),
         catchError(response => {
@@ -87,6 +91,7 @@ export class AddEffects {
     private api: UiApiService,
     private errorService: ErrorService,
     private spotService: SpotService,
+    private coreFacade: CoreFacade,
   ) { }
 }
 const geometryLine: DrawGeometry = {

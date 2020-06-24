@@ -3,7 +3,8 @@ import { ItemType } from './item-type';
 import { TypeOption, SubtypeOption, SUBTYPE_OPTIONS, TYPE_OPTIONS } from './item-type-options';
 import { DrawType } from './spot-shape-type';
 import { isNumber, isObject } from './helpers';
-import { Item } from './interfaces';
+import { Item, SpotItem } from './interfaces';
+import { ACCESS_OPTIONS, AccessOption } from './spot-access';
 
 
 export function getSpotSubtypeOptions(shapeType: DrawType, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption[] {
@@ -27,7 +28,7 @@ export function getSubtypeOptionsByItemType(itemType: ItemType, subtypeOptions =
   return subtypeOptions.filter(i => i.type === itemType);
 }
 
-export function getSubtypeFromItem(item: Item, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption | null {
+export function getSubtypeOptionFromItem(item: Item, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption | null {
   try {
     let id;
     if (isNumber(item)) {
@@ -49,11 +50,22 @@ export function getItemTypeByItemName(itemName: string, typeOptions = TYPE_OPTIO
   return option ? option.id : null;
 }
 
+export function getAccessOptionFromItem(item: SpotItem, accessOptions = ACCESS_OPTIONS): AccessOption | null {
+  let accessId;
+  if (isNumber(item)) {
+    accessId = item;
+  } else if (isObject(item)) {
+    accessId = item.access;
+  }
+  if (!accessId) {
+    return null;
+  }
+  return accessOptions.find(i => i.id === accessId) || null;
+}
+
 /**
  * Returns lentgth of the item, converted to imperial if needed
  * with suffix about measure unit m/ft
- *
- * @param item
  */
 export function getLength(item, imperial = false): string {
   if (imperial) {
@@ -62,12 +74,70 @@ export function getLength(item, imperial = false): string {
   return Math.round(item.length) + 'm';
 }
 export function getLengthHtml(item, imperial = false): string {
-  if (this.imperial) {
+  if (imperial) {
     return '<b>' + Math.round(Measure.convert(item.length || 0, Measure.METRIC_TO_IMPERIAL)) + '</b><i>ft</i>';
   }
   return '<b>' + Math.round(item.length) + '</b><i>m</i>';
 }
 
+export function getTitleHtmlFromItem(item: SpotItem, imperial = false): string {
+  if (!item) {
+    return '';
+  }
+
+  const type = getItemTypeOptionFromItem(item);
+  if (!type) {
+    return '';
+  }
+  const subtype = getSubtypeOptionFromItem(item);
+  if (!subtype) {
+    return '';
+  }
+
+  let title = ''; // title = `<span class="name"><i>„</i>${toTitleCase(item.name)}<i>”</i></span> `;
+
+  /**
+   * USER
+   */
+  if (type.id === ItemType.USER) {
+    title = '<span class="name">' + item.name + '</span>';
+  } else if (type.name === 'location') {
+    /**
+     * LOCATION
+     */
+
+    if (subtype.name === 'world') {
+      title = `<span class="name">open slackline database</span>`;
+    } else if (subtype.name === 'google') {
+      // google geocode result
+      title = `<span class="name google-name">${item.name}</span> <i class="google-label">from google</i>`;
+    } else if (subtype.name === 'country') {
+      // country, contintent, region, street, city, district
+      title = `${name}`;
+    }
+  } else if (type.id === ItemType.SPOT) {
+    /**
+     * SPOT
+     */
+    if (subtype.drawType === DrawType.AREA) { // slack area
+      const access = getAccessOptionFromItem(item) || {label: '', name: ''};
+      title = `<span class="access access-${access.name}">${access.label || ''}</span> <span class="type">${subtype.label ||
+        'Slack Area'}</span> ${name} `;
+    } else { // line
+      title = `<span class="length item-${subtype.name}">${getLengthHtml(item, imperial)}</span> <span class="type">${subtype.label ||
+        'Line Spot'}</span> ${name}`;
+    }
+  }
+
+  return title;
+}
+
+
+export function toTitleCase(str: string): string {
+  return (str || '').replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
 
 export class ItemUtils {
   private host = 'https://slackmap.com';
@@ -82,20 +152,6 @@ export class ItemUtils {
     return this;
   }
 
-
-
-  // getAccess(item): AccessOption | null {
-  //   let id;
-  //   if (isNumber(item)) {
-  //     id = item;
-  //   } else if (isObject(item)) {
-  //     id = item.access;
-  //   }
-  //   if (!id) {
-  //     return null;
-  //   }
-  //   return find(this.access, i => i.id === id) || null;
-  // }
 
   // getQrcodeUrl(item): string {
   //   if (item && item.rid) {
@@ -239,62 +295,6 @@ export class ItemUtils {
   //   return title;
   // }
 
-  // getTitleHtml(item, noName = false): string {
-  //   if (!item) {
-  //     return '';
-  //   }
-
-  //   const type = this.getType(item);
-  //   const subtype = this.getSubtype(item);
-  //   let name = '';
-
-  //   if (item && item.name && !noName) {
-  //     name = `<span class="name"><i>„</i>${this.toTitleCase(item.name)}<i>”</i></span> `;
-  //   }
-  //   let title = name;
-
-  //   /**
-  //    * USER
-  //    */
-  //   if (type.name === 'user') {
-  //     title = '<span class="name">' + item.name + '</span>';
-  //   } else if (type.name === 'location') {
-  //     /**
-  //      * LOCATION
-  //      */
-
-  //     if (subtype.name === 'world') {
-  //       title = `<span class="name">open slackline database</span>`;
-  //     } else if (subtype.name === 'google') {
-  //       // google geocode result
-  //       title = `<span class="name google-name">${item.name}</span> <i class="google-label">from google</i>`;
-  //     } else if (subtype.name === 'country') {
-  //       // country, contintent, region, street, city, district
-  //       title = `${name}`;
-  //     }
-  //   } else if (type.name === 'spot') {
-  //     /**
-  //      * SPOT
-  //      */
-  //     // slack area
-  //     if (item.subtype >= 50) {
-  //       const access = this.getAccess(item);
-  //       let label = access.label;
-  //       if (access.name === 'unknown') {
-  //         label = '';
-  //       }
-  //       title = `<span class="access access-${access.name}">${label || ''}</span> <span class="type">${subtype.label ||
-  //         'Slack Area'}</span> ${name} `;
-  //     } else if (item.subtype < 50) {
-  //       // line
-  //       title = `<span class="length item-${subtype.name}">${this.getLengthHtml(item)}</span> <span class="type">${subtype.label ||
-  //         'Line Spot'}</span> ${name}`;
-  //     }
-  //   }
-
-  //   return title;
-  // }
-
   // /**
   //  * Returns length of the item
   //  * in metric and imerial units, separated with slash
@@ -317,9 +317,4 @@ export class ItemUtils {
   //   return 'icon-item icon-' + this.getSubtype(item).name;
   // }
 
-  // toTitleCase(str: string): string {
-  //   return str.replace(/\w\S*/g, function (txt) {
-  //     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  //   });
-  // }
 }

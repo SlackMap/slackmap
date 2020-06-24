@@ -1,4 +1,5 @@
-<button mat-stroked-button class="distance-btn" *ngIf="_type === DrawType.LINE && distance" >distance: <strong [innerHTML]="distance | distance"></strong></button>
+<button mat-button class="distance-btn" *ngIf="_type === DrawType.LINE && hasGeometry" ><strong [innerHTML]="distance | distance"></strong> Line</button>
+<button mat-button class="distance-btn" *ngIf="_type === DrawType.AREA && hasGeometry" >Area</button>
 
 <button mat-stroked-button class="reset-btn" *ngIf="enableReset && vertexCount" (click)="reset()">reset</button>
 <button mat-stroked-button class="reset-btn" *ngIf="_type == DrawType.AREA && !hasGeometry && vertexCount" [disabled]="vertexCount < 2" (click)="undo()">undo</button>
@@ -8,4 +9,4 @@
   zoom to location & click on map to draw
 </p>
 
-
+<ng-content></ng-content>

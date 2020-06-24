@@ -10,6 +10,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { ItemUtils } from '@slackmap/core';
 import { UiConfig } from '@slackmap/ui/config';
 import { MenuDirective, MapTopMenuDirective, MapBottomMenuDirective, IfHandsetDirective, IfNotHandsetDirective, HandsetClassDirective } from './directives';
+import { IsHandsetPipe } from "./pipes";
 
 export const uiCoreRoutes: Route[] = [
 
@@ -42,6 +43,7 @@ export const uiCoreRoutes: Route[] = [
     IfHandsetDirective,
     IfNotHandsetDirective,
     HandsetClassDirective,
+    IsHandsetPipe,
   ],
   exports: [
     MenuDirective,
@@ -50,6 +52,7 @@ export const uiCoreRoutes: Route[] = [
     IfHandsetDirective,
     IfNotHandsetDirective,
     HandsetClassDirective,
+    IsHandsetPipe,
   ],
 })
 export class UiCoreModule {}

@@ -1,5 +1,7 @@
 import { ItemType, ItemSubtypes } from '../item-type';
 import { GeoJSON } from '@slackmap/gis';
+import { AccessType } from '../spot-access';
+import { StatusType } from '../spot-status';
 
 export const MAP_ZOOM_THRESHOLD = 16;
 
@@ -10,6 +12,11 @@ export interface Item {
   type: ItemType;
   subtype: ItemSubtypes;
   version: number;
+}
+export interface Spot {
+  name: string;
+  access: AccessType;
+  status: StatusType;
 }
 
 /**
@@ -23,3 +30,5 @@ export interface Poi<G = SpotGeometry> {
 }
 
 export type PoiItem<G = SpotGeometry> = Poi<G> & Item;
+
+export type SpotItem<G = SpotGeometry> = PoiItem<G> & Spot;
