@@ -3,6 +3,7 @@
  */
 import '@angular/localize/init';
 import 'zone.js/dist/zone-node';
+import 'reflect-metadata';
 const result = require('dotenv').config()
 if (result.error) {
   throw result.error

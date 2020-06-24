@@ -48,13 +48,15 @@ export class DrawControlComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.sub = combineLatest([this.type$$.pipe(delay(2)), this.geometry$$]).pipe(
-      switchMap(([type, geometry]) => this.mapService.drawHandler(type, geometry)),
-    ).subscribe(handler => {
-      this.drawData.next(handler.data);
-      this.handler = handler;
-      this.vertexCount = handler.data.vertexCount;
-      this.distance = handler.data.distance;
-      this.hasGeometry = !!handler.data.geometry;
+      switchMap(([type, geometry]) => geometry ? this.mapService.editHandler(geometry, type) : this.mapService.drawHandler(type)),
+      tap(handler => this.handler = handler),
+      switchMap(handler => handler.data$)
+    ).subscribe(data => {
+      console.log('DATA', data)
+      this.drawData.next(data);
+      this.vertexCount = data.vertexCount;
+      this.distance = data.distance;
+      this.hasGeometry = !!data.geometry;
     });
   }
 

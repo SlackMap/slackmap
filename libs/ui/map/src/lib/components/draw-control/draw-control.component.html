@@ -1,7 +1,7 @@
 <button mat-button class="distance-btn" *ngIf="_type === DrawType.LINE && hasGeometry" ><strong [innerHTML]="distance | distance"></strong> Line</button>
 <button mat-button class="distance-btn" *ngIf="_type === DrawType.AREA && hasGeometry" >Area</button>
 
-<button mat-stroked-button class="reset-btn" *ngIf="enableReset && vertexCount" (click)="reset()">reset</button>
+<!-- <button mat-stroked-button class="reset-btn" *ngIf="enableReset && vertexCount" (click)="reset()">reset</button> -->
 <button mat-stroked-button class="reset-btn" *ngIf="_type == DrawType.AREA && !hasGeometry && vertexCount" [disabled]="vertexCount < 2" (click)="undo()">undo</button>
 <button mat-stroked-button class="complete-btn" *ngIf="_type == DrawType.AREA && !hasGeometry && vertexCount" [disabled]="vertexCount < 3" (click)="completeShape()">complete</button>
 

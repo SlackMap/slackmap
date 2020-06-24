@@ -27,7 +27,6 @@ export class ClustersController {
   @Get(CLUSTERS_PATHS.clustersGet())
   @UsePipes(new ValidationPipe({transform: true}))
   clustersGet(@Query() request: ClustersClustersGetRequestDto): Observable<ClustersClustersGetDto> {
-    console.log(request)
     const bbox = request.bbox.split(',');
     return this.clusterService.query(request.sport, bbox, request.zoom).pipe(
       catchError((err) => {

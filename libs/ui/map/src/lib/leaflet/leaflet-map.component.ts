@@ -14,6 +14,7 @@ import { merge, fromEvent, Observable, Subject, combineLatest } from 'rxjs';
 import { map, takeUntil, startWith, debounceTime, share } from 'rxjs/operators';
 import * as geohash from 'ngeohash';
 import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawGeometry } from '../+map';
+import { editHandler } from './draw/edit-handler';
 
 restoreView();
 leafletCustoms();
@@ -58,6 +59,9 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
     // this.zone.runOutsideAngular(async () => {
 
       const _map = L.map(this.mapContainer.nativeElement);
+      //@ts-ignore
+      window.pm = _map.pm;
+
       this.map = _map;
       if (!_map.restoreView()) {
         // _map.setView([27.916159899896595, -15.604705810546875], 10);
@@ -136,8 +140,12 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
     );
   }
 
-  drawHandler(type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler> {
-    return drawHandler(this.map, type, geometry)
+  drawHandler(type: DrawType): Observable<DrawHandler> {
+    return drawHandler(this.map, type)
+  }
+
+  editHandler(geometry: DrawGeometry, type?: DrawType): Observable<DrawHandler> {
+    return editHandler(this.map, geometry, type)
   }
 
   ngOnDestroy() {

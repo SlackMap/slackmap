@@ -13,7 +13,8 @@ export interface MapComponent {
   viewChange$: Observable<MapViewChangeData>;
   itemClick$: Observable<{item: any}>;
   spotsLayer(spots$: Observable<any>): Observable<void>;
-  drawHandler(type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler>;
+  drawHandler(type: DrawType): Observable<DrawHandler>;
+  editHandler(geometry: DrawGeometry, type?: DrawType): Observable<DrawHandler>;
 }
 
 /**
@@ -39,7 +40,7 @@ export interface DrawHandler {
   undo: () => void,
   reset: () => void,
   completeShape: () => void,
-  data: DrawData
+  data$: Observable<DrawData>
 }
 
 export type DrawGeometry = GeoJSON.Point | GeoJSON.LineString | GeoJSON.Polygon;

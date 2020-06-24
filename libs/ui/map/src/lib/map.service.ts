@@ -19,16 +19,21 @@ export class MapService implements MapComponent {
     switchMap(map => map.itemClick$)
   );
 
-
   spotsLayer(spots$: Observable<any>): Observable<void> {
     return this.map$.pipe(
       switchMap(map => map.spotsLayer(spots$))
     );
   }
 
-  drawHandler(type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler> {
+  drawHandler(type: DrawType): Observable<DrawHandler> {
     return this.map$.pipe(
-      switchMap(map => map.drawHandler(type, geometry))
+      switchMap(map => map.drawHandler(type))
+    );
+  }
+
+  editHandler(geometry: DrawGeometry, type?: DrawType): Observable<DrawHandler> {
+    return this.map$.pipe(
+      switchMap(map => map.editHandler(geometry, type))
     );
   }
 

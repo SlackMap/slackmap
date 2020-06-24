@@ -30,7 +30,7 @@
               "apps/web/src/styles-bootstrap.scss",
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/leaflet/dist/leaflet.css",
-              "./node_modules/leaflet-draw/dist/leaflet.draw.css",
+              "./node_modules/@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css",
               "apps/web/src/styles.scss"
             ],
             "scripts": []

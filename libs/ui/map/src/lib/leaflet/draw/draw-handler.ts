@@ -1,15 +1,10 @@
 import * as L from "leaflet";
 import "./draw-customs";
-import { DrawType, DrawHandler, DrawGeometry } from "../../+map";
-import { Observable } from 'rxjs';
+import { DrawType, DrawHandler, DrawGeometry, DrawData } from "../../+map";
+import { Observable, BehaviorSubject } from 'rxjs';
 import { GeoJSON } from '@slackmap/gis';
 import * as ngeohash from 'ngeohash';
-
-interface DrawLayer extends L.Layer {
-  getLatLngs: () => L.LatLng[] | L.LatLng[][] | L.LatLng[][][];
-  getBounds: () => L.LatLngBounds;
-  toGeoJSON: () => GeoJSON.Feature<any>;
-}
+import { DrawMapEvents, ShapeType, DrawLayer, DrawLayerEvents, PmHandler } from './draw-customs';
 
 /**
   * handler for drawing or editing shapes on map
@@ -18,217 +13,198 @@ interface DrawLayer extends L.Layer {
   * @param {*} type DrawType
   * @param {*} geometry supported geojson Geometry to edit
   */
-export function drawHandler(map: L.Map, type: DrawType, geometry?: DrawGeometry): Observable<DrawHandler> {
+export function drawHandler(map: L.Map, type: DrawType): Observable<DrawHandler> {
   return new Observable<DrawHandler>(subscriber => {
-    if(!map) {
+    if (!map) {
       return subscriber.error(new Error('drawHandler(map, type, geometry) requires L.Map to be provided'));
     }
-    if(!type) {
+    if (!type) {
       return subscriber.error(new Error('drawHandler(map, type, geometry) requires DrawType to be provided'));
     }
 
-    let vertexCount = 0,
-      distance = 0,
-      layer: DrawLayer;
-
-    // from leaflet-draw-customs.js
-    // blocks middle marker on line drawing
-    L.Edit.noMiddleMarker = (type === DrawType.LINE) ? true : false;
-
-    // hide draw toolbar
-    map._container.classList.add('hide-draw-toolbar');
-
-    /**
-     * layer to draw features on
-     */
-    const features = L.featureGroup();
-    map.addLayer(features);
-
-    /**
-     * draw controll
-     */
-    const drawControl: any = new L.Control.Draw({
-      edit: {
-        featureGroup: features,
-        remove: false
-      },
-      draw: {
-        polygon: {
-          allowIntersection: false,
-          showArea: true
-        }
-      }
-    });
-    map.addControl(drawControl);
-
-    // GO GO GO
-    start();
-
-    /**
-     * start the process of draw/edit
-     */
-    function start() {
-      if (geometry && geometry.coordinates) {
-        /**
-         * edit existing shape
-         */
-        if (type === DrawType.AREA) {
-          layer = L.GeoJSON.geometryToLayer({type: 'Feature', geometry, properties: {}}) as L.Polygon;
-        } else {
-          layer = new L.Polyline(L.GeoJSON.coordsToLatLngs(geometry.coordinates));
-        }
-        features.addLayer(layer);
-
-        map.on(L.Draw.Event.EDITVERTEX, onEdited);
-        drawControl._toolbars.edit._modes.edit.handler.enable();
-        // fitBounds(); moved outside
-        // fireChange();
-      } else {
-        /**
-         * draw new shape
-         */
-        if (type === DrawType.AREA) {
-          drawControl._toolbars.draw._modes.polygon.handler.enable();
-        } else {
-          drawControl._toolbars.draw._modes.polyline.handler.enable();
-        }
-        map.on(L.Draw.Event.CREATED, onCreated);
-        map.on(L.Draw.Event.DRAWVERTEX, onProgress);
-      }
+    let shapeType: ShapeType, drawOptions: L.PM.DrawOptions;
+    let handler: PmHandler;
+    if (type === DrawType.LINE) {
+      shapeType = 'Line';
+      drawOptions = {
+        snappable: true,
+        snapDistance: 20,
+      };
+      handler = map.pm.Draw.Line;
+    } else if (type === DrawType.AREA) {
+      shapeType = 'Polygon';
+      drawOptions = {
+        snappable: true,
+        snapDistance: 20,
+      };
+      handler = map.pm.Draw.Polygon;
+    } else if (type === DrawType.POINT) {
+      shapeType = 'Marker';
+      drawOptions = {
+        snappable: true,
+        snapDistance: 20,
+      };
+      handler = map.pm.Draw.Marker;
+    } else {
+      return subscriber.error(new Error(`drawHandler DrawType "${type}" is not supported`));
     }
 
-    /**
-     * clean and stop drawing/editing
-     */
-    function stop() {
-      if (layer) {
-        features.removeLayer(layer);
-        layer = null;
-      }
-      vertexCount = 0;
-      distance = 0;
-      drawControl._toolbars.draw._modes.polygon.handler.disable();
-      drawControl._toolbars.draw._modes.polyline.handler.disable();
-      map.off(L.Draw.Event.CREATED, onCreated);
-      map.off(L.Draw.Event.DRAWVERTEX, onProgress);
-      map.off(L.Draw.Event.EDITVERTEX, onEdited);
+    const emptyData: DrawData = {
+      bbox: null,
+      distance: 0,
+      vertexCount: 0,
+      geohash: null,
+      geometry: null,
+      position: null,
+      type,
+    }
+    const data$$ = new BehaviorSubject<DrawData>(emptyData);
+
+    function enable() {
+      console.log('ENABLE', type)
+      //@ts-ignore
+      map.on(DrawMapEvents.DRAW_START, onStart);
+      //@ts-ignore
+      map.on(DrawMapEvents.CREATE, onCreated);
+
+      handler.enable(drawOptions);
+
+    }
+    function disable() {
+      console.log('DISABLE', type)
+      handler.disable();
+      //@ts-ignore
+      map.off(DrawMapEvents.CREATE, onCreated);
+      //@ts-ignore
+      map.off(DrawMapEvents.DRAW_START, onStart);
     }
 
-    /**
-     * onCreated - handle dreation of new shape
-     */
-    function onCreated(event) {
-      layer = event.layer;
-      features.addLayer(layer);
-      map.off(L.Draw.Event.CREATED, onCreated);
-      map.on(L.Draw.Event.EDITVERTEX, onEdited);
-      drawControl._toolbars.edit._modes.edit.handler.enable();
-      fireChange();
+    function onStart(e: L.PM.DrawEvent) {
+      e.workingLayer.on(DrawLayerEvents.VERTEXADDED, onProgress);
+      console.log('start', e)
+      fireProgress(e.workingLayer);
     }
 
-    /**
-     * onProgress - handle draw progress, for line stop after 2nd click
-     */
-    function onProgress(e) {
-      vertexCount = e.layers.getLayers().length;
+    function onProgress(e: L.PM.DrawEvent) {
+      console.log('progress', e)
+      fireProgress(e.workingLayer);
+    }
+
+    function onCreated(e: L.PM.DrawEvent) {
+      //@ts-ignore
+      map.off(DrawMapEvents.CREATE, onCreated);
+      console.log('created', e)
+      fireCreated(e.layer);
+      subscriber.complete();
+    }
+
+    function fireProgress(layer: DrawLayer) {
+
+      const vertexCount = layer.getLatLngs().length;
+
       if (type === DrawType.LINE && vertexCount >= 2) {
-        // if you fire completeShape inside L.Draw.Event.DRAWVERTEX handler, you will get error
-        // that's why we have to use setTimeout
-        setTimeout(() => {
-          drawControl._toolbars.draw._modes.polyline.handler.completeShape();
-        }, 0);
-      } else {
-        fireChange();
-      }
-    }
-
-    /**
-     * onEdited - handle edit changes
-     */
-    function onEdited() {
-      fireChange();
-    }
-
-    // fire change
-    function fireChange() {
-      let newGeometry: DrawGeometry = null,
-        bbox: GeoJSON.BBox = null,
-        position: GeoJSON.Position = null,
-        geohash: string = null;
-      if (layer) {
-        if (type === DrawType.AREA) {
-          vertexCount = (layer.getLatLngs() as L.LatLng[][])[0].length;
-        } else {
-          vertexCount = (layer.getLatLngs() as L.LatLng[]).length;
-        }
-        newGeometry = layer.toGeoJSON().geometry;
-
-        // this is leaflet or leaflet-draw bug
-        // bounds does not update when the shape is edited, but layer shape is correct
-        // so we have to transform it to get the coordinates
-        let l: DrawLayer;
-        if (type === DrawType.AREA) {
-          l = L.GeoJSON.geometryToLayer({type: 'Feature', geometry: newGeometry, properties: {}}) as L.Polyline;
-        } else {
-          l = new L.Polyline(L.GeoJSON.coordsToLatLngs(newGeometry.coordinates));
-        }
-        position = l
-          .getBounds()
-          .getCenter()
-          .toGeoJSON().geometry.coordinates;
-        bbox = l
-          .getBounds()
-          .toGeoJSON();
-        geohash = ngeohash.encode(position[1], position[0], 6);
-
-        // calculate line length
-        if (type === DrawType.LINE) {
-          const latlngs = layer.getLatLngs() as L.LatLng[];
-          distance = Number(latlngs[0].distanceTo(latlngs[1]).toFixed(2));
-        }
+        console.log('FINISH line shape')
+        handler._finishShape();
+        return;
       }
 
-      subscriber.next({
+      data$$.next({
         type,
-        undo,
-        completeShape,
-        reset,
-        data: {
-          type,
-          vertexCount,
-          distance,
-          bbox,
-          geohash,
-          position,
-          geometry: newGeometry
-        },
+        vertexCount,
+        distance: 0,
+        bbox: null,
+        geohash: null,
+        position: null,
+        geometry: null,
       })
+    }
+
+    function fireCreated(layer: DrawLayer) {
+
+      const data = createDrawData(layer, type);
+
+      map.removeLayer(layer as any);
+
+      data$$.next(data);
+      data$$.complete();
+      subscriber.complete();
     }
 
     function undo() {
       try {
-        drawControl._toolbars.draw._modes.polygon.handler.deleteLastVertex();
+        handler._removeLastVertex()
       } catch (err) { }
     }
 
     function completeShape() {
       try {
-        drawControl._toolbars.draw._modes.polygon.handler.completeShape();
+        handler._finishShape()
       } catch (err) { }
     }
 
     function reset() {
-      stop();
-      start();
-      fireChange();
+      disable();
+      enable();
     }
-    setTimeout(() => fireChange(), 2)
-    // fireChange();
+    setTimeout(() => {
+      subscriber.next({
+        type,
+        undo,
+        completeShape,
+        reset,
+        data$: data$$.asObservable(),
+      });
+    }, 2)
+
+    // GO GO GO
+    enable();
 
     return () => {
-      stop();
-      map.removeLayer(features);
-      map.removeControl(drawControl);
+      disable()
     }
   });
+}
+
+export function createDrawData(layer: DrawLayer, type: DrawType): DrawData {
+
+  let newGeometry: DrawGeometry = null,
+  vertexCount = 0,
+  distance = 0,
+  bbox: GeoJSON.BBox = null,
+  position: GeoJSON.Position = null,
+  geohash: string = null;
+
+  if (type === DrawType.AREA) {
+    vertexCount = (layer.getLatLngs() as L.LatLng[][])[0].length;
+  } else {
+    vertexCount = (layer.getLatLngs() as L.LatLng[]).length;
+  }
+
+  newGeometry = layer.toGeoJSON().geometry;
+
+  if(vertexCount > 1) {
+    position = layer
+      .getBounds()
+      .getCenter()
+      .toGeoJSON().geometry.coordinates;
+    bbox = layer
+      .getBounds()
+      .toGeoJSON();
+    geohash = ngeohash.encode(position[1], position[0], 6);
+    // calculate line length
+    if (type === DrawType.LINE) {
+      const latlngs = layer.getLatLngs() as L.LatLng[];
+      distance = Number(latlngs[0].distanceTo(latlngs[1]).toFixed(2));
+    }
+  }
+
+  return {
+    type,
+    vertexCount,
+    distance,
+    bbox,
+    geohash,
+    position,
+    geometry: newGeometry
+  };
 }
