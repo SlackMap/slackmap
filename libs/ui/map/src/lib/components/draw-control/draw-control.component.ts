@@ -52,11 +52,12 @@ export class DrawControlComponent implements OnInit, OnDestroy {
       tap(handler => this.handler = handler),
       switchMap(handler => handler.data$)
     ).subscribe(data => {
-      console.log('DATA', data)
-      this.drawData.next(data);
       this.vertexCount = data.vertexCount;
       this.distance = data.distance;
       this.hasGeometry = !!data.geometry;
+      if(this.hasGeometry) {
+        this.drawData.next(data);
+      }
     });
   }
 

@@ -34,11 +34,17 @@ export function editHandler(map: L.Map, geometry: DrawGeometry, type: DrawType):
      */
     function start() {
       layer = L.GeoJSON.geometryToLayer({type: 'Feature', geometry, properties: {}});
-      console.log('EDIT START', layer)
       if(layer) {
+        if(type === DrawType.LINE) {
+          //@ts-ignore
+          layer.pm._createMiddleMarker = () => {};
+        }
         map.addLayer(layer);
         //@ts-ignore
-        layer.pm.enable();
+        layer.pm.enable({
+          allowSelfIntersection: false,
+          snappable: false,
+        });
         layer.on('pm:edit', onEdit);
       }
     }
@@ -47,11 +53,12 @@ export function editHandler(map: L.Map, geometry: DrawGeometry, type: DrawType):
      * clean and stop drawing/editing
      */
     function stop() {
-      console.log('stop')
       if (layer) {
+        //@ts-ignore
+        layer.pm.disable()
+        layer.off('pm:edit', onEdit);
         map.removeLayer(layer);
         layer = null;
-        layer.off('pm:edit', onEdit);
       }
     }
 
@@ -59,7 +66,6 @@ export function editHandler(map: L.Map, geometry: DrawGeometry, type: DrawType):
      * onCreated - handle dreation of new shape
      */
     function onEdit(e) {
-      console.log('edit', e)
       data$$.next(createDrawData(e.target, type));
     }
 

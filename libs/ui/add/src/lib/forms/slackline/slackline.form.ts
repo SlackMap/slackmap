@@ -96,22 +96,32 @@ export class SlacklineForm implements OnInit, OnDestroy {
 
   onDrawData(drawData: DrawData) {
 
-    if(drawData.geometry) {
-      const data: Partial<SpotModel> = {
-        position: drawData.position,
-        bbox: drawData.bbox,
-        geohash: drawData.geohash,
-        geometry: drawData.geometry,
-      };
+    const data: Partial<SpotModel> = {
+      position: drawData.position,
+      bbox: drawData.bbox,
+      geohash: drawData.geohash,
+      geometry: drawData.geometry,
+    };
 
-      // update length if not lasered
-      if(!this.form.value.lengthLaser) {
-        data.length = drawData.distance;
-      }
-      this.form.patchValue(data)
-    } else {
-      this.reset();
+    // update length if not lasered
+    if(drawData.type === DrawType.LINE && !this.form.value.lengthLaser) {
+      data.length = drawData.distance;
     }
+    this.form.patchValue(data)
+  }
+  onGeometryEdit(drawData: DrawData) {
+
+    const data: Partial<SpotModel> = {
+      position: drawData.position,
+      bbox: drawData.bbox,
+      geohash: drawData.geohash,
+    };
+
+    // update length if not lasered
+    if(drawData.type === DrawType.LINE && !this.form.value.lengthLaser) {
+      data.length = drawData.distance;
+    }
+    this.form.patchValue(data)
   }
 
   onSave() {

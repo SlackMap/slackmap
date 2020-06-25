@@ -10,7 +10,7 @@ import { UiApiService } from '@slackmap/ui/api';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of, EMPTY, from } from 'rxjs';
 import { ErrorService } from '@slackmap/ui/common/errors';
-import { SpotService } from '@slackmap/ui/spot';
+import { SpotService, SpotsActions } from '@slackmap/ui/spot';
 import { CoreActions, MergedRoute, CoreFacade } from '@slackmap/ui/core';
 import { AddRouteParams } from './add.models';
 import { getSportOptionByName, SportType, DrawType } from '@slackmap/core';
@@ -69,12 +69,15 @@ export class AddEffects {
       ofType(AddActions.save),
       withLatestFrom(this.coreFacade.route$),
       switchMap(([action, route]) => this.api.spotSave({ spot: action.spot }).pipe(
-        map(response => {
+        switchMap(response => {
           this.spotService.reloadSupercluster();
           const url = (route || {url:'/add'}).url.split('/');
           url.pop();
           this.router.navigate([url.join('/')]);
-          return AddActions.saveSuccess({ response });
+          return from([
+            SpotsActions.hashLoad({hash: action.spot.geohash, layer: action.spot.sport}),
+            AddActions.saveSuccess({ response }),
+          ]);
         }),
         catchError(response => {
           this.errorService.show({ error: response.error })

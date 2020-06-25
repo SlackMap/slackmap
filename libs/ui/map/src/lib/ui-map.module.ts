@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { MatButtonModule } from '@angular/material/button';
 import { UiAuthModule } from '@slackmap/ui/auth';
+import { GeometryInput } from './inputs';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { UiAuthModule } from '@slackmap/ui/auth';
     MapComponent,
     DrawControlComponent,
     SpotsLayerComponent,
+    GeometryInput,
   ],
   providers: [
     MapFacade,
@@ -31,6 +33,7 @@ import { UiAuthModule } from '@slackmap/ui/auth';
     MapComponent,
     DrawControlComponent,
     SpotsLayerComponent,
+    GeometryInput,
   ],
 })
 export class UiMapModule {}

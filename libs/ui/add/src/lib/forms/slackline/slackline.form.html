@@ -67,7 +67,8 @@
           </button>
         </ng-container>
       </mat-toolbar>
-      <map-draw-control [type]="drawType" [enableReset]="!data?.subtype" (drawData)="onDrawData($event)" [geometry]="data?.geometry"></map-draw-control>
+      <map-draw-control [type]="drawType" (drawData)="onDrawData($event)" *ngIf="!data?.geometry"></map-draw-control>
+      <map-geometry-input [drawType]="drawType" formControlName="geometry" (drawData)="onGeometryEdit($event)"  *ngIf="data?.geometry"></map-geometry-input>
     </ng-container>
 
     <ng-container *smIfHandset>

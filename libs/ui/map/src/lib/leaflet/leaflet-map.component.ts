@@ -59,8 +59,6 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
     // this.zone.runOutsideAngular(async () => {
 
       const _map = L.map(this.mapContainer.nativeElement);
-      //@ts-ignore
-      window.pm = _map.pm;
 
       this.map = _map;
       if (!_map.restoreView()) {

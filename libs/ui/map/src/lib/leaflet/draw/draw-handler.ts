@@ -27,22 +27,22 @@ export function drawHandler(map: L.Map, type: DrawType): Observable<DrawHandler>
     if (type === DrawType.LINE) {
       shapeType = 'Line';
       drawOptions = {
-        snappable: true,
-        snapDistance: 20,
+        snappable: false,
+        allowSelfIntersection: false,
       };
       handler = map.pm.Draw.Line;
     } else if (type === DrawType.AREA) {
       shapeType = 'Polygon';
       drawOptions = {
-        snappable: true,
-        snapDistance: 20,
+        snappable: false,
+        allowSelfIntersection: false,
       };
       handler = map.pm.Draw.Polygon;
     } else if (type === DrawType.POINT) {
       shapeType = 'Marker';
       drawOptions = {
-        snappable: true,
-        snapDistance: 20,
+        snappable: false,
+        allowSelfIntersection: false,
       };
       handler = map.pm.Draw.Marker;
     } else {
@@ -61,7 +61,6 @@ export function drawHandler(map: L.Map, type: DrawType): Observable<DrawHandler>
     const data$$ = new BehaviorSubject<DrawData>(emptyData);
 
     function enable() {
-      console.log('ENABLE', type)
       //@ts-ignore
       map.on(DrawMapEvents.DRAW_START, onStart);
       //@ts-ignore
@@ -71,7 +70,6 @@ export function drawHandler(map: L.Map, type: DrawType): Observable<DrawHandler>
 
     }
     function disable() {
-      console.log('DISABLE', type)
       handler.disable();
       //@ts-ignore
       map.off(DrawMapEvents.CREATE, onCreated);
@@ -81,19 +79,16 @@ export function drawHandler(map: L.Map, type: DrawType): Observable<DrawHandler>
 
     function onStart(e: L.PM.DrawEvent) {
       e.workingLayer.on(DrawLayerEvents.VERTEXADDED, onProgress);
-      console.log('start', e)
       fireProgress(e.workingLayer);
     }
 
     function onProgress(e: L.PM.DrawEvent) {
-      console.log('progress', e)
       fireProgress(e.workingLayer);
     }
 
     function onCreated(e: L.PM.DrawEvent) {
       //@ts-ignore
       map.off(DrawMapEvents.CREATE, onCreated);
-      console.log('created', e)
       fireCreated(e.layer);
       subscriber.complete();
     }
@@ -103,7 +98,6 @@ export function drawHandler(map: L.Map, type: DrawType): Observable<DrawHandler>
       const vertexCount = layer.getLatLngs().length;
 
       if (type === DrawType.LINE && vertexCount >= 2) {
-        console.log('FINISH line shape')
         handler._finishShape();
         return;
       }
