@@ -50,6 +50,7 @@ export class AuthEffects implements OnInitEffects {
         return new Observable<never>(subscriber => {
           const dialogRef = this.dialog.open(LoginDialog, {
             disableClose: true,
+            autoFocus: false,
             width: '50%',
             maxWidth: '100vw',
             maxHeight: '100vh',

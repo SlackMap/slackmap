@@ -57,9 +57,16 @@ export class AuthService {
       // Load the SDK asynchronously
       (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
+        if (d.getElementById(id)) {
+          d.getElementById(id).remove();
+        };
         js = d.createElement(s); js.id = id;
         js.src = "https://connect.facebook.net/en_US/sdk.js";
+        js.onerror = function(e){
+          //@ts-ignore
+          delete document.fbAsyncInit;
+          subscriber.error('Facebook JavaScript SDK script Loading Error');
+        };
         fjs.parentNode.insertBefore(js, fjs);
         //@ts-ignore
       }(document, 'script', 'facebook-jssdk'));
@@ -68,7 +75,7 @@ export class AuthService {
     return () => {
       // if FB is not loaded, remove the this.document.defaultView.fbAsyncInit function so we can try again
       //@ts-ignore
-      if (!FB) {
+      if (!document['FB']) {
         delete this.document.defaultView.fbAsyncInit;
       }
     }
@@ -85,7 +92,13 @@ export class AuthService {
    * @param scope
    */
   fbLogin(scope: string[]): Observable<{ accessToken: string }> {
-    return this.FB$.pipe(switchMap(fb => new Observable<any>(subscriber => {
+    return new Observable<any>(subscriber => {
+      // @ts-ignore
+      const fb = this.document.defaultView.FB;
+
+      if(!fb) {
+        return subscriber.error('Facebook SDK is not loaded')
+      }
       fb.login(function (response) {
         if (response.authResponse) {
           subscriber.next({
@@ -100,7 +113,7 @@ export class AuthService {
 
         }
       }, { scope: (scope || []).join(',') });
-    })));
+    });
   }
 
 }

@@ -36,9 +36,15 @@
         Facebook is the only option for now.<br>
         But it's the fastest & the safest!
       </p>
-      <button (click)="signInByFacebook()" [disabled]="loader.isLoading" mat-raised-button color="primary" class="login-fb-btn">
+      <button (click)="signInByFacebook()" [disabled]="loader.isLoading" mat-raised-button color="primary" class="login-fb-btn" *ngIf="fb">
         <mat-icon svgIcon="icon-facebook-square"></mat-icon>
         Log in with Facebook
+      </button>
+      <button mat-raised-button color="primary" class="login-fb-btn" *ngIf="fbLoading">
+        Loading Facebook...
+      </button>
+      <button mat-raised-button color="warning" class="login-fb-btn" *ngIf="fbError" (click)="loadFb()">
+        Loading ERROR, click to try again
       </button>
       <button mat-button (click)="signInCancel()" class="close-btn" alt="close">
         <mat-icon>close</mat-icon>
