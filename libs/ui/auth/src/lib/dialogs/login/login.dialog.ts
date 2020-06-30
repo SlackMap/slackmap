@@ -56,7 +56,7 @@ export class LoginDialog implements OnDestroy, OnInit {
     this.subs.unsubscribe();
   }
   async signInByFacebook(): Promise<void> {
-    this.subs.subscribe = this.auth.signInByFacebook().pipe(this.loader.loadingOverlay());
+    this.subs.subscribe = this.auth.signInByFacebook().pipe(this.loader.loading());
   }
   async signInCancel(): Promise<void> {
     this.auth.dispatch(actions.signInCancel());
@@ -65,7 +65,7 @@ export class LoginDialog implements OnDestroy, OnInit {
     this.auth.dispatch(actions.signUpByFacebookCancel());
   }
   async signUpByFacebook(payload: AuthSignUpByFacebookRequestDto): Promise<void> {
-    this.subs.subscribe = this.auth.signUpByFacebook(payload).pipe(this.loader.loadingOverlay());
+    this.subs.subscribe = this.auth.signUpByFacebook(payload).pipe(this.loader.loading());
   }
 
 

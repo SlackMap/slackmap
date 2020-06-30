@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UiConfig } from '@slackmap/ui/config';
 import { DOCUMENT } from '@angular/common';
@@ -40,6 +40,7 @@ export class AuthService {
       subscriber.error('FB is loading, try again')
       return;
     } else {
+      const zone = this.zone;
       this.document.defaultView.fbAsyncInit = () => {
         //@ts-ignore
         FB.init({
@@ -49,9 +50,11 @@ export class AuthService {
           version: 'v6.0' // use graph api version
         });
 
-        //@ts-ignore
-        subscriber.next(FB);
-        subscriber.complete();
+        zone.run(() => {
+          //@ts-ignore
+          subscriber.next(FB);
+          subscriber.complete();
+        });
       };
 
       // Load the SDK asynchronously
@@ -61,11 +64,11 @@ export class AuthService {
           d.getElementById(id).remove();
         };
         js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        js.src = "/assets/facebook-sdk.js";
         js.onerror = function(e){
           //@ts-ignore
           delete document.fbAsyncInit;
-          subscriber.error('Facebook JavaScript SDK script Loading Error');
+          zone.run(() => subscriber.error('Facebook JavaScript SDK script Loading Error'));
         };
         fjs.parentNode.insertBefore(js, fjs);
         //@ts-ignore
@@ -83,6 +86,7 @@ export class AuthService {
 
   constructor(
     public config: UiConfig,
+    private zone: NgZone,
     @Inject(DOCUMENT) private document: Document
   ) {}
 

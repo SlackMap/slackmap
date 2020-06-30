@@ -20,7 +20,6 @@ export class AuthEffects implements OnInitEffects {
 
   isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-
   /**
    * if apiToken exists, fetch the user session
    */
