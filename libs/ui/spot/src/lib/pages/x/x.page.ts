@@ -3,6 +3,7 @@ import { MapService, DrawType } from '@slackmap/ui/map';
 import { SubSink, SportType } from '@slackmap/core';
 import { MapActions } from '@slackmap/ui/map';
 import { debounceTime, switchMap, tap } from 'rxjs/operators';
+import { CoreFacade } from '@slackmap/ui/core';
 
 @Component({
   selector: 'spot-x',
@@ -15,11 +16,17 @@ export class XPage implements OnInit, OnDestroy {
 
   constructor(
     private mapService: MapService,
+    public coreFacade: CoreFacade,
   ) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.coreFacade.showMap(true)
+    }, 10);
 
-
+  }
+  mapToggle(): void {
+    this.coreFacade.showMapToggle();
   }
 
   ngOnDestroy() {

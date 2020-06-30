@@ -13,6 +13,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorsModule } from '@slackmap/ui/common/errors';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { UiCoreModule } from '@slackmap/ui/core';
+import { UiAuthModule } from '@slackmap/ui/auth';
+import { UiMapModule } from '@slackmap/ui/map';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { NgLetModule } from '@ngrx-utils/store';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 export const uiSpotRoutes: Route[] = [
   { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
@@ -31,6 +39,14 @@ export const uiSpotRoutes: Route[] = [
     ReactiveFormsModule,
     ErrorsModule,
     UiCoreModule,
+    UiAuthModule,
+    UiMapModule,
+    MatButtonModule,
+    MatCardModule,
+    NgLetModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule,
   ],
   providers: [
     SpotFacade,

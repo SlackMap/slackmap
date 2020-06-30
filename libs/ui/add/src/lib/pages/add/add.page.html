@@ -31,9 +31,19 @@
 
 <!-- sign in -->
 <ng-template #loginTemplate>
-  <p>
-    In order to add new spots
-    <button mat-raised-button color="primary" authSignIn>Sign In</button>
-  </p>
+  <mat-toolbar color="primary">
+    <mat-icon class="toolbar-icon-left" >add_circle_outline</mat-icon>
+    <span>Add new spot</span>
+  </mat-toolbar>
+  <mat-toolbar class="toolbar-center">
+    <span>
+      In order to add new spots
+    </span>
+  </mat-toolbar>
+  <mat-toolbar class="toolbar-center">
+    <span>
+      <button mat-raised-button color="primary" authSignIn>Sign In</button>
+    </span>
+  </mat-toolbar>
 </ng-template>
 

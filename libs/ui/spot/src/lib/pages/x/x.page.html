@@ -1,4 +1,29 @@
-<a [routerLink]="[ '/' ]">HOME</a>
+<mat-toolbar color="primary" >
 
-<spot-layer-filters></spot-layer-filters>
+  <button mat-button routerLink="/" >
+    <mat-icon >arrow_back</mat-icon>
+  </button>
+  <spot-layer-filters></spot-layer-filters>
+
+</mat-toolbar>
+
+<mat-toolbar color="primary" *smMapTopMenu >
+
+  <button mat-button (click)="mapToggle()" *smIfHandset>
+    <mat-icon >arrow_back</mat-icon>
+  </button>
+
+  <spot-layer-filters  *smIfHandset></spot-layer-filters>
+
+</mat-toolbar>
+
+<br><br><br>
+<mat-toolbar *smIfHandset  class="toolbar-center">
+
+  <button mat-button (click)="mapToggle()" >
+    <mat-icon >map</mat-icon><br>
+    Show Map
+  </button>
+
+</mat-toolbar>
 

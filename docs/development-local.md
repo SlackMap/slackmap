@@ -1,8 +1,10 @@
 # Local Development Guide
 
 ```ts
-// TODO
+// if you want to share the dev server in local network, for mobile debugging
+ng serve web --port 0.0.0.0
 ```
+
 ### Neo4j
 
 Download [Neo4j 4.0 Desktop](https://neo4j.com/download/)

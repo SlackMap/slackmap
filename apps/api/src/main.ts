@@ -4,11 +4,13 @@ if (result.error) {
 }
 import { Logger } from '@nestjs/common';
 Logger.overrideLogger(['error'])
+import { Logger as Logger2 } from "nestjs-pino";
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { logger: false });
+  app.useLogger(app.get(Logger2));
   app.enableCors();
   app.enableShutdownHooks();
   const port = process.env.PORT || 3333;

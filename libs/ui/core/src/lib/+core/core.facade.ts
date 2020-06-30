@@ -23,4 +23,7 @@ export class CoreFacade {
   showMapToggle() {
     this.dispatch(CoreActions.showMapToggle())
   }
+  showMap(showMap: boolean) {
+    this.dispatch(CoreActions.showMap({showMap}))
+  }
 }
