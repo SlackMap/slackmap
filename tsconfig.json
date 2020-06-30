@@ -53,7 +53,8 @@
       "@slackmap/api/auth/testing": ["libs/api/auth/testing/src/index.ts"],
       "@slackmap/ui/storage": ["libs/ui/storage/src/index.ts"],
       "@slackmap/ui/layout": ["libs/ui/layout/src/index.ts"],
-      "@slackmap/ui/spot": ["libs/ui/spot/src/index.ts"]
+      "@slackmap/ui/spot": ["libs/ui/spot/src/index.ts"],
+      "@slackmap/api/logger/data": ["libs/api/logger/data/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "tools/schematics/**/files/**"]

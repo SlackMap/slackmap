@@ -114,6 +114,9 @@
     },
     "ui-spot": {
       "tags": ["ui"]
+    },
+    "api-logger-data": {
+      "tags": ["api"]
     }
   }
 }
