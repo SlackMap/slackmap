@@ -103,19 +103,21 @@ export class AuthService {
       if(!fb) {
         return subscriber.error('Facebook SDK is not loaded')
       }
-      fb.login(function (response) {
-        if (response.authResponse) {
-          subscriber.next({
-            accessToken: response.authResponse.accessToken
-          });
-          subscriber.complete();
-        } else {
-          subscriber.error({
-            detail: 'login aborted or not authorized',
-            data: response
-          });
+      fb.login((response) => {
+        this.zone.run(() => {
+          if (response.authResponse) {
+            subscriber.next({
+              accessToken: response.authResponse.accessToken
+            });
+            subscriber.complete();
+          } else {
+            subscriber.error({
+              detail: 'login aborted or not authorized',
+              data: response
+            });
 
-        }
+          }
+        });
       }, { scope: (scope || []).join(',') });
     });
   }
