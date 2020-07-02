@@ -20,3 +20,7 @@ export interface LoadHashResponse {
   data?: ClustersSpotsGetDto;
   error?: any;
 }
+
+export interface SpotRouteParams {
+  rid: string;
+}

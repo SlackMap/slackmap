@@ -2,10 +2,12 @@ import { createReducer, on, Action } from '@ngrx/store';
 import * as SpotActions from './spot.actions';
 import { SportType, ItemSubtype, ItemSubtypes } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';
+import { SpotGetDto } from '@slackmap/api/spot/dto';
 
 export const SPOT_FEATURE_KEY = 'spot';
 
 export interface SpotState  {
+  spot: SpotGetDto;
   layers: {[key in SportType]: {[key: string]: LoadHashResponse}}; // layers spots as hash of arrays, key is geohash
   selected: any[]; // selected spots, map will focus on this and add it on the map
   sportsEnabled: SportType[]; // sports enabled to show on the map
@@ -17,6 +19,7 @@ export interface SpotPartialState {
 }
 
 export const initialState: SpotState = {
+  spot: null,
   layers: {
     [SportType.SLACKLINE]: {},
     [SportType.TRAMPOLINE]: {},
@@ -29,6 +32,10 @@ export const initialState: SpotState = {
 
 const spotReducer = createReducer(
   initialState,
+  on(SpotActions.loadSuccess, (state, { spot }) => ({
+    ...state,
+    spot,
+  })),
   on(SpotActions.sportsEnabledChange, (state, { sportsEnabled }) => ({
     ...state,
     sportsEnabled,

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { UiConfig } from "@slackmap/ui/config";
 import { AUTH_PATHS, AuthSignInByFacebookRequestDto, AuthSignInByFacebookDto, AuthMeGetDto, AuthSignUpByFacebookRequestDto, AuthSignUpByFacebookDto } from '@slackmap/api/auth/dto';
 import { CONFIG_PATHS, ConfigGetDto } from '@slackmap/api/config/dto';
-import { SPOT_PATHS, SpotSaveDto, SpotSaveRequestDto } from '@slackmap/api/spot/dto';
+import { SPOT_PATHS, SpotSaveDto, SpotSaveRequestDto, SpotGetDto } from '@slackmap/api/spot/dto';
 import { CLUSTERS_PATHS, ClustersClustersGetRequestDto, ClustersClustersGetDto, ClustersSpotsGetRequestDto, ClustersSpotsGetDto } from '@slackmap/api/clusters/dto';
 
 const API_TOKEN_STORAGE_KEY = 'apiToken';
@@ -91,7 +91,14 @@ export class UiApiService {
    * SPOT Save
    */
   public spotSave(requestDto: SpotSaveRequestDto): Observable<SpotSaveDto> {
-    console.log('this.basePath',this.basePath)
     return this.httpClient.post<SpotSaveDto>(`${this.basePath}/${SPOT_PATHS.save()}`, requestDto);
+  }
+
+  /**
+   * SPOT Get
+   */
+  public spotGet(rid: string): Observable<SpotGetDto> {
+    console.log('this.basePath',this.basePath)
+    return this.httpClient.get<SpotGetDto>(`${this.basePath}/${SPOT_PATHS.get(rid)}`);
   }
 }

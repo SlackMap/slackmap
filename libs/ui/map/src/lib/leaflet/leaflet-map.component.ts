@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject, PLATFORM_ID, NgZone, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import * as L from "leaflet";
 import { restoreView } from './plugins/leaflet.restoreview';
 import { leafletCustoms } from './map/leaflet-customs';
@@ -7,14 +6,14 @@ import { drawHandler } from './draw/draw-handler';
 import { mapTileLayer } from './layers/map.tile.layer';
 import { satelliteGoogleTileLayer } from './layers/satellite.google.tile.layer';
 import { SpotsLayer } from './layers/spots.layer';
-import { ItemUtils, SubSink, MAP_ZOOM_THRESHOLD } from '@slackmap/core';
-import { clusters } from '../clusters';
+import { ItemUtils, MAP_ZOOM_THRESHOLD } from '@slackmap/core';
 import { MapService } from '../map.service';
 import { merge, fromEvent, Observable, Subject, combineLatest } from 'rxjs';
 import { map, takeUntil, startWith, debounceTime, share } from 'rxjs/operators';
 import * as geohash from 'ngeohash';
-import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawGeometry } from '../+map';
+import { MapViewChangeData, MapComponent, DrawType, DrawHandler, DrawGeometry, FitFeaturesOptions, ViewOptions } from '../+map';
 import { editHandler } from './draw/edit-handler';
+import { bbox } from '@turf/turf';
 
 restoreView();
 leafletCustoms();
@@ -61,10 +60,7 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
       const _map = L.map(this.mapContainer.nativeElement);
 
       this.map = _map;
-      if (!_map.restoreView()) {
-        // _map.setView([27.916159899896595, -15.604705810546875], 10);
-        _map.setView([0, 0], 1);
-      }
+
       const mapTileLayerInstance = mapTileLayer().addTo(_map);
       const satelliteTileLayerInstance = satelliteGoogleTileLayer();
 
@@ -85,6 +81,13 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
 
       this.cd.detectChanges();
       this.mapService.setMap(this);
+      if(this.mapService.view) {
+        const options = this.mapService.view;
+        _map.setView([options.position[1], options.position[0]], options.zoom);
+      } else if (!_map.restoreView()) {
+        // _map.setView([27.916159899896595, -15.604705810546875], 10);
+        _map.setView([0, 0], 1);
+      }
     // });
 
   }
@@ -105,11 +108,11 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
       debounceTime(250),
       map(() => {
         const zoom = this.map.getZoom();
-        const bbox = this.map.getBounds().limit().toGeoJSON();
-        const hashes = (zoom < MAP_ZOOM_THRESHOLD) ? ['clusters'] : geohash.bboxes(bbox[1], bbox[0], bbox[3], bbox[2], 6).sort();
+        const bb = this.map.getBounds().limit().toGeoJSON();
+        const hashes = (zoom < MAP_ZOOM_THRESHOLD) ? ['clusters'] : geohash.bboxes(bb[1], bb[0], bb[3], bb[2], 6).sort();
         const data: MapViewChangeData = {
           bounds: this.map.getBounds().limit().toArray(),
-          bbox,
+          bbox: bb,
           zoom,
           hashes
         };
@@ -144,6 +147,19 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
 
   editHandler(geometry: DrawGeometry, type?: DrawType): Observable<DrawHandler> {
     return editHandler(this.map, geometry, type)
+  }
+
+  fitFeatures(options: FitFeaturesOptions): void {
+    if(this.map) {
+      const bb = bbox(options.features);
+      this.map.fitBbox(bb, {})
+    }
+  }
+
+  setView(options: ViewOptions): void {
+    if(this.map) {
+      this.map.setView([options.position[1], options.position[0]], options.zoom)
+    }
   }
 
   ngOnDestroy() {

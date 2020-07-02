@@ -1,6 +1,7 @@
 import { GeoJSON } from '@slackmap/gis';
 import { DrawType } from '@slackmap/core';
 import { Observable } from 'rxjs';
+import { AllGeoJSON } from '@turf/turf';
 
 export interface MapViewChangeData {
   bounds: [[number, number], [number, number]];
@@ -9,9 +10,20 @@ export interface MapViewChangeData {
   hashes?: string[];
 }
 
+export interface ViewOptions {
+  position: GeoJSON.Position,
+  zoom?: number,
+}
+
+export interface FitFeaturesOptions {
+  features: AllGeoJSON,
+}
+
 export interface MapComponent {
   viewChange$: Observable<MapViewChangeData>;
   itemClick$: Observable<{item: any}>;
+  fitFeatures(options: FitFeaturesOptions): void;
+  setView(options: ViewOptions): void;
   spotsLayer(spots$: Observable<any>): Observable<void>;
   drawHandler(type: DrawType): Observable<DrawHandler>;
   editHandler(geometry: DrawGeometry, type?: DrawType): Observable<DrawHandler>;

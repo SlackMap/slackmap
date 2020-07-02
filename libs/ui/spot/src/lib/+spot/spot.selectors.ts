@@ -9,6 +9,11 @@ export const getSpotState = createFeatureSelector<SpotPartialState, SpotState>(
   SPOT_FEATURE_KEY
 );
 
+export const getSpot = createSelector(
+  getSpotState,
+  state => state.spot,
+);
+
 export const getSpotLayers = createSelector(
   getSpotState,
   state => state.layers,

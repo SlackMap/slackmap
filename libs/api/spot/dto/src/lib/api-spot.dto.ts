@@ -3,7 +3,8 @@ import { ValidateNested, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export const SPOT_PATHS = {
-  save: () => 'spot/save'
+  save: () => 'spot/save',
+  get: (rid = ':rid') => `spot/${rid}`,
 }
 
 export class SpotSaveRequestDto {
@@ -14,5 +15,8 @@ export class SpotSaveRequestDto {
   spot: SpotModel;
 }
 export class SpotSaveDto {
+  spot: SpotModel;
+}
+export class SpotGetDto {
   spot: SpotModel;
 }

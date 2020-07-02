@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Subject, Observable } from 'rxjs';
-import { MapComponent, MapViewChangeData, DrawType, DrawHandler, DrawGeometry } from './+map';
+import { MapComponent, MapViewChangeData, DrawType, DrawHandler, DrawGeometry, ViewOptions, FitFeaturesOptions } from './+map';
 import { switchMap, debounceTime } from 'rxjs/operators';
 
 @Injectable({
@@ -8,6 +8,9 @@ import { switchMap, debounceTime } from 'rxjs/operators';
 })
 export class MapService implements MapComponent {
 
+
+  public view: ViewOptions;
+  private map: MapComponent;
   private map$$ = new ReplaySubject<MapComponent>(1);
   map$ = this.map$$.asObservable();
 
@@ -38,6 +41,20 @@ export class MapService implements MapComponent {
   }
 
   setMap(map: MapComponent) {
+    this.map = map;
     this.map$$.next(map);
+  }
+
+  setView(options: ViewOptions) {
+    this.view = options;
+    if(this.map) {
+      this.map.setView(options);
+    }
+  }
+
+  fitFeatures(options: FitFeaturesOptions) {
+    if(this.map) {
+      this.map.fitFeatures(options);
+    }
   }
 }

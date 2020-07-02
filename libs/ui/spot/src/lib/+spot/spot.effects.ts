@@ -2,20 +2,72 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import * as fromSpot from './spot.reducer';
 import * as SpotActions from './spot.actions';
-import { map, mergeAll, filter, takeUntil, mergeMap, switchMap, distinctUntilChanged } from 'rxjs/operators';
-import { of, from } from 'rxjs';
-import { MapActions } from '@slackmap/ui/map';
-import { SportType, MAP_ZOOM_THRESHOLD } from '@slackmap/core';
+import { map, mergeAll, filter, takeUntil, mergeMap, switchMap, distinctUntilChanged, catchError } from 'rxjs/operators';
+import { of, from, EMPTY } from 'rxjs';
+import { MapActions, MapService } from '@slackmap/ui/map';
+import { SportType, MAP_ZOOM_THRESHOLD, ItemType, DrawType, getSportOptionByName } from '@slackmap/core';
 import { arrayDiff, ArrayDiff } from '@slackmap/ui/common/utils';
 import { SpotService } from '../services';
+import { Router } from '@angular/router';
+import { ClusterModel } from '@slackmap/api/clusters/dto';
+import { routerNavigatedAction } from '@ngrx/router-store';
+import { MergedRoute, CoreActions } from '@slackmap/ui/core';
+import { SpotRouteParams } from './spot.models';
+import { UiApiService } from '@slackmap/ui/api';
 
 @Injectable()
 export class SpotEffects {
 
   constructor(
     private actions$: Actions,
-    private spotService: SpotService
+    private spotService: SpotService,
+    private mapService: MapService,
+    private router: Router,
+    private api: UiApiService,
   ) { }
+
+
+  router$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(routerNavigatedAction),
+      filter(action => action.payload.routerState.url.indexOf('/x') === 0),
+      map(action => action.payload.routerState as unknown as MergedRoute<SpotRouteParams>),
+      map(route => SpotActions.load({rid: route.params.rid}))
+    )
+  );
+
+  spotLoad$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SpotActions.load),
+      switchMap(action => {
+        return this.api.spotGet(action.rid).pipe(
+          map(spot => SpotActions.loadSuccess({spot})),
+          catchError(error => of(SpotActions.loadFailure({error})))
+        );
+      }),
+    )
+  );
+
+  spotClick$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SpotActions.spotClick),
+      map(action => action.spot),
+      filter(spot => !!spot),
+      map((spot) => {
+         if(spot.rid) {
+          this.router.navigate(['/x', spot.rid])
+        } else if(spot.type === ItemType.CLUSTER) {
+          const s = spot as ClusterModel;
+          this.mapService.setView({
+            position: s.position,
+            zoom: s.expansionZoom,
+          })
+        }
+      }),
+    ),
+    {dispatch: false}
+  );
+
   loadHash$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SpotActions.hashLoad),

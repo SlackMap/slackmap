@@ -11,7 +11,7 @@ export class MarkerFactory {
   ) {}
 
   create(item) {
-    if (!item.position || !item.position[0] || !item.position[1]) {
+    if (!item || !item.position || !item.position[0] || !item.position[1]) {
       return null;
     }
 

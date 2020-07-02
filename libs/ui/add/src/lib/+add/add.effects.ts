@@ -7,7 +7,7 @@ import * as fromAdd from './add.reducer';
 import * as AddActions from './add.actions';
 import { DrawGeometry } from '@slackmap/ui/map';
 import { UiApiService } from '@slackmap/ui/api';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, filter } from 'rxjs/operators';
 import { of, EMPTY, from } from 'rxjs';
 import { ErrorService } from '@slackmap/ui/common/errors';
 import { SpotService, SpotsActions } from '@slackmap/ui/spot';
@@ -22,8 +22,9 @@ export class AddEffects {
   router$ = createEffect(() =>
     this.actions$.pipe(
       ofType(routerNavigatedAction),
-      switchMap(action => {
-        const route = action.payload.routerState as unknown as MergedRoute<AddRouteParams>;
+      filter(action => action.payload.routerState.url.indexOf('/add') === 0),
+      map(action => action.payload.routerState as unknown as MergedRoute<AddRouteParams>),
+      switchMap(route => {
 
         let sportType: SportType = null;
         let drawType: DrawType = null;

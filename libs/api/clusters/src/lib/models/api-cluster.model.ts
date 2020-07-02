@@ -1,6 +1,6 @@
 
 import { GeoJSON } from '@slackmap/gis';
-import { ClusterSubtype, ItemType, Rid, Poi, ItemSubtypes } from '@slackmap/core';
+import { ClusterSubtype, ItemType, Rid, ItemSubtypes } from '@slackmap/core';
 
 export type ClusterCountsModel = {
   [key in ItemSubtypes]?: number;

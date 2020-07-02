@@ -11,6 +11,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { MatButtonModule } from '@angular/material/button';
 import { UiAuthModule } from '@slackmap/ui/auth';
 import { GeometryInput } from './inputs';
+import { ItemClickComponent } from './components/item-click/item-click.component';
+import { SetViewComponent } from './components/set-view/set-view.component';
 
 @NgModule({
   imports: [
@@ -25,6 +27,8 @@ import { GeometryInput } from './inputs';
     DrawControlComponent,
     SpotsLayerComponent,
     GeometryInput,
+    ItemClickComponent,
+    SetViewComponent,
   ],
   providers: [
     MapFacade,
@@ -34,6 +38,8 @@ import { GeometryInput } from './inputs';
     DrawControlComponent,
     SpotsLayerComponent,
     GeometryInput,
+    ItemClickComponent,
+    SetViewComponent,
   ],
 })
 export class UiMapModule {}

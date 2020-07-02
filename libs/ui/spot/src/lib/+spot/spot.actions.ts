@@ -1,7 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { SportType, ItemSubtypes } from '@slackmap/core';
+import { SportType, ItemSubtypes, SpotItem } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';
 import { ArrayDiff } from '@slackmap/ui/common/utils';
+import { ClusterModel } from '@slackmap/api/clusters/dto';
+import { SpotGetDto } from '@slackmap/api/spot/dto';
 
 /**
  * fired to init the loading
@@ -68,12 +70,36 @@ export const viewHashesChange = createAction(
 
 // fired when layer filters are changed by the user
 export const subtypesEnabledChange = createAction(
-  '[Core] Subtypes Enabled Change',
+  '[Spot] Subtypes Enabled Change',
   props<{ subtypesEnabled: ItemSubtypes[] }>()
 );
 
 // enable or disable the layer
 export const sportsEnabledChange = createAction(
-  '[Core] Sports Enabled Change',
+  '[Spot] Sports Enabled Change',
   props<{ sportsEnabled: SportType[] }>()
+);
+
+// spot load
+export const load = createAction(
+  '[Spot] Load',
+  props<{ rid: string }>()
+);
+
+// spot load success
+export const loadSuccess = createAction(
+  '[Spot] Load Success',
+  props<{ spot: SpotGetDto }>()
+);
+
+// spot load error
+export const loadFailure = createAction(
+  '[Spot] Load Failure',
+  props<{ error: any }>()
+);
+
+// when spot on the map was clicked
+export const spotClick = createAction(
+  '[Spot] Spot Click',
+  props<{ spot: SpotItem | ClusterModel }>()
 );

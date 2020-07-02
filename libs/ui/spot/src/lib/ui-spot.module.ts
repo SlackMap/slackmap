@@ -25,6 +25,8 @@ import { MatInputModule } from '@angular/material/input';
 export const uiSpotRoutes: Route[] = [
   { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
   { path: 'x', component: XPage },
+  { path: 'x/:rid', component: XPage },
+  { path: 'x/:rid/map', component: XPage },
 ];
 
 @NgModule({

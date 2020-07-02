@@ -27,3 +27,9 @@
 
 </mat-toolbar>
 
+<map-item-click (itemClick)="onItemClick($event)"></map-item-click>
+
+<pre *ngIf="spot$ | async as spot">
+  <!-- <map-set-view [fit]="{features: spot?.spot?.geometry}"></map-set-view> -->
+{{ spot |json}}
+</pre>

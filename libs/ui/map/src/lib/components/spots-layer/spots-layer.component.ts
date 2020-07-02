@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../map.service';
 
 @Component({
-  selector: 'sm-map-spots-layer',
+  selector: 'map-spots-layer',
   template: ``,
   styles: []
 })

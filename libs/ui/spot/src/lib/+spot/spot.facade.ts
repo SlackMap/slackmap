@@ -9,6 +9,7 @@ import { SportType } from '@slackmap/core';
 @Injectable()
 export class SpotFacade {
 
+  spot$ = this.store.pipe(select(SpotSelectors.getSpot));
   layers$ = this.store.pipe(select(SpotSelectors.getSpotLayers));
 
   sportsEnabled$ = this.store.select(SpotSelectors.getCoreSportsEnabled);
