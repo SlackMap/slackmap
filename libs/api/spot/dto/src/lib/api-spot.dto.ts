@@ -19,4 +19,6 @@ export class SpotSaveDto {
 }
 export class SpotGetDto {
   spot: SpotModel;
+  photos: any[];
+  posts: any[];
 }

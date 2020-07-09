@@ -13,6 +13,10 @@ export class CoreFacade {
   isHandset$ = this.store.select(CoreSelectors.getIsHandset);
   route$ = this.store.select(RouterSelectors.getMergedRoute);
   showMap$ = this.store.select(CoreSelectors.getShowMap);
+  sports$ = this.store.select(CoreSelectors.getSports);
+  subtypes$ = this.store.select(CoreSelectors.getSubtypes);
+  selectedSports$ = this.store.select(CoreSelectors.getSelectedSports);
+  selectedSubtypes$ = this.store.select(CoreSelectors.getSelectedSubtypes);
 
   constructor(private store: Store<fromCore.CorePartialState>) {}
 

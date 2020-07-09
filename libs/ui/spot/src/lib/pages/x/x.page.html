@@ -1,23 +1,14 @@
-<mat-toolbar color="primary" >
-
-  <button mat-button routerLink="/" >
-    <mat-icon >arrow_back</mat-icon>
-  </button>
-  <spot-layer-filters></spot-layer-filters>
-
-</mat-toolbar>
-
+<!-- Map Top Menu -->
 <mat-toolbar color="primary" *smMapTopMenu >
 
   <button mat-button (click)="mapToggle()" *smIfHandset>
     <mat-icon >arrow_back</mat-icon>
   </button>
 
-  <spot-layer-filters  *smIfHandset></spot-layer-filters>
+  <sm-sport-filter-select></sm-sport-filter-select>
 
 </mat-toolbar>
 
-<br><br><br>
 <mat-toolbar *smIfHandset  class="toolbar-center">
 
   <button mat-button (click)="mapToggle()" >
@@ -29,7 +20,24 @@
 
 <map-item-click (itemClick)="onItemClick($event)"></map-item-click>
 
-<pre *ngIf="spot$ | async as spot">
-  <!-- <map-set-view [fit]="{features: spot?.spot?.geometry}"></map-set-view> -->
+<!-- NO SPOT -->
+<ng-template #noSpotTpl>
+  no spot
+</ng-template>
+
+<!-- SHOW SPOT DETAILS -->
+<ng-container *ngIf="spot$ | async as spot; else noSpotTpl">
+  <map-set-view [fit]="spot?.spot?.geometry"></map-set-view>
+  <map-spots-layer [spot]="spot?.spot"></map-spots-layer>
+
+  <mat-toolbar color="primary" >
+
+    <button mat-button routerLink="../" >
+      <mat-icon >arrow_back</mat-icon>
+    </button>
+    <span [innerHTML]="spot?.spot | itemTitle"></span>
+
+  </mat-toolbar>
+
 {{ spot |json}}
-</pre>
+</ng-container>

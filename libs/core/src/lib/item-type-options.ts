@@ -1,6 +1,6 @@
 import { ItemType, ItemSubtype } from './item-type';
 import { DrawType } from './spot-shape-type';
-import { SportType } from './layer-options';
+import { SportType } from './sport.models';
 
 export interface TypeOption {
   id: ItemType;

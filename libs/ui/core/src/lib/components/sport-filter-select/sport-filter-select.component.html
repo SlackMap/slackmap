@@ -1,0 +1,21 @@
+<mat-form-field >
+  <mat-label>Sport</mat-label>
+  <mat-select class="fill-remaining-space" placeholder="select sport..."  [ngModel]="selectedSports$ | async"
+    (ngModelChange)="onSportChange($event)" name="sports$ | async">
+    <mat-option *ngFor="let sport of sports$ | async" [value]="sport">{{sport.label}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <!-- <mat-label>Filter</mat-label> -->
+  <mat-select #subtypesSelect class="fill-remaining-space" placeholder="Filter spots..." multiple [ngModel]="selectedSubtypes$ | async"
+    (ngModelChange)="onSubtypeChange($event)" name="subtypes">
+    <!-- <mat-select-trigger>
+      {{ (subtypesEnabled$ | async).join(', ')}}
+      <mat-icon (click)="$event.stopPropagation();$event.preventDefault();onSubtypeChange([])">close</mat-icon>
+    </mat-select-trigger> -->
+    <mat-option (click)="subtypesSelect.close()" [value]="{}">Clear filters</mat-option>
+    <mat-option *ngFor="let option of subtypes$ | async" [value]="option">{{option.label}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<!-- <pre>{{sports$ | async | json}}</pre> -->

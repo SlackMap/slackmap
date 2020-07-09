@@ -45,6 +45,10 @@ export function getSubtypeOptionFromItem(item: Item, subtypeOptions = SUBTYPE_OP
   }
 }
 
+export function getSubtypeOptionByName(name: string, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption | null {
+    return subtypeOptions.find(i => i.name === name);
+}
+
 export function getItemTypeByItemName(itemName: string, typeOptions = TYPE_OPTIONS): ItemType | null {
   const option = typeOptions.find(i => i.name === itemName);
   return option ? option.id : null;

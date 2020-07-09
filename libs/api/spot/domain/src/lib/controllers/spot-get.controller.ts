@@ -15,7 +15,9 @@ export class SpotGetController {
   @Transactional()
   async process(@Param('rid') rid: string): Promise<SpotGetDto> {
 
+    const photos = [];
+    const posts = [];
     const spot = await this.spotRepository.findOne({rid})
-    return {spot}
+    return {spot, photos, posts}
   }
 }

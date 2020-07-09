@@ -13,6 +13,7 @@ export class SpotsLayer extends L.FeatureGroup {
   }
 
   setSpots(spots) {
+    console.log('set spots and clear', spots)
     this.clearLayers();
     if(!spots) {
       return;

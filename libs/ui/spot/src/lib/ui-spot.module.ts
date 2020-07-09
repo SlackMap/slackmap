@@ -7,7 +7,6 @@ import { SpotFacade } from './+spot/spot.facade';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { XPage } from './pages';
-import { LayerFiltersComponent } from './components';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorsModule } from '@slackmap/ui/common/errors';
@@ -23,10 +22,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 export const uiSpotRoutes: Route[] = [
-  { path: 'x/', redirectTo: 'x', pathMatch: 'full' },
-  { path: 'x', component: XPage },
+  { path: 'x/', redirectTo: 's', pathMatch: 'full' },
+  { path: 'x', redirectTo: 's', pathMatch: 'full' },
+  { path: 's/', redirectTo: 's', pathMatch: 'full' },
+  { path: 's', component: XPage },
+  { path: 's/:sportNames', component: XPage },
+  { path: 's/:sportNames/:subtypeNames', component: XPage },
   { path: 'x/:rid', component: XPage },
-  { path: 'x/:rid/map', component: XPage },
 ];
 
 @NgModule({
@@ -54,7 +56,6 @@ export const uiSpotRoutes: Route[] = [
     SpotFacade,
   ],
   declarations: [
-    LayerFiltersComponent,
     XPage,
   ]
 })

@@ -10,6 +10,8 @@ export class MapService implements MapComponent {
 
 
   public view: ViewOptions;
+  public fit: FitFeaturesOptions;
+
   private map: MapComponent;
   private map$$ = new ReplaySubject<MapComponent>(1);
   map$ = this.map$$.asObservable();
@@ -53,6 +55,7 @@ export class MapService implements MapComponent {
   }
 
   fitFeatures(options: FitFeaturesOptions) {
+    this.fit = options;
     if(this.map) {
       this.map.fitFeatures(options);
     }

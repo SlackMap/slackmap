@@ -81,7 +81,9 @@ export class LeafletMapComponent implements AfterViewInit, OnDestroy, MapCompone
 
       this.cd.detectChanges();
       this.mapService.setMap(this);
-      if(this.mapService.view) {
+      if(this.mapService.fit) {
+        this.fitFeatures(this.mapService.fit);
+      } else if(this.mapService.view) {
         const options = this.mapService.view;
         _map.setView([options.position[1], options.position[0]], options.zoom);
       } else if (!_map.restoreView()) {

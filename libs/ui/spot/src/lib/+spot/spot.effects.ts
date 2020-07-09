@@ -26,13 +26,14 @@ export class SpotEffects {
     private api: UiApiService,
   ) { }
 
-
   router$ = createEffect(() =>
     this.actions$.pipe(
       ofType(routerNavigatedAction),
       filter(action => action.payload.routerState.url.indexOf('/x') === 0),
       map(action => action.payload.routerState as unknown as MergedRoute<SpotRouteParams>),
-      map(route => SpotActions.load({rid: route.params.rid}))
+      map(route => route.params.rid),
+      filter(rid => !!rid),
+      map(rid => SpotActions.load({rid}))
     )
   );
 

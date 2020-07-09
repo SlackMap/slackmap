@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MapService } from '../../map.service';
 import { ViewOptions, FitFeaturesOptions } from '../../+map';
+import { AllGeoJSON } from '@turf/turf';
 
 @Component({
   selector: 'map-set-view',
@@ -17,9 +18,9 @@ export class SetViewComponent implements OnInit {
   };
 
   @Input()
-  set fit(view: FitFeaturesOptions) {
-    if(view) {
-      this.mapService.fitFeatures(view);
+  set fit(features: AllGeoJSON) {
+    if(features) {
+      this.mapService.fitFeatures({features});
     }
   };
 

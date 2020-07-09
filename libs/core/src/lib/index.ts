@@ -6,7 +6,7 @@ export * from './item-rid';
 export * from './item-type-options';
 export * from './item-type';
 export * from './item-utils';
-export * from './layer-options';
+export * from './sport.models';
 export * from './like';
 export * from './measure';
 export * from './photo';
