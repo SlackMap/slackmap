@@ -12,9 +12,6 @@ export class SpotFacade {
   spot$ = this.store.pipe(select(SpotSelectors.getSpot));
   layers$ = this.store.pipe(select(SpotSelectors.getSpotLayers));
 
-  sportsEnabled$ = this.store.select(SpotSelectors.getCoreSportsEnabled);
-  subtypesEnabled$ = this.store.select(SpotSelectors.getCoreSubtypesEnabled);
-
   constructor(private store: Store<fromSpot.SpotPartialState>) {}
 
   getSportFilteredSpots = (sport: SportType) => this.store.select(SpotSelectors.getMapSportFilteredSpots(sport));

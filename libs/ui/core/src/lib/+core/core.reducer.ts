@@ -38,12 +38,7 @@ const coreReducer = createReducer(
   on(CoreActions.isHandset, (state, { isHandset }) => ({ ...state, isHandset })),
   on(CoreActions.showMap, (state, { showMap }) => ({ ...state, showMap })),
   on(CoreActions.showMapToggle, (state) => ({ ...state, showMap: !state.showMap })),
-  on(CoreActions.updateFromRoute, (state, action) => {
-    console.log('s', state, action.state)
-    const n = ({ ...state, ...action.state });
-    console.log('n', n)
-    return n;
-  }),
+  on(CoreActions.updateFromRoute, (state, action) => ({ ...state, ...action.state })),
 );
 
 export function reducer(state: CoreState | undefined, action: Action) {

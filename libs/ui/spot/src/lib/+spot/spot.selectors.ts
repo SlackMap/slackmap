@@ -3,6 +3,7 @@ import { SportType, ItemType, ItemSubtype } from '@slackmap/core';
 import { SPOT_FEATURE_KEY, SpotState, SpotPartialState, } from './spot.reducer';
 import { LoadHashResponse } from './spot.models';
 import { ClusterModel } from '@slackmap/api/clusters/dto';
+import { CoreSelectors } from '@slackmap/ui/core';
 
 // Lookup the 'Spots' feature state managed by NgRx
 export const getSpotState = createFeatureSelector<SpotPartialState, SpotState>(
@@ -26,14 +27,11 @@ export const getSpotLayer = function (layer: SportType) {
   );
 };
 
-export const getCoreSportsEnabled = createSelector(getSpotState, (state) => state.sportsEnabled);
-export const getCoreSubtypesEnabled = createSelector(getSpotState, (state) => state.subtypesEnabled);
-
 // select spots for specific layer type, apply filters to them
 export const getMapSportFilteredSpots = function (sport: SportType) {
   return createSelector(
     getSpotLayer(sport),
-    getCoreSubtypesEnabled,
+    CoreSelectors.getSelectedSubtypeIds,
     (spots: {[key: string]: LoadHashResponse}, filters) => {
 
       // convert has of arrays, to flat array

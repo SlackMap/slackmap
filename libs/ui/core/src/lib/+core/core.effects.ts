@@ -56,7 +56,7 @@ export class CoreEffects {
         if(typeof route.queryParams.map !== 'undefined') {
           state.showMap = true;
         }
-console.log('route.params', route.params, state)
+
         return from([
           CoreActions.updateFromRoute({state}),
         ]);

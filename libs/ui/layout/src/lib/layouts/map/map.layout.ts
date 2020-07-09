@@ -21,6 +21,8 @@ export class MapLayout implements AfterViewInit, OnDestroy {
   showMap$ = this.coreFacade.showMap$;
   isHandset$ = this.coreFacade.isHandset$;
 
+  selectedSports$ = this.coreFacade.selectedSports$;
+
   constructor(
     private app: ApplicationRef,
     private injector: Injector,
@@ -35,8 +37,6 @@ export class MapLayout implements AfterViewInit, OnDestroy {
     // get version from root element (AppComponent)
     const version = this.injector.get(this.app.componentTypes[0]).version;
     this.configFacade.dispatch(ConfigActions.version({version}))
-
-    // this.mapService.spotsLayer(this.spotFacade.getSportFilteredSpots(SportType.SLACKLINE)).subscribe();
 
     this.mapService.viewChange$.pipe(
       tap(view => this.configFacade.dispatch(MapActions.viewChange({view}))),

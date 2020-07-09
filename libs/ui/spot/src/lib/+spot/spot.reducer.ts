@@ -3,6 +3,8 @@ import * as SpotActions from './spot.actions';
 import { SportType, ItemSubtype, ItemSubtypes } from '@slackmap/core';
 import { LoadHashResponse } from './spot.models';
 import { SpotGetDto } from '@slackmap/api/spot/dto';
+import { CoreFeature } from '@slackmap/ui/core';
+import { MapFeature } from '@slackmap/ui/map';
 
 export const SPOT_FEATURE_KEY = 'spot';
 
@@ -10,12 +12,12 @@ export interface SpotState  {
   spot: SpotGetDto;
   layers: {[key in SportType]: {[key: string]: LoadHashResponse}}; // layers spots as hash of arrays, key is geohash
   selected: any[]; // selected spots, map will focus on this and add it on the map
-  sportsEnabled: SportType[]; // sports enabled to show on the map
-  subtypesEnabled: ItemSubtypes[]; // only show this subtypes, if empty then show all
 }
 
 export interface SpotPartialState {
   readonly [SPOT_FEATURE_KEY]: SpotState;
+  readonly [CoreFeature.CORE_FEATURE_KEY]: CoreFeature.CoreState;
+  readonly [MapFeature.MAP_FEATURE_KEY]: MapFeature.MapState;
 }
 
 export const initialState: SpotState = {
@@ -26,8 +28,6 @@ export const initialState: SpotState = {
     [SportType.DIVING]: {}
   },
   selected: [],
-  sportsEnabled: [],
-  subtypesEnabled: [],
 };
 
 const spotReducer = createReducer(
@@ -35,15 +35,6 @@ const spotReducer = createReducer(
   on(SpotActions.loadSuccess, (state, { spot }) => ({
     ...state,
     spot,
-  })),
-  on(SpotActions.sportsEnabledChange, (state, { sportsEnabled }) => ({
-    ...state,
-    sportsEnabled,
-  })),
-
-  on(SpotActions.subtypesEnabledChange, (state, { subtypesEnabled }) => ({
-    ...state,
-    subtypesEnabled: subtypesEnabled,
   })),
   on(SpotActions.hashStorageSuccess, SpotActions.hashRequestFailure, SpotActions.hashRequestSuccess, (state, action) => ({
     ...state,

@@ -18,6 +18,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { MapTopMenuComponent } from './components/map-top-menu/map-top-menu.component';
 import { MapBottomMenuComponent } from './components/map-bottom-menu/map-bottom-menu.component';
+import { SelectedSportLayersComponent } from './components/selected-sport-layers/selected-sport-layers.component';
 
 export const uiLayoutRoutes: Route[] = [
   { path: '', pathMatch: 'full', component: HomePage },
@@ -46,7 +47,8 @@ export const uiLayoutRoutes: Route[] = [
     MenuComponent,
     SidenavComponent,
     MapTopMenuComponent,
-    MapBottomMenuComponent
+    MapBottomMenuComponent,
+    SelectedSportLayersComponent,
   ],
   exports: [MapLayout],
 })
