@@ -10,7 +10,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { ItemUtils } from '@slackmap/core';
 import { UiConfig } from '@slackmap/ui/config';
 import { MenuDirective, MapTopMenuDirective, MapBottomMenuDirective, IfHandsetDirective, IfNotHandsetDirective, HandsetClassDirective } from './directives';
-import { IsHandsetPipe } from "./pipes";
+import { IsHandsetPipe, AccessLabelPipe, SubtypeLabelPipe, StatusLabelPipe } from "./pipes";
 import { SportFilterSelectComponent } from './components/sport-filter-select/sport-filter-select.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -52,6 +52,9 @@ export const uiCoreRoutes: Route[] = [
     HandsetClassDirective,
     IsHandsetPipe,
     SportFilterSelectComponent,
+    AccessLabelPipe,
+    SubtypeLabelPipe,
+    StatusLabelPipe,
   ],
   exports: [
     MenuDirective,
@@ -62,6 +65,9 @@ export const uiCoreRoutes: Route[] = [
     HandsetClassDirective,
     IsHandsetPipe,
     SportFilterSelectComponent,
+    AccessLabelPipe,
+    SubtypeLabelPipe,
+    StatusLabelPipe,
   ],
 })
 export class UiCoreModule {}

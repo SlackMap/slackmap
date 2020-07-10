@@ -1,5 +1,5 @@
 <mat-form-field >
-  <mat-label>Sport</mat-label>
+  <!-- <mat-label>Sport</mat-label> -->
   <mat-select class="fill-remaining-space" placeholder="select sport..."  [ngModel]="selectedSports$ | async"
     (ngModelChange)="onSportChange($event)" name="sports$ | async">
     <mat-option *ngFor="let sport of sports$ | async" [value]="sport">{{sport.label}}</mat-option>

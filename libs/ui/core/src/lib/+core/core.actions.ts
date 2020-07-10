@@ -28,6 +28,14 @@ export const sportFilterChange = createAction(
   }>()
 );
 
+// when you select the item itself, you get the selected sport from the item record
+export const setSport = createAction(
+  '[Core] Set Sport',
+  props<{
+    sport: SportType
+  }>()
+);
+
 export const showMapToggle = createAction(
   '[Core] Show Map Toggle',
 );
