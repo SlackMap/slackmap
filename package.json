@@ -86,7 +86,7 @@
     "@rdlabo/capacitor-facebook-login": "^2.0.3",
     "bootstrap": "^4.4.0",
     "chalk": "^4.0.0",
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "clear": "^0.1.0",
     "commander": "^5.1.0",
