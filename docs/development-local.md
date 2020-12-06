@@ -1,9 +1,32 @@
 # Local Development Guide
+## Local Setup
+Prerequisites: 
+- Node.js (https://nodejs.org/en/)
+- Neo4j (https://neo4j.com/)
+- Facebook dev account (https://developers.facebook.com/)
 
+Steps:
+
+1. open Neo4j and create database
+2. go to facebook dev portal and create new app to obtain `APP_ID` and `SECRET`
+3. fork and clone repository
+4. open directory and install npm packages
 ```ts
-// if you want to share the dev server in local network, for mobile debugging
-ng serve web --port 0.0.0.0
+cd slackmap
+npm install
 ```
+5. rename `.env.sample` file to `.env` 
+6. update `.env` file with Neo4j and facebook info
+7. serve angular app
+```ts
+ng serve web
+```
+8. open another terminal window and serve api
+```ts
+ng serve api
+```
+
+## Introduction to used tools
 
 ### Neo4j
 
