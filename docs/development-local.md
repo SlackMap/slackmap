@@ -2,6 +2,7 @@
 ## Local Setup
 Prerequisites: 
 - Node.js (https://nodejs.org/en/)
+- Angular CLI (https://cli.angular.io)
 - Neo4j (https://neo4j.com/)
 - Facebook dev account (https://developers.facebook.com/)
 
