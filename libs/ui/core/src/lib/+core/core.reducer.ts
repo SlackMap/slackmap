@@ -39,6 +39,7 @@ const coreReducer = createReducer(
   on(CoreActions.showMap, (state, { showMap }) => ({ ...state, showMap })),
   on(CoreActions.showMapToggle, (state) => ({ ...state, showMap: !state.showMap })),
   on(CoreActions.updateFromRoute, (state, action) => ({ ...state, ...action.state })),
+  on(CoreActions.setSport, (state, action) => ({ ...state, selectedSportIds: [action.sport] })),
 );
 
 export function reducer(state: CoreState | undefined, action: Action) {

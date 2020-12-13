@@ -1,10 +1,10 @@
 import { Measure } from './measure';
-import { ItemType } from './item-type';
+import { ItemType, ItemSubtype } from './item-type';
 import { TypeOption, SubtypeOption, SUBTYPE_OPTIONS, TYPE_OPTIONS } from './item-type-options';
 import { DrawType } from './spot-shape-type';
 import { isNumber, isObject } from './helpers';
 import { Item, SpotItem } from './interfaces';
-import { ACCESS_OPTIONS, AccessOption } from './spot-access';
+import { ACCESS_OPTIONS, AccessOption, AccessType } from './spot-access';
 
 
 export function getSpotSubtypeOptions(shapeType: DrawType, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption[] {
@@ -49,6 +49,10 @@ export function getSubtypeOptionByName(name: string, subtypeOptions = SUBTYPE_OP
     return subtypeOptions.find(i => i.name === name);
 }
 
+export function getSubtypeOptionById(id: ItemSubtype, subtypeOptions = SUBTYPE_OPTIONS): SubtypeOption | null {
+    return subtypeOptions.find(i => i.id === id);
+}
+
 export function getItemTypeByItemName(itemName: string, typeOptions = TYPE_OPTIONS): ItemType | null {
   const option = typeOptions.find(i => i.name === itemName);
   return option ? option.id : null;
@@ -65,6 +69,10 @@ export function getAccessOptionFromItem(item: SpotItem, accessOptions = ACCESS_O
     return null;
   }
   return accessOptions.find(i => i.id === accessId) || null;
+}
+
+export function getAccessOptionById(id: AccessType, accessOptions = ACCESS_OPTIONS): AccessOption | null {
+  return accessOptions.find(i => i.id === id) || null;
 }
 
 /**

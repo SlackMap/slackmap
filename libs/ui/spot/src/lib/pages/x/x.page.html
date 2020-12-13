@@ -22,7 +22,7 @@
 
 <!-- NO SPOT -->
 <ng-template #noSpotTpl>
-  no spot
+
 </ng-template>
 
 <!-- SHOW SPOT DETAILS -->
@@ -39,5 +39,49 @@
 
   </mat-toolbar>
 
-{{ spot |json}}
+  <mat-card>
+    <mat-card-content>
+      <table class="table" *ngIf="spot?.spot">
+        <tbody>
+          <tr>
+            <td>name</td>
+            <td><b [innerHTML]="spot.spot.name || '---'"></b></td>
+          </tr>
+          <tr>
+            <td>type</td>
+            <td><b [innerHTML]="spot.spot.subtype | subtypeLabel"></b></td>
+          </tr>
+          <tr>
+            <td>Length</td>
+            <td><b [innerHTML]="spot.spot.length | distance"></b></td>
+          </tr>
+          <tr>
+            <td>Height</td>
+            <td><b [innerHTML]="spot.spot.height | distance"></b></td>
+          </tr>
+          <tr>
+            <td>Access</td>
+            <td><b [innerHTML]="spot.spot.access | accessLabel"></b></td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td><b [innerHTML]="spot.spot.status | statusLabel"></b></td>
+          </tr>
+          <tr>
+            <td>Position</td>
+            <td><b [innerHTML]="spot.spot.position"></b></td>
+          </tr>
+          <tr>
+            <td>geohash</td>
+            <td><b [innerHTML]="spot.spot.geohash"></b></td>
+          </tr>
+          <tr>
+            <td>version</td>
+            <td><b [innerHTML]="spot.spot.version"></b></td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+<!-- {{ spot |json}} -->
 </ng-container>

@@ -42,7 +42,10 @@ export class SpotEffects {
       ofType(SpotActions.load),
       switchMap(action => {
         return this.api.spotGet(action.rid).pipe(
-          map(spot => SpotActions.loadSuccess({spot})),
+          switchMap(spot => from([
+            SpotActions.loadSuccess({spot}),
+            CoreActions.setSport({sport: spot?.spot?.sport})
+          ])),
           catchError(error => of(SpotActions.loadFailure({error})))
         );
       }),
